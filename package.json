@@ -1,0 +1,15 @@
+{
+  "name": "fractions-intro",
+  "version": "1.0.0-dev.1",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phetsims/fractions-intro.git"
+  },
+  "devDependencies": {
+    "grunt": "~1.0.0"
+  },
+  "phet": {
+    "requirejsNamespace": "FRACTIONS_INTRO"
+  }
+}
