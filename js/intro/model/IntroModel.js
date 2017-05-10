@@ -1,35 +1,47 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Dusty Cole(Berea College)
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+
 
   /**
    * @constructor
    */
   function IntroModel() {
-    //TODO
+    // @public {Property.<number>}
+    this.denominatorProperty = new NumberProperty( 2 );
+
+    // @public {Property.<number>}
+    this.numeratorProperty = new NumberProperty( 1 );
+
+    // @public {Property.<number>}
+    this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
+      function( numerator, denominator ) {
+        return numerator / denominator;
+      } );
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
 
   return inherit( Object, IntroModel, {
-
-    // @public resets the model
+    /**
+     * Reset
+     * @public
+     */
     reset: function() {
-      //TODO reset things here
-    },
-
-    //TODO Called by the animation loop. Optional, so if your model has no animation, please delete this.
-    // @public
-    step: function( dt ) {
-      //TODO Handle model animation here.
+      this.numeratorProperty.reset();
+      this.denominatorProperty.reset();
     }
+
+
   } );
 } );
