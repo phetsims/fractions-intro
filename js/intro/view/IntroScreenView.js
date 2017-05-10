@@ -33,6 +33,8 @@ define( function( require ) {
 
     // Numberline Node
     var numberLineNode = new NumberLineNode();
+    numberLineNode.x = 100;
+    numberLineNode.y = 500;
     this.addChild( numberLineNode );
   }
 
