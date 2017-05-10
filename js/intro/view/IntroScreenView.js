@@ -8,6 +8,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -29,16 +30,13 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
     this.addChild( resetAllButton );
+
+    // Numberline Node
+    var numberLineNode = new NumberLineNode();
+    this.addChild( numberLineNode );
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
 
-  return inherit( ScreenView, IntroScreenView, {
-
-    //TODO Called by the animation loop. Optional, so if your view has no animation, please delete this.
-    // @public
-    step: function( dt ) {
-      //TODO Handle view animation here.
-    }
-  } );
+  return inherit( ScreenView, IntroScreenView );
 } );
