@@ -34,11 +34,11 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // number line Node
-    var numberLineNode = new NumberLineNode( introModel.numberOfUnitsProperty, introModel.denominatorProperty, { x: 100, y: 500 } );
+    var numberLineNode = new NumberLineNode( introModel.maxNumberOfUnitsProperty, introModel.denominatorProperty, { x: 100, y: 500 } );
     this.addChild( numberLineNode );
 
     // add and create number spinner for number of units
-    var numberOfUnitsSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE, { x: 500, y: 10 } );
+    var numberOfUnitsSpinner = new NumberSpinner( introModel.maxNumberOfUnitsProperty, IntroConstants.MAX_NUMBER_OF_UNITS_RANGE, { x: 500, y: 10 } );
     this.addChild( numberOfUnitsSpinner );
 
     // add and create number spinner for denominator value

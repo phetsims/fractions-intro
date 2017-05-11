@@ -31,7 +31,7 @@ define( function( require ) {
       } );
 
     // @public (read-only) {Property.<number>}
-    this.numberOfUnitsProperty = new NumberProperty( IntroConstants.NUMBER_OF_UNITS_RANGE.defaultValue );
+    this.maxNumberOfUnitsProperty = new NumberProperty( IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.defaultValue );
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
@@ -45,7 +45,7 @@ define( function( require ) {
     reset: function() {
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
-      this.numberOfUnitsProperty.reset();
+      this.maxNumberOfUnitsProperty.reset();
     }
   } );
 } );

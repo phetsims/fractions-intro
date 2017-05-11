@@ -17,12 +17,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   * @param {Property.<number>} numberOfUnitsProperty
+   * @param {Property.<number>} maxNumberOfUnitsProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Object} [options]
    * @constructor
    */
-  function NumberLineNode( numberOfUnitsProperty, denominatorProperty, options ) {
+  function NumberLineNode( maxNumberOfUnitsProperty, denominatorProperty, options ) {
     Node.call( this );
 
     // main Number line
@@ -39,15 +39,15 @@ define( function( require ) {
 
     // Present for the lifetime of the simulation
     // Updates the minor and major ticks as well as the main number line
-    Property.multilink( [ numberOfUnitsProperty, denominatorProperty ], function( numberOfUnits, denominator ) {
-      var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.NUMBER_OF_UNITS_RANGE.max;
+    Property.multilink( [ maxNumberOfUnitsProperty, denominatorProperty ], function( maxNumberOfUnits, denominator ) {
+      var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.max;
 
       // sets the length of the main number line
-      mainNumberLine.setX2( segmentLength * numberOfUnits );
+      mainNumberLine.setX2( segmentLength * maxNumberOfUnits );
 
       // lays out the major ticks
       majorTicksNode.removeAllChildren();
-      for ( var i = 0; i <= numberOfUnits; i++ ) {
+      for ( var i = 0; i <= maxNumberOfUnits; i++ ) {
 
         // major tick line width varies for even and odd number of units
         var majorTickLineWidth = (i % 2) ? 3 : 5;
@@ -59,7 +59,7 @@ define( function( require ) {
       // lays out the minor ticks
       var minorTickSeparation = segmentLength / denominator;
       minorTicksNode.removeAllChildren();
-      for ( var j = 0; j <= numberOfUnits * denominator; j++ ) {
+      for ( var j = 0; j <= maxNumberOfUnits * denominator; j++ ) {
 
         // skips major tick lines
         if ( j % denominator !== 0 ) {
