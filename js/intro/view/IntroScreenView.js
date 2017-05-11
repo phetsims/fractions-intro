@@ -34,6 +34,7 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // number line Node
+    // TODO: pass x and y through new options argument
     var numberLineNode = new NumberLineNode( introModel.numberOfUnitsProperty, introModel.denominatorProperty );
     numberLineNode.x = 100;
     numberLineNode.y = 500;
@@ -42,12 +43,14 @@ define( function( require ) {
     // add and create number spinner for number of units
     var numberSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE );
     this.addChild( numberSpinner );
+    // TODO: pass x and y through new options argument
     numberSpinner.x = 500;
     numberSpinner.y = 10;
 
     // add and create number spinner for denominator value
     var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE );
     this.addChild( denominatorSpinner );
+    // TODO: pass x and y through new options argument
     denominatorSpinner.x = 10;
     denominatorSpinner.y = 300;
   }
