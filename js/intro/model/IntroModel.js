@@ -13,7 +13,6 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
 
-
   /**
    * @constructor
    */
@@ -46,7 +45,5 @@ define( function( require ) {
       this.denominatorProperty.reset();
       this.numberOfUnitsProperty.reset();
     }
-
-
   } );
 } );

@@ -50,7 +50,6 @@ define( function( require ) {
     this.addChild( denominatorSpinner );
     denominatorSpinner.x = 10;
     denominatorSpinner.y = 300;
-
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
