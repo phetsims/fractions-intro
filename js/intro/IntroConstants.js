@@ -11,6 +11,7 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
 
   return fractionsIntro.register( 'IntroConstants', {
+
     // Constants for number line
     NUMBER_LINE_WIDTH: 800, // Width used for number line.
     NUMBER_OF_UNITS_RANGE: new RangeWithValue( 1, 6, 1 ),

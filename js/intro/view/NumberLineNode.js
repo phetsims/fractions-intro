@@ -47,6 +47,7 @@ define( function( require ) {
       // lays out the major ticks
       majorTicksNode.removeAllChildren();
       for ( var i = 0; i <= numberOfUnits; i++ ) {
+
         // major tick line width varies for even and odd number of units
         var majorTickLineWidth = (i % 2) ? 3 : 5;
         var majorTickLine = new Line( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH,
@@ -58,6 +59,7 @@ define( function( require ) {
       var minorTickSeparation = segmentLength / denominator;
       minorTicksNode.removeAllChildren();
       for ( var j = 0; j <= numberOfUnits * denominator; j++ ) {
+
         // skips major tick lines
         if ( j % denominator !== 0 ) {
           var minorTickLine = new Line( j * minorTickSeparation, -IntroConstants.MINOR_TICK_LENGTH, j * minorTickSeparation,

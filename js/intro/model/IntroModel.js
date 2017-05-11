@@ -17,6 +17,7 @@ define( function( require ) {
    * @constructor
    */
   function IntroModel() {
+
     // @public {Property.<number>}
     this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
@@ -36,6 +37,7 @@ define( function( require ) {
   fractionsIntro.register( 'IntroModel', IntroModel );
 
   return inherit( Object, IntroModel, {
+
     /**
      * Reset
      * @public
