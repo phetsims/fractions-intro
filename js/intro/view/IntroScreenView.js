@@ -41,11 +41,11 @@ define( function( require ) {
     this.addChild( numberLineNode );
 
     // add and create number spinner for number of units
-    var numberSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE );
-    this.addChild( numberSpinner );
+    var numberOfUnitsSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE );
+    this.addChild( numberOfUnitsSpinner );
     // TODO: pass x and y through new options argument
-    numberSpinner.x = 500;
-    numberSpinner.y = 10;
+    numberOfUnitsSpinner.x = 500;
+    numberOfUnitsSpinner.y = 10;
 
     // add and create number spinner for denominator value
     var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE );
