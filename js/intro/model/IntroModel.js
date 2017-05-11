@@ -18,19 +18,19 @@ define( function( require ) {
    */
   function IntroModel() {
 
-    // @public {Property.<number>}
+    // @public (read-only) {Property.<number>}
     this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
-    // @public {Property.<number>}
+    // @public (read-only) {Property.<number>}
     this.numeratorProperty = new NumberProperty( 1 );
 
-    // @public {Property.<number>}
+    // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
       function( numerator, denominator ) {
         return numerator / denominator;
       } );
 
-    // @public {Property.<number>}
+    // @public (read-only) {Property.<number>}
     this.numberOfUnitsProperty = new NumberProperty( IntroConstants.NUMBER_OF_UNITS_RANGE.defaultValue );
   }
 
