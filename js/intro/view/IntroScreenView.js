@@ -8,7 +8,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
+  var NumberSpinner = require( 'SUN/NumberSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -31,11 +33,24 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
 
-    // Numberline Node
-    var numberLineNode = new NumberLineNode();
+    // number line Node
+    var numberLineNode = new NumberLineNode( introModel.numberOfUnitsProperty, introModel.denominatorProperty );
     numberLineNode.x = 100;
     numberLineNode.y = 500;
     this.addChild( numberLineNode );
+
+    // add and create number spinner for number of units
+    var numberSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE );
+    this.addChild( numberSpinner );
+    numberSpinner.x = 500;
+    numberSpinner.y = 10;
+
+    // add and create number spinner for denominator value
+    var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE );
+    this.addChild( denominatorSpinner );
+    denominatorSpinner.x = 10;
+    denominatorSpinner.y = 300;
+
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );

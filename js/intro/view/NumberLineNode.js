@@ -14,18 +14,58 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Line = require( 'SCENERY/nodes/Line' );
+  var Property = require( 'AXON/Property' );
 
   /**
-   *
-   *
+   * @param {Property.<number>} numberOfUnitsProperty
+   * @param {Property.<number>} denominatorProperty
    * @constructor
    */
-  function NumberLineNode() {
+  function NumberLineNode( numberOfUnitsProperty, denominatorProperty ) {
     Node.call( this );
 
-    // main Numberline
-    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBERLINE_WIDTH, 0, { stroke: 'black' } );
+    // main Number line
+    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black' } );
     this.addChild( mainNumberLine );
+
+    // Major Ticks
+    var majorTicksNode = new Node();
+    this.addChild( majorTicksNode );
+
+    // Minor Ticks
+    var minorTicksNode = new Node();
+    this.addChild( minorTicksNode );
+
+    // Present for the lifetime of the simulation
+    // Updates the minor and major ticks as well as the main number line
+    Property.multilink( [ numberOfUnitsProperty, denominatorProperty ], function( numberOfUnits, denominator ) {
+      var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.NUMBER_OF_UNITS_RANGE.max;
+
+      // sets the length of the main number line
+      mainNumberLine.setX2( segmentLength * numberOfUnits );
+
+      // lays out the major ticks
+      majorTicksNode.removeAllChildren();
+      for ( var i = 0; i <= numberOfUnits; i++ ) {
+        // major tick line width varies for even and odd number of units
+        var majorTickLineWidth = (i % 2) ? 3 : 5;
+        var majorTickLine = new Line( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH,
+          { stroke: 'black', lineWidth: majorTickLineWidth } );
+        majorTicksNode.addChild( majorTickLine );
+      }
+
+      // lays out the minor ticks
+      var minorTickSeparation = segmentLength / denominator;
+      minorTicksNode.removeAllChildren();
+      for ( var j = 0; j <= numberOfUnits * denominator; j++ ) {
+        // skips major tick lines
+        if ( j % denominator !== 0 ) {
+          var minorTickLine = new Line( j * minorTickSeparation, -IntroConstants.MINOR_TICK_LENGTH, j * minorTickSeparation,
+            IntroConstants.MINOR_TICK_LENGTH, { stroke: 'black' } );
+          minorTicksNode.addChild( minorTickLine );
+        }
+      }
+    } );
   }
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );

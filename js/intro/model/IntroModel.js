@@ -10,6 +10,7 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
 
 
@@ -18,7 +19,7 @@ define( function( require ) {
    */
   function IntroModel() {
     // @public {Property.<number>}
-    this.denominatorProperty = new NumberProperty( 2 );
+    this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
     // @public {Property.<number>}
     this.numeratorProperty = new NumberProperty( 1 );
@@ -28,6 +29,9 @@ define( function( require ) {
       function( numerator, denominator ) {
         return numerator / denominator;
       } );
+
+    // @public {Property.<number>}
+    this.numberOfUnitsProperty = new NumberProperty( IntroConstants.NUMBER_OF_UNITS_RANGE.defaultValue );
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
@@ -40,6 +44,7 @@ define( function( require ) {
     reset: function() {
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
+      this.numberOfUnitsProperty.reset();
     }
 
 
