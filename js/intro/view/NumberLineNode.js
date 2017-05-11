@@ -19,9 +19,10 @@ define( function( require ) {
   /**
    * @param {Property.<number>} numberOfUnitsProperty
    * @param {Property.<number>} denominatorProperty
+   * @param {Object} [options]
    * @constructor
    */
-  function NumberLineNode( numberOfUnitsProperty, denominatorProperty ) {
+  function NumberLineNode( numberOfUnitsProperty, denominatorProperty, options ) {
     Node.call( this );
 
     // main Number line
@@ -68,6 +69,7 @@ define( function( require ) {
         }
       }
     } );
+    this.mutate( options );
   }
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );

@@ -34,25 +34,16 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // number line Node
-    // TODO: pass x and y through new options argument
-    var numberLineNode = new NumberLineNode( introModel.numberOfUnitsProperty, introModel.denominatorProperty );
-    numberLineNode.x = 100;
-    numberLineNode.y = 500;
+    var numberLineNode = new NumberLineNode( introModel.numberOfUnitsProperty, introModel.denominatorProperty, { x: 100, y: 500 } );
     this.addChild( numberLineNode );
 
     // add and create number spinner for number of units
-    var numberOfUnitsSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE );
+    var numberOfUnitsSpinner = new NumberSpinner( introModel.numberOfUnitsProperty, IntroConstants.NUMBER_OF_UNITS_RANGE, { x: 500, y: 10 } );
     this.addChild( numberOfUnitsSpinner );
-    // TODO: pass x and y through new options argument
-    numberOfUnitsSpinner.x = 500;
-    numberOfUnitsSpinner.y = 10;
 
     // add and create number spinner for denominator value
-    var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE );
+    var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE, { x: 10, y: 300 } );
     this.addChild( denominatorSpinner );
-    // TODO: pass x and y through new options argument
-    denominatorSpinner.x = 10;
-    denominatorSpinner.y = 300;
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
