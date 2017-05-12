@@ -47,7 +47,7 @@ define( function( require ) {
     var line = new Line( 0, 0, 80, 0, { lineWidth: 4, stroke: options.fill } );
 
 
-    // centers the numeratorNode horeizontally between the division line
+    // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
       numeratorNode.text = value + '';
       numeratorNode.centerX = line.centerX;
@@ -64,7 +64,7 @@ define( function( require ) {
     numeratorNode.mutate( { centerX: line.centerX, bottom: line.bounds.minY - 2 } );
     denominatorNode.mutate( { centerX: line.centerX, top: line.bounds.maxY - 2 } );
 
-    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxnumberOfUnitsProperty
+    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxNumberOfUnitsProperty
     if ( options.interactive ) {
       var numeratorUpEnabledProperty = new DerivedProperty(
         [ numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty ],
