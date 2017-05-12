@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
   var NumberSpinner = require( 'SUN/NumberSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -49,12 +50,13 @@ define( function( require ) {
     } );
     this.addChild( numberOfUnitsSpinner );
 
-    // create and add number spinner for denominator value
-    var denominatorSpinner = new NumberSpinner( introModel.denominatorProperty, IntroConstants.DENOMINATOR_RANGE, {
-      x: 10,
-      y: 300
+    // fraction node
+    var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
+      x: 100,
+      y: 200
     } );
-    this.addChild( denominatorSpinner );
+    this.addChild( fractionNode );
+
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );

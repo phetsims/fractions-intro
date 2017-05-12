@@ -30,6 +30,7 @@ define( function( require ) {
       function( model ) { return new IntroScreenView( model ); },
       options
     );
+
   }
 
   fractionsIntro.register( 'IntroScreen', IntroScreen );

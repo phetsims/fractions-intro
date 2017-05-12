@@ -14,17 +14,20 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * @constructor
    */
   function IntroModel() {
 
+    var self = this;
+
     // @public (read-only) {Property.<number>}
     this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
     // @public (read-only) {Property.<number>}
-    this.numeratorProperty = new NumberProperty( 1 );
+    this.numeratorProperty = new NumberProperty( 0 );
 
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
@@ -34,6 +37,14 @@ define( function( require ) {
 
     // @public (read-only) {Property.<number>}
     this.maxNumberOfUnitsProperty = new NumberProperty( IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.defaultValue );
+
+    //link numeratorProperty to denominatorProperty and to maxNumberOfUnits
+    Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ], function( denominator, numerator, maxNumberOfUnits ) {
+      if ( numerator / denominator > maxNumberOfUnits ) {
+        //decreases numeratorProperty as dependent on the maxNumberofunits and denominator
+        self.numeratorProperty.value = denominator * maxNumberOfUnits;
+      }
+    } );
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
