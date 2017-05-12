@@ -97,7 +97,6 @@ define( function( require ) {
 
     // Specify the children to be rendered with this node
     options.children = [ line, numeratorNode, denominatorNode, spinners ];
-    this.mutate( options );
     Node.call( this, options );
   }
 

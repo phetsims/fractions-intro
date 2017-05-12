@@ -34,29 +34,29 @@ define( function( require ) {
       right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
-    this.addChild( resetAllButton );
 
     // create and add number line Node
     var numberLineNode = new NumberLineNode( introModel.maxNumberOfUnitsProperty, introModel.denominatorProperty, {
       x: 100,
       y: 500
     } );
-    this.addChild( numberLineNode );
 
     // create and add number spinner for number of units
     var numberOfUnitsSpinner = new NumberSpinner( introModel.maxNumberOfUnitsProperty, IntroConstants.MAX_NUMBER_OF_UNITS_RANGE, {
       x: 500,
       y: 10
     } );
-    this.addChild( numberOfUnitsSpinner );
 
     // fraction node
     var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
       x: 100,
       y: 200
     } );
-    this.addChild( fractionNode );
 
+    var options = {
+      children: [ resetAllButton, numberLineNode, numberOfUnitsSpinner, fractionNode ]
+    };
+    ScreenView.call( this, options );
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
