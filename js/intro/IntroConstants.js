@@ -2,6 +2,7 @@
 
 /**
  * Constants used throughout the simulation.
+ *
  * @author Vincent Davis (Berea College)
  */
 define( function( require ) {

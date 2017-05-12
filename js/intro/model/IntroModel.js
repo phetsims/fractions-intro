@@ -1,7 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * @author Dusty Cole(Berea College)
+ * Main model of the simulation
+ *
+ * @author Dusty Cole (Berea College)
  */
 define( function( require ) {
   'use strict';
