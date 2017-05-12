@@ -26,27 +26,24 @@ define( function( require ) {
    * @constructor
    */
   function NumberLineNode( maxNumberOfUnitsProperty, denominatorProperty, options ) {
-    Node.call( this );
+
+    // Make sure the options exists
+    options = _.extend( {}, options );
 
     // main Number line
     var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black' } );
-    this.addChild( mainNumberLine );
 
     // Even Major Ticks, Width of line is slightly thicker than the odd Major Ticks
     var evenMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 5 } );
-    this.addChild( evenMajorTicksPath );
 
     // odd Major Ticks
     var oddMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
-    this.addChild( oddMajorTicksPath );
 
     // Minor Ticks
     var minorTicksPath = new Path( null, { stroke: 'black', lineWidth: 1 } );
-    this.addChild( minorTicksPath );
 
     //node for number text label under major ticks
     var numbersNode = new Node();
-    this.addChild( numbersNode );
 
     // Present for the lifetime of the simulation
     // Updates the minor and major ticks as well as the main number line
@@ -96,7 +93,11 @@ define( function( require ) {
       }
       minorTicksPath.setShape( minorTicksShape );
     } );
-    this.mutate( options );
+
+    // Specify the children to be rendered with this node
+    options.children = [ mainNumberLine, evenMajorTicksPath, oddMajorTicksPath, minorTicksPath, numbersNode ];
+
+    Node.call( this, options );
   }
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );
