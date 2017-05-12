@@ -74,12 +74,12 @@ define( function( require ) {
         }
 
         //add numbers under the major ticks
-        var numberText = new Text( i, {
+        var majorTickLabel = new Text( i, {
           font: IntroConstants.NUMBER_LINE_FONT,
           centerX: i * segmentLength,
           top: IntroConstants.MAJOR_TICK_LENGTH
         } );
-        numbersNode.addChild( numberText );
+        numbersNode.addChild( majorTickLabel );
       }
       evenMajorTicksPath.setShape( evenMajorTicksShape );
       oddMajorTicksPath.setShape( oddMajorTicksShape );
