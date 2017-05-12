@@ -38,7 +38,7 @@ define( function( require ) {
     // create and add number line Node
     var numberLineNode = new NumberLineNode( introModel.maxNumberOfUnitsProperty, introModel.denominatorProperty, {
       x: 100,
-      y: 500
+      bottom: this.layoutBounds.maxY - 10
     } );
 
     // create and add number spinner for number of units
