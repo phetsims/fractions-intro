@@ -11,10 +11,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
-  var NumberSpinner = require( 'SUN/NumberSpinner' );
+  var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -42,11 +41,7 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    // create and add number spinner for number of units
-    var numberOfUnitsSpinner = new NumberSpinner( introModel.maxNumberOfUnitsProperty, IntroConstants.MAX_NUMBER_OF_UNITS_RANGE, {
-      x: 500,
-      y: 10
-    } );
+    var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, { x: this.layoutBounds.maxX - 80, y: this.layoutBounds.minY + 80 } );
 
     // fraction node
     var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
@@ -55,7 +50,7 @@ define( function( require ) {
     } );
 
     var options = {
-      children: [ resetAllButton, numberLineNode, numberOfUnitsSpinner, fractionNode ]
+      children: [ resetAllButton, numberLineNode, fractionNode, maxSpinner ]
     };
     ScreenView.call( this, options );
   }
