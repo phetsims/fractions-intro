@@ -64,10 +64,10 @@ define( function( require ) {
 
         // major tick line width varies for even and odd number of units
         if ( i % 2 === 0 ) {
-          evenMajorTicksShape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH ).verticalLineToRelative( 2 * IntroConstants.MAJOR_TICK_LENGTH );
+          appendTick( evenMajorTicksShape, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH );
         }
         else {
-          oddMajorTicksShape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH ).verticalLineToRelative( 2 * IntroConstants.MAJOR_TICK_LENGTH );
+          appendTick( oddMajorTicksShape, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH );
         }
 
         //add numbers under the major ticks
@@ -88,7 +88,7 @@ define( function( require ) {
 
         // skips major tick lines
         if ( j % denominator !== 0 ) {
-          minorTicksShape.moveTo( j * minorTickSeparation, -IntroConstants.MINOR_TICK_LENGTH ).verticalLineToRelative( 2 * IntroConstants.MINOR_TICK_LENGTH );
+          appendTick( minorTicksShape, j * minorTickSeparation, IntroConstants.MINOR_TICK_LENGTH );
         }
       }
       minorTicksPath.setShape( minorTicksShape );
@@ -100,7 +100,18 @@ define( function( require ) {
     Node.call( this, options );
   }
 
+  /**
+   * Append a tick mark to the specified shape.
+   * @param {Shape} shape - the shape to append a tick mark to
+   * @param {number} x - the x coordinate of the tick mark in view coordinates
+   * @param {number} tickLength - the vertical extent of the tick mark in view coordinates
+   */
+  var appendTick = function( shape, x, tickLength ) {
+    // Append a symmetric tick that straddles the number line
+    shape.moveTo( x, -tickLength / 2 ).verticalLineTo( tickLength / 2 );
+  };
+
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );
 
-  return inherit( Node, NumberLineNode );
+  return inherit( Node, NumberLineNode, {} );
 } );
