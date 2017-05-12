@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Main model of the simulation
+ * Main model of the simulation, which tracks the numerator, denominator and maximum value as axon properties.
  *
  * @author Dusty Cole (Berea College)
  */
@@ -41,7 +41,8 @@ define( function( require ) {
     //link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ], function( denominator, numerator, maxNumberOfUnits ) {
       if ( numerator / denominator > maxNumberOfUnits ) {
-        //decreases numeratorProperty as dependent on the maxNumberofunits and denominator
+
+        //decreases numeratorProperty as dependent on the maxNumberofUnits and denominator
         self.numeratorProperty.value = denominator * maxNumberOfUnits;
       }
     } );

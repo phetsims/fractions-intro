@@ -1,4 +1,4 @@
-// Copyright 2013-2017, University of Colorado Boulder
+// Copyright 2017, University of Colorado Boulder
 
 /**
  * The horizontal number line that shows the values
@@ -107,6 +107,7 @@ define( function( require ) {
    * @param {number} tickLength - the vertical extent of the tick mark in view coordinates
    */
   var appendTick = function( shape, x, tickLength ) {
+
     // Append a symmetric tick that straddles the number line
     shape.moveTo( x, -tickLength / 2 ).verticalLineTo( tickLength / 2 );
   };

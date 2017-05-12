@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Node for the fraction with up/down spinners for denominator/numerator
+ * Node for the fraction with up/down spinners for numerator/denominator
  *
  * @author Michael Moorer (Berea College)
  * @author Vincent Davis (Berea College)
@@ -22,7 +22,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
-   *
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} maxNumberOfUnitsProperty
@@ -45,7 +44,6 @@ define( function( require ) {
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, 80, 0, { lineWidth: 4, stroke: options.fill } );
-
 
     // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
@@ -79,7 +77,6 @@ define( function( require ) {
         [ numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty ],
         function( numerator, denominator, maxNumberOfUnits ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * maxNumberOfUnits;} );
 
-
       // creates spinner that is linked to the numeratorProperty
       var numeratorSpinner = new UpDownSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty );
 
@@ -87,7 +84,7 @@ define( function( require ) {
       var denominatorSpinner = new UpDownSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty );
 
       // Aligns the numeratorSpinner and denominatorSpinner vertically
-      var spinners = new VBox( {
+      var spinnerVBox = new VBox( {
         spacing: 20,
         children: [ numeratorSpinner, denominatorSpinner ],
         left: line.bounds.maxX + 5,
@@ -96,7 +93,7 @@ define( function( require ) {
     }
 
     // Specify the children to be rendered with this node
-    options.children = [ line, numeratorNode, denominatorNode, spinners ];
+    options.children = [ line, numeratorNode, denominatorNode, spinnerVBox ];
     Node.call( this, options );
   }
 

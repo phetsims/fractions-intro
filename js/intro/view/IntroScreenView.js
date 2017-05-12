@@ -1,7 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Main screen view of the simulation
+ * Main screen view of the Intro screen for Fractions Intro, which shows a radio button group of representations
+ * at the top, a fraction in the bottom left and the selected representation in the middle of the screen.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
