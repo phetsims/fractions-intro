@@ -17,6 +17,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * @param {Property.<number>} maxNumberOfUnitsProperty
@@ -43,6 +44,10 @@ define( function( require ) {
     var minorTicksPath = new Path( null, { stroke: 'black', lineWidth: 1 } );
     this.addChild( minorTicksPath );
 
+    //node for number text label under major ticks
+    var numbersNode = new Node();
+    this.addChild( numbersNode );
+
     // Present for the lifetime of the simulation
     // Updates the minor and major ticks as well as the main number line
     Property.multilink( [ maxNumberOfUnitsProperty, denominatorProperty ], function( maxNumberOfUnits, denominator ) {
@@ -55,6 +60,9 @@ define( function( require ) {
       var evenMajorTicksShape = new Shape();
       var oddMajorTicksShape = new Shape();
 
+      // Remove number nodes, number node will be added later on
+      numbersNode.removeAllChildren();
+
       for ( var i = 0; i <= maxNumberOfUnits; i++ ) {
 
         // major tick line width varies for even and odd number of units
@@ -64,6 +72,10 @@ define( function( require ) {
         else {
           oddMajorTicksShape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH ).verticalLineToRelative( 2 * IntroConstants.MAJOR_TICK_LENGTH );
         }
+
+        //add numbers under the major ticks
+        var numberText = new Text( i, { font: IntroConstants.NUMBER_LINE_FONT, centerX: i * segmentLength, top: IntroConstants.MAJOR_TICK_LENGTH } );
+        numbersNode.addChild( numberText );
       }
       evenMajorTicksPath.setShape( evenMajorTicksShape );
       oddMajorTicksPath.setShape( oddMajorTicksShape );

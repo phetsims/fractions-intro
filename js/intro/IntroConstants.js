@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
 
   return fractionsIntro.register( 'IntroConstants', {
@@ -18,6 +19,7 @@ define( function( require ) {
     MAX_NUMBER_OF_UNITS_RANGE: new RangeWithValue( 1, 6, 1 ),
     MAJOR_TICK_LENGTH: 50, //length of major tick line
     MINOR_TICK_LENGTH: 25, //length of minor tick line
-    DENOMINATOR_RANGE: new RangeWithValue( 1, 8, 1 )
+    DENOMINATOR_RANGE: new RangeWithValue( 1, 8, 1 ),
+    NUMBER_LINE_FONT: new PhetFont( 50 )
   } );
 } );
