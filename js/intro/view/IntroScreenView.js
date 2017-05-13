@@ -41,7 +41,10 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, { x: this.layoutBounds.maxX - 80, y: this.layoutBounds.minY + 80 } );
+    var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, {
+      x: this.layoutBounds.maxX - 80,
+      y: this.layoutBounds.minY + 80
+    } );
 
     // fraction node
     var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
