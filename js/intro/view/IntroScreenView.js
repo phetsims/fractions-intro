@@ -10,13 +10,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
-  var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
-  var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
+  var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
+  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var ScreenView = require( 'JOIST/ScreenView' );
 
   /**
    * @param {IntroModel} introModel
@@ -35,22 +37,62 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    // create and add number line Node
+    // representation panel at the top of the simulation
+    var representationPanel = new RepresentationPanel( introModel.representationProperty, {
+      centerX: this.layoutBounds.centerX,
+      y: 10
+    } );
+
+    // create number line Node
     var numberLineNode = new NumberLineNode( introModel.maxNumberOfUnitsProperty, introModel.denominatorProperty, {
+      left: 10,
+      top: representationPanel.bottom + 60
+    } );
+
+    // generic node storing the various representation
+    var representationsNode = new Node();
+
+    // present of the lifetime of the simulation
+    introModel.representationProperty.link( function( representation ) {
+      if ( representationsNode.hasChildren() ) {
+        representationsNode.removeAllChildren();
+      }
+      switch( representation ) {
+        case 'circle':
+         // representationsNode.addChild( circleNode );
+          break;
+        case 'horizontal-bar':
+          // representationsNode.addChild( horizontalBarNode );
+          break;
+        case 'vertical-bar':
+          // representationsNode.addChild( verticalBarNode );
+          break;
+        case 'beaker':
+          // representationsNode.addChild( beakerNode );
+          break;
+        case 'cake':
+         // representationsNode.addChild( cakeNode );
+          break;
+        case 'number-line':
+          representationsNode.addChild( numberLineNode );
+          break;
+      }
+    } );
+
+    // create spinner controlling the maximum number of units
+    var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, {
+      right: this.layoutBounds.maxX - 10,
+      y: this.layoutBounds.minY + 80
+    } );
+
+    // fraction node with spinners on the denominator and numerator
+    var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
       x: 100,
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, { x: this.layoutBounds.maxX - 80, y: this.layoutBounds.minY + 80 } );
-
-    // fraction node
-    var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
-      x: 100,
-      y: 200
-    } );
-
     var options = {
-      children: [ resetAllButton, numberLineNode, fractionNode, maxSpinner ]
+      children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel ]
     };
     ScreenView.call( this, options );
   }

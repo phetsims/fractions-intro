@@ -15,6 +15,16 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
+  var StringProperty = require( 'AXON/StringProperty' );
+
+  // constants
+  var VALID_REPRESENTATION_VALUES = [
+    'circle',
+    'horizontal-bar',
+    'vertical-bar',
+    'beaker',
+    'cake',
+    'number-line' ];
 
   /**
    * @constructor
@@ -29,6 +39,9 @@ define( function( require ) {
     // @public (read-only) {Property.<number>}
     this.numeratorProperty = new NumberProperty( 0 );
 
+    // @public {Property.<string>}
+    this.representationProperty = new StringProperty( 'circle' );
+
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
       function( numerator, denominator ) {
@@ -42,10 +55,16 @@ define( function( require ) {
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ], function( denominator, numerator, maxNumberOfUnits ) {
       if ( numerator / denominator > maxNumberOfUnits ) {
 
-        //decreases numeratorProperty as dependent on the maxNumberofUnits and denominator
+        //decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
         self.numeratorProperty.value = denominator * maxNumberOfUnits;
       }
     } );
+
+    // check for validity of representation, present for the lifetime of the sim
+    this.representationProperty.link( function( representation ) {
+      assert && assert( _.includes( VALID_REPRESENTATION_VALUES, representation ), 'invalid representation: ' + representation );
+    } );
+
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
@@ -60,6 +79,7 @@ define( function( require ) {
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
       this.maxNumberOfUnitsProperty.reset();
+      this.representationProperty.reset();
     }
   } );
 } );
