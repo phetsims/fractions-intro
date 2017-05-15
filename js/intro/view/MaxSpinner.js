@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Node for the fraction with up/down spinners for denominator/numerator
+ * Spinner that shows and allows the user to change the max number of units for the sim between 1-6.
  *
  * @author Vincent Davis (Berea College)
  */
