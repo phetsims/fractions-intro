@@ -29,8 +29,6 @@ define( function( require ) {
    */
   function NumberLineIcon( options ) {
 
-    Node.call( this );
-
     var numberLineShape = new Shape();
 
     // Draw the lines for the number line symbol for the button icon

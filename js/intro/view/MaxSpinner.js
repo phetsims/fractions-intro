@@ -22,7 +22,6 @@ define( function( require ) {
   // strings
   var maxString = require( 'string!FRACTIONS_INTRO/max' );
 
-
   /**
    *
    * @param {Property.<number>} maxNumberOfUnitsProperty
@@ -36,9 +35,7 @@ define( function( require ) {
       fill: 'black'
     }, options );
 
-    Node.call( this );
     var font = new PhetFont( { size: 36 } );
-
 
     var maxUpEnabledProperty = new DerivedProperty(
       [ maxNumberOfUnitsProperty ],

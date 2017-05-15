@@ -38,7 +38,6 @@ define( function( require ) {
       interactive: true
     }, options );
 
-    Node.call( this );
     var font = new PhetFont( { size: 84 } );
     var numeratorNode = new Text( numeratorProperty.get(), { font: font, fill: options.fill } );
 

@@ -94,7 +94,7 @@ define( function( require ) {
       var options = {
         children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel ]
       };
-      ScreenView.call( this, options );
+      this.mutate( options );
     }
 
     fractionsIntro.register( 'IntroScreenView', IntroScreenView );
