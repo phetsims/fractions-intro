@@ -51,11 +51,14 @@ define( function( require ) {
     // @public (read-only) {Property.<number>}
     this.maxNumberOfUnitsProperty = new NumberProperty( IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.defaultValue );
 
-    //link numeratorProperty to denominatorProperty and to maxNumberOfUnits
+    // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ], function( denominator, numerator, maxNumberOfUnits ) {
+
+      // If the maximum number of units decreases, the numerator may also need to be decreased to compensate
       if ( numerator / denominator > maxNumberOfUnits ) {
 
-        //decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
+
+        // decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
         self.numeratorProperty.value = denominator * maxNumberOfUnits;
       }
     } );
