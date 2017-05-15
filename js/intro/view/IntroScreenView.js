@@ -44,10 +44,12 @@ define( function( require ) {
       } );
 
       // create number line Node
-      var numberLineNode = new NumberLineNode( introModel.maxNumberOfUnitsProperty, introModel.denominatorProperty, {
-        left: 10,
-        top: representationPanel.bottom + 60
-      } );
+      var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
+        introModel.denominatorProperty,
+        introModel.maxNumberOfUnitsProperty, {
+          left: 10,
+          top: representationPanel.bottom + 60
+        } );
 
       // generic node storing the various representation
       var representationsNode = new Node();
