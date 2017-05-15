@@ -1,3 +1,4 @@
+// Copyright 2017, University of Colorado Boulder
 /**
  * The large horizontal panel at the top of the screen for selecting different representations.
  *
@@ -10,7 +11,6 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );

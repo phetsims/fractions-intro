@@ -78,6 +78,8 @@ define( function( require ) {
           case 'number-line':
             representationsNode.addChild( numberLineNode );
             break;
+          default:
+            throw new Error( 'invalid representation: ' + representation );
         }
       } );
 
