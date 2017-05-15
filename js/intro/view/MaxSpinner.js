@@ -47,24 +47,27 @@ define( function( require ) {
       [ maxNumberOfUnitsProperty ],
       function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.min; } );
 
-
     // creates spinner that is linked to the numeratorProperty
     var maxNumberSpinner = new UpDownSpinner( maxNumberOfUnitsProperty, maxUpEnabledProperty, maxDownEnabledProperty );
-
 
     // creates the maxNumberOfUnitsText
     var maxNumberOfUnitsText = new Text( maxNumberOfUnitsProperty.get(), { font: font, fill: options.fill } );
     maxNumberOfUnitsProperty.link( function( value ) {
       maxNumberOfUnitsText.text = value + '';
+
       // moves maxNumberOfUnitsText to the right of the maxNumberSpinner
       maxNumberOfUnitsText.right = maxNumberSpinner.left - 5;
+
       // centers maxNumberOfUnitsText vertically with maxNumberSpinner
       maxNumberOfUnitsText.centerY = maxNumberSpinner.centerY;
     } );
 
-    var maxText = new Text( maxString, { font: font, fill: options.fill } );
-    maxText.bottom = maxNumberSpinner.top;
-    maxText.left = maxNumberOfUnitsText.left;
+    var maxText = new Text( maxString, {
+      font: font,
+      fill: options.fill,
+      bottom: maxNumberSpinner.top,
+      left: maxNumberOfUnitsText.left
+    } );
 
     // Specify the children to be rendered with this node
     options.children = [ maxNumberSpinner, maxNumberOfUnitsText, maxText ];
