@@ -77,7 +77,7 @@ define( function( require ) {
       for ( var i = 1; i <= denominator; i++ ) {
 
         // ticks should be longer if they are even
-        var rotationAngle = ( i % 2 === 0 ) ? Math.PI / 6 : Math.PI / 12;
+        var rotationAngle = ( i % 2 === 0 ) ? Math.PI / 4 : Math.PI / 6;
         tickMarksShape.moveTo( -options.beakerWidth / 2, -tickSeparation * (i) );
         tickMarksShape.ellipticalArc( 0, -tickSeparation * i, options.beakerWidth / 2,
           options.beakerWidth * options.perspectiveFactor / 2, 0, Math.PI, Math.PI - rotationAngle, true );
