@@ -38,7 +38,7 @@ define( function( require ) {
 
     // Make sure the options exists
     options = _.extend( {
-        rotation: Math.PI/2  // horizontal -> 0, vertical -> -Math.PI/2
+        rotation: 0  // horizontal -> 0, vertical -> -Math.PI/2
       },
       options );
 
