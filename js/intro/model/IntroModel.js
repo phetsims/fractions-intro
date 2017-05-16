@@ -51,17 +51,17 @@ define( function( require ) {
       } );
 
     // @public (read-only) {Property.<number>}
-    this.maxNumberOfUnitsProperty = new NumberProperty( IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.defaultValue );
+    this.maxProperty = new NumberProperty( IntroConstants.MAX_RANGE.defaultValue );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
-    Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ],
-      function( denominator, numerator, maxNumberOfUnits ) {
+    Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
+      function( denominator, numerator, max ) {
 
-        // If the maximum number of units decreases, the numerator may also need to be decreased to compensate
-        if ( numerator / denominator > maxNumberOfUnits ) {
+        // If the maximum decreases, the numerator may also need to be decreased to compensate
+        if ( numerator / denominator > max ) {
 
-          // decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
-          self.numeratorProperty.value = denominator * maxNumberOfUnits;
+          // decreases numeratorProperty as dependent on the max and denominator
+          self.numeratorProperty.value = denominator * max;
         }
       } );
 
@@ -82,7 +82,7 @@ define( function( require ) {
     reset: function() {
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
-      this.maxNumberOfUnitsProperty.reset();
+      this.maxProperty.reset();
       this.representationProperty.reset();
     }
   } );

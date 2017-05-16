@@ -16,7 +16,7 @@ define( function( require ) {
 
     // Constants for number line
     NUMBER_LINE_WIDTH: 900, // Width used for number line.
-    MAX_NUMBER_OF_UNITS_RANGE: new RangeWithValue( 1, 6, 1 ),
+    MAX_RANGE: new RangeWithValue( 1, 6, 1 ),
     MAJOR_TICK_LENGTH: 100, //length of major tick line
     MINOR_TICK_LENGTH: 50, //length of minor tick line
     DENOMINATOR_RANGE: new RangeWithValue( 1, 8, 1 ),

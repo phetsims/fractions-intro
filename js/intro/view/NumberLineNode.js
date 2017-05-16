@@ -30,11 +30,11 @@ define( function( require ) {
   /**
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} maxNumberOfUnitsProperty
+   * @param {Property.<number>} maxProperty
    * @param {Object} [options]
    * @constructor
    */
-  function NumberLineNode( numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty, options ) {
+  function NumberLineNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
 
     // Make sure the options exists
     options = _.extend( {
@@ -58,14 +58,14 @@ define( function( require ) {
     var numbersNode = new Node();
 
     // distance between 0 and 1 on the number Line
-    var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.max;
+    var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_RANGE.max;
 
     // Present for the lifetime of the simulation
     // Updates the minor and major ticks as well as the main number line
-    Property.multilink( [ maxNumberOfUnitsProperty, denominatorProperty ], function( maxNumberOfUnits, denominator ) {
+    Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
 
       // sets the length of the main number line
-      mainNumberLine.setX2( segmentLength * maxNumberOfUnits );
+      mainNumberLine.setX2( segmentLength * max );
 
       // create major ticks shape
       var evenMajorTicksShape = new Shape();
@@ -74,7 +74,7 @@ define( function( require ) {
       // Remove number nodes, number node will be added later on
       numbersNode.removeAllChildren();
 
-      for ( var i = 0; i <= maxNumberOfUnits; i++ ) {
+      for ( var i = 0; i <= max; i++ ) {
 
         // major tick line width varies for even and odd number of units
         if ( i % 2 === 0 ) {
@@ -99,7 +99,7 @@ define( function( require ) {
       // lays out the minor ticks
       var minorTicksShape = new Shape();
       var minorTickSeparation = segmentLength / denominator;
-      for ( var j = 0; j <= maxNumberOfUnits * denominator; j++ ) {
+      for ( var j = 0; j <= max * denominator; j++ ) {
 
         // skips major tick lines
         if ( j % denominator !== 0 ) {

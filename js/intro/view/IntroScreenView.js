@@ -46,7 +46,7 @@ define( function( require ) {
       // create number line Node
       var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
         introModel.denominatorProperty,
-        introModel.maxNumberOfUnitsProperty, {
+        introModel.maxProperty, {
           left: 10,
           top: representationPanel.bottom + 60
         } );
@@ -83,14 +83,14 @@ define( function( require ) {
         }
       } );
 
-      // create spinner controlling the maximum number of units
-      var maxSpinner = new MaxSpinner( introModel.maxNumberOfUnitsProperty, {
+      // create spinner controlling the maximum
+      var maxSpinner = new MaxSpinner( introModel.maxProperty, {
         right: this.layoutBounds.maxX - 10,
         y: this.layoutBounds.minY + 80
       } );
 
       // fraction node with spinners on the denominator and numerator
-      var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxNumberOfUnitsProperty, {
+      var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxProperty, {
         x: 100,
         bottom: this.layoutBounds.maxY - 10
       } );

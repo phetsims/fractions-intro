@@ -24,11 +24,11 @@ define( function( require ) {
   /**
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} maxNumberOfUnitsProperty
+   * @param {Property.<number>} maxProperty
    * @param {Object} [options]
    * @constructor
    */
-  function FractionNode( numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty, options ) {
+  function FractionNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
 
     options = _.extend( {
       fill: 'black',
@@ -61,11 +61,11 @@ define( function( require ) {
     numeratorNode.mutate( { centerX: line.centerX, bottom: line.bounds.minY - 2 } );
     denominatorNode.mutate( { centerX: line.centerX, top: line.bounds.maxY - 2 } );
 
-    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxNumberOfUnitsProperty
+    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxProperty
     if ( options.interactive ) {
       var numeratorUpEnabledProperty = new DerivedProperty(
-        [ numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty ],
-        function( numerator, denominator, maxNumberOfUnits ) { return numerator < denominator * maxNumberOfUnits; } );
+        [ numeratorProperty, denominatorProperty, maxProperty ],
+        function( numerator, denominator, max ) { return numerator < denominator * max; } );
       var numeratorDownEnabledProperty = new DerivedProperty(
         [ numeratorProperty ],
         function( numerator ) { return numerator > 0; } );
@@ -73,8 +73,8 @@ define( function( require ) {
         [ denominatorProperty ],
         function( denominator ) { return denominator < IntroConstants.DENOMINATOR_RANGE.max; } );
       var denominatorDownEnabledProperty = new DerivedProperty(
-        [ numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty ],
-        function( numerator, denominator, maxNumberOfUnits ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * maxNumberOfUnits;} );
+        [ numeratorProperty, denominatorProperty, maxProperty ],
+        function( numerator, denominator, max ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;} );
 
       // creates spinner that is linked to the numeratorProperty
       var numeratorSpinner = new UpDownSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty );

@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Spinner that shows and allows the user to change the max number of units for the sim between 1-6.
+ * Spinner that shows and allows the user to change the maximum for the sim between 1-6.
  *
  * @author Vincent Davis (Berea College)
  */
@@ -24,11 +24,11 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property.<number>} maxNumberOfUnitsProperty
+   * @param {Property.<number>} maxProperty
    * @param {Object} [options]
    * @constructor
    */
-  function MaxSpinner( maxNumberOfUnitsProperty, options ) {
+  function MaxSpinner( maxProperty, options ) {
 
     options = _.extend( {
 
@@ -38,36 +38,36 @@ define( function( require ) {
     var font = new PhetFont( { size: 36 } );
 
     var maxUpEnabledProperty = new DerivedProperty(
-      [ maxNumberOfUnitsProperty ],
-      function( maxNumberOfUnits ) { return maxNumberOfUnits < IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.max; } );
+      [ maxProperty ],
+      function( maxNumberOfUnits ) { return maxNumberOfUnits < IntroConstants.MAX_RANGE.max; } );
     var maxDownEnabledProperty = new DerivedProperty(
-      [ maxNumberOfUnitsProperty ],
-      function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.min; } );
+      [ maxProperty ],
+      function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_RANGE.min; } );
 
     // creates spinner that is linked to the numeratorProperty
-    var maxNumberSpinner = new UpDownSpinner( maxNumberOfUnitsProperty, maxUpEnabledProperty, maxDownEnabledProperty );
+    var maxValueSpinner = new UpDownSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty );
 
-    // creates the maxNumberOfUnitsText
-    var maxNumberOfUnitsText = new Text( maxNumberOfUnitsProperty.get(), { font: font, fill: options.fill } );
-    maxNumberOfUnitsProperty.link( function( value ) {
-      maxNumberOfUnitsText.text = value + '';
+    // creates the maxValueText
+    var maxValueText = new Text( maxProperty.get(), { font: font, fill: options.fill } );
+    maxProperty.link( function( value ) {
+      maxValueText.text = value + '';
 
-      // moves maxNumberOfUnitsText to the right of the maxNumberSpinner
-      maxNumberOfUnitsText.right = maxNumberSpinner.left - 5;
+      // moves maxValueText to the right of the maxValueSpinner
+      maxValueText.right = maxValueSpinner.left - 5;
 
-      // centers maxNumberOfUnitsText vertically with maxNumberSpinner
-      maxNumberOfUnitsText.centerY = maxNumberSpinner.centerY;
+      // centers maxValueText vertically with maxValueSpinner
+      maxValueText.centerY = maxValueSpinner.centerY;
     } );
 
-    var maxText = new Text( maxString, {
+    var maxLabelText = new Text( maxString, {
       font: font,
       fill: options.fill,
-      bottom: maxNumberSpinner.top,
-      left: maxNumberOfUnitsText.left
+      bottom: maxValueSpinner.top,
+      left: maxValueText.left
     } );
 
     // Specify the children to be rendered with this node
-    options.children = [ maxNumberSpinner, maxNumberOfUnitsText, maxText ];
+    options.children = [ maxValueSpinner, maxValueText, maxLabelText ];
     Node.call( this, options );
   }
 
