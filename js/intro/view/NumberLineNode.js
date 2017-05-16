@@ -20,8 +20,10 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
 
   // constants
   var HIGHLIGHTER_PADDING_HEIGHT = 5;
@@ -43,6 +45,7 @@ define( function( require ) {
       options );
 
     // main Number line
+    // the point (0,0) is set as the origin of of the number line
     var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black', lineWidth: 3 } );
 
     // for even major ticks, the lineWidth is slightly thicker than for odd Major Ticks
@@ -120,7 +123,8 @@ define( function( require ) {
         centerY: 0
       } );
 
-    // update position of the circle marker and the highlighter region
+    // update position of the circle marker and the highlighter region based on the values of the numerator
+    // denominator
     Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
       markerCircle.centerX = segmentLength * numerator / denominator;
 
@@ -134,6 +138,22 @@ define( function( require ) {
       highlighterRectangle.centerX = markerCircle.centerX;
       highlighterRectangle.centerY = markerCircle.centerY;
     } );
+
+    // add a drag handler to the circle on the number line
+    markerCircle.addInputListener( new SimpleDragHandler( {
+      drag: function( event ) {
+        if ( options.rotation === 0 ) {
+          var x = markerCircle.globalToParentPoint( event.pointer.point ).x;
+          var tickMarkSeparation = segmentLength / denominatorProperty.value;
+
+          // update the value of the numerator ensuring that it is always an integer
+          // recall the x=0, y=0 is conveniently set at the zero of the number line
+          // no need to update the position of any view elements since the numeratorProperty has callbacks to them
+          numeratorProperty.value = Util.clamp( Util.roundSymmetric( x / tickMarkSeparation ),
+            0, denominatorProperty.value * maxProperty.value );
+        }
+      }
+    } ) );
 
     // Specify the children to be rendered with this node
     options.children = [
