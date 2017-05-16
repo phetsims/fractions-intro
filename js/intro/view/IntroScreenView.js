@@ -10,7 +10,7 @@ define( function( require ) {
     'use strict';
 
     // modules
-  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
+    var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
     var inherit = require( 'PHET_CORE/inherit' );

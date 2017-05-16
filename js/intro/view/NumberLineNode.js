@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -28,6 +29,8 @@ define( function( require ) {
   // constants
   var HIGHLIGHTER_PADDING_HEIGHT = 5;
   var MARKER_CIRCLE_RADIUS = 12;
+  var ARROW_LENGTH = 30;
+  var ARROW_VERTICAL_OFFSET = 10;
 
   /**
    * @param {Property.<number>} numeratorProperty
@@ -38,9 +41,11 @@ define( function( require ) {
    */
   function NumberLineNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
 
-    // Make sure the options exists
     options = _.extend( {
-        rotation: 0  // horizontal -> 0, vertical -> -Math.PI/2
+        rotation: 0,  // horizontal -> 0, vertical -> -Math.PI/2
+
+        //This gives the user option to add an arrow to the numberline if set to true
+        displayArrow: false
       },
       options );
 
@@ -112,8 +117,20 @@ define( function( require ) {
       minorTicksPath.setShape( minorTicksShape );
     } );
 
-    // marker circle indicating the fraction
+    // initializes a unique markerCircle if displayArrow = false
     var markerCircle = new Circle( MARKER_CIRCLE_RADIUS, { fill: 'green', lineWidth: 3, stroke: 'black' } );
+
+    if ( options.displayArrow ) {
+      markerCircle.setOpacity( 0.7 );
+      markerCircle.fill = '#ff5eaf';
+    }
+
+    //marker Arrow indicating the fraction and marker circle
+    var markerArrow = new ArrowNode( 0, -ARROW_LENGTH, 0, 0, {
+      fill: '#ff5eaf',
+      opacity: 0.7,
+      visible: options.displayArrow
+    } );
 
     // highlighter region for the marker
     var highlighterRectangle = new Rectangle( 0, 0, MARKER_CIRCLE_RADIUS * 2,
@@ -128,12 +145,30 @@ define( function( require ) {
     Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
       markerCircle.centerX = segmentLength * numerator / denominator;
 
+      // Enables or Disables the ArrowNode
+      if ( options.displayArrow ) {
+
+        //Centers the marker arrow with respect to the number line
+        markerArrow.centerX = markerCircle.centerX;
+
+        // markerArrow moves vertically depending on the position of the tick marks
+        if ( numerator / denominator % 1 === 0 ) {
+          markerArrow.bottom = -IntroConstants.MAJOR_TICK_LENGTH / 2 - ARROW_VERTICAL_OFFSET;
+        }
+        else {
+          markerArrow.bottom = -IntroConstants.MINOR_TICK_LENGTH / 2 - ARROW_VERTICAL_OFFSET;
+        }
+
+      }
+
       // highlighted region scales differently depending on the position of the tick marks
       if ( numerator / denominator % 1 === 0 ) {
         highlighterRectangle.setRectHeight( IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT );
+
       }
       else {
         highlighterRectangle.setRectHeight( IntroConstants.MINOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT );
+
       }
       highlighterRectangle.centerX = markerCircle.centerX;
       highlighterRectangle.centerY = markerCircle.centerY;
@@ -163,6 +198,7 @@ define( function( require ) {
       oddMajorTicksPath,
       minorTicksPath,
       numbersNode,
+      markerArrow,
       markerCircle ];
 
     Node.call( this, options );
