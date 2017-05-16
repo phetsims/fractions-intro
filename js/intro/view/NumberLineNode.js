@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * The horizontal number line that shows the values
+ * The number line with adjustable ticks, going from left to right
  *
  * @author Vincent Davis (Berea College)
  */
@@ -35,12 +35,13 @@ define( function( require ) {
   function NumberLineNode( numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty, options ) {
 
     // Make sure the options exists
-    options = _.extend( {}, options );
+    options = _.extend( {},
+      options );
 
     // main Number line
-    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black' } );
+    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black', lineWidth: 3 } );
 
-    // Even Major Ticks, Width of line is slightly thicker than the odd Major Ticks
+    // for even major ticks, the lineWidth is slightly thicker than for odd Major Ticks
     var evenMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 5 } );
 
     // odd Major Ticks
@@ -52,7 +53,7 @@ define( function( require ) {
     // node for number text label under major ticks
     var numbersNode = new Node();
 
-    // distance between 0 and 1
+    // distance between 0 and 1 on the number Line
     var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.max;
 
     // Present for the lifetime of the simulation
