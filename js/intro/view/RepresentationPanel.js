@@ -38,30 +38,31 @@ define( function( require ) {
       {
         value: 'circle',
         node: new Circle( 15 * ICON_SCALE, {
-          fill: 'green',
-          lineWidth: 1,
+          fill: '#8EC53F',
+          lineWidth: 2,
           stroke: 'black'
         } )
       },
       {
         value: 'horizontal-bar',
-        node: new Rectangle( 0, 0, 80 * ICON_SCALE, 10 * ICON_SCALE, {
-          fill: '#208644',
-          lineWidth: 1,
+        node: new Rectangle( 0, 0, 80 * ICON_SCALE, 20 * ICON_SCALE, {
+          fill: '#ED4344',
+          lineWidth: 2,
           stroke: 'black'
         } )
       },
       {
         value: 'vertical-bar',
-        node: new Rectangle( 0, 0, 20 * ICON_SCALE, 60 * ICON_SCALE, {
-          fill: 'red',
-          lineWidth: 1,
+        node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
+          fill: '#56B6DE',
+          lineWidth: 2,
           stroke: 'black'
         } )
       },
+
       {
         value: 'beaker',
-        node: new Rectangle( 0, 0, 100 * ICON_SCALE, 80 * ICON_SCALE, {
+        node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#563329',
           lineWidth: 1,
           stroke: 'black'
@@ -98,4 +99,3 @@ define( function( require ) {
 
   return inherit( Panel, RepresentationPanel );
 } );
-
