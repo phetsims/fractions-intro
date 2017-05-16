@@ -10,6 +10,7 @@ define( function( require ) {
     'use strict';
 
     // modules
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
     var inherit = require( 'PHET_CORE/inherit' );
@@ -51,6 +52,13 @@ define( function( require ) {
           top: representationPanel.bottom + 60
         } );
 
+      var beakerNode = new BeakerNode( introModel.denominatorProperty, introModel.fractionProperty, {
+        beakerWidth: 80,
+        beakerHeight: 200,
+        centerX: this.layoutBounds.centerX,
+        top: representationPanel.bottom + 60
+      } );
+
       // generic node storing the various representation
       var representationsNode = new Node();
 
@@ -70,7 +78,7 @@ define( function( require ) {
             // representationsNode.addChild( verticalBarNode );
             break;
           case 'beaker':
-            // representationsNode.addChild( beakerNode );
+            representationsNode.addChild( beakerNode );
             break;
           case 'cake':
             // representationsNode.addChild( cakeNode );
