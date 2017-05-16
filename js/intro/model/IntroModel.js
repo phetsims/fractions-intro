@@ -15,7 +15,6 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
-  var StringProperty = require( 'AXON/StringProperty' );
 
   // constants
   var VALID_REPRESENTATION_VALUES = [
@@ -24,7 +23,8 @@ define( function( require ) {
     'vertical-bar',
     'beaker',
     'cake',
-    'number-line' ];
+    'number-line'
+  ];
 
   /**
    * @constructor
@@ -40,7 +40,9 @@ define( function( require ) {
     this.numeratorProperty = new NumberProperty( 0 );
 
     // @public {Property.<string>}
-    this.representationProperty = new StringProperty( 'circle' );
+    this.representationProperty = new Property( VALID_REPRESENTATION_VALUES[ 0 ], {
+      validValues: VALID_REPRESENTATION_VALUES
+    } );
 
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
@@ -52,22 +54,21 @@ define( function( require ) {
     this.maxNumberOfUnitsProperty = new NumberProperty( IntroConstants.MAX_NUMBER_OF_UNITS_RANGE.defaultValue );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
-    Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ], function( denominator, numerator, maxNumberOfUnits ) {
+    Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxNumberOfUnitsProperty ],
+      function( denominator, numerator, maxNumberOfUnits ) {
 
-      // If the maximum number of units decreases, the numerator may also need to be decreased to compensate
-      if ( numerator / denominator > maxNumberOfUnits ) {
+        // If the maximum number of units decreases, the numerator may also need to be decreased to compensate
+        if ( numerator / denominator > maxNumberOfUnits ) {
 
-
-        // decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
-        self.numeratorProperty.value = denominator * maxNumberOfUnits;
-      }
-    } );
+          // decreases numeratorProperty as dependent on the maxNumberOfUnits and denominator
+          self.numeratorProperty.value = denominator * maxNumberOfUnits;
+        }
+      } );
 
     // check for validity of representation, present for the lifetime of the sim
     this.representationProperty.link( function( representation ) {
       assert && assert( _.includes( VALID_REPRESENTATION_VALUES, representation ), 'invalid representation: ' + representation );
     } );
-
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );

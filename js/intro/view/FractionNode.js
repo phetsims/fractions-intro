@@ -31,8 +31,8 @@ define( function( require ) {
   function FractionNode( numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty, options ) {
 
     options = _.extend( {
-
       fill: 'black',
+
       // By default the fraction node is interactive, which means it has up/down spinners
       // Those spinners can be removed if the fraction node will be used as a label for underneath the number line
       interactive: true
@@ -42,7 +42,7 @@ define( function( require ) {
     var numeratorNode = new Text( numeratorProperty.get(), { font: font, fill: options.fill } );
 
     // creates a division line beneath numerator
-    var line = new Line( 0, 0, 80, 0, { lineWidth: 4, stroke: options.fill } );
+    var line = new Line( 0, 0, 80, 0, { lineWidth: 4, lineCap: 'round', stroke: options.fill } );
 
     // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
