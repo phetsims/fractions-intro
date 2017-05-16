@@ -32,14 +32,13 @@ define( function( require ) {
 
     options = _.extend( {
       fill: 'black',
-
+      font: new PhetFont( { size: 84 } ),
       // By default the fraction node is interactive, which means it has up/down spinners
       // Those spinners can be removed if the fraction node will be used as a label for underneath the number line
       interactive: true
     }, options );
 
-    var font = new PhetFont( { size: 84 } );
-    var numeratorNode = new Text( numeratorProperty.get(), { font: font, fill: options.fill } );
+    var numeratorNode = new Text( numeratorProperty.get(), { font: options.font, fill: options.fill } );
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, 80, 0, { lineWidth: 4, lineCap: 'round', stroke: options.fill } );
@@ -51,7 +50,7 @@ define( function( require ) {
     } );
 
     // centers the denominatorNode horizontally between the division line
-    var denominatorNode = new Text( denominatorProperty.get(), { font: font, fill: options.fill } );
+    var denominatorNode = new Text( denominatorProperty.get(), { font: options.font, fill: options.fill } );
     denominatorProperty.link( function( value ) {
       denominatorNode.text = value + '';
       denominatorNode.centerX = line.centerX;
