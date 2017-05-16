@@ -1,7 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * The number line with adjustable ticks, going from left to right
+ * The number line with adjustable ticks
+ * In a horizontal orientation, the number line goes from left to right, whereas it is
+ * go from bottom to up in vertical orientation.
  *
  * @author Vincent Davis (Berea College)
  */
@@ -35,7 +37,9 @@ define( function( require ) {
   function NumberLineNode( numeratorProperty, denominatorProperty, maxNumberOfUnitsProperty, options ) {
 
     // Make sure the options exists
-    options = _.extend( {},
+    options = _.extend( {
+        rotation: Math.PI/2  // horizontal -> 0, vertical -> -Math.PI/2
+      },
       options );
 
     // main Number line
@@ -84,7 +88,8 @@ define( function( require ) {
         var majorTickLabel = new Text( i, {
           font: IntroConstants.NUMBER_LINE_FONT,
           centerX: i * segmentLength,
-          top: IntroConstants.MAJOR_TICK_LENGTH / 2
+          top: IntroConstants.MAJOR_TICK_LENGTH / 2,
+          rotation: -options.rotation // rotate the opposite way than this node so that the text is right side up.
         } );
         numbersNode.addChild( majorTickLabel );
       }
