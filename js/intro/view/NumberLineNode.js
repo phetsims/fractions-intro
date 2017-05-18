@@ -6,6 +6,7 @@
  * go from bottom to up in vertical orientation.
  *
  * @author Vincent Davis (Berea College)
+ * @author Dusty Cole (Berea College)
  */
 define( function( require ) {
   'use strict';
@@ -35,11 +36,17 @@ define( function( require ) {
   /**
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} maxProperty
+   * @param {Property.<number>} maxProperty - control the upper bound of the number line
+   * @param {Property.<number>} multiplicationFactorProperty - ratio of the tick on the
+   *                                                            upper and lower side of the number line
    * @param {Object} [options]
    * @constructor
    */
-  function NumberLineNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
+  function NumberLineNode( numeratorProperty,
+                           denominatorProperty,
+                           maxProperty,
+                           multiplicationFactorProperty,
+                           options ) {
 
     options = _.extend( {
         rotation: 0,  // horizontal -> 0, vertical -> -Math.PI/2
@@ -106,12 +113,21 @@ define( function( require ) {
 
       // lays out the minor ticks
       var minorTicksShape = new Shape();
-      var minorTickSeparation = segmentLength / denominator;
-      for ( var j = 0; j <= max * denominator; j++ ) {
+      var multiplicationFactor = multiplicationFactorProperty.value;
+
+      // the smallest distance between two adjacent ticks
+      var minorTickSeparation = segmentLength / (denominator * multiplicationFactor);
+      var numberOfTicks = max * denominator * multiplicationFactor;
+      for ( var j = 0; j <= numberOfTicks; j++ ) {
 
         // skips major tick lines
-        if ( j % denominator !== 0 ) {
-          appendTick( minorTicksShape, j * minorTickSeparation, IntroConstants.MINOR_TICK_LENGTH );
+        if ( j % (denominator * multiplicationFactor) !== 0 ) {
+
+          // if true make a symmetric tick if false make half of a tick in the direction of choosing
+          // determine if the tick need to be on one side or both side
+          var direction = ( j % multiplicationFactor === 0 ) ? 'symmetric' : 'up';
+          appendTick( minorTicksShape, j * minorTickSeparation,
+            IntroConstants.MINOR_TICK_LENGTH, { direction: direction } );
         }
       }
       minorTicksPath.setShape( minorTicksShape );
@@ -200,7 +216,6 @@ define( function( require ) {
       numbersNode,
       markerArrow,
       markerCircle ];
-
     Node.call( this, options );
   }
 
@@ -209,11 +224,30 @@ define( function( require ) {
    * @param {Shape} shape - the shape to append a tick mark to
    * @param {number} x - the x coordinate of the tick mark in view coordinates
    * @param {number} tickLength - the vertical extent of the tick mark in view coordinates
+   * @param {Object} [options]
    */
-  var appendTick = function( shape, x, tickLength ) {
+  var appendTick = function( shape, x, tickLength, options ) {
+    options = _.extend( {
 
-    // Append a symmetric tick that straddles the number line
-    shape.moveTo( x, -tickLength / 2 ).verticalLineTo( tickLength / 2 );
+        // direction chose which side the tick will appear on either up or down or both
+        direction: 'symmetric' // valid value are 'up', 'down' and 'symmetric'
+      },
+      options );
+    {
+
+      // Append a symmetric tick that straddles the number line
+      if ( options.direction === 'symmetric' ) {
+        shape.moveTo( x, -tickLength / 2 ).verticalLineTo( tickLength / 2 );
+      }
+
+      // append half a tick in either direction based on a horizontal line
+      else if ( options.direction === 'down' ) {
+        shape.moveTo( x, 0 ).verticalLineTo( tickLength / 2 );
+      }
+      else if ( options.direction === 'up' ) {
+        shape.moveTo( x, 0 ).verticalLineTo( -tickLength / 2 );
+      }
+    }
   };
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );

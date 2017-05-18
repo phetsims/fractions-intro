@@ -17,6 +17,7 @@ define( function( require ) {
     var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
+    var NumberProperty = require( 'AXON/NumberProperty' );
     var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
@@ -47,7 +48,8 @@ define( function( require ) {
       // create number line Node
       var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
         introModel.denominatorProperty,
-        introModel.maxProperty, {
+        introModel.maxProperty,
+        new NumberProperty( 1 ), {
           left: 10,
           top: representationPanel.bottom + 60
         } );
