@@ -15,6 +15,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
 
   // constants
   var ICON_SCALE = 1.00;
@@ -36,7 +37,7 @@ define( function( require ) {
     // TODO get the size and color from the java simulation
     var content = new RadioButtonGroup( representationProperty, [
       {
-        value: 'circle',
+        value: RepresentationState.CIRCLE,
         node: new Circle( 15 * ICON_SCALE, {
           fill: '#8EC53F',
           lineWidth: 2,
@@ -44,7 +45,7 @@ define( function( require ) {
         } )
       },
       {
-        value: 'horizontal-bar',
+        value: RepresentationState.HORIZONTAL_BAR,
         node: new Rectangle( 0, 0, 80 * ICON_SCALE, 20 * ICON_SCALE, {
           fill: '#ED4344',
           lineWidth: 2,
@@ -52,7 +53,7 @@ define( function( require ) {
         } )
       },
       {
-        value: 'vertical-bar',
+        value: RepresentationState.VERTICAL_BAR,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#56B6DE',
           lineWidth: 2,
@@ -61,7 +62,7 @@ define( function( require ) {
       },
 
       {
-        value: 'beaker',
+        value: RepresentationState.BEAKER,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#563329',
           lineWidth: 1,
@@ -69,7 +70,7 @@ define( function( require ) {
         } )
       },
       {
-        value: 'cake',
+        value: RepresentationState.CAKE,
         node: new Circle( 15 * ICON_SCALE, {
           fill: 'brown',
           lineWidth: 1,
@@ -77,7 +78,7 @@ define( function( require ) {
         } )
       },
       {
-        value: 'number-line',
+        value: RepresentationState.NUMBER_LINE,
         node: new NumberLineIcon( {
           fill: '#563329',
           lineWidth: 1,

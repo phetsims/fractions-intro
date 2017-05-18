@@ -15,16 +15,7 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
-
-  // constants
-  var VALID_REPRESENTATION_VALUES = [
-    'circle',
-    'horizontal-bar',
-    'vertical-bar',
-    'beaker',
-    'cake',
-    'number-line'
-  ];
+  var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
 
   /**
    * @constructor
@@ -40,9 +31,7 @@ define( function( require ) {
     this.numeratorProperty = new NumberProperty( 0 );
 
     // @public {Property.<string>}
-    this.representationProperty = new Property( VALID_REPRESENTATION_VALUES[ 0 ], {
-      validValues: VALID_REPRESENTATION_VALUES
-    } );
+    this.representationProperty = new Property( RepresentationState.CIRCLE );
 
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
@@ -64,11 +53,6 @@ define( function( require ) {
           self.numeratorProperty.value = denominator * max;
         }
       } );
-
-    // check for validity of representation, present for the lifetime of the sim
-    this.representationProperty.link( function( representation ) {
-      assert && assert( _.includes( VALID_REPRESENTATION_VALUES, representation ), 'invalid representation: ' + representation );
-    } );
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
