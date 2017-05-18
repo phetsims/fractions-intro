@@ -24,32 +24,25 @@ define( function( require ) {
   var FONT_SIZE = 10;
 
   /**
-   * @param {Object} [options]
    * @constructor
    */
-  function NumberLineIcon( options ) {
-
-    var numberLineShape = new Shape();
+  function NumberLineIcon() {
 
     // Draw the lines for the number line symbol for the button icon
-    numberLineShape.moveTo( 0, 0 )
+    var numberLineShape = new Shape().moveTo( 0, 0 )
       .verticalLineToRelative( TICK_HEIGHT )
       .moveTo( LINE_LENGTH, 0 )
       .verticalLineToRelative( TICK_HEIGHT )
       .moveTo( 0, TICK_HEIGHT / 2 )
       .horizontalLineToRelative( LINE_LENGTH );
 
-    var numberLinePath = new Path( numberLineShape, { stroke: 'black', lineWidth: 1 } );
-
-    // Write the number beneath the number line for the symbol
-    var numberText0 = new Text( 0 + '', { font: new PhetFont( FONT_SIZE ), centerX: 0, top: TICK_HEIGHT } );
-
-    var numberText1 = new Text( 1 + '', { font: new PhetFont( FONT_SIZE ), centerX: LINE_LENGTH, top: TICK_HEIGHT } );
-
-    // pass numberLinePath and both numberText as children to this node
-    options.children = [ numberLinePath, numberText0, numberText1 ];
-
-    Node.call( this, options );
+    Node.call( this, {
+      children: [
+        new Path( numberLineShape, { stroke: 'black' } ),
+        new Text( '0', { font: new PhetFont( FONT_SIZE ), centerX: 0, top: TICK_HEIGHT } ),
+        new Text( '1', { font: new PhetFont( FONT_SIZE ), centerX: LINE_LENGTH, top: TICK_HEIGHT } )
+      ]
+    } );
   }
 
   fractionsIntro.register( 'NumberLineIcon', NumberLineIcon );

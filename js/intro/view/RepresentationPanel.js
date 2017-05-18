@@ -79,11 +79,7 @@ define( function( require ) {
       },
       {
         value: RepresentationState.NUMBER_LINE,
-        node: new NumberLineIcon( {
-          fill: '#563329',
-          lineWidth: 1,
-          stroke: 'black'
-        } )
+        node: new NumberLineIcon()
       }
     ], {
       // RadioButtonGroup options
