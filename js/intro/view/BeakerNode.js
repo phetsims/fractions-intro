@@ -44,13 +44,6 @@ define( function( require ) {
       .addColorStop( 0.782, '#FCFCFC' )
       .addColorStop( 1, '#a9a9a9' );
 
-    // set the gradient on the cap to be the reverse of the beaker
-    var emptyCapFillGradient = new LinearGradient( options.beakerWidth / 2, 0, -options.beakerWidth / 2, 0 )
-      .addColorStop( 0, '#a9a9a9' )
-      .addColorStop( 0.666, '#FFF' )
-      .addColorStop( 0.782, '#FCFCFC' )
-      .addColorStop( 1, '#a9a9a9' );
-
     // set the gradient on the surface of Beaker to make it look more 3D
     var liquidFillGradient = new LinearGradient( -options.beakerWidth / 2, 0, options.beakerWidth / 2, 0 )
       .addColorStop( 0, '#1EC1F8' )
@@ -63,7 +56,7 @@ define( function( require ) {
 
     // emptyBeaker is a background for liquidInBeaker
     var emptyBeaker = createCylinder( options.beakerWidth, options.beakerHeight, options.perspectiveFactor,
-      emptyFillGradient, emptyCapFillGradient );
+      emptyFillGradient, emptyFillGradient );
 
     // node for ticks
     var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
@@ -146,6 +139,11 @@ define( function( require ) {
           stroke: 'black',
           lineWidth: 1
         } );
+    }
+
+    // set the gradient on the cap to be the reverse of the beaker if it is not liquid
+    else {
+      capPath.setScaleMagnitude( -1, 1 );
     }
 
     // creates the base arc of the beaker to add depth
