@@ -17,7 +17,9 @@ define( function( require ) {
     var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
+    var NumberProperty = require( 'AXON/NumberProperty' );
     var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
+    var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
 
@@ -47,7 +49,8 @@ define( function( require ) {
       // create number line Node
       var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
         introModel.denominatorProperty,
-        introModel.maxProperty, {
+        introModel.maxProperty,
+        new NumberProperty( 1 ), {
           left: 10,
           top: representationPanel.bottom + 60
         } );
@@ -68,22 +71,22 @@ define( function( require ) {
           representationsNode.removeAllChildren();
         }
         switch( representation ) {
-          case 'circle':
+          case RepresentationState.CIRCLE:
             // representationsNode.addChild( circleNode );
             break;
-          case 'horizontal-bar':
+          case RepresentationState.HORIZONTAL_BAR:
             // representationsNode.addChild( horizontalBarNode );
             break;
-          case 'vertical-bar':
+          case RepresentationState.VERTICAL_BAR:
             // representationsNode.addChild( verticalBarNode );
             break;
-          case 'beaker':
+          case RepresentationState.BEAKER:
             representationsNode.addChild( beakerNode );
             break;
-          case 'cake':
+          case RepresentationState.CAKE:
             // representationsNode.addChild( cakeNode );
             break;
-          case 'number-line':
+          case RepresentationState.NUMBER_LINE:
             representationsNode.addChild( numberLineNode );
             break;
           default:

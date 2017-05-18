@@ -6,6 +6,7 @@
  * go from bottom to up in vertical orientation.
  *
  * @author Vincent Davis (Berea College)
+ * @author Dusty Cole (Berea College)
  */
 define( function( require ) {
   'use strict';
@@ -35,11 +36,17 @@ define( function( require ) {
   /**
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} maxProperty
+   * @param {Property.<number>} maxProperty - control the upper bound of the number line
+   * @param {Property.<number>} multiplicationFactorProperty - ratio of the tick on the
+   *                                                            upper and lower side of the number line
    * @param {Object} [options]
    * @constructor
    */
-  function NumberLineNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
+  function NumberLineNode( numeratorProperty,
+                           denominatorProperty,
+                           maxProperty,
+                           multiplicationFactorProperty,
+                           options ) {
 
     options = _.extend( {
         rotation: 0,  // horizontal -> 0, vertical -> -Math.PI/2
@@ -85,14 +92,11 @@ define( function( require ) {
       for ( var i = 0; i <= max; i++ ) {
 
         // major tick line width varies for even and odd number of units
-        if ( i % 2 === 0 ) {
-          appendTick( evenMajorTicksShape, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH );
-        }
-        else {
-          appendTick( oddMajorTicksShape, i * segmentLength, IntroConstants.MAJOR_TICK_LENGTH );
-        }
+        var shape = i % 2 === 0 ? evenMajorTicksShape : oddMajorTicksShape;
+        shape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH / 2 )
+          .verticalLineTo( IntroConstants.MAJOR_TICK_LENGTH / 2 );
 
-        //add numbers under the major ticks
+        // add numbers under the major ticks
         var majorTickLabel = new Text( i, {
           font: IntroConstants.NUMBER_LINE_FONT,
           centerX: i * segmentLength,
@@ -106,12 +110,21 @@ define( function( require ) {
 
       // lays out the minor ticks
       var minorTicksShape = new Shape();
-      var minorTickSeparation = segmentLength / denominator;
-      for ( var j = 0; j <= max * denominator; j++ ) {
+      var multiplicationFactor = multiplicationFactorProperty.value;
+
+      // the smallest distance between two adjacent ticks
+      var minorTickSeparation = segmentLength / (denominator * multiplicationFactor);
+      var numberOfTicks = max * denominator * multiplicationFactor;
+      for ( var j = 0; j <= numberOfTicks; j++ ) {
 
         // skips major tick lines
-        if ( j % denominator !== 0 ) {
-          appendTick( minorTicksShape, j * minorTickSeparation, IntroConstants.MINOR_TICK_LENGTH );
+        if ( j % (denominator * multiplicationFactor) !== 0 ) {
+
+          // if true make a symmetric tick if false make half of a tick in the direction of choosing
+          // determine if the tick need to be on one side or both side
+          var isSymmetric = ( j % multiplicationFactor === 0 );
+          minorTicksShape.moveTo( j * minorTickSeparation, isSymmetric ? -IntroConstants.MINOR_TICK_LENGTH / 2 : 0 )
+            .verticalLineTo( IntroConstants.MINOR_TICK_LENGTH / 2 );
         }
       }
       minorTicksPath.setShape( minorTicksShape );
@@ -200,21 +213,8 @@ define( function( require ) {
       numbersNode,
       markerArrow,
       markerCircle ];
-
     Node.call( this, options );
   }
-
-  /**
-   * Append a tick mark to the specified shape.
-   * @param {Shape} shape - the shape to append a tick mark to
-   * @param {number} x - the x coordinate of the tick mark in view coordinates
-   * @param {number} tickLength - the vertical extent of the tick mark in view coordinates
-   */
-  var appendTick = function( shape, x, tickLength ) {
-
-    // Append a symmetric tick that straddles the number line
-    shape.moveTo( x, -tickLength / 2 ).verticalLineTo( tickLength / 2 );
-  };
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );
 
