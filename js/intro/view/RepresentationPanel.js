@@ -65,7 +65,6 @@ define( function( require ) {
         value: Representation.BEAKER,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#563329',
-          lineWidth: 1,
           stroke: 'black'
         } )
       },
@@ -73,7 +72,6 @@ define( function( require ) {
         value: Representation.CAKE,
         node: new Circle( 15 * ICON_SCALE, {
           fill: 'brown',
-          lineWidth: 1,
           stroke: 'black'
         } )
       },

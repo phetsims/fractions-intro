@@ -143,7 +143,6 @@ define( function( require ) {
         0, Math.PI, 2 * Math.PI, true ),
         {
           stroke: 'black',
-          lineWidth: 1
         } );
     }
 
@@ -157,7 +156,6 @@ define( function( require ) {
       0, 2 * Math.PI, Math.PI, true ),
       {
         stroke: 'grey',
-        lineWidth: 1
       } );
 
     return new Node( {

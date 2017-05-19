@@ -67,7 +67,7 @@ define( function( require ) {
     var oddMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
 
     // Minor Ticks
-    var minorTicksPath = new Path( null, { stroke: 'black', lineWidth: 1 } );
+    var minorTicksPath = new Path( null, { stroke: 'black'} );
 
     // node for number text label under major ticks
     var numbersNode = new Node();
