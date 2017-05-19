@@ -32,20 +32,23 @@ define( function( require ) {
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );
 
+    // radius to be used for Ellipses
+    var radius = options.beakerWidth / 2;
+
     // gradient to be used when liquid fills beaker
-    var fullCapFillGradient = new LinearGradient( -options.beakerWidth / 2, 0, options.beakerWidth / 2, 0 )
+    var fullCapFillGradient = new LinearGradient( -radius, 0, radius, 0 )
       .addColorStop( 0, '#72D2F2' )
       .addColorStop( 1, '#72D2F2' );
 
     // set the gradient on the surface of the empty Beaker to make it look more 3D
-    var emptyFillGradient = new LinearGradient( -options.beakerWidth / 2, 0, options.beakerWidth / 2, 0 )
+    var emptyFillGradient = new LinearGradient( -radius, 0, radius, 0 )
       .addColorStop( 0, '#a9a9a9' )
       .addColorStop( 0.666, '#FFF' )
       .addColorStop( 0.782, '#FCFCFC' )
       .addColorStop( 1, '#a9a9a9' );
 
     // set the gradient on the surface of Beaker to make it look more 3D
-    var liquidFillGradient = new LinearGradient( -options.beakerWidth / 2, 0, options.beakerWidth / 2, 0 )
+    var liquidFillGradient = new LinearGradient( -radius, 0, radius, 0 )
       .addColorStop( 0, '#1EC1F8' )
       .addColorStop( 0.666, '#FFF' )
       .addColorStop( 0.782, '#FCFCFC' )
@@ -55,7 +58,7 @@ define( function( require ) {
     var beakerContainer = new Node();
 
     // emptyBeaker is a background for liquidInBeaker
-    var emptyBeaker = createCylinder( options.beakerWidth, options.beakerHeight, options.perspectiveFactor,
+    var emptyBeaker = createCylinder( radius, options.beakerHeight, options.perspectiveFactor,
       emptyFillGradient, emptyFillGradient );
 
     // node for ticks
@@ -71,9 +74,9 @@ define( function( require ) {
 
         // ticks should be longer if they are even
         var rotationAngle = ( i % 2 === 0 ) ? Math.PI / 4 : Math.PI / 6;
-        tickMarksShape.moveTo( -options.beakerWidth / 2, -tickSeparation * (i) );
-        tickMarksShape.ellipticalArc( 0, -tickSeparation * i, options.beakerWidth / 2,
-          options.beakerWidth * options.perspectiveFactor / 2, 0, Math.PI, Math.PI - rotationAngle, true );
+        tickMarksShape.moveTo( -radius, -tickSeparation * i );
+        tickMarksShape.ellipticalArc( 0, -tickSeparation * i, radius,
+          radius * options.perspectiveFactor, 0, Math.PI, Math.PI - rotationAngle, true );
       }
       tickMarksPath.setShape( tickMarksShape );
     } );
@@ -88,7 +91,7 @@ define( function( require ) {
 
       // will not draw the liquid if the beaker is empty
       if ( height !== 0 ) {
-        var liquidInBeaker = createCylinder( options.beakerWidth, height, options.perspectiveFactor,
+        var liquidInBeaker = createCylinder( radius, height, options.perspectiveFactor,
           liquidFillGradient, capFillGradient, { isLiquid: true } );
         beakerContainer.addChild( liquidInBeaker );
       }
@@ -102,7 +105,7 @@ define( function( require ) {
 
   /**
    * Creates both the empty beaker and filled beaker
-   * @param {number} width - width of the cylinder
+   * @param {number} radius - radius of the cylinder
    * @param {number} height - height of the cylinder
    * @param {number} perspectiveFactor - multiplier that controls the width of the ellipses on the ends of the cylinder
    * @param {LinearGradient} mainGradient - gradient to be used for body of the cylinder
@@ -111,29 +114,29 @@ define( function( require ) {
    * @returns {Node}
    */
 
-  var createCylinder = function( width, height, perspectiveFactor, mainGradient, capGradient, options ) {
+  var createCylinder = function( radius, height, perspectiveFactor, mainGradient, capGradient, options ) {
     options = _.extend( {
       isLiquid: false
     }, options );
 
     // body of the beaker
-    var bodyPath = new Path( new Shape().moveTo( width / 2, -height )
+    var bodyPath = new Path( new Shape().moveTo( radius, -height )
       .verticalLineToRelative( height )
-      .ellipticalArc( 0, 0, width / 2, width * perspectiveFactor / 2, 0, 2 * Math.PI, Math.PI, false )
+      .ellipticalArc( 0, 0, radius, radius * perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
       .verticalLineToRelative( -height )
       .close(), {
       fill: mainGradient
     } );
 
     // top ellipse of the beaker
-    var capPath = new Path( Shape.ellipse( 0, -height, width / 2, width * perspectiveFactor / 2 ), {
+    var capPath = new Path( Shape.ellipse( 0, -height, radius, radius * perspectiveFactor ), {
       fill: capGradient
     } );
 
     // an arc should appear at top of the liquid to provide depth
     var liquidArc = new Path( null );
     if ( options.isLiquid ) {
-      liquidArc = new Path( new Shape().ellipticalArc( 0, -height, width / 2, width * perspectiveFactor / 2,
+      liquidArc = new Path( new Shape().ellipticalArc( 0, -height, radius, radius * perspectiveFactor,
         0, Math.PI, 2 * Math.PI, true ),
         {
           stroke: 'black',
@@ -147,7 +150,7 @@ define( function( require ) {
     }
 
     // creates the base arc of the beaker to add depth
-    var backsideBottomArc = new Path( new Shape().ellipticalArc( 0, 0, width / 2, width * perspectiveFactor / 2,
+    var backsideBottomArc = new Path( new Shape().ellipticalArc( 0, 0, radius, radius * perspectiveFactor,
       0, 2 * Math.PI, Math.PI, true ),
       {
         stroke: 'grey',
