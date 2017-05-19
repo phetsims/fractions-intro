@@ -52,13 +52,8 @@ define( function( require ) {
       },
       {
         value: Representation.VERTICAL_BAR,
-<<<<<<< Updated upstream
-        node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
-          fill: '#FFE600 ',
-=======
         node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
           fill: '#56B6DE',
->>>>>>> Stashed changes
           lineWidth: 2,
           stroke: 'black'
         } )
