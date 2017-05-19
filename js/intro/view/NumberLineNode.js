@@ -80,7 +80,7 @@ define( function( require ) {
     Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
 
       // sets the length of the main number line
-      mainNumberLine.setX2( segmentLength * max );
+      mainNumberLine.x2 = segmentLength * max;
 
       // create major ticks shape
       var evenMajorTicksShape = new Shape();
