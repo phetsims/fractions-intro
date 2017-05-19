@@ -17,9 +17,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
-  // constants
-  var ICON_SCALE = 1.00;
-
   /**
    *
    * @param {Property.<Representation>} representationProperty
@@ -30,6 +27,7 @@ define( function( require ) {
 
     options = _.extend( {
       fill: '#efe8e1',
+      iconScale: 1,
       xMargin: 10,
       yMargin: 7
     }, options );
@@ -38,7 +36,7 @@ define( function( require ) {
     var content = new RadioButtonGroup( representationProperty, [
       {
         value: Representation.CIRCLE,
-        node: new Circle( 15 * ICON_SCALE, {
+        node: new Circle( 15 * options.iconScale, {
           fill: '#8EC53F',
           lineWidth: 2,
           stroke: 'black'
@@ -46,7 +44,7 @@ define( function( require ) {
       },
       {
         value: Representation.HORIZONTAL_BAR,
-        node: new Rectangle( 0, 0, 80 * ICON_SCALE, 20 * ICON_SCALE, {
+        node: new Rectangle( 0, 0, 80 * options.iconScale, 20 * options.iconScale, {
           fill: '#ED4344',
           lineWidth: 2,
           stroke: 'black'
@@ -54,8 +52,13 @@ define( function( require ) {
       },
       {
         value: Representation.VERTICAL_BAR,
+<<<<<<< Updated upstream
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#FFE600 ',
+=======
+        node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
+          fill: '#56B6DE',
+>>>>>>> Stashed changes
           lineWidth: 2,
           stroke: 'black'
         } )
@@ -63,14 +66,14 @@ define( function( require ) {
 
       {
         value: Representation.BEAKER,
-        node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
+        node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
           fill: '#563329',
           stroke: 'black'
         } )
       },
       {
         value: Representation.CAKE,
-        node: new Circle( 15 * ICON_SCALE, {
+        node: new Circle( 15 * options.iconScale, {
           fill: 'brown',
           stroke: 'black'
         } )
