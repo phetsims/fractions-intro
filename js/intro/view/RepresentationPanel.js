@@ -15,7 +15,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
   // constants
   var ICON_SCALE = 1.00;
@@ -37,7 +37,7 @@ define( function( require ) {
     // TODO get the size and color from the java simulation
     var content = new RadioButtonGroup( representationProperty, [
       {
-        value: RepresentationState.CIRCLE,
+        value: Representation.CIRCLE,
         node: new Circle( 15 * ICON_SCALE, {
           fill: '#8EC53F',
           lineWidth: 2,
@@ -45,7 +45,7 @@ define( function( require ) {
         } )
       },
       {
-        value: RepresentationState.HORIZONTAL_BAR,
+        value: Representation.HORIZONTAL_BAR,
         node: new Rectangle( 0, 0, 80 * ICON_SCALE, 20 * ICON_SCALE, {
           fill: '#ED4344',
           lineWidth: 2,
@@ -53,7 +53,7 @@ define( function( require ) {
         } )
       },
       {
-        value: RepresentationState.VERTICAL_BAR,
+        value: Representation.VERTICAL_BAR,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#56B6DE',
           lineWidth: 2,
@@ -62,7 +62,7 @@ define( function( require ) {
       },
 
       {
-        value: RepresentationState.BEAKER,
+        value: Representation.BEAKER,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
           fill: '#563329',
           lineWidth: 1,
@@ -70,7 +70,7 @@ define( function( require ) {
         } )
       },
       {
-        value: RepresentationState.CAKE,
+        value: Representation.CAKE,
         node: new Circle( 15 * ICON_SCALE, {
           fill: 'brown',
           lineWidth: 1,
@@ -78,7 +78,7 @@ define( function( require ) {
         } )
       },
       {
-        value: RepresentationState.NUMBER_LINE,
+        value: Representation.NUMBER_LINE,
         node: new NumberLineIcon()
       }
     ], {

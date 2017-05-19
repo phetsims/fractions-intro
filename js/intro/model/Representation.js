@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
 
-  var RepresentationState = {
+  var Representation = {
     CIRCLE: 'circle',
     HORIZONTAL_BAR: 'horizontal-bar',
     VERTICAL_BAR: 'vertical-bar',
@@ -21,9 +21,9 @@ define( function( require ) {
   };
 
   // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( RepresentationState ); }
+  if ( assert ) { Object.freeze( Representation ); }
 
-  fractionsIntro.register( 'RepresentationState', RepresentationState );
+  fractionsIntro.register( 'Representation', Representation );
 
-  return RepresentationState;
+  return Representation;
 } );

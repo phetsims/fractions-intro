@@ -15,7 +15,7 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
-  var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
   /**
    * @constructor
@@ -31,7 +31,7 @@ define( function( require ) {
     this.numeratorProperty = new NumberProperty( 0 );
 
     // @public {Property.<string>}
-    this.representationProperty = new Property( RepresentationState.CIRCLE );
+    this.representationProperty = new Property( Representation.CIRCLE );
 
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
