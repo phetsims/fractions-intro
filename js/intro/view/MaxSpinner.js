@@ -19,6 +19,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
 
+  // constants
+  var FONT_SIZE = 36;
+
   // strings
   var maxString = require( 'string!FRACTIONS_INTRO/max' );
 
@@ -35,7 +38,7 @@ define( function( require ) {
       fill: 'black'
     }, options );
 
-    var font = new PhetFont( { size: 36 } );
+    var font = new PhetFont( { size: FONT_SIZE } );
 
     var maxUpEnabledProperty = new DerivedProperty(
       [ maxProperty ],
