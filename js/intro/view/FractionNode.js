@@ -45,14 +45,14 @@ define( function( require ) {
 
     // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
-      numeratorNode.text = value + '';
+      numeratorNode.text = value;
       numeratorNode.centerX = line.centerX;
     } );
 
     // centers the denominatorNode horizontally between the division line
     var denominatorNode = new Text( denominatorProperty.get(), { font: options.font, fill: options.fill } );
     denominatorProperty.link( function( value ) {
-      denominatorNode.text = value + '';
+      denominatorNode.text = value;
       denominatorNode.centerX = line.centerX;
     } );
 

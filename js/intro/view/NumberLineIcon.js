@@ -43,6 +43,7 @@ define( function( require ) {
         new Text( '1', { font: new PhetFont( FONT_SIZE ), centerX: LINE_LENGTH, top: TICK_HEIGHT } )
       ]
     } );
+
   }
 
   fractionsIntro.register( 'NumberLineIcon', NumberLineIcon );

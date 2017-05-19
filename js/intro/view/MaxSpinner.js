@@ -50,7 +50,7 @@ define( function( require ) {
     // creates the maxValueText
     var maxValueText = new Text( maxProperty.get(), { font: font, fill: options.fill } );
     maxProperty.link( function( value ) {
-      maxValueText.text = value + '';
+      maxValueText.text = value;
 
       // moves maxValueText to the right of the maxValueSpinner
       maxValueText.right = maxValueSpinner.left - 5;
