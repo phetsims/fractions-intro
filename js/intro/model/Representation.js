@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Possible representation states
+ * Possible representation Enumeration
  *
  * @author Michael Moorer (Berea College)
  */

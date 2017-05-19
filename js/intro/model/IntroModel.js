@@ -30,7 +30,7 @@ define( function( require ) {
     // @public {Property.<number>}
     this.numeratorProperty = new NumberProperty( 0 );
 
-    // @public {Property.<string>}
+    // @public {Property.<Representation>}
     this.representationProperty = new Property( Representation.CIRCLE );
 
     // @public {Property.<number>}

@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property.<string>} representationProperty
+   * @param {Property.<Representation>} representationProperty
    * @param {Object} [options]
    * @constructor
    */
