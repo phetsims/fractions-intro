@@ -15,7 +15,7 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
-  var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
   /**
    * @constructor
@@ -24,23 +24,23 @@ define( function( require ) {
 
     var self = this;
 
-    // @public (read-only) {Property.<number>}
+    // @public {Property.<number>}
     this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
-    // @public (read-only) {Property.<number>}
+    // @public {Property.<number>}
     this.numeratorProperty = new NumberProperty( 0 );
 
     // @public {Property.<string>}
-    this.representationProperty = new Property( RepresentationState.CIRCLE );
+    this.representationProperty = new Property( Representation.CIRCLE );
+
+    // @public {Property.<number>}
+    this.maxProperty = new NumberProperty( IntroConstants.MAX_RANGE.defaultValue );
 
     // @public (read-only) {Property.<number>}
     this.fractionProperty = new DerivedProperty( [ this.numeratorProperty, this.denominatorProperty ],
       function( numerator, denominator ) {
         return numerator / denominator;
       } );
-
-    // @public (read-only) {Property.<number>}
-    this.maxProperty = new NumberProperty( IntroConstants.MAX_RANGE.defaultValue );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],

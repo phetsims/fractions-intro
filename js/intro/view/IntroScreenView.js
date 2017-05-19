@@ -19,7 +19,7 @@ define( function( require ) {
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
     var NumberProperty = require( 'AXON/NumberProperty' );
     var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
-    var RepresentationState = require( 'FRACTIONS_INTRO/intro/model/RepresentationState' );
+    var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
 
@@ -71,22 +71,22 @@ define( function( require ) {
           representationsNode.removeAllChildren();
         }
         switch( representation ) {
-          case RepresentationState.CIRCLE:
+          case Representation.CIRCLE:
             // representationsNode.addChild( circleNode );
             break;
-          case RepresentationState.HORIZONTAL_BAR:
+          case Representation.HORIZONTAL_BAR:
             // representationsNode.addChild( horizontalBarNode );
             break;
-          case RepresentationState.VERTICAL_BAR:
+          case Representation.VERTICAL_BAR:
             // representationsNode.addChild( verticalBarNode );
             break;
-          case RepresentationState.BEAKER:
+          case Representation.BEAKER:
             representationsNode.addChild( beakerNode );
             break;
-          case RepresentationState.CAKE:
+          case Representation.CAKE:
             // representationsNode.addChild( cakeNode );
             break;
-          case RepresentationState.NUMBER_LINE:
+          case Representation.NUMBER_LINE:
             representationsNode.addChild( numberLineNode );
             break;
           default:
