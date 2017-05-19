@@ -36,9 +36,7 @@ define( function( require ) {
     var radius = options.beakerWidth / 2;
 
     // gradient to be used when liquid fills beaker
-    var fullCapFillGradient = new LinearGradient( -radius, 0, radius, 0 )
-      .addColorStop( 0, '#72D2F2' )
-      .addColorStop( 1, '#72D2F2' );
+    var fullCapFill = '#72D2F2';
 
     // set the gradient on the surface of the empty Beaker to make it look more 3D
     var emptyFillGradient = new LinearGradient( -radius, 0, radius, 0 )
@@ -86,7 +84,7 @@ define( function( require ) {
       var height = fraction * options.beakerHeight;
 
       // gradient should change if beaker is full of liquid
-      var capFillGradient = (height === options.beakerHeight) ? fullCapFillGradient : liquidFillGradient;
+      var capFillGradient = (height === options.beakerHeight) ? fullCapFill : liquidFillGradient;
       beakerContainer.removeAllChildren();
 
       // will not draw the liquid if the beaker is empty
@@ -108,13 +106,13 @@ define( function( require ) {
    * @param {number} radius - radius of the cylinder
    * @param {number} height - height of the cylinder
    * @param {number} perspectiveFactor - multiplier that controls the width of the ellipses on the ends of the cylinder
-   * @param {LinearGradient} mainGradient - gradient to be used for body of the cylinder
-   * @param {LinearGradient} capGradient - gradient to be used for capGradient ellipse
+   * @param {LinearGradient} mainFill - gradient to be used for body of the cylinder
+   * @param {LinearGradient} capFill - gradient to be used for capFill ellipse
    * @param {object} [options]
    * @returns {Node}
    */
 
-  var createCylinder = function( radius, height, perspectiveFactor, mainGradient, capGradient, options ) {
+  var createCylinder = function( radius, height, perspectiveFactor, mainFill, capFill, options ) {
     options = _.extend( {
       isLiquid: false
     }, options );
@@ -125,12 +123,12 @@ define( function( require ) {
       .ellipticalArc( 0, 0, radius, radius * perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
       .verticalLineToRelative( -height )
       .close(), {
-      fill: mainGradient
+      fill: mainFill
     } );
 
     // top ellipse of the beaker
     var capPath = new Path( Shape.ellipse( 0, -height, radius, radius * perspectiveFactor ), {
-      fill: capGradient
+      fill: capFill
     } );
 
     // an arc should appear at top of the liquid to provide depth
