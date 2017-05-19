@@ -67,7 +67,7 @@ define( function( require ) {
     var oddMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
 
     // Minor Ticks
-    var minorTicksPath = new Path( null, { stroke: 'black'} );
+    var minorTicksPath = new Path( null, { stroke: 'black' } );
 
     // node for number text label under major ticks
     var numbersNode = new Node();
@@ -181,8 +181,7 @@ define( function( require ) {
         highlighterRectangle.setRectHeight( IntroConstants.MINOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT );
 
       }
-      highlighterRectangle.centerX = markerCircle.centerX;
-      highlighterRectangle.centerY = markerCircle.centerY;
+      highlighterRectangle.center = markerCircle.center;
     } );
 
     // add a drag handler to the circle on the number line
