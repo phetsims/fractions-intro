@@ -111,8 +111,8 @@ define( function( require ) {
    * @param {number} radius - radius of the cylinder
    * @param {number} height - height of the cylinder
    * @param {number} perspectiveFactor - multiplier that controls the width of the ellipses on the ends of the cylinder
-   * @param {LinearGradient} mainFill - gradient to be used for body of the cylinder
-   * @param {LinearGradient} capFill - gradient to be used for capFill ellipse
+   * @param {LinearGradient|string} mainFill - gradient to be used for body of the cylinder
+   * @param {LinearGradient|string} capFill - gradient to be used for capFill ellipse
    * @param {object} [options]
    * @returns {Node}
    */
