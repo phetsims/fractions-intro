@@ -55,7 +55,7 @@ define( function( require ) {
       {
         value: Representation.VERTICAL_BAR,
         node: new Rectangle( 0, 0, 35 * ICON_SCALE, 60 * ICON_SCALE, {
-          fill: '#56B6DE',
+          fill: '#FFE600 ',
           lineWidth: 2,
           stroke: 'black'
         } )
