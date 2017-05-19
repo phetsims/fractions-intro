@@ -18,6 +18,14 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
+  // constants
+  var EMPTY_BEAKER_COLOR = '#A9A9A9';
+  var LIQUID_COLOR = '#1EC1F8';
+  var BEAKER_SHINE_COLOR = '#FCFCFC';
+
+  // color to be used when liquid fills beaker
+  var FULL_CAP_COLOR = '#72D2F2';
+
   /**
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} filledProperty
@@ -35,22 +43,19 @@ define( function( require ) {
     // radius to be used for Ellipses
     var radius = options.beakerWidth / 2;
 
-    // gradient to be used when liquid fills beaker
-    var fullCapFill = '#72D2F2';
-
     // set the gradient on the surface of the empty Beaker to make it look more 3D
     var emptyFillGradient = new LinearGradient( -radius, 0, radius, 0 )
-      .addColorStop( 0, '#a9a9a9' )
-      .addColorStop( 0.666, '#FFF' )
-      .addColorStop( 0.782, '#FCFCFC' )
-      .addColorStop( 1, '#a9a9a9' );
+      .addColorStop( 0, EMPTY_BEAKER_COLOR )
+      .addColorStop( 0.666, BEAKER_SHINE_COLOR )
+      .addColorStop( 0.782, BEAKER_SHINE_COLOR )
+      .addColorStop( 1, EMPTY_BEAKER_COLOR );
 
     // set the gradient on the surface of Beaker to make it look more 3D
     var liquidFillGradient = new LinearGradient( -radius, 0, radius, 0 )
-      .addColorStop( 0, '#1EC1F8' )
-      .addColorStop( 0.666, '#FFF' )
-      .addColorStop( 0.782, '#FCFCFC' )
-      .addColorStop( 1, '#1EC1F8' );
+      .addColorStop( 0, LIQUID_COLOR )
+      .addColorStop( 0.666, BEAKER_SHINE_COLOR )
+      .addColorStop( 0.782, BEAKER_SHINE_COLOR )
+      .addColorStop( 1, LIQUID_COLOR );
 
     // beakerContainer holds liquidInBeaker
     var beakerContainer = new Node();
@@ -84,7 +89,7 @@ define( function( require ) {
       var height = fraction * options.beakerHeight;
 
       // gradient should change if beaker is full of liquid
-      var capFillGradient = (height === options.beakerHeight) ? fullCapFill : liquidFillGradient;
+      var capFillGradient = (height === options.beakerHeight) ? FULL_CAP_COLOR : liquidFillGradient;
       beakerContainer.removeAllChildren();
 
       // will not draw the liquid if the beaker is empty
