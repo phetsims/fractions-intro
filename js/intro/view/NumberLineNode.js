@@ -96,14 +96,12 @@ define( function( require ) {
         shape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH / 2 )
           .verticalLineTo( IntroConstants.MAJOR_TICK_LENGTH / 2 );
 
-        // add numbers under the major ticks
-        var majorTickLabel = new Text( i, {
+        numbersNode.addChild( new Text( i, {
           font: IntroConstants.NUMBER_LINE_FONT,
           centerX: i * segmentLength,
           top: IntroConstants.MAJOR_TICK_LENGTH / 2,
           rotation: -options.rotation // rotate the opposite way than this node so that the text is right side up.
-        } );
-        numbersNode.addChild( majorTickLabel );
+        } ) );
       }
       evenMajorTicksPath.setShape( evenMajorTicksShape );
       oddMajorTicksPath.setShape( oddMajorTicksShape );
