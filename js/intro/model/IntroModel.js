@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -41,6 +42,10 @@ define( function( require ) {
       function( numerator, denominator ) {
         return numerator / denominator;
       } );
+
+    // @private
+    this.containerSet = new ContainerSet( this.numeratorProperty, this.denominatorProperty,
+      this.maxProperty );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
