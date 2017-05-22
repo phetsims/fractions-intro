@@ -11,6 +11,7 @@ define( function( require ) {
 
     // modules
     var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
+    var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
     var inherit = require( 'PHET_CORE/inherit' );
@@ -55,6 +56,7 @@ define( function( require ) {
           top: representationPanel.bottom + 60
         } );
 
+      // create beaker node
       var beakerNode = new BeakerNode( introModel.denominatorProperty, introModel.fractionProperty, {
         beakerWidth: 80,
         beakerHeight: 200,
@@ -106,8 +108,11 @@ define( function( require ) {
         bottom: this.layoutBounds.maxY - 10
       } );
 
+      // create bucket node
+      var bucketNode = new BucketNode( introModel.representationProperty, introModel.denominatorProperty );
+
       var options = {
-        children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel ]
+        children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel, bucketNode ]
       };
       this.mutate( options );
     }
