@@ -60,9 +60,46 @@ define( function( require ) {
     // beakerContainer holds liquidInBeaker
     var beakerContainer = new Node();
 
+    //bottom layer
+    // emptyBeakerBottom is the bottom backside of the beaker
+    var emptyBeakerBottom = new Path( new Shape().moveTo( -radius, 0 ).ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, Math.PI, 2 * Math.PI, false ), {
+        stroke: 'grey'
+      }
+    );
+
+    //top of the beaker when empty
+    var capPath = new Path( Shape.ellipse( 0, -options.beakerHeight, radius, radius * options.perspectiveFactor ), {
+      fill: emptyFillGradient,
+      opacity: 0.7
+    } );
+
+    //middle layer
     // emptyBeaker is a background for liquidInBeaker
     var emptyBeaker = createCylinder( radius, options.beakerHeight, options.perspectiveFactor,
       emptyFillGradient, emptyFillGradient );
+
+    // updates how 'full' beaker is when fraction is changed
+    filledProperty.link( function( fraction ) {
+      var height = fraction * options.beakerHeight;
+
+      // gradient should change if beaker is full of liquid
+      var capFillGradient = (height === options.beakerHeight) ? FULL_CAP_COLOR : liquidFillGradient;
+      beakerContainer.removeAllChildren();
+
+      // will not draw the liquid if the beaker is empty
+      if ( height !== 0 ) {
+        var liquidInBeaker = createCylinder( radius, height, options.perspectiveFactor,
+          liquidFillGradient, capFillGradient, { isLiquid: true } );
+        beakerContainer.addChild( liquidInBeaker );
+      }
+    } );
+
+    //top layer
+    //front bottom of the beaker
+    var emptyBeakerBottomFront = new Path( new Shape().ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, 2 * Math.PI, Math.PI, false ), {
+        stroke: 'grey'
+      }
+    );
 
     // node for ticks
     var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
@@ -84,24 +121,8 @@ define( function( require ) {
       tickMarksPath.setShape( tickMarksShape );
     } );
 
-    // updates how 'full' beaker is when fraction is changed
-    filledProperty.link( function( fraction ) {
-      var height = fraction * options.beakerHeight;
-
-      // gradient should change if beaker is full of liquid
-      var capFillGradient = (height === options.beakerHeight) ? FULL_CAP_COLOR : liquidFillGradient;
-      beakerContainer.removeAllChildren();
-
-      // will not draw the liquid if the beaker is empty
-      if ( height !== 0 ) {
-        var liquidInBeaker = createCylinder( radius, height, options.perspectiveFactor,
-          liquidFillGradient, capFillGradient, { isLiquid: true } );
-        beakerContainer.addChild( liquidInBeaker );
-      }
-    } );
-
     // add children to scene graph. z order matters here.
-    options.children = [ emptyBeaker, beakerContainer, tickMarksPath ];
+    options.children = [ emptyBeakerBottom, capPath, beakerContainer, emptyBeaker, tickMarksPath, emptyBeakerBottomFront ];
     Node.call( this, options );
 
   }
@@ -128,11 +149,13 @@ define( function( require ) {
       .ellipticalArc( 0, 0, radius, radius * perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
       .verticalLineToRelative( -height )
       .close(), {
-      fill: mainFill
+      fill: mainFill,
+      opacity: 0.7
     } );
 
     // top ellipse of the beaker
     var capPath = new Path( Shape.ellipse( 0, -height, radius, radius * perspectiveFactor ), {
+      opacity: 0.7,
       fill: capFill
     } );
 
@@ -142,7 +165,7 @@ define( function( require ) {
       liquidArc = new Path( new Shape().ellipticalArc( 0, -height, radius, radius * perspectiveFactor,
         0, Math.PI, 2 * Math.PI, true ),
         {
-          stroke: 'black',
+          stroke: 'black'
         } );
     }
 
@@ -155,7 +178,7 @@ define( function( require ) {
     var backsideBottomArc = new Path( new Shape().ellipticalArc( 0, 0, radius, radius * perspectiveFactor,
       0, 2 * Math.PI, Math.PI, true ),
       {
-        stroke: 'grey',
+        stroke: 'grey'
       } );
 
     return new Node( {
