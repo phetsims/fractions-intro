@@ -31,19 +31,13 @@ define( function( require ) {
       var difference = max - oldMax;
 
       if ( difference > 0 ) {
-
-        // add Containers to the set
-        for ( var i = 0; i < difference; i++ ) {
-          self.containers.push( new Container( denominatorProperty ) );
-        }
+        self.addContainers( difference );
       }
       else if ( difference < 0 ) {
-
-        // TODO: generalize to many pops
-        // remove a Container to this set
-        self.containers.pop();
+        var removedContainers = self.containers.splice( max - 1, -difference );
       }
-
+      console.table( self.containers );
+      console.table( removedContainers );
     } );
 
     // change the value of the denominator
@@ -122,6 +116,16 @@ define( function( require ) {
           }
         } );
       } );
+    },
+
+    /**
+     * @param {number} numberOfContainers
+     */
+    addContainers: function( numberOfContainers ) {
+      // add Containers to the set
+      for ( var i = 0; i < numberOfContainers; i++ ) {
+        this.containers.push( new Container( this.denominatorProperty ) );
+      }
     }
   } );
 } );
