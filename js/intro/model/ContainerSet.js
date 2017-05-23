@@ -34,10 +34,15 @@ define( function( require ) {
       var difference = max - oldMax;
 
       if ( difference > 0 ) {
+
+        // add 'difference' number of containers
         self.addContainers( difference );
       }
       else if ( difference < 0 ) {
+
+        // removed '-difference' containers starting from the end of the array.
         var removedContainers = self.containers.splice( max - 1, -difference );
+
         console.table( removedContainers );
       }
       console.table( self.containers );
@@ -60,10 +65,13 @@ define( function( require ) {
           return accumulator.concat( container.cells.splice( denominator - 1, -difference ) );
         }, [] );
 
+        // filter removedCells to find only the filled Cells that have been removed
         var removedFilledCells = removedCells.filter( function( cell ) {
-          return (cell.isFilledProperty.value === true);
+          return cell.isFilledProperty.value;
         } );
+
         // self.reshuffleFilledCells( removedFilledCells );
+
         console.table( removedFilledCells );
       }
       console.table( self.containers );
