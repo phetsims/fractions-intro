@@ -186,6 +186,7 @@ define( function( require ) {
 
     // add a drag handler to the circle on the number line
     markerCircle.addInputListener( new SimpleDragHandler( {
+      allowTouchSnag: true,
       drag: function( event ) {
         if ( options.rotation === 0 ) {
           var x = markerCircle.globalToParentPoint( event.pointer.point ).x;
