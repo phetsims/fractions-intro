@@ -19,12 +19,12 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // constants
-  var EMPTY_BEAKER_COLOR = '#A9A9A9';
-  var LIQUID_COLOR = '#1EC1F8';
-  var BEAKER_SHINE_COLOR = '#FCFCFC';
+  var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.2)';
+  var LIQUID_COLOR = 'rgba(30,163,255,0.8)';
+  var BEAKER_SHINE_COLOR = 'rgba(255,255,255,0.8)';
 
   // color to be used when liquid fills beaker
-  var FULL_CAP_COLOR = '#72D2F2';
+  var FULL_CAP_COLOR = 'rgba(70,200,238,0.8)';
 
   /**
    * @param {Property.<number>} denominatorProperty
@@ -61,23 +61,24 @@ define( function( require ) {
     var beakerContainer = new Node();
 
     //bottom layer
-    // emptyBeakerBottom is the bottom backside of the beaker
-    var emptyBeakerBottom = new Path( new Shape().moveTo( -radius, 0 ).ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, Math.PI, 2 * Math.PI, false ), {
-        stroke: 'grey'
+    // emptyBeakerBackside is the backside of the beaker
+    var emptyBeakerBackside = new Path( new Shape().moveTo( -radius, 0 )
+        .ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, Math.PI, 2 * Math.PI, false )
+        .verticalLineToRelative( -options.beakerHeight )
+        .ellipticalArc( 0, -options.beakerHeight, radius, radius * options.perspectiveFactor, 0, 2 * Math.PI, Math.PI, true )
+        .verticalLineToRelative( options.beakerHeight ), {
+        stroke: 'grey',
+        fill: emptyFillGradient
+      }
+    );
+    var emptyBeakerBottom = new Path( new Shape()
+        .ellipse( 0, 0, radius, radius * options.perspectiveFactor ), {
+        stroke: 'grey',
+        fill: emptyFillGradient
       }
     );
 
-    //top of the beaker when empty
-    var capPath = new Path( Shape.ellipse( 0, -options.beakerHeight, radius, radius * options.perspectiveFactor ), {
-      fill: emptyFillGradient,
-      opacity: 0.7
-    } );
-
     //middle layer
-    // emptyBeaker is a background for liquidInBeaker
-    var emptyBeaker = createCylinder( radius, options.beakerHeight, options.perspectiveFactor,
-      emptyFillGradient, emptyFillGradient );
-
     // updates how 'full' beaker is when fraction is changed
     filledProperty.link( function( fraction ) {
       var height = fraction * options.beakerHeight;
@@ -95,9 +96,14 @@ define( function( require ) {
     } );
 
     //top layer
-    //front bottom of the beaker
-    var emptyBeakerBottomFront = new Path( new Shape().ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, 2 * Math.PI, Math.PI, false ), {
-        stroke: 'grey'
+    //front of the beaker and tick mark
+    var BeakerFront = new Path( new Shape().moveTo( -radius, 0 )
+        .ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, Math.PI, 2 * Math.PI, true )
+        .verticalLineToRelative( -options.beakerHeight )
+        .ellipticalArc( 0, -options.beakerHeight, radius, radius * options.perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
+        .verticalLineToRelative( options.beakerHeight ), {
+        stroke: 'grey',
+        fill: emptyFillGradient
       }
     );
 
@@ -122,9 +128,8 @@ define( function( require ) {
     } );
 
     // add children to scene graph. z order matters here.
-    options.children = [ emptyBeakerBottom, capPath, beakerContainer, emptyBeaker, tickMarksPath, emptyBeakerBottomFront ];
+    options.children = [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, BeakerFront, tickMarksPath ];
     Node.call( this, options );
-
   }
 
   /**
@@ -149,13 +154,11 @@ define( function( require ) {
       .ellipticalArc( 0, 0, radius, radius * perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
       .verticalLineToRelative( -height )
       .close(), {
-      fill: mainFill,
-      opacity: 0.7
+      fill: mainFill
     } );
 
     // top ellipse of the beaker
     var capPath = new Path( Shape.ellipse( 0, -height, radius, radius * perspectiveFactor ), {
-      opacity: 0.7,
       fill: capFill
     } );
 
@@ -188,5 +191,4 @@ define( function( require ) {
   fractionsIntro.register( 'BeakerNode', BeakerNode );
 
   return inherit( Node, BeakerNode, {} );
-
 } );

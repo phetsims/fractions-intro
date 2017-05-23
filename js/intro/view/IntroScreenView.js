@@ -103,10 +103,11 @@ define( function( require ) {
       } );
 
       // fraction node with spinners on the denominator and numerator
-      var fractionNode = new FractionNode( introModel.numeratorProperty, introModel.denominatorProperty, introModel.maxProperty, {
-        x: 100,
-        bottom: this.layoutBounds.maxY - 10
-      } );
+      var fractionNode = new FractionNode( introModel.numeratorProperty,
+        introModel.denominatorProperty, introModel.maxProperty, {
+          x: 100,
+          bottom: this.layoutBounds.maxY - 10
+        } );
 
       // create bucket node
       var bucketNode = new BucketNode( introModel.representationProperty, introModel.denominatorProperty );
