@@ -25,6 +25,8 @@ define( function( require ) {
     // @public
     this.cells = [];
 
+    this.addCells( denominatorProperty.value );
+
   }
 
   fractionsIntro.register( 'Container', Container );
@@ -55,16 +57,13 @@ define( function( require ) {
     },
 
     /**
-     *
-     * @param {number[]} addRange
+     * @param {number} numberOfCells
      */
-    addCells: function( addRange ) {
-      var addCells = addRange.map( function( index ) {
-        var cell = new Cell();
-        cell.indexProperty.set( index );
-        return cell;
-      } );
-      Array.prototype.push.apply( this.cells, addCells );
+    addCells: function( numberOfCells ) {
+      // add Cells to the container
+      for ( var i = 0; i < numberOfCells; i++ ) {
+        this.cells.push( new Cell() );
+      }
     },
 
     /**

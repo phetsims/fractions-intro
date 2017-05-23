@@ -26,6 +26,8 @@ define( function( require ) {
     // @public
     this.containers = [];
 
+    this.denominatorProperty = denominatorProperty;
+
     // present for the lifetime of the simulation
     maxProperty.link( function( max, oldMax ) {
       var difference = max - oldMax;
@@ -36,33 +38,33 @@ define( function( require ) {
       else if ( difference < 0 ) {
         var removedContainers = self.containers.splice( max - 1, -difference );
       }
-      console.table( self.containers );
       console.table( removedContainers );
     } );
 
     // change the value of the denominator
-    denominatorProperty.link( function( denominator, oldDenominator ) {
-      var delta = denominator - oldDenominator;
-      if ( delta > 0 ) {
+    denominatorProperty.lazyLink( function( denominator, oldDenominator ) {
+      var difference = denominator - oldDenominator;
+      if ( difference > 0 ) {
 
-        // TODO generalize to many add cells
-        // add a Cell to every Container
+        // add cells to every Container
         self.containers.forEach( function( container ) {
-          container.addCells( [ denominator - 1 ] );
+          container.addCells( difference );
         } );
       }
-      else if ( delta < 0 ) {
+      else if ( difference < 0 ) {
 
-        // TODO generalize to remove many cells
-        // remove Cells to every Container
-        var removedCells = self.containers.map( function( container ) {
-          container.cells.pop();
+        // remove top cells for each containers
+        var removedCells = self.containers.reduce( function( accumulator, container ) {
+          return accumulator.concat( container.cells.splice( denominator - 1, -difference ) );
+        }, [] );
+
+        var removedFilledCells = removedCells.filter( function( cell ) {
+          return (cell.isFilledProperty.value === true);
         } );
-
-        // TODO find the removed Cells with IsFilled =true
-        console.log( removedCells );
         // self.reshuffleFilledCells( removedFilledCells );
+        console.table( removedFilledCells );
       }
+      console.table( self.containers );
     } );
 
     // change the value of the numerator
@@ -76,8 +78,8 @@ define( function( require ) {
         self.containers.forEach( function( container ) {
           container.cells.forEach( function( cell ) {
             if ( cell.isFilledProperty.value === false && count > 0 ) {
-              count--;
               cell.isFilledProperty.toggle();
+              count--;
             }
           } );
         } );
@@ -88,8 +90,8 @@ define( function( require ) {
         self.containers.forEach( function( container ) {
           container.cells.forEach( function( cell ) {
             if ( cell.isFilledProperty.value === true && count < 0 ) {
-              count++;
               cell.isFilledProperty.toggle();
+              count++;
             }
           } );
         } );
