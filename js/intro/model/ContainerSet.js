@@ -26,6 +26,7 @@ define( function( require ) {
     // @public
     this.containers = [];
 
+    // @private
     this.denominatorProperty = denominatorProperty;
 
     // present for the lifetime of the simulation
@@ -37,8 +38,9 @@ define( function( require ) {
       }
       else if ( difference < 0 ) {
         var removedContainers = self.containers.splice( max - 1, -difference );
+        console.table( removedContainers );
       }
-      console.table( removedContainers );
+      console.table( self.containers );
     } );
 
     // change the value of the denominator
@@ -69,32 +71,20 @@ define( function( require ) {
 
     // change the value of the numerator
     numeratorProperty.link( function( numerator, oldNumerator ) {
+      var difference = numerator - oldNumerator;
 
-      var delta = numerator - oldNumerator;
-      var count = delta;
-      if ( delta > 0 ) {
+      // numerator is increasing
+      if ( difference > 0 ) {
 
-        // toggle an appropriate number of Cells to isFilled = true
-        self.containers.forEach( function( container ) {
-          container.cells.forEach( function( cell ) {
-            if ( cell.isFilledProperty.value === false && count > 0 ) {
-              cell.isFilledProperty.toggle();
-              count--;
-            }
-          } );
-        } );
+        // toggle isFilled of 'difference' number of cells to false
+        self.toggleIsFilledTo( difference, false );
       }
-      else if ( delta < 0 ) {
 
-        // toggle an appropriate number of Cells to isFilled = false
-        self.containers.forEach( function( container ) {
-          container.cells.forEach( function( cell ) {
-            if ( cell.isFilledProperty.value === true && count < 0 ) {
-              cell.isFilledProperty.toggle();
-              count++;
-            }
-          } );
-        } );
+      // numerator is decreasing
+      else if ( difference < 0 ) {
+
+        // toggle isFilled of '-difference' (a positive number) of cells to true
+        self.toggleIsFilledTo( -difference, true );
       }
     } );
   }
@@ -104,8 +94,9 @@ define( function( require ) {
   return inherit( Object, ContainerSet, {
 
     /**
-     * reshuffles the purge filled cells to remaining containers
+     * Reshuffles the purge filled cells to remaining containers
      * @param {Cell[]} removedFilledCells
+     * @private
      */
     reshuffleFilledCells: function( removedFilledCells ) {
       var count = removedFilledCells.length;
@@ -121,13 +112,34 @@ define( function( require ) {
     },
 
     /**
+     * Add 'numberOfContainers' to ContainerSet
      * @param {number} numberOfContainers
+     * @private
      */
     addContainers: function( numberOfContainers ) {
+
       // add Containers to the set
       for ( var i = 0; i < numberOfContainers; i++ ) {
         this.containers.push( new Container( this.denominatorProperty ) );
       }
+    },
+
+    /**
+     * Toggle the cell value of isFilledProperty to isFilled for 'numberOfCells' cells in ContainerSet
+     * @param {number} numberOfCells
+     * @param {boolean} isFilled
+     * @private
+     */
+    toggleIsFilledTo: function( numberOfCells, isFilled ) {
+
+      this.containers.forEach( function( container ) {
+        container.cells.forEach( function( cell ) {
+          if ( numberOfCells > 0 && cell.isFilledProperty.value === isFilled ) {
+            cell.isFilledProperty.toggle();
+            numberOfCells--;
+          }
+        } );
+      } );
     }
   } );
 } );
