@@ -78,6 +78,9 @@ define( function( require ) {
       console.table( self.containers );
     } );
 
+    // TODO: there is a bug here
+    // If the max number is reduced, it can lower the numerator value
+    // doing so will double count toggle events.
     // change the value of the numerator
     numeratorProperty.link( function( numerator, oldNumerator ) {
       var difference = numerator - oldNumerator;
