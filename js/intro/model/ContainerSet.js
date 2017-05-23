@@ -161,6 +161,7 @@ define( function( require ) {
     /**
      * get Filled Cells Count
      * @param {Cell[]} cells
+     * @returns {number}
      */
     getFilledCellsCount: function( cells ) {
       return this.getFilledCells( cells ).length;
