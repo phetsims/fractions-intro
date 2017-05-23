@@ -43,7 +43,12 @@ define( function( require ) {
         // removed '-difference' containers starting from the end of the array.
         var removedContainers = self.containers.splice( max - 1, -difference );
 
-        console.table( removedContainers );
+        var removedCells = self.flattenContainers( removedContainers );
+
+        var removedFilledCellsCount = self.getFilledCellsCount( removedCells );
+
+        self.toggleIsFilledTo( removedFilledCellsCount, false );
+
       }
       console.table( self.containers );
     } );
@@ -60,19 +65,15 @@ define( function( require ) {
       }
       else if ( difference < 0 ) {
 
-        // remove top cells for each containers
+        // remove top cells for each container
         var removedCells = self.containers.reduce( function( accumulator, container ) {
           return accumulator.concat( container.cells.splice( denominator - 1, -difference ) );
         }, [] );
 
-        // filter removedCells to find only the filled Cells that have been removed
-        var removedFilledCells = removedCells.filter( function( cell ) {
-          return cell.isFilledProperty.value;
-        } );
+        var removeCellsCount = self.getFilledCellsCount( removedCells );
 
-        // self.reshuffleFilledCells( removedFilledCells );
-
-        console.table( removedFilledCells );
+        self.toggleIsFilledTo( removeCellsCount, false );
+        //        self.reshuffleFilledCells( removedFilledCells );
       }
       console.table( self.containers );
     } );
@@ -84,16 +85,18 @@ define( function( require ) {
       // numerator is increasing
       if ( difference > 0 ) {
 
-        // toggle isFilled of 'difference' number of cells to false
+        // toggle isFilled of 'difference' number of cells from false to true
         self.toggleIsFilledTo( difference, false );
       }
 
       // numerator is decreasing
       else if ( difference < 0 ) {
 
-        // toggle isFilled of '-difference' (a positive number) of cells to true
+        // toggle isFilled of '-difference' (a positive number) of cells from true to false
         self.toggleIsFilledTo( -difference, true );
       }
+
+      console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
     } );
   }
 
@@ -109,14 +112,8 @@ define( function( require ) {
     reshuffleFilledCells: function( removedFilledCells ) {
       var count = removedFilledCells.length;
 
-      this.containers.forEach( function( container ) {
-        container.forEach( function( cell ) {
-          if ( cell.isFilledProperty.value === false && count > 0 ) {
-            count--;
-            cell.isFilledProperty.toggle();
-          }
-        } );
-      } );
+      // toggle isFilled of 'count' number of cells from false to true
+      this.toggleIsFilledTo( count, false );
     },
 
     /**
@@ -148,6 +145,35 @@ define( function( require ) {
           }
         } );
       } );
+    },
+
+    /**
+     * get Filled Cells
+     * @param {Cell[]} cells
+     */
+    getFilledCells: function( cells ) {
+      return cells.filter( function( cell ) { return cell.isFilledProperty.value; } );
+    },
+
+    /**
+     * get Filled Cells Count
+     * @param {Cell[]} cells
+     */
+    getFilledCellsCount: function( cells ) {
+      return this.getFilledCells( cells ).length;
+    },
+
+    /**
+     * Flatten an array of containers to an array of cells
+     * @param {Container[]} containers
+     * @returns {Cell[]}
+     */
+    flattenContainers: function( containers ) {
+      return containers.reduce( function( accumulator, container ) {
+        return accumulator.concat( container.cells );
+      }, [] );
+
     }
+
   } );
 } );
