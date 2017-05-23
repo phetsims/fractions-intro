@@ -19,12 +19,12 @@ define( function( require ) {
    */
   function Container( denominatorProperty ) {
 
-    // @private
-    this.denominatorProperty = denominatorProperty;
+    // TODO: why passed denominatorProperty if only the value is needed
 
-    // @public
+    // @public {Cells[]} an array of cells
     this.cells = [];
 
+    // add initial cells to the container
     this.addCells( denominatorProperty.value );
 
   }
@@ -34,52 +34,15 @@ define( function( require ) {
   return inherit( Object, Container, {
 
     /**
-     *
-     * @param {number} cellIndex
-     * @returns {Cell}
-     */
-    getCellWithIndex: function( cellIndex ) {
-      var cellWithIndex = this.cells.filter( function( cell ) {
-        return (cell.indexProperty.value === cellIndex);
-      } );
-      assert && assert( cellWithIndex.length <= 1 );
-      return cellWithIndex[ 0 ];
-    },
-
-    /**
-     * @param {number} index
-     * @returns {boolean}
+     * add a number of cells to the container
+     * @param {number} numberOfCells
      * @public
      */
-    isCellWithIndexEmpty: function( index ) {
-      var cell = this.getCellWithIndex( index );
-      return cell.isFilledProperty.value === false;
-    },
-
-    /**
-     * @param {number} numberOfCells
-     */
     addCells: function( numberOfCells ) {
+
       // add Cells to the container
       for ( var i = 0; i < numberOfCells; i++ ) {
         this.cells.push( new Cell() );
-      }
-    },
-
-    /**
-     * @param {number} cellIndex
-     * @public
-     */
-    removeCellWithIndex: function( cellIndex ) {
-      assert && assert( !this.isCellWithIndexEmpty( cellIndex ) );
-
-      // do not assume the cells are sorted
-      var cell = this.getCellWithIndex( cellIndex );
-      for ( var i = 0; i < this.cells.length; i++ ) {
-        if ( this.cells[ i ] === cell ) {
-          this.cells.splice( i, 1 );
-          break;
-        }
       }
     }
 
