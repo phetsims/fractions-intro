@@ -80,10 +80,7 @@ define( function( require ) {
 
     // updates the isFilledProperty of cells upon the change of the numerator
     numeratorProperty.link( function( numerator, oldNumerator ) {
-      var difference = numerator - oldNumerator;
-
-      // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
-      if ( oldNumerator / denominatorProperty.value < maxProperty.value ) {
+        var difference = numerator - oldNumerator;
 
         // numerator is increasing
         if ( difference > 0 ) {
@@ -95,13 +92,16 @@ define( function( require ) {
         // numerator is decreasing
         else if ( difference < 0 ) {
 
+          // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
+          if ( oldNumerator / denominatorProperty.value <= maxProperty.value ) {
 
-          // toggle isFilled of '-difference' (a positive number) of cells from true to false
-          self.toggleIsFilledTo( -difference, true );
+            // toggle isFilled of '-difference' (a positive number) of cells from true to false
+            self.toggleIsFilledTo( -difference, true );
+          }
         }
+        console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
       }
-      console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
-    } );
+    );
   }
 
   fractionsIntro.register( 'ContainerSet', ContainerSet );
@@ -181,4 +181,5 @@ define( function( require ) {
     }
 
   } );
-} );
+} )
+;
