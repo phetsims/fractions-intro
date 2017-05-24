@@ -8,10 +8,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -53,7 +55,7 @@ define( function( require ) {
       {
         value: Representation.VERTICAL_BAR,
         node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
-          fill: '#56B6DE',
+          fill: '#FFE600',
           lineWidth: 2,
           stroke: 'black'
         } )
@@ -61,9 +63,9 @@ define( function( require ) {
 
       {
         value: Representation.BEAKER,
-        node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
-          fill: '#563329',
-          stroke: 'black'
+        node: new BeakerNode( new NumberProperty( 1 ), new NumberProperty( 1 ), {
+          beakerWidth: 30,
+          beakerHeight: 50
         } )
       },
       {
