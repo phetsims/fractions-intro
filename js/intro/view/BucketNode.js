@@ -17,12 +17,13 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var Text = require( 'SCENERY/nodes/Text' );
 
   //constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
@@ -63,6 +64,9 @@ define( function( require ) {
       fill: 'red'
     } );
 
+    var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty, new NumberProperty( 1 ),
+      { interactive: false, font: new PhetFont( { size: 24 } ), dividingLineLength: 14, dividingLineWidth: 2 } );
+
     var bucketHole = new BucketHole( this.bucket, IDENTITY_TRANSFORM );
 
     representationProperty.link( function( representation ) {
@@ -75,10 +79,7 @@ define( function( require ) {
           options.children = [ bucketHole, bucketFront ];
           break;
         default:
-          bucketFront.setLabel( new Text( 'go to work?', {
-            font: new PhetFont( 20 ),
-            fill: 'red'
-          } ) );
+          bucketFront.setLabel( fractionNode );
           options.children = [ bucketHole, bucketFront ];
           break;
       }

@@ -45,7 +45,8 @@ define( function( require ) {
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, options.dividingLineLength, 0, {
-      lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.fill } );
+      lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.fill
+    } );
 
     // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
@@ -94,10 +95,9 @@ define( function( require ) {
       } );
     }
 
-
     // Specify the children to be rendered with this node
-    options.children = [ line, numeratorNode, denominatorNode];
-    if (options.interactive ){
+    options.children = [ line, numeratorNode, denominatorNode ];
+    if ( options.interactive ) {
       options.children.push( spinnerVBox );
     }
     Node.call( this, options );
