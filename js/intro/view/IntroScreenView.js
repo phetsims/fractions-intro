@@ -110,7 +110,7 @@ define( function( require ) {
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel.representationProperty, introModel.denominatorProperty );
+      var bucketNode = new BucketNode( introModel.representationProperty, introModel.denominatorProperty, introModel.segmentProperty );
 
       var options = {
         children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel, bucketNode ]

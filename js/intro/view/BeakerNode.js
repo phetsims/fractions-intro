@@ -37,6 +37,7 @@ define( function( require ) {
     options = _.extend( {
       beakerWidth: 10,
       beakerHeight: 70,
+      tickWidth: 3,
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );
 
@@ -108,7 +109,7 @@ define( function( require ) {
     );
 
     // node for ticks
-    var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: 3 } );
+    var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: options.tickWidth } );
 
     // updates ticks when denominator is changed
     denominatorProperty.link( function( denominator ) {

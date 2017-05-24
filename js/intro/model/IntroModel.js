@@ -43,6 +43,12 @@ define( function( require ) {
         return numerator / denominator;
       } );
 
+    // @public (read-only) {Property.<number>}
+    this.segmentProperty = new DerivedProperty( [ this.denominatorProperty ],
+      function( denominator ) {
+        return 1 / denominator;
+      } );
+
     // @private
     this.containerSet = new ContainerSet( this.numeratorProperty, this.denominatorProperty,
       this.maxProperty );

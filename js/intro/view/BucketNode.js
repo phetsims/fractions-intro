@@ -11,19 +11,21 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Dimension2 = require( 'DOT/Dimension2' );
 
   //constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
@@ -32,10 +34,11 @@ define( function( require ) {
    *
    * @param {Property.<number>} representationProperty
    * @param {Property.<number>} denominatorProperty
+   * @param {Property.<number>} segmentProperty
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( representationProperty, denominatorProperty, options ) {
+  function BucketNode( representationProperty, denominatorProperty, segmentProperty, options ) {
     var self = this;
     options = _.extend( {
       bucketPosition: new Vector2( 500, 480 ),
@@ -60,26 +63,35 @@ define( function( require ) {
       } )
     } );
 
-    var circle = new Circle( 50, {
-      fill: 'red'
+    var beakerIcon = new BeakerNode( denominatorProperty, segmentProperty, {
+      beakerWidth: 17,
+      beakerHeight: 40,
+      tickWidth: 1
     } );
 
-    var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty, new NumberProperty( 1 ),
-      { interactive: false, font: new PhetFont( { size: 24 } ), dividingLineLength: 14, dividingLineWidth: 2 } );
+    // this function creates an HBox with an icon and a fraction
+    var createLabelBox = function( icon ) {
+      var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty, new NumberProperty( 1 ),
+        { interactive: false, font: new PhetFont( { size: 24 } ), dividingLineLength: 14, dividingLineWidth: 2 } );
+      return new HBox( {
+        align: 'center',
+        spacing: 10,
+        children: [ icon, fractionNode ]
+      } );
+    };
 
     var bucketHole = new BucketHole( this.bucket, IDENTITY_TRANSFORM );
-
     representationProperty.link( function( representation ) {
       switch( representation ) {
         case 'number-line':
           options.children = [];
           break;
         case 'beaker':
-          bucketFront.setLabel( circle );
+          bucketFront.setLabel( createLabelBox( beakerIcon ) );
           options.children = [ bucketHole, bucketFront ];
           break;
         default:
-          bucketFront.setLabel( fractionNode );
+          bucketFront.setLabel( createLabelBox( new Node() ) );
           options.children = [ bucketHole, bucketFront ];
           break;
       }
