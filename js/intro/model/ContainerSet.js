@@ -78,27 +78,28 @@ define( function( require ) {
       console.table( self.containers );
     } );
 
-    // TODO: there is a bug here
-    // If the max number is reduced, it can lower the numerator value
-    // doing so will double count toggle events.
-    // change the value of the numerator
+    // updates the isFilledProperty of cells upon the change of the numerator
     numeratorProperty.link( function( numerator, oldNumerator ) {
       var difference = numerator - oldNumerator;
 
-      // numerator is increasing
-      if ( difference > 0 ) {
+      // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
+      if ( oldNumerator / denominatorProperty.value < maxProperty.value ) {
 
-        // toggle isFilled of 'difference' number of cells from false to true
-        self.toggleIsFilledTo( difference, false );
+        // numerator is increasing
+        if ( difference > 0 ) {
+
+          // toggle isFilled of 'difference' number of cells from false to true
+          self.toggleIsFilledTo( difference, false );
+        }
+
+        // numerator is decreasing
+        else if ( difference < 0 ) {
+
+
+          // toggle isFilled of '-difference' (a positive number) of cells from true to false
+          self.toggleIsFilledTo( -difference, true );
+        }
       }
-
-      // numerator is decreasing
-      else if ( difference < 0 ) {
-
-        // toggle isFilled of '-difference' (a positive number) of cells from true to false
-        self.toggleIsFilledTo( -difference, true );
-      }
-
       console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
     } );
   }
