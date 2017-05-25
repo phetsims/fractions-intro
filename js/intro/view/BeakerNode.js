@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -35,8 +36,8 @@ define( function( require ) {
   function BeakerNode( denominatorProperty, filledProperty, options ) {
 
     options = _.extend( {
-      beakerWidth: 10,
-      beakerHeight: 70,
+      beakerWidth: IntroConstants.BEAKER_WIDTH,
+      beakerHeight: IntroConstants.BEAKER_LENGTH,
       tickWidth: 3,
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );

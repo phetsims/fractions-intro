@@ -20,7 +20,7 @@ define( function( require ) {
   var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
 
   // constants
-  var FONT_SIZE = 36;
+  var FONT_SIZE = 32;
 
   // strings
   var maxString = require( 'string!FRACTIONS_INTRO/max' );

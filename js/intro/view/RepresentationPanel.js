@@ -31,14 +31,14 @@ define( function( require ) {
       fill: '#efe8e1',
       iconScale: 1,
       xMargin: 10,
-      yMargin: 7
+      yMargin: 10
     }, options );
 
     // TODO get the size and color from the java simulation
     var content = new RadioButtonGroup( representationProperty, [
       {
         value: Representation.CIRCLE,
-        node: new Circle( 15 * options.iconScale, {
+        node: new Circle( 20 * options.iconScale, {
           fill: '#8EC53F',
           lineWidth: 2,
           stroke: 'black'
@@ -54,7 +54,7 @@ define( function( require ) {
       },
       {
         value: Representation.VERTICAL_BAR,
-        node: new Rectangle( 0, 0, 35 * options.iconScale, 60 * options.iconScale, {
+        node: new Rectangle( 0, 0, 40 * options.iconScale, 60 * options.iconScale, {
           fill: '#FFE600',
           lineWidth: 2,
           stroke: 'black'
@@ -84,7 +84,9 @@ define( function( require ) {
       orientation: 'horizontal',
       baseColor: 'white',
       cornerRadius: 10,
-      spacing: 12
+      spacing: 12,
+      buttonContentXMargin: 14,
+      buttonContentYMargin: 20
     } );
 
     Panel.call( this, content, options );

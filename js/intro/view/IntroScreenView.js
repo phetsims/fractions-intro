@@ -15,6 +15,7 @@ define( function( require ) {
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
     var inherit = require( 'PHET_CORE/inherit' );
+    var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
     var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
@@ -84,14 +85,14 @@ define( function( require ) {
         introModel.denominatorProperty,
         introModel.maxProperty,
         new NumberProperty( 1 ), {
-          left: 10,
-          top: representationPanel.bottom + 60
+          left: 5,
+          top: representationPanel.bottom + 70
         } );
 
       // create beaker node
       var beakerNode = new BeakerNode( introModel.denominatorProperty, introModel.fractionProperty, {
-        beakerWidth: 80,
-        beakerHeight: 200,
+        beakerWidth: IntroConstants.BEAKER_WIDTH,
+        beakerHeight: IntroConstants.BEAKER_LENGTH,
         centerX: this.layoutBounds.centerX,
         top: representationPanel.bottom + 60
       } );
@@ -130,15 +131,15 @@ define( function( require ) {
 
       // create spinner controlling the maximum
       var maxSpinner = new MaxSpinner( introModel.maxProperty, {
-        right: this.layoutBounds.maxX - 10,
-        y: this.layoutBounds.minY + 80
+        right: this.layoutBounds.maxX - 15,
+        y: this.layoutBounds.minY + 50
       } );
 
       // fraction node with spinners on the denominator and numerator
       var fractionNode = new FractionNode( introModel.numeratorProperty,
         introModel.denominatorProperty, introModel.maxProperty, {
-          x: 100,
-          bottom: this.layoutBounds.maxY - 10
+          x: 120,
+          bottom: this.layoutBounds.maxY - 5
         } );
 
       // create bucket node
@@ -152,7 +153,7 @@ define( function( require ) {
       imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
         image11, image12, image13, image14, image15, image16, image17, image18, image19, image20 );
 
-      var transparencyProperty = new NumberProperty( 0.5 );
+      var transparencyProperty = new NumberProperty( 0 );
       var transparencySlider = new HSlider( transparencyProperty, {
         min: 0,
         max: 1

@@ -32,9 +32,9 @@ define( function( require ) {
 
     options = _.extend( {
       fill: 'black',
-      font: new PhetFont( { size: 84 } ),
-      dividingLineLength: 80,
-      dividingLineWidth: 4,
+      font: new PhetFont( { size: 110 } ),
+      dividingLineLength: 150,
+      dividingLineWidth: 10,
 
       // By default the fraction node is interactive, which means it has up/down spinners
       // Those spinners can be removed if the fraction node will be used as a label for underneath the number line
@@ -63,7 +63,7 @@ define( function( require ) {
 
     // alters the position of the numeratorNode and denominatorNode vertically and horizontally
     numeratorNode.mutate( { centerX: line.centerX, bottom: line.bounds.minY - 2 } );
-    denominatorNode.mutate( { centerX: line.centerX, top: line.bounds.maxY - 2 } );
+    denominatorNode.mutate( { centerX: line.centerX, top: line.bounds.maxY + 2 } );
 
     // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxProperty
     if ( options.interactive ) {
@@ -88,9 +88,9 @@ define( function( require ) {
 
       // Aligns the numeratorSpinner and denominatorSpinner vertically
       var spinnerVBox = new VBox( {
-        spacing: 20,
+        spacing: 70,
         children: [ numeratorSpinner, denominatorSpinner ],
-        left: line.bounds.maxX + 5,
+        right: line.bounds.minX - 5,
         centerY: line.bounds.centerY
       } );
     }
