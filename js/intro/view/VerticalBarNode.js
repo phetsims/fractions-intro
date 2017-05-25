@@ -40,8 +40,9 @@ define( function( require ) {
     var setOfContainers = new HBox( options );
     this.addChild( setOfContainers );
 
-    // add listener to container sets
-    introModel.containerSet.containersEmitter.addListener( function() {
+    // function for displaying the containers
+    function displayContainers() {
+
       var containersLayer = [];
 
       // loop over all the containers in the container set
@@ -87,8 +88,15 @@ define( function( require ) {
       setOfContainers.setChildren( containersLayer );
       self.centerX = options.centerX;
       self.top = 150;
-    } );
+    }
 
+    // needs to be called once or the beginning state of the containers will not be displayed
+    displayContainers();
+
+    // add listener to container sets
+    introModel.containerSet.containersEmitter.addListener( function() {
+      displayContainers();
+    } );
   }
 
   fractionsIntro.register( 'VerticalBarNode', VerticalBarNode );
