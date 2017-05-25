@@ -32,27 +32,27 @@ define( function( require ) {
     var HSlider = require( 'SUN/HSlider' );
 
     // images
-    var image0 = require( 'image!FRACTIONS_INTRO/0.PNG' );
-    var image1 = require( 'image!FRACTIONS_INTRO/1.PNG' );
-    var image2 = require( 'image!FRACTIONS_INTRO/2.PNG' );
-    var image3 = require( 'image!FRACTIONS_INTRO/3.PNG' );
-    var image4 = require( 'image!FRACTIONS_INTRO/4.PNG' );
-    var image5 = require( 'image!FRACTIONS_INTRO/5.PNG' );
-    var image6 = require( 'image!FRACTIONS_INTRO/6.PNG' );
-    var image7 = require( 'image!FRACTIONS_INTRO/7.PNG' );
-    var image8 = require( 'image!FRACTIONS_INTRO/8.PNG' );
-    var image9 = require( 'image!FRACTIONS_INTRO/9.PNG' );
-    var image10 = require( 'image!FRACTIONS_INTRO/10.PNG' );
-    var image11 = require( 'image!FRACTIONS_INTRO/11.PNG' );
-    var image12 = require( 'image!FRACTIONS_INTRO/12.PNG' );
-    var image13 = require( 'image!FRACTIONS_INTRO/13.PNG' );
-    var image14 = require( 'image!FRACTIONS_INTRO/14.PNG' );
-    var image15 = require( 'image!FRACTIONS_INTRO/15.PNG' );
-    var image16 = require( 'image!FRACTIONS_INTRO/16.PNG' );
-    var image17 = require( 'image!FRACTIONS_INTRO/17.PNG' );
-    var image18 = require( 'image!FRACTIONS_INTRO/18.PNG' );
-    var image19 = require( 'image!FRACTIONS_INTRO/19.PNG' );
-    var image20 = require( 'image!FRACTIONS_INTRO/20.PNG' );
+    var image0 = require( 'image!FRACTIONS_INTRO/0.png' );
+    var image1 = require( 'image!FRACTIONS_INTRO/1.png' );
+    var image2 = require( 'image!FRACTIONS_INTRO/2.png' );
+    var image3 = require( 'image!FRACTIONS_INTRO/3.png' );
+    var image4 = require( 'image!FRACTIONS_INTRO/4.png' );
+    var image5 = require( 'image!FRACTIONS_INTRO/5.png' );
+    var image6 = require( 'image!FRACTIONS_INTRO/6.png' );
+    var image7 = require( 'image!FRACTIONS_INTRO/7.png' );
+    var image8 = require( 'image!FRACTIONS_INTRO/8.png' );
+    var image9 = require( 'image!FRACTIONS_INTRO/9.png' );
+    var image10 = require( 'image!FRACTIONS_INTRO/10.png' );
+    var image11 = require( 'image!FRACTIONS_INTRO/11.png' );
+    var image12 = require( 'image!FRACTIONS_INTRO/12.png' );
+    var image13 = require( 'image!FRACTIONS_INTRO/13.png' );
+    var image14 = require( 'image!FRACTIONS_INTRO/14.png' );
+    var image15 = require( 'image!FRACTIONS_INTRO/15.png' );
+    var image16 = require( 'image!FRACTIONS_INTRO/16.png' );
+    var image17 = require( 'image!FRACTIONS_INTRO/17.png' );
+    var image18 = require( 'image!FRACTIONS_INTRO/18.png' );
+    var image19 = require( 'image!FRACTIONS_INTRO/19.png' );
+    var image20 = require( 'image!FRACTIONS_INTRO/20.png' );
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
