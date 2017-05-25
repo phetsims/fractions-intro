@@ -44,6 +44,17 @@ define( function( require ) {
       for ( var i = 0; i < numberOfCells; i++ ) {
         this.cells.push( new Cell() );
       }
+    },
+
+    /**
+     * check if the container contains an occupied cell
+     * @returns {boolean}
+     * @public
+     */
+    isContainerEmpty: function() {
+      return this.cells.every( function( cell ) {
+        return !cell.isFilledProperty.value;
+      } );
     }
 
   } );

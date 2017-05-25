@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Emitter = require( 'AXON/Emitter' );
   var Container = require( 'FRACTIONS_INTRO/intro/model/Container' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -28,6 +29,8 @@ define( function( require ) {
 
     // @private
     this.denominatorProperty = denominatorProperty;
+
+    this.containersEmitter = new Emitter();
 
     // present for the lifetime of the simulation
     maxProperty.link( function( max, oldMax ) {
@@ -50,6 +53,7 @@ define( function( require ) {
         self.toggleIsFilledTo( removedFilledCellsCount, false );
 
       }
+      self.containersEmitter.emit();
       console.table( self.containers );
     } );
 
@@ -75,6 +79,7 @@ define( function( require ) {
         self.toggleIsFilledTo( removeCellsCount, false );
         //        self.reshuffleFilledCells( removedFilledCells );
       }
+      self.containersEmitter.emit();
       console.table( self.containers );
     } );
 
@@ -99,6 +104,7 @@ define( function( require ) {
             self.toggleIsFilledTo( -difference, true );
           }
         }
+        self.containersEmitter.emit();
         console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
       }
     );
@@ -181,5 +187,4 @@ define( function( require ) {
     }
 
   } );
-} )
-;
+} );

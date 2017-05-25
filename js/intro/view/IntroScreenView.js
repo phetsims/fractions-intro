@@ -24,6 +24,7 @@ define( function( require ) {
     var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
+    var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Temporary images and modules used to find true position of elements based on original simulation
@@ -97,6 +98,10 @@ define( function( require ) {
         top: representationPanel.bottom + 60
       } );
 
+      var verticalBarNode = new VerticalBarNode( introModel, {
+        centerX: self.layoutBounds.centerX
+      } );
+
       // generic node storing the various representation
       var representationsNode = new Node();
 
@@ -113,7 +118,7 @@ define( function( require ) {
             // representationsNode.addChild( horizontalBarNode );
             break;
           case Representation.VERTICAL_BAR:
-            // representationsNode.addChild( verticalBarNode );
+            representationsNode.addChild( verticalBarNode );
             break;
           case Representation.BEAKER:
             representationsNode.addChild( beakerNode );
