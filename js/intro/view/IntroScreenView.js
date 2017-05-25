@@ -24,6 +24,37 @@ define( function( require ) {
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Temporary images and modules used to find true position of elements based on original simulation
+    var RangeWithValue = require( 'DOT/RangeWithValue' );
+    var NumberSpinner = require( 'SUN/NumberSpinner' );
+    var Image = require( 'SCENERY/nodes/Image' );
+    var HSlider = require( 'SUN/HSlider' );
+
+    // images
+    var image0 = require( 'image!FRACTIONS_INTRO/0.PNG' );
+    var image1 = require( 'image!FRACTIONS_INTRO/1.PNG' );
+    var image2 = require( 'image!FRACTIONS_INTRO/2.PNG' );
+    var image3 = require( 'image!FRACTIONS_INTRO/3.PNG' );
+    var image4 = require( 'image!FRACTIONS_INTRO/4.PNG' );
+    var image5 = require( 'image!FRACTIONS_INTRO/5.PNG' );
+    var image6 = require( 'image!FRACTIONS_INTRO/6.PNG' );
+    var image7 = require( 'image!FRACTIONS_INTRO/7.PNG' );
+    var image8 = require( 'image!FRACTIONS_INTRO/8.PNG' );
+    var image9 = require( 'image!FRACTIONS_INTRO/9.PNG' );
+    var image10 = require( 'image!FRACTIONS_INTRO/10.PNG' );
+    var image11 = require( 'image!FRACTIONS_INTRO/11.PNG' );
+    var image12 = require( 'image!FRACTIONS_INTRO/12.PNG' );
+    var image13 = require( 'image!FRACTIONS_INTRO/13.PNG' );
+    var image14 = require( 'image!FRACTIONS_INTRO/14.PNG' );
+    var image15 = require( 'image!FRACTIONS_INTRO/15.PNG' );
+    var image16 = require( 'image!FRACTIONS_INTRO/16.PNG' );
+    var image17 = require( 'image!FRACTIONS_INTRO/17.PNG' );
+    var image18 = require( 'image!FRACTIONS_INTRO/18.PNG' );
+    var image19 = require( 'image!FRACTIONS_INTRO/19.PNG' );
+    var image20 = require( 'image!FRACTIONS_INTRO/20.PNG' );
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * @param {IntroModel} introModel
      * @constructor
@@ -31,6 +62,7 @@ define( function( require ) {
     function IntroScreenView( introModel ) {
 
       ScreenView.call( this );
+      var self = this;
 
       // Reset All button
       var resetAllButton = new ResetAllButton( {
@@ -110,10 +142,46 @@ define( function( require ) {
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel.representationProperty, introModel.denominatorProperty, introModel.segmentProperty );
+      var bucketNode = new BucketNode( introModel.representationProperty,
+        introModel.denominatorProperty, introModel.segmentProperty );
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      // Temporary code used to find true of elements based on original simulation
+      // image list
+      var imageList = [];
+      imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
+        image11, image12, image13, image14, image15, image16, image17, image18, image19, image20 );
+
+      var transparencyProperty = new NumberProperty( 0.5 );
+      var transparencySlider = new HSlider( transparencyProperty, {
+        min: 0,
+        max: 1
+      }, { right: this.layoutBounds.maxX - 10, bottom: resetAllButton.top - 10 } );
+
+      var pictureIndex = new NumberProperty( 0 );
+      var range = new RangeWithValue( 0, 20, 0 );
+      var pictureSpinner = new NumberSpinner( pictureIndex, range, {
+        right: this.layoutBounds.maxX - 20,
+        bottom: resetAllButton.top - 80
+      } );
+
+      var pictureNode = new Node();
+      transparencyProperty.link( function( transparency ) {
+        pictureNode.opacity = transparency;
+      } );
+      pictureIndex.link( function( number ) {
+        pictureNode.removeAllChildren();
+        var img = new Image( imageList[ number ] );
+        pictureNode.addChild( img );
+        var width = pictureNode.width;
+        var height = pictureNode.height;
+        pictureNode.scale( self.layoutBounds.width / width, self.layoutBounds.height / height );
+      } );
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       var options = {
-        children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel, bucketNode ]
+        children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel, bucketNode,
+          transparencySlider, pictureSpinner, pictureNode ]
       };
       this.mutate( options );
     }
