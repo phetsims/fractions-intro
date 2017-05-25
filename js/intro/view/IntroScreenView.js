@@ -161,7 +161,7 @@ define( function( require ) {
       var transparencyProperty = new NumberProperty( 0 );
       var transparencySlider = new HSlider( transparencyProperty, {
         min: 0,
-        max: 1
+        max: .8
       }, { right: this.layoutBounds.maxX - 10, bottom: resetAllButton.top - 10 } );
 
       var pictureIndex = new NumberProperty( 0 );
