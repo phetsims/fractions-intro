@@ -57,7 +57,7 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    // Bucket model to be filled with shape sections
+    // Bucket model to be filled with dataPoint
     // @public read-only
     this.bucket = new Bucket( {
       position: options.bucketPosition,
@@ -123,5 +123,5 @@ define( function( require ) {
   }
 
   fractionsIntro.register( 'BucketNode', BucketNode );
-  return inherit( Node, BucketNode );
+  return inherit( Node, BucketNode, {} );
 } );

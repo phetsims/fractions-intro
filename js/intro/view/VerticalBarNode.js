@@ -17,8 +17,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constant
-  var CONTAINER_WIDTH = 100;
-  var CONTAINER_HEIGHT = 200;
+  var CONTAINER_WIDTH = 130;
+  var CONTAINER_HEIGHT = 185;
+  var RECTANGLE_SPACING = 22;
+  var RECTANGLE_TOP = 160;
 
   /**
    *
@@ -29,7 +31,7 @@ define( function( require ) {
   function VerticalBarNode( introModel, options ) {
     options = _.extend( {
         align: 'center',
-        spacing: 10
+        spacing: RECTANGLE_SPACING
       },
       options );
 
@@ -87,7 +89,7 @@ define( function( require ) {
 
       setOfContainers.setChildren( containersLayer );
       self.centerX = options.centerX;
-      self.top = 150;
+      self.top = RECTANGLE_TOP;
     }
 
     // needs to be called once or the beginning state of the containers will not be displayed

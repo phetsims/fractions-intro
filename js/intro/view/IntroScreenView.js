@@ -152,7 +152,7 @@ define( function( require ) {
         introModel.denominatorProperty, introModel.segmentProperty );
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // Temporary code used to find true of elements based on original simulation
+      // Temporary code used to find true position of elements based on original simulation
       // image list
       var imageList = [];
       imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
