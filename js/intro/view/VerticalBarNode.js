@@ -39,7 +39,7 @@ define( function( require ) {
     var self = this;
 
     // A HBox to hold the set of containers
-    var setOfContainers = new HBox( {align : options.align, spacing:options.spacing} );
+    var setOfContainers = new HBox( { align: options.align, spacing: options.spacing } );
     this.addChild( setOfContainers );
 
     // function for displaying the containers
@@ -75,7 +75,7 @@ define( function( require ) {
             fill: cellFill,
             lineWidth: 1,
             stroke: containerStroke,
-            top: index * cellHeight
+            bottom: CONTAINER_HEIGHT - (index * cellHeight)
           } );
 
           cellsRectangle.push( cellRectangle );

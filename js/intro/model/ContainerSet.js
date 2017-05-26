@@ -147,14 +147,21 @@ define( function( require ) {
      */
     toggleIsFilledTo: function( numberOfCells, isFilled ) {
 
-      this.containers.forEach( function( container ) {
-        container.cells.forEach( function( cell ) {
+      // the cells being toggled from true to false should be the last cells of the last container
+      // the cells being toggled from false to true should be the first cells of the first container
+      // the array should be reversed if the user is decreasing the fraction (isFilled is false)
+      var orderedContainer = isFilled ? this.containers.slice().reverse():this.containers;
+      orderedContainer.forEach( function( container ) {
+
+        // the array should be reversed if the user is decreasing the fraction (isFilled is false)
+        var orderedCells = isFilled ? container.cells.slice().reverse():container.cells;
+        orderedCells.forEach( function( cell ) {
           if ( numberOfCells > 0 && cell.isFilledProperty.value === isFilled ) {
             cell.isFilledProperty.toggle();
             numberOfCells--;
           }
-        } );
-      } );
+        });
+      });
     },
 
     /**
