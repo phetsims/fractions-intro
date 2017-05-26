@@ -88,7 +88,7 @@ define( function( require ) {
 
       // Aligns the numeratorSpinner and denominatorSpinner vertically
       var spinnerVBox = new VBox( {
-        spacing: 70,
+        spacing: 50,
         children: [ numeratorSpinner, denominatorSpinner ],
         right: line.bounds.minX - 5,
         centerY: line.bounds.centerY
