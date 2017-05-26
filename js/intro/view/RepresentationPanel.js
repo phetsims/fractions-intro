@@ -75,7 +75,7 @@ define( function( require ) {
       {
         value: Representation.CAKE,
         node: new Image( cakeImage, {
-          maxHeight: 80
+          maxHeight: 60
         } )
       },
       {
