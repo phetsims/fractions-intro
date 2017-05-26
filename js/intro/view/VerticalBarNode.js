@@ -39,7 +39,7 @@ define( function( require ) {
     var self = this;
 
     // A HBox to hold the set of containers
-    var setOfContainers = new HBox( options );
+    var setOfContainers = new HBox( {align : options.align, spacing:options.spacing} );
     this.addChild( setOfContainers );
 
     // function for displaying the containers
