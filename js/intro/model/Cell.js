@@ -22,7 +22,7 @@ define( function( require ) {
   function Cell() {
 
     // @private {Property.<Vector2>}
-    this.positionProperty = new Property( new Vector2( 0, 0 ) );
+    this.positionProperty = new Property( Vector2.ZERO );
 
     // @private {Property.<boolean>}
     this.isDraggedProperty = new BooleanProperty( false );
