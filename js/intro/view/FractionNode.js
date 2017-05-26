@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Node for the fraction with up/down spinners for numerator/denominator
+ * Node for the pure fraction with numerator/denominator
  *
  * @author Michael Moorer (Berea College)
  * @author Vincent Davis (Berea College)
@@ -11,41 +11,42 @@ define( function( require ) {
 
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} maxProperty
    * @param {Object} [options]
    * @constructor
    */
-  function FractionNode( numeratorProperty, denominatorProperty, maxProperty, options ) {
+  function FractionNode( numeratorProperty, denominatorProperty, options ) {
 
     options = _.extend( {
       fill: 'black',
       font: new PhetFont( { size: 110 } ),
       dividingLineLength: 150,
-      dividingLineWidth: 10,
-
-      // By default the fraction node is interactive, which means it has up/down spinners
-      // Those spinners can be removed if the fraction node will be used as a label for underneath the number line
-      interactive: true
+      dividingLineWidth: 10
     }, options );
-
-    var numeratorNode = new Text( numeratorProperty.get(), { font: options.font, fill: options.fill } );
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, options.dividingLineLength, 0, {
       lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.fill
+    } );
+
+    // creates numerator node
+    var numeratorNode = new Text( numeratorProperty.get(), {
+      font: options.font, fill: options.fill,
+      centerX: line.centerX, bottom: line.bounds.minY - 2
+    } );
+
+    // creates denominator node
+    var denominatorNode = new Text( denominatorProperty.get(), {
+      font: options.font, fill: options.fill,
+      centerX: line.centerX, top: line.bounds.maxY + 2
     } );
 
     // centers the numeratorNode horizontally between the division line
@@ -55,55 +56,18 @@ define( function( require ) {
     } );
 
     // centers the denominatorNode horizontally between the division line
-    var denominatorNode = new Text( denominatorProperty.get(), { font: options.font, fill: options.fill } );
     denominatorProperty.link( function( value ) {
       denominatorNode.text = value;
       denominatorNode.centerX = line.centerX;
     } );
 
-    // alters the position of the numeratorNode and denominatorNode vertically and horizontally
-    numeratorNode.mutate( { centerX: line.centerX, bottom: line.bounds.minY - 2 } );
-    denominatorNode.mutate( { centerX: line.centerX, top: line.bounds.maxY + 2 } );
-
-    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxProperty
-    if ( options.interactive ) {
-      var numeratorUpEnabledProperty = new DerivedProperty(
-        [ numeratorProperty, denominatorProperty, maxProperty ],
-        function( numerator, denominator, max ) { return numerator < denominator * max; } );
-      var numeratorDownEnabledProperty = new DerivedProperty(
-        [ numeratorProperty ],
-        function( numerator ) { return numerator > 0; } );
-      var denominatorUpEnabledProperty = new DerivedProperty(
-        [ denominatorProperty ],
-        function( denominator ) { return denominator < IntroConstants.DENOMINATOR_RANGE.max; } );
-      var denominatorDownEnabledProperty = new DerivedProperty(
-        [ numeratorProperty, denominatorProperty, maxProperty ],
-        function( numerator, denominator, max ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;} );
-
-      // creates spinner that is linked to the numeratorProperty
-      var numeratorSpinner = new UpDownSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty );
-
-      // creates spinner that is linked to the denominatorProperty
-      var denominatorSpinner = new UpDownSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty );
-
-      // Aligns the numeratorSpinner and denominatorSpinner vertically
-      var spinnerVBox = new VBox( {
-        spacing: 50,
-        children: [ numeratorSpinner, denominatorSpinner ],
-        right: line.bounds.minX - 5,
-        centerY: line.bounds.centerY
-      } );
-    }
-
     // Specify the children to be rendered with this node
     options.children = [ line, numeratorNode, denominatorNode ];
-    if ( options.interactive ) {
-      options.children.push( spinnerVBox );
-    }
     Node.call( this, options );
   }
 
   fractionsIntro.register( 'FractionNode', FractionNode );
 
   return inherit( Node, FractionNode );
+
 } );

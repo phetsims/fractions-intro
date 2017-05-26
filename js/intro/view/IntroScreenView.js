@@ -13,7 +13,7 @@ define( function( require ) {
     var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
     var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-    var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
+    var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
     var inherit = require( 'PHET_CORE/inherit' );
     var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
     var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
@@ -141,7 +141,7 @@ define( function( require ) {
       } );
 
       // fraction node with spinners on the denominator and numerator
-      var fractionNode = new FractionNode( introModel.numeratorProperty,
+      var fractionNode = new FractionWithSpinners( introModel.numeratorProperty,
         introModel.denominatorProperty, introModel.maxProperty, {
           x: 120,
           bottom: this.layoutBounds.maxY - 5
@@ -152,7 +152,7 @@ define( function( require ) {
         introModel.denominatorProperty, introModel.segmentProperty );
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // Temporary code used to find true position of elements based on original simulation
+      // Temporary code used to find true of elements based on original simulation
       // image list
       var imageList = [];
       imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,

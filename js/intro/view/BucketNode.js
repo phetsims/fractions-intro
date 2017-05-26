@@ -81,8 +81,8 @@ define( function( require ) {
 
     // this function creates an HBox with an icon and a fraction
     var createLabelBox = function( icon ) {
-      var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty, new NumberProperty( 1 ),
-        { interactive: false, font: new PhetFont( { size: 22 } ), dividingLineLength: 25, dividingLineWidth: 2 } );
+      var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty,
+        { font: new PhetFont( { size: 22 } ), dividingLineLength: 25, dividingLineWidth: 2 } );
       return new HBox( {
         align: 'center',
         spacing: 20,
