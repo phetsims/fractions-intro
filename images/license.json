@@ -166,5 +166,13 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "A screen shot of the java version of fractions-intro used for internal development. This is a temporary image."
+  },
+  "cake_1_1.png": {
+    "text": [
+      "Copyright 2017 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "Cake image to use in the representation panel and in the cake representation. Credit to NP"
   }
 }

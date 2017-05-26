@@ -10,6 +10,7 @@ define( function( require ) {
   // modules
   var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
@@ -18,6 +19,9 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
+
+  // images
+  var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
 
   /**
    *
@@ -70,9 +74,8 @@ define( function( require ) {
       },
       {
         value: Representation.CAKE,
-        node: new Circle( 15 * options.iconScale, {
-          fill: 'brown',
-          stroke: 'black'
+        node: new Image( cakeImage, {
+          maxHeight: 80
         } )
       },
       {
