@@ -25,6 +25,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -106,10 +107,10 @@ define( function( require ) {
 
     representationProperty.link( function( representation ) {
       switch( representation ) {
-        case 'number-line':
+        case Representation.NUMBER_LINE:
           options.children = [];
           break;
-        case 'beaker':
+        case Representation.BEAKER:
           bucketFront.setLabel( createLabelBox( beakerIcon ) );
           options.children = [ bucketHole, beakersLayer, bucketFront ];
           break;
