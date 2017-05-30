@@ -148,7 +148,7 @@ define( function( require ) {
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel.representationProperty,
+      var bucketNode = new BucketNode( introModel.pieces, introModel.representationProperty,
         introModel.denominatorProperty, introModel.segmentProperty );
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,7 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var Property = require( 'AXON/Property' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
@@ -52,6 +53,9 @@ define( function( require ) {
     // @private
     this.containerSet = new ContainerSet( this.numeratorProperty, this.denominatorProperty,
       this.maxProperty );
+
+    // @public a collection of piece
+    this.pieces = new ObservableArray();
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],

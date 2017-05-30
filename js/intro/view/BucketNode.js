@@ -25,8 +25,10 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
   //constants
@@ -42,15 +44,17 @@ define( function( require ) {
   ];
 
   /**
-   *
+   * @param {ObservableArray.<Piece>} pieces
    * @param {Property.<number>} representationProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} segmentProperty
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( representationProperty, denominatorProperty, segmentProperty, options ) {
+  function BucketNode( pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
+
     var self = this;
+
     options = _.extend( {
       bucketPosition: new Vector2( 570, 497 ),
       bucketSize: new Dimension2( 355, 125 )
@@ -58,7 +62,9 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    // Bucket model to be filled with dataPoint
+    var modelViewTransform = IDENTITY_TRANSFORM;
+
+    // Bucket model to be filled with piece
     // @public read-only
     this.bucket = new Bucket( {
       position: options.bucketPosition,
@@ -91,19 +97,9 @@ define( function( require ) {
       } );
     };
 
-    var beakersLayer = new Node();
+    var piecesNode = new Node();
 
     var bucketHole = new BucketHole( this.bucket, IDENTITY_TRANSFORM );
-
-    DATA_POINT_CREATOR_OFFSET_POSITIONS.forEach( function( position ) {
-      beakersLayer.addChild( new BeakerNode( denominatorProperty, segmentProperty, {
-        beakerWidth: IntroConstants.BEAKER_WIDTH,
-        beakerHeight: IntroConstants.BEAKER_LENGTH,
-        tickWidth: 1,
-        centerX: position.x + bucketHole.centerX,
-        centerY: position.y + bucketHole.centerY + 15
-      } ) );
-    } );
 
     representationProperty.link( function( representation ) {
       switch( representation ) {
@@ -112,7 +108,7 @@ define( function( require ) {
           break;
         case Representation.BEAKER:
           bucketFront.setLabel( createLabelBox( beakerIcon ) );
-          options.children = [ bucketHole, beakersLayer, bucketFront ];
+          options.children = [ bucketHole, piecesNode, bucketFront ];
           break;
         default:
           bucketFront.setLabel( createLabelBox( new Node() ) );
@@ -121,8 +117,90 @@ define( function( require ) {
       }
       self.mutate( options );
     } );
+
+    // points in the bucket
+    DATA_POINT_CREATOR_OFFSET_POSITIONS.forEach( function( position ) {
+
+      // TODO: generalize to other shapes
+      var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
+        beakerWidth: IntroConstants.BEAKER_WIDTH,
+        beakerHeight: IntroConstants.BEAKER_LENGTH,
+        tickWidth: 1,
+        centerX: position.x + bucketHole.centerX,
+        centerY: position.y + bucketHole.centerY + 15
+      } );
+      pieceNode.addInputListener( createDragHandler( pieceNode.center ) );
+      piecesNode.addChild( pieceNode );
+    } );
+
+    /**
+     * create a drag handler that adds a piece to the model
+     * @param {Vector2} centerPosition - centerPosition of the shape
+     * @returns {SimpleDragHandler}
+     */
+    function createDragHandler( centerPosition ) {
+      var piece = null;
+      var dragHandler = new SimpleDragHandler( {
+
+        allowTouchSnag: true,
+
+        start: function() {
+
+          // create a model piece
+          var modelPosition = modelViewTransform.viewToModelPosition( centerPosition );
+          piece = new Piece( {
+            position: modelPosition,
+            dragging: true
+          } );
+
+          // add the model piece to the observable array in model curve
+          pieces.add( piece );
+        },
+
+        translate: function( translationParams ) {
+          piece.positionProperty.value = piece.positionProperty.value.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) );
+        },
+
+        end: function() {
+          piece.draggingProperty.set( false );
+          piece = null;
+        }
+      } );
+
+      return dragHandler;
+    }
+
+    // handle the coming and going of pieces
+    pieces.addItemAddedListener( function( addedPiece ) {
+      // TODO: generalize to other shapes
+        var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
+          beakerWidth: IntroConstants.BEAKER_WIDTH,
+          beakerHeight: IntroConstants.BEAKER_LENGTH,
+          tickWidth: 1
+        } );
+
+        addedPiece.positionProperty.link( function( position ) {
+          pieceNode.center = position;
+        } );
+        piecesNode.addChild( pieceNode );
+
+        addedPiece.returnToOriginEmitter.addListener( function() {
+          piecesNode.removeChild( pieceNode );
+        } );
+
+        pieces.addItemRemovedListener( function removalListener( removedPiece ) {
+          if ( removedPiece === addedPiece ) {
+            self.removeChild( pieceNode );
+
+            //  TODO: we need a dispose function on PieceNode
+            pieces.removeItemRemovedListener( removalListener );
+          }
+        } );
+      }
+    );
   }
 
   fractionsIntro.register( 'BucketNode', BucketNode );
   return inherit( Node, BucketNode, {} );
-} );
+} )
+;
