@@ -14,6 +14,8 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   // images
   var cake_1_1Image = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
@@ -146,6 +148,17 @@ define( function( require ) {
       // add grid image of the cake
       var gridImage = new Image( cakeGridImageArray[ denominator ],
         { maxHeight: options.maxHeight } );
+
+      // create cake background for the cake. The shape of the ellipse is determined empirically based on the image
+      var cakeGridShape = Shape.ellipse( gridImage.width / 2, gridImage.height * 0.635, gridImage.width * 0.364,
+        gridImage.height * 0.277, 0 );
+      var cakeGridBase = new Path( cakeGridShape, {
+        fill: 'white'
+      } );
+
+      // cakeGridBase is ordered at the bottom of the z-layer
+      cakeNode.addChild( cakeGridBase );
+
       cakeNode.addChild( gridImage );
 
       // TODO: generalize for multiple cakes
