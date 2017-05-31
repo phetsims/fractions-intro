@@ -147,20 +147,20 @@ define( function( require ) {
     toggleIsFilledTo: function( numberOfCellsToToggle, toggleTo ) {
 
       if ( toggleTo ) {
-        var availableCells = this.getFilledCellsCount( this.flattenContainers( this.containers ) );
+        var availableFilledCells = this.getFilledCellsCount( this.flattenContainers( this.containers ) );
 
         // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
-        var numberOfCellsToEmpty = availableCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableCells;
+        var numberOfCellsToEmpty = availableFilledCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableFilledCells;
         for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
           this.getLastNonEmptyContainer().getNextFilledCell().isFilledProperty.toggle();
         }
       }
       else {
-        var availableCells = this.getEmptyCellsCount( this.flattenContainers( this.containers ) );
+        var availableEmptyCells = this.getEmptyCellsCount( this.flattenContainers( this.containers ) );
 
         // if there are more cells to BE filled than there are cells to fill, only fill as many cells as possible
-        var numberOfCellsToFill = availableCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableCells;
-        for ( var i = 0; i < numberOfCellsToFill; i++ ) {
+        var numberOfCellsToFill = availableEmptyCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableEmptyCells;
+        for ( var j = 0; j < numberOfCellsToFill; j++ ) {
           this.getNextNonFullContainer().getNextEmptyCell().isFilledProperty.toggle();
         }
       }

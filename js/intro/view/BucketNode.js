@@ -16,7 +16,6 @@ define( function( require ) {
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
@@ -70,17 +69,11 @@ define( function( require ) {
       position: options.bucketPosition,
       baseColor: '#8eb7f2',
       size: options.bucketSize,
-      invertY: true,
-      caption: 'hello',
-      captionColor: 'red'
+      invertY: true
     } );
 
     // creates bucket front
-    var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM, {
-      labelNode: new Circle( 10, {
-        fill: 'red'
-      } )
-    } );
+    var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM );
 
     // creates beaker icon on bucket node
     var beakerIcon = new BeakerNode( denominatorProperty, segmentProperty, {
@@ -103,7 +96,7 @@ define( function( require ) {
       } );
     };
 
-    // node to collect all pieces in the buceket
+    // node to collect all pieces in the bucket
     var piecesNode = new Node();
 
     // creating hole of bucket
@@ -137,7 +130,7 @@ define( function( require ) {
       var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
         beakerWidth: IntroConstants.BEAKER_WIDTH,
         beakerHeight: IntroConstants.BEAKER_LENGTH,
-        tickWidth: 1,
+        tickWidth: 3,
         centerX: position.x + bucketHole.centerX,
         centerY: position.y + bucketHole.centerY + 15
       } );
@@ -188,7 +181,7 @@ define( function( require ) {
         var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
           beakerWidth: IntroConstants.BEAKER_WIDTH,
           beakerHeight: IntroConstants.BEAKER_LENGTH,
-          tickWidth: 1
+          tickWidth: 3
         } );
 
         addedPiece.positionProperty.link( function( position ) {
