@@ -15,6 +15,7 @@ define( function( require ) {
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
+  var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -65,8 +66,7 @@ define( function( require ) {
     var modelViewTransform = IDENTITY_TRANSFORM;
 
     // Bucket model to be filled with piece
-    // @public read-only
-    this.bucket = new Bucket( {
+    var bucket = new Bucket( {
       position: options.bucketPosition,
       baseColor: '#8eb7f2',
       size: options.bucketSize,
@@ -74,17 +74,23 @@ define( function( require ) {
       caption: 'hello',
       captionColor: 'red'
     } );
-    var bucketFront = new BucketFront( this.bucket, IDENTITY_TRANSFORM, {
+
+    // creates bucket front
+    var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM, {
       labelNode: new Circle( 10, {
         fill: 'red'
       } )
     } );
 
+    // creates beaker icon on bucket node
     var beakerIcon = new BeakerNode( denominatorProperty, segmentProperty, {
       beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
       beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
       tickWidth: 1
     } );
+
+    // creating cake icon with one slice
+    var cakeIcon = new CakeNode( new NumberProperty( 1 ), denominatorProperty );
 
     // this function creates an HBox with an icon and a fraction
     var createLabelBox = function( icon ) {
@@ -97,12 +103,18 @@ define( function( require ) {
       } );
     };
 
+    // node to collect all pieces in the buceket
     var piecesNode = new Node();
 
-    var bucketHole = new BucketHole( this.bucket, IDENTITY_TRANSFORM );
+    // creating hole of bucket
+    var bucketHole = new BucketHole( bucket, IDENTITY_TRANSFORM );
 
     representationProperty.link( function( representation ) {
       switch( representation ) {
+        case Representation.CAKE:
+          bucketFront.setLabel( createLabelBox( cakeIcon ) );
+          options.children = [ bucketHole, bucketFront ];
+          break;
         case Representation.NUMBER_LINE:
           options.children = [];
           break;
@@ -118,7 +130,7 @@ define( function( require ) {
       self.mutate( options );
     } );
 
-    // points in the bucket
+    // pieces in the bucket
     DATA_POINT_CREATOR_OFFSET_POSITIONS.forEach( function( position ) {
 
       // TODO: generalize to other shapes
@@ -153,7 +165,7 @@ define( function( require ) {
             dragging: true
           } );
 
-          // add the model piece to the observable array in model curve
+          // add the model piece to the observable array
           pieces.add( piece );
         },
 
@@ -172,7 +184,7 @@ define( function( require ) {
 
     // handle the coming and going of pieces
     pieces.addItemAddedListener( function( addedPiece ) {
-      // TODO: generalize to other shapes
+        // TODO: generalize to other shapes
         var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
           beakerWidth: IntroConstants.BEAKER_WIDTH,
           beakerHeight: IntroConstants.BEAKER_LENGTH,

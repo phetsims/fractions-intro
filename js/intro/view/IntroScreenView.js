@@ -12,6 +12,7 @@ define( function( require ) {
     // modules
     var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
     var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
+    var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
     var inherit = require( 'PHET_CORE/inherit' );
@@ -98,6 +99,12 @@ define( function( require ) {
         top: representationPanel.bottom + 60
       } );
 
+      var cakeNode = new CakeNode( introModel.numeratorProperty, introModel.denominatorProperty, {
+        maxHeight: 200,
+        centerX: this.layoutBounds.centerX,
+        top: representationPanel.bottom + 60
+      } );
+
       var verticalBarNode = new VerticalBarNode( introModel, {
         centerX: self.layoutBounds.centerX
       } );
@@ -124,7 +131,7 @@ define( function( require ) {
             representationsNode.addChild( beakerNode );
             break;
           case Representation.CAKE:
-            // representationsNode.addChild( cakeNode );
+            representationsNode.addChild( cakeNode );
             break;
           case Representation.NUMBER_LINE:
             representationsNode.addChild( numberLineNode );
