@@ -144,6 +144,11 @@ define( function( require ) {
     var createCakeNode = function( numerator, denominator ) {
 
       var cakeNode = new Node();
+      var cakeNodeBackground = new Node();
+      var cakeSlicesNode = new Node();
+
+      cakeNode.addChild( cakeNodeBackground );
+      cakeNode.addChild( cakeSlicesNode );
 
       // add grid image of the cake
       var gridImage = new Image( cakeGridImageArray[ denominator ],
@@ -157,21 +162,68 @@ define( function( require ) {
       } );
 
       // cakeGridBase is ordered at the bottom of the z-layer
-      cakeNode.addChild( cakeGridBase );
+      cakeNodeBackground.addChild( cakeGridBase );
 
-      cakeNode.addChild( gridImage );
+      cakeNodeBackground.addChild( gridImage );
 
-      // TODO: generalize for multiple cakes
+      // TODO: generalize for multiple cakes (max)
       var numberOfSlices = (numerator < denominator) ? numerator : denominator;
 
-      // TODO: fix ordering of slices (read Java Simulation)
+      // Each array corresponds to the z layers of the cake slices
+      // The higher the value in the array, the higher the z-order level
+      // For instance for a denominator of 2, the array [1,0] indicates that
+      // the 0th element has a z value of 1 and is on top of the 1st element whose z value is 0
+      function zLayerOrder( denominator ) {
+        switch( denominator ) {
+          case 1:
+            return [ 0 ];
+          case 2:
+            return [ 1, 0 ];
+          case 3:
+            return [ 0, 1, 2 ];
+          case 4:
+            return [ 0, 1, 2, 3 ];
+          case 5:
+            return [ 1, 0, 2, 4, 3 ];
+          case 6:
+            return [ 1, 0, 2, 3, 5, 4 ];
+          case 7:
+            return [ 1, 0, 2, 3, 4, 6, 5 ];
+          case 8:
+            return [ 1, 0, 2, 3, 4, 5, 7, 6 ];
+          default:
+            throw new Error('Unknown denominator: ' + denominator);
+        }
+      }
 
-      // add slices of the cake
+      var indexArray = zLayerOrder( denominator );
+
+      // array of cake slices where z-order is chronological
+      var cakeLayerArray = [];
+
+      // add slices of cake to the cakelayerArray
       for ( var sliceIndex = 1; sliceIndex <= numberOfSlices; sliceIndex++ ) {
+
+        // fetch image based on the denominator and the slice number
         var cakeImage = new Image( cakeImageArray[ denominator ][ sliceIndex ],
           { maxHeight: options.maxHeight } );
-        cakeNode.addChild( cakeImage );
+        cakeLayerArray.push( cakeImage );
       }
+
+      // create an array to place the reordered cake slices into
+      var cakeLayerOrderArray = new Array( 8 );
+      for ( var i = 0; i < cakeLayerArray.length; i++ ) {
+        cakeLayerOrderArray[ indexArray[ i ] ] = cakeLayerArray[ i ];
+      }
+
+      // remove all undefined 'slices'
+      cakeLayerOrderArray = cakeLayerOrderArray.filter( function( n ) { return n !== undefined; } );
+
+      // setChildren crashes if you pass an empty list
+      if ( cakeLayerOrderArray.length > 0 ) {
+        cakeSlicesNode.setChildren( cakeLayerOrderArray );
+      }
+
       return cakeNode;
     };
 
@@ -187,5 +239,6 @@ define( function( require ) {
   fractionsIntro.register( 'CakeNode', CakeNode );
 
   return inherit( Node, CakeNode );
-} );
+} )
+;
 
