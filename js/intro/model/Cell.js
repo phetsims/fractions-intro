@@ -30,16 +30,30 @@ define( function( require ) {
     // @private {Property.<boolean>}
     this.isAnimatedProperty = new BooleanProperty( false );
 
-    // @public {Property.<boolean>}
+    // @public {Property.<number>}
     this.indexProperty = new NumberProperty( 0 );
 
     // @public {Property.<boolean>}
     this.isFilledProperty = new BooleanProperty( false );
+
+    // @public {Property.<number>}
+    this.rotationAngleProperty = new NumberProperty( 0 );
   }
 
   fractionsIntro.register( 'Cell', Cell );
 
   return inherit( Object, Cell, {
+
+    /**
+     * Finds the distance between the cell and another vector
+     * @param {Vector2} toVector - the vector to find this cells distance from
+     * @returns {number}
+     * @public
+     */
+    distanceTo: function( toVector ) {
+      return this.positionProperty.distance( toVector );
+    },
+
     /**
      * Resets all the properties of the Cell
      * @public

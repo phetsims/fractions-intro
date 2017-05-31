@@ -44,7 +44,7 @@ define( function( require ) {
       else if ( difference < 0 ) {
 
         // removed '-difference' containers starting from the end of the array.
-        var removedContainers = self.containers.splice( max - 1, -difference );
+        var removedContainers = self.containers.splice( max, -difference );
 
         var removedCells = self.flattenContainers( removedContainers );
 
@@ -77,7 +77,6 @@ define( function( require ) {
         var removeCellsCount = self.getFilledCellsCount( removedCells );
 
         self.toggleIsFilledTo( removeCellsCount, false );
-        //        self.reshuffleFilledCells( removedFilledCells );
       }
       self.containersEmitter.emit();
       console.table( self.containers );
@@ -141,32 +140,61 @@ define( function( require ) {
 
     /**
      * Toggle the cell value of isFilledProperty to isFilled for 'numberOfCells' cells in ContainerSet
-     * @param {number} numberOfCells
-     * @param {boolean} isFilled
+     * @param {number} numberOfCellsToToggle
+     * @param {boolean} toggleTo
      * @private
      */
-    toggleIsFilledTo: function( numberOfCells, isFilled ) {
+    toggleIsFilledTo: function( numberOfCellsToToggle, toggleTo ) {
 
-      // the cells being toggled from true to false should be the last cells of the last container
-      // the cells being toggled from false to true should be the first cells of the first container
-      // the array should be reversed if the user is decreasing the fraction (isFilled is false)
-      var orderedContainer = isFilled ? this.containers.slice().reverse():this.containers;
-      orderedContainer.forEach( function( container ) {
+      if ( toggleTo ) {
+        var availableCells = this.getFilledCellsCount( this.flattenContainers( this.containers ) );
 
-        // the array should be reversed if the user is decreasing the fraction (isFilled is false)
-        var orderedCells = isFilled ? container.cells.slice().reverse():container.cells;
-        orderedCells.forEach( function( cell ) {
-          if ( numberOfCells > 0 && cell.isFilledProperty.value === isFilled ) {
-            cell.isFilledProperty.toggle();
-            numberOfCells--;
-          }
-        });
-      });
+        // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
+        var numberOfCellsToEmpty = availableCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableCells;
+        for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
+          this.getLastNonEmptyContainer().getNextFilledCell().isFilledProperty.toggle();
+        }
+      }
+      else {
+        var availableCells = this.getEmptyCellsCount( this.flattenContainers( this.containers ) );
+
+        // if there are more cells to BE filled than there are cells to fill, only fill as many cells as possible
+        var numberOfCellsToFill = availableCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableCells;
+        for ( var i = 0; i < numberOfCellsToFill; i++ ) {
+          this.getNextNonFullContainer().getNextEmptyCell().isFilledProperty.toggle();
+        }
+      }
+    },
+
+    /**
+     * get last container that has at least one filled cell
+     * @returns {Container}
+     */
+    getLastNonEmptyContainer: function() {
+      return this.containers.reduce( function( previous, current ) {
+
+          // if current container is empty, we want the previous container
+          return current.isContainerEmpty() ? previous : current;
+        }
+      );
+    },
+
+    /**
+     * get the next container that has at least one empty cell
+     * @returns {Container}
+     */
+    getNextNonFullContainer: function() {
+      for ( var index = 0; index < this.containers.length; index++ ) {
+        if ( !this.containers[ index ].isContainerFull() ) {
+          return this.containers[ index ];
+        }
+      }
     },
 
     /**
      * get Filled Cells
      * @param {Cell[]} cells
+     * @returns {Cell[]}
      */
     getFilledCells: function( cells ) {
       return cells.filter( function( cell ) { return cell.isFilledProperty.value; } );
@@ -182,6 +210,38 @@ define( function( require ) {
     },
 
     /**
+     * get empty cells
+     * @param {Cell[]} cells
+     * @returns {Cell[]}
+     */
+    getEmptyCells: function( cells ) {
+      return cells.filter( function( cell ) { return !cell.isFilledProperty.value; } );
+    },
+
+    /**
+     * find number of empty cells
+     * @param {Cell[]} cells
+     * @return (number)
+     */
+    getEmptyCellsCount: function( cells ) {
+      return this.getEmptyCells( cells ).length;
+    },
+
+    /**
+     * finds closest empty cell of an array of containers to toVector
+     * @param {Vector2} toVector - the vector to find the closest cell to
+     * @returns {Cell}
+     */
+    getClosestEmptyCell: function( toVector ) {
+      var closestCell = this.containers.map( function( container ) {
+        container.getClosestEmptyCell( toVector );
+      } ).reduce( function( previous, current ) {
+        return (previous.distanceTo( toVector ) < current.distanceTo( toVector )) ? current : previous;
+      }, Number.POSITIVE_INFINITY );
+      return closestCell;
+    },
+
+    /**
      * Flatten an array of containers to an array of cells
      * @param {Container[]} containers
      * @returns {Cell[]}
@@ -190,7 +250,6 @@ define( function( require ) {
       return containers.reduce( function( accumulator, container ) {
         return accumulator.concat( container.cells );
       }, [] );
-
     }
 
   } );
