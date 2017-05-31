@@ -54,7 +54,6 @@ define( function( require ) {
 
       }
       self.containersEmitter.emit();
-      console.table( self.containers );
     } );
 
     // change the value of the denominator
@@ -79,7 +78,6 @@ define( function( require ) {
         self.toggleIsFilledTo( removeCellsCount, false );
       }
       self.containersEmitter.emit();
-      console.table( self.containers );
     } );
 
     // updates the isFilledProperty of cells upon the change of the numerator
@@ -104,7 +102,6 @@ define( function( require ) {
           }
         }
         self.containersEmitter.emit();
-        console.log( self.getFilledCellsCount( self.flattenContainers( self.containers ) ) );
       }
     );
   }
