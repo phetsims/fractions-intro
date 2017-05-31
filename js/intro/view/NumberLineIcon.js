@@ -19,8 +19,8 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
-  var LINE_LENGTH = 85;
-  var TICK_HEIGHT = 30;
+  var LINE_LENGTH = 55;
+  var TICK_HEIGHT = 20;
   var FONT_SIZE = 10;
 
   /**
