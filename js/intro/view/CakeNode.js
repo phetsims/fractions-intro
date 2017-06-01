@@ -124,9 +124,7 @@ define( function( require ) {
       if ( options.visibleBackground ) {
 
         // add grid image of the cake
-        var gridImage = new Image( cakeGridImageArray[ denominator - 1 ], {
-          maxHeight: options.maxHeight
-        } );
+        var gridImage = new Image( cakeGridImageArray[ denominator - 1 ], {} );
 
         var cakeNodeBackground = new Node();
         cakeNode.addChild( cakeNodeBackground );
@@ -189,8 +187,7 @@ define( function( require ) {
       for ( var sliceIndex = 0; sliceIndex < numberOfSlices; sliceIndex++ ) {
 
         // fetch image based on the denominator and the slice number
-        var cakeImage = new Image( cakeImageArray[ denominator - 1 ][ sliceIndex ],
-          { maxHeight: options.maxHeight } );
+        var cakeImage = new Image( cakeImageArray[ denominator - 1 ][ sliceIndex ] );
         cakeLayerArray.push( cakeImage );
       }
 
@@ -217,7 +214,6 @@ define( function( require ) {
       self.addChild( createCakeNode( numerator, denominator ) );
     } );
 
-    this.mutate( options );
     this.mutate( options );
   }
 
