@@ -25,6 +25,7 @@ define( function( require ) {
     var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
+    var Vector2 = require( 'DOT/Vector2' );
     var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,8 +106,8 @@ define( function( require ) {
         top: representationPanel.bottom + 60
       } );
 
-      var verticalBarNode = new VerticalBarNode( introModel, {
-        centerX: self.layoutBounds.centerX
+      var verticalBarNode = new VerticalBarNode( introModel.containerSet, {
+        center: self.layoutBounds.center.plus( new Vector2( 0, -50 ) )
       } );
 
       // generic node storing the various representation
@@ -155,7 +156,7 @@ define( function( require ) {
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel.pieces, introModel.representationProperty,
+      var bucketNode = new BucketNode( introModel, introModel.pieces, introModel.representationProperty,
         introModel.denominatorProperty, introModel.segmentProperty );
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

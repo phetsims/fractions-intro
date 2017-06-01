@@ -15,23 +15,27 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constant
   var CONTAINER_WIDTH = 130;
   var CONTAINER_HEIGHT = 185;
-  var RECTANGLE_SPACING = 22;
-  var RECTANGLE_TOP = 160;
 
   /**
    *
-   * @param {IntroModel} introModel
+   * @param {ContainerSet} containerSet
    * @param {Object} [options]
    * @constructor
    */
-  function VerticalBarNode( introModel, options ) {
+  function VerticalBarNode( containerSet, options ) {
     options = _.extend( {
         align: 'center',
-        spacing: RECTANGLE_SPACING
+        containerSpacing: 22,
+        containerWidth: 130,
+        containerHeight: 185,
+        center: new Vector2( 0, 160 ),
+        visibleBackground: true,
+        outlineLineWidth: 3
       },
       options );
 
@@ -39,7 +43,7 @@ define( function( require ) {
     var self = this;
 
     // A HBox to hold the set of containers
-    var setOfContainers = new HBox( { align: options.align, spacing: options.spacing } );
+    var setOfContainers = new HBox( { align: options.align, spacing: options.containerSpacing } );
     this.addChild( setOfContainers );
 
     // function for displaying the containers
@@ -48,20 +52,19 @@ define( function( require ) {
       var containersLayer = [];
 
       // loop over all the containers in the container set
-      introModel.containerSet.containers.forEach( function( container ) {
+      containerSet.containers.forEach( function( container ) {
 
         var containerNode = new Node();
 
         // outline of the container and inner line depend on the filled status of the container
         var containerStroke = container.isContainerEmpty() ? 'grey' : 'black';
-
-        var containerRectangle = new Rectangle( 0, 0, CONTAINER_WIDTH, CONTAINER_HEIGHT, 0, 0, {
+        var containerRectangle = new Rectangle( 0, 0, options.containerWidth, options.containerHeight, 0, 0, {
           stroke: containerStroke,
-          lineWidth: 3
+          lineWidth: options.outlineLineWidth
         } );
 
         var numberOfCells = container.cells.length;
-        var cellHeight = CONTAINER_HEIGHT / numberOfCells;
+        var cellHeight = options.containerHeight / numberOfCells;
 
         // an array holder that will hold the cell Rectangles
         var cellsRectangle = [];
@@ -71,11 +74,11 @@ define( function( require ) {
 
           // the fill of the cell depends upon the filled property
           var cellFill = cell.isFilledProperty.value ? '#FFE600' : 'white';
-          var cellRectangle = new Rectangle( 0, 0, CONTAINER_WIDTH, cellHeight, 0, 0, {
+          var cellRectangle = new Rectangle( 0, 0, options.containerWidth, cellHeight, 0, 0, {
             fill: cellFill,
             lineWidth: 1,
             stroke: containerStroke,
-            bottom: CONTAINER_HEIGHT - (index * cellHeight)
+            bottom: options.containerHeight - (index * cellHeight)
           } );
 
           cellsRectangle.push( cellRectangle );
@@ -88,20 +91,52 @@ define( function( require ) {
       } );
 
       setOfContainers.setChildren( containersLayer );
-      self.centerX = options.centerX;
-      self.top = RECTANGLE_TOP;
+      self.center = options.center;
     }
 
     // needs to be called once or the beginning state of the containers will not be displayed
     displayContainers();
 
     // add listener to container sets
-    introModel.containerSet.containersEmitter.addListener( function() {
+    containerSet.containersEmitter.addListener( function() {
       displayContainers();
     } );
   }
 
   fractionsIntro.register( 'VerticalBarNode', VerticalBarNode );
 
-  return inherit( Node, VerticalBarNode );
+  return inherit( Node, VerticalBarNode, {
+    /**
+     * create vertical bar pieces to use inside the bucket
+     * @param denominatorProperty
+     * @returns {Node}
+     */
+    createVerticalBarPiece: function( denominatorProperty ) {
+
+      var containerNode = new Node();
+
+      denominatorProperty.link( function( denominator ) {
+        containerNode.removeAllChildren();
+        var cellHeight = CONTAINER_HEIGHT / denominator;
+
+        //find the length to minus from each side of the cell to fit in the bucket at all time
+        var sizeDiff = CONTAINER_HEIGHT / denominator;
+        var sideLengthMinus = (CONTAINER_HEIGHT - sizeDiff) / 2;
+
+        //make one cell
+        var cellRectangle = new Rectangle( 0, 0, CONTAINER_WIDTH, cellHeight, 0, 0, {
+          fill: '#FFE600',
+          lineWidth: 1,
+          stroke: 'black',
+          top: CONTAINER_HEIGHT - (sideLengthMinus),
+          bottom: CONTAINER_HEIGHT - sideLengthMinus
+        } );
+        containerNode.addChild( cellRectangle );
+      } );
+
+      return containerNode;
+
+    }
+
+  } );
 } );

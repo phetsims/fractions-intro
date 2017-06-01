@@ -16,6 +16,7 @@ define( function( require ) {
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
+  var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
@@ -31,6 +32,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
   //constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
@@ -45,6 +47,7 @@ define( function( require ) {
   ];
 
   /**
+   * @param {IntroModel} introModel
    * @param {ObservableArray.<Piece>} pieces
    * @param {Property.<number>} representationProperty
    * @param {Property.<number>} denominatorProperty
@@ -52,7 +55,7 @@ define( function( require ) {
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
+  function BucketNode( introModel, pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
 
     options = _.extend( {
       bucketPosition: new Vector2( 570, 497 ),
@@ -66,6 +69,8 @@ define( function( require ) {
     this.pieces = pieces;
     this.denominatorProperty = denominatorProperty;
     this.segmentProperty = segmentProperty;
+    this.introModel = introModel;
+    this.containerSet = new ContainerSet( new NumberProperty( 1 ), this.denominatorProperty, new NumberProperty( 1 ) );
 
     // Bucket model to be filled with piece
     var bucket = new Bucket( {
@@ -122,6 +127,21 @@ define( function( require ) {
 
           options.children = [ bucketHole, piecesNode, bucketFront ];
           break;
+
+        case Representation.VERTICAL_BAR:
+          // set the label on the bucket
+
+          var verticalBarIconOptions = {
+            containerWidth: 30,
+            containerHeight: 60,
+            outlineLineWidth: 1
+
+          };
+          bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
+
+          options.children = [ bucketHole, bucketFront ];
+
+          break;
         case Representation.NUMBER_LINE :
           options.children = [];
           break;
@@ -177,6 +197,10 @@ define( function( require ) {
 
       switch( representation ) {
 
+        case Representation.VERTICAL_BAR:
+
+          var verticalBarNode = new VerticalBarNode( this.containerSet, options );
+          return verticalBarNode;
         case Representation.BEAKER:
 
           // creates beaker icon on bucket node
