@@ -81,7 +81,8 @@ define( function( require ) {
   function CakeNode( numeratorProperty, denominatorProperty, options ) {
 
     options = _.extend( {
-      maxHeight: 60
+      maxHeight: 60,
+      visibleBackground: true
     }, options );
 
     Node.call( this );
@@ -144,27 +145,35 @@ define( function( require ) {
     var createCakeNode = function( numerator, denominator ) {
 
       var cakeNode = new Node();
-      var cakeNodeBackground = new Node();
+
+      if ( options.visibleBackground ) {
+
+        // add grid image of the cake
+        var gridImage = new Image( cakeGridImageArray[ denominator ], {
+          maxHeight: options.maxHeight
+        } );
+
+        var cakeNodeBackground = new Node();
+        cakeNode.addChild( cakeNodeBackground );
+
+        // create white background for the cake. The shape of the ellipse is determined empirically based on the image
+        var cakeGridBase = new Path( Shape.ellipse(
+          gridImage.width / 2,
+          gridImage.height * 0.635,
+          gridImage.width * 0.364,
+          gridImage.height * 0.277, 0 ), {
+          fill: 'white'
+        } );
+
+        // cakeGridBase is ordered at the bottom of the z-layer
+        cakeNodeBackground.addChild( cakeGridBase );
+
+        cakeNodeBackground.addChild( gridImage );
+
+      }
+
       var cakeSlicesNode = new Node();
-
-      cakeNode.addChild( cakeNodeBackground );
       cakeNode.addChild( cakeSlicesNode );
-
-      // add grid image of the cake
-      var gridImage = new Image( cakeGridImageArray[ denominator ],
-        { maxHeight: options.maxHeight } );
-
-      // create cake background for the cake. The shape of the ellipse is determined empirically based on the image
-      var cakeGridShape = Shape.ellipse( gridImage.width / 2, gridImage.height * 0.635, gridImage.width * 0.364,
-        gridImage.height * 0.277, 0 );
-      var cakeGridBase = new Path( cakeGridShape, {
-        fill: 'white'
-      } );
-
-      // cakeGridBase is ordered at the bottom of the z-layer
-      cakeNodeBackground.addChild( cakeGridBase );
-
-      cakeNodeBackground.addChild( gridImage );
 
       // TODO: generalize for multiple cakes (max)
       var numberOfSlices = (numerator < denominator) ? numerator : denominator;
@@ -192,7 +201,7 @@ define( function( require ) {
           case 8:
             return [ 1, 0, 2, 3, 4, 5, 7, 6 ];
           default:
-            throw new Error('Unknown denominator: ' + denominator);
+            throw new Error( 'Unknown denominator: ' + denominator );
         }
       }
 
@@ -201,7 +210,7 @@ define( function( require ) {
       // array of cake slices where z-order is chronological
       var cakeLayerArray = [];
 
-      // add slices of cake to the cakelayerArray
+      // add slices of cake to the cakeLayerArray
       for ( var sliceIndex = 1; sliceIndex <= numberOfSlices; sliceIndex++ ) {
 
         // fetch image based on the denominator and the slice number

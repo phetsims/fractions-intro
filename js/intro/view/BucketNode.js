@@ -29,12 +29,13 @@ define( function( require ) {
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
 
   //constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
-  var DATA_POINT_CREATOR_OFFSET_POSITIONS = [
-    // Offsets used for initial position of point, relative to bucket hole center. Empirically determined.
+  var PIECE_OFFSET_POSITIONS = [
+    // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
     new Vector2( -90, -4 ),
     new Vector2( -55, -5 ),
     new Vector2( 100, -5 ),
@@ -53,8 +54,6 @@ define( function( require ) {
    */
   function BucketNode( pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
 
-    var self = this;
-
     options = _.extend( {
       bucketPosition: new Vector2( 570, 497 ),
       bucketSize: new Dimension2( 355, 125 )
@@ -62,7 +61,11 @@ define( function( require ) {
 
     Node.call( this, options );
 
-    var modelViewTransform = IDENTITY_TRANSFORM;
+    var self = this;
+
+    this.pieces = pieces;
+    this.denominatorProperty = denominatorProperty;
+    this.segmentProperty = segmentProperty;
 
     // Bucket model to be filled with piece
     var bucket = new Bucket( {
@@ -75,76 +78,160 @@ define( function( require ) {
     // creates bucket front
     var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM );
 
-    // creates beaker icon on bucket node
-    var beakerIcon = new BeakerNode( denominatorProperty, segmentProperty, {
-      beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
-      beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
-      tickWidth: 1
-    } );
-
-    // creating cake icon with one slice
-    var cakeIcon = new CakeNode( new NumberProperty( 1 ), denominatorProperty );
-
-    // this function creates an HBox with an icon and a fraction
-    var createLabelBox = function( icon ) {
-      var fractionNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty,
-        { font: new PhetFont( { size: 22 } ), dividingLineLength: 25, dividingLineWidth: 2 } );
-      return new HBox( {
-        align: 'center',
-        spacing: 20,
-        children: [ icon, fractionNode ]
-      } );
-    };
+    // creates hole of bucket
+    var bucketHole = new BucketHole( bucket, IDENTITY_TRANSFORM );
 
     // node to collect all pieces in the bucket
     var piecesNode = new Node();
 
-    // creating hole of bucket
-    var bucketHole = new BucketHole( bucket, IDENTITY_TRANSFORM );
-
     representationProperty.link( function( representation ) {
       switch( representation ) {
-        case Representation.CAKE:
-          bucketFront.setLabel( createLabelBox( cakeIcon ) );
-          options.children = [ bucketHole, bucketFront ];
-          break;
-        case Representation.NUMBER_LINE:
-          options.children = [];
-          break;
+
         case Representation.BEAKER:
-          bucketFront.setLabel( createLabelBox( beakerIcon ) );
+        case Representation.CAKE:
+
+          // create all pieces for the bucket
+          var contentPieces = PIECE_OFFSET_POSITIONS.map( function( position ) {
+            var centerPosition = position.plus( bucketHole.center ).plus( new Vector2( 0, 15 ) );
+
+            var representationNode = self.createRepresentation( representation, {
+              center: centerPosition,
+              beakerWidth: IntroConstants.BEAKER_WIDTH,
+              beakerHeight: IntroConstants.BEAKER_LENGTH,
+              tickWidth: 3,
+              maxHeight: 160,
+              visibleBackground: false
+            } );
+            representationNode.addInputListener( self.createDragHandler( centerPosition ) );
+
+            return representationNode;
+
+          } );
+
+          // add all pieces to the pieceNode layer
+          piecesNode.setChildren( contentPieces );
+
+          // set the label on the bucket
+
+          var iconOptions = {
+            beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
+            beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
+            tickWidth: 1
+          };
+          bucketFront.setLabel( self.createLabelBox( representation, iconOptions ) );
+
           options.children = [ bucketHole, piecesNode, bucketFront ];
           break;
+        case Representation.NUMBER_LINE :
+          options.children = [];
+          break;
         default:
-          bucketFront.setLabel( createLabelBox( new Node() ) );
+          bucketFront.setLabel( new Text( '' ) );
           options.children = [ bucketHole, bucketFront ];
           break;
       }
+
       self.mutate( options );
     } );
 
-    // pieces in the bucket
-    DATA_POINT_CREATOR_OFFSET_POSITIONS.forEach( function( position ) {
+    // handle the coming and going of pieces
+    pieces.addItemAddedListener( function( addedPiece ) {
 
-      // TODO: generalize to other shapes
-      var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
+      var pieceNode = self.createRepresentation( representationProperty.value, {
         beakerWidth: IntroConstants.BEAKER_WIDTH,
         beakerHeight: IntroConstants.BEAKER_LENGTH,
         tickWidth: 3,
-        centerX: position.x + bucketHole.centerX,
-        centerY: position.y + bucketHole.centerY + 15
+        maxHeight: 160,
+        visibleBackground: false
       } );
-      pieceNode.addInputListener( createDragHandler( pieceNode.center ) );
+
+      addedPiece.positionProperty.link( function( position ) {
+        pieceNode.center = position;
+      } );
       piecesNode.addChild( pieceNode );
+
+      addedPiece.returnToOriginEmitter.addListener( function() {
+        piecesNode.removeChild( pieceNode );
+      } );
+
+      pieces.addItemRemovedListener( function removalListener( removedPiece ) {
+        if ( removedPiece === addedPiece ) {
+          self.removeChild( pieceNode );
+
+          //  TODO: we need a dispose function on PieceNode
+          pieces.removeItemRemovedListener( removalListener );
+        }
+      } );
     } );
+  }
+
+  fractionsIntro.register( 'BucketNode', BucketNode );
+  return inherit( Node, BucketNode, {
+    /**
+     * @param {Representation} representation
+     * @param {Object} [options]
+     * @returns {HBox}
+     * @private
+     */
+    createRepresentation: function( representation, options ) {
+
+      switch( representation ) {
+
+        case Representation.BEAKER:
+
+          // creates beaker icon on bucket node
+          var beakerNode = new BeakerNode( this.denominatorProperty, this.segmentProperty, options );
+          return beakerNode;
+
+        case Representation.CAKE:
+
+          // creating cake
+          var cakeNode = new CakeNode( new NumberProperty( 1 ),
+            this.denominatorProperty, options );
+          return cakeNode;
+
+        default:
+          break;
+      }
+
+    },
+
+    /**
+     * creates an HBox with an icon and a fraction
+     * @param {Representation} representation
+     * @returns {HBox}
+     * @private
+     */
+    createLabelBox: function( representation, options ) {
+
+      // create the fraction with a numerator of 1
+      var fractionNode = new FractionNode(
+        new NumberProperty( 1 ),
+        this.denominatorProperty, {
+          font: new PhetFont( { size: 22 } ),
+          dividingLineLength: 25,
+          dividingLineWidth: 2
+        } );
+
+      // create the appropriate icon
+      var iconNode = this.createRepresentation( representation, options );
+
+      return new HBox( {
+        align: 'center',
+        spacing: 20,
+        children: [ iconNode, fractionNode ]
+      } );
+    },
 
     /**
      * create a drag handler that adds a piece to the model
      * @param {Vector2} centerPosition - centerPosition of the shape
      * @returns {SimpleDragHandler}
+     * @private
      */
-    function createDragHandler( centerPosition ) {
+    createDragHandler: function( centerPosition ) {
       var piece = null;
+      var self = this;
       var dragHandler = new SimpleDragHandler( {
 
         allowTouchSnag: true,
@@ -152,18 +239,17 @@ define( function( require ) {
         start: function() {
 
           // create a model piece
-          var modelPosition = modelViewTransform.viewToModelPosition( centerPosition );
           piece = new Piece( {
-            position: modelPosition,
+            position: centerPosition,
             dragging: true
           } );
 
           // add the model piece to the observable array
-          pieces.add( piece );
+          self.pieces.add( piece );
         },
 
         translate: function( translationParams ) {
-          piece.positionProperty.value = piece.positionProperty.value.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) );
+          piece.positionProperty.value = piece.positionProperty.value.plus( translationParams.delta );
         },
 
         end: function() {
@@ -174,38 +260,6 @@ define( function( require ) {
 
       return dragHandler;
     }
-
-    // handle the coming and going of pieces
-    pieces.addItemAddedListener( function( addedPiece ) {
-        // TODO: generalize to other shapes
-        var pieceNode = new BeakerNode( denominatorProperty, segmentProperty, {
-          beakerWidth: IntroConstants.BEAKER_WIDTH,
-          beakerHeight: IntroConstants.BEAKER_LENGTH,
-          tickWidth: 3
-        } );
-
-        addedPiece.positionProperty.link( function( position ) {
-          pieceNode.center = position;
-        } );
-        piecesNode.addChild( pieceNode );
-
-        addedPiece.returnToOriginEmitter.addListener( function() {
-          piecesNode.removeChild( pieceNode );
-        } );
-
-        pieces.addItemRemovedListener( function removalListener( removedPiece ) {
-          if ( removedPiece === addedPiece ) {
-            self.removeChild( pieceNode );
-
-            //  TODO: we need a dispose function on PieceNode
-            pieces.removeItemRemovedListener( removalListener );
-          }
-        } );
-      }
-    );
-  }
-
-  fractionsIntro.register( 'BucketNode', BucketNode );
-  return inherit( Node, BucketNode, {} );
+  } );
 } )
 ;
