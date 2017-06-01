@@ -146,7 +146,7 @@ define( function( require ) {
           options.children = [];
           break;
         default:
-          bucketFront.setLabel( new Text( '' ) );
+          bucketFront.setLabel( null );
           options.children = [ bucketHole, bucketFront ];
           break;
       }
@@ -215,6 +215,7 @@ define( function( require ) {
           return cakeNode;
 
         default:
+          throw new Error( 'Unknown Representation: ' + representation );
           break;
       }
 
