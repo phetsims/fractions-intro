@@ -101,7 +101,6 @@ define( function( require ) {
       } );
 
       var cakeNode = new CakeNode( introModel.numeratorProperty, introModel.denominatorProperty, {
-        maxHeight: 200,
         centerX: this.layoutBounds.centerX,
         top: representationPanel.bottom + 60
       } );

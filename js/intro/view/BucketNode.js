@@ -28,6 +28,7 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -38,10 +39,10 @@ define( function( require ) {
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
   var PIECE_OFFSET_POSITIONS = [
     // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
-    new Vector2( -90, -4 ),
-    new Vector2( -55, -5 ),
-    new Vector2( 100, -5 ),
-    new Vector2( -25, -9 ),
+    new Vector2( -80, -4 ),
+    new Vector2( -45, -5 ),
+    new Vector2( 80, -5 ),
+    new Vector2( -20, -9 ),
     new Vector2( 10, -3 ),
     new Vector2( 35, -5 )
   ];
@@ -86,103 +87,131 @@ define( function( require ) {
     // creates hole of bucket
     var bucketHole = new BucketHole( bucket, IDENTITY_TRANSFORM );
 
+    // creates a white rectangle beneath the bucket to prevent slices to appear below the bucket
+    var underneathRectangle = new Rectangle( 0, 0, bucketFront.width * 0.8, 150, 0, 0, {
+      fill: 'white',
+      centerX: bucketHole.centerX,
+      top: bucketFront.bottom - 30
+    } );
     // node to collect all pieces in the bucket
     var piecesNode = new Node();
 
     representationProperty.link( function( representation ) {
-      switch( representation ) {
 
-        case Representation.BEAKER:
-        case Representation.CAKE:
+        var contentPieces;
+        // TODO: change from switch to if to prevent copy paste of code
+        switch( representation ) {
 
-          // create all pieces for the bucket
-          var contentPieces = PIECE_OFFSET_POSITIONS.map( function( position ) {
-            var centerPosition = position.plus( bucketHole.center ).plus( new Vector2( 0, 15 ) );
+          case Representation.BEAKER:
 
-            var representationNode = self.createRepresentation( representation, {
-              center: centerPosition,
+            var beakerOptions = {
               beakerWidth: IntroConstants.BEAKER_WIDTH,
               beakerHeight: IntroConstants.BEAKER_LENGTH,
-              tickWidth: 3,
-              maxHeight: 160,
+              tickWidth: 3
+            };
+            contentPieces = self.createContentPieces( representation, bucketHole.center,
+              beakerOptions );
+
+            piecesNode.setChildren( contentPieces );
+
+            var beakerIconOptions = {
+              beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
+              beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
+              tickWidth: 1
+            };
+            bucketFront.setLabel( self.createLabelBox( representation, beakerIconOptions ) );
+
+            options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
+            break;
+
+          case Representation.CAKE:
+
+            var cakeOptions = {
               visibleBackground: false
-            } );
-            representationNode.addInputListener( self.createDragHandler( centerPosition ) );
+            };
 
-            return representationNode;
+            contentPieces = self.createContentPieces( representation, bucketHole.center,
+              cakeOptions );
 
-          } );
+            piecesNode.setChildren( contentPieces );
 
-          // add all pieces to the pieceNode layer
-          piecesNode.setChildren( contentPieces );
+            var cakeIconOptions = {
+              maxHeight: 40
+            };
+            bucketFront.setLabel( self.createLabelBox( representation, cakeIconOptions ) );
 
-          // set the label on the bucket
+            options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
+            break;
 
-          var iconOptions = {
-            beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
-            beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
-            tickWidth: 1
-          };
-          bucketFront.setLabel( self.createLabelBox( representation, iconOptions ) );
+          case Representation.VERTICAL_BAR:
+            // set the label on the bucket
 
-          options.children = [ bucketHole, piecesNode, bucketFront ];
-          break;
+            var verticalBarIconOptions = {
+              containerWidth: 30,
+              containerHeight: 60,
+              outlineLineWidth: 1
+            };
+            bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
+            options.children = [ bucketHole, bucketFront ];
+            break;
 
-        case Representation.VERTICAL_BAR:
-          // set the label on the bucket
+          case Representation.NUMBER_LINE :
+            options.children = [];
+            break;
 
-          var verticalBarIconOptions = {
-            containerWidth: 30,
-            containerHeight: 60,
-            outlineLineWidth: 1
+          default:
+            // TODO: temporary  remove when done
 
-          };
-          bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
+            bucketFront.setLabel( new Text( '' ) );
+            options.children = [ underneathRectangle, bucketHole, bucketFront ];
+            break;
+        }
 
-          options.children = [ bucketHole, bucketFront ];
-
-          break;
-        case Representation.NUMBER_LINE :
-          options.children = [];
-          break;
-        default:
-          bucketFront.setLabel( null );
-          options.children = [ bucketHole, bucketFront ];
-          break;
-      }
-
-      self.mutate( options );
-    } );
+        self.mutate( options );
+      }    );
 
     // handle the coming and going of pieces
     pieces.addItemAddedListener( function( addedPiece ) {
 
-      var pieceNode = self.createRepresentation( representationProperty.value, {
-        beakerWidth: IntroConstants.BEAKER_WIDTH,
-        beakerHeight: IntroConstants.BEAKER_LENGTH,
-        tickWidth: 3,
-        maxHeight: 160,
-        visibleBackground: false
-      } );
 
-      addedPiece.positionProperty.link( function( position ) {
-        pieceNode.center = position;
-      } );
-      piecesNode.addChild( pieceNode );
+        // TODO: clean up handling of options
+        var options = {};
 
-      addedPiece.returnToOriginEmitter.addListener( function() {
-        piecesNode.removeChild( pieceNode );
-      } );
+        if ( representationProperty.value === Representation.BEAKER ) {
 
-      pieces.addItemRemovedListener( function removalListener( removedPiece ) {
-        if ( removedPiece === addedPiece ) {
-          self.removeChild( pieceNode );
-
-          //  TODO: we need a dispose function on PieceNode
-          pieces.removeItemRemovedListener( removalListener );
+          options = {
+            beakerWidth: IntroConstants.BEAKER_WIDTH,
+            beakerHeight: IntroConstants.BEAKER_LENGTH,
+            tickWidth: 3
+          };
         }
-      } );
-    } );
+        if ( representationProperty.value === Representation.CAKE ) {
+          options = {
+            visibleBackground: false
+          };
+        }
+
+        var pieceNode = self.createRepresentation( representationProperty.value, options );
+
+        addedPiece.positionProperty.link( function( position ) {
+          pieceNode.center = position;
+        } );
+        piecesNode.addChild( pieceNode );
+
+        addedPiece.returnToOriginEmitter.addListener( function() {
+          piecesNode.removeChild( pieceNode );
+        } );
+
+        pieces.addItemRemovedListener( function removalListener( removedPiece ) {
+          if ( removedPiece === addedPiece ) {
+            self.removeChild( pieceNode );
+
+            //  TODO: we need a dispose function on PieceNode
+            pieces.removeItemRemovedListener( removalListener );
+          }
+        } );
+      }
+    );
   }
 
   fractionsIntro.register( 'BucketNode', BucketNode );
@@ -201,6 +230,7 @@ define( function( require ) {
 
           var verticalBarNode = new VerticalBarNode( this.containerSet, options );
           return verticalBarNode;
+
         case Representation.BEAKER:
 
           // creates beaker icon on bucket node
@@ -216,7 +246,6 @@ define( function( require ) {
 
         default:
           throw new Error( 'Unknown Representation: ' + representation );
-          break;
       }
 
     },
@@ -284,6 +313,33 @@ define( function( require ) {
       } );
 
       return dragHandler;
+    },
+    /**
+     * create an array of pieces for the bucket
+     *
+     * @param {Representation} representation
+     * @param {Vector2} bucketHoleCenter
+     * @param {Object} [options]
+     * @returns {Node[]} contentPieces
+     * @private
+     */
+    createContentPieces: function( representation, bucketHoleCenter, options ) {
+
+      var self = this;
+      // create all pieces for the bucket
+      var contentPieces = PIECE_OFFSET_POSITIONS.map( function( position ) {
+        var centerPosition = position.plus( bucketHoleCenter ).plus( new Vector2( 0, 15 ) );
+
+        var representationNode = self.createRepresentation( representation, options );
+
+        representationNode.center = centerPosition;
+
+        representationNode.addInputListener( self.createDragHandler( centerPosition ) );
+
+        return representationNode;
+
+      } );
+      return contentPieces;
     }
   } );
 } )

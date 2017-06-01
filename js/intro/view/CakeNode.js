@@ -81,7 +81,7 @@ define( function( require ) {
   function CakeNode( numeratorProperty, denominatorProperty, options ) {
 
     options = _.extend( {
-      maxHeight: 60,
+      maxHeight: 160,
       visibleBackground: true
     }, options );
 
@@ -242,6 +242,7 @@ define( function( require ) {
       self.addChild( createCakeNode( numerator, denominator ) );
     } );
 
+    this.mutate( options );
     this.mutate( options );
   }
 
