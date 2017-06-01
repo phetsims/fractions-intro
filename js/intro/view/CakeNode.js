@@ -88,53 +88,28 @@ define( function( require ) {
     Node.call( this );
     var self = this;
 
-    var cakeImageArray = [ [], [], [], [], [], [], [], [], [] ];
-    cakeImageArray[ 1 ][ 1 ] = cake_1_1Image;
-    cakeImageArray[ 2 ][ 1 ] = cake_2_1Image;
-    cakeImageArray[ 2 ][ 2 ] = cake_2_2Image;
-    cakeImageArray[ 3 ][ 1 ] = cake_3_1Image;
-    cakeImageArray[ 3 ][ 2 ] = cake_3_2Image;
-    cakeImageArray[ 3 ][ 3 ] = cake_3_3Image;
-    cakeImageArray[ 4 ][ 1 ] = cake_4_1Image;
-    cakeImageArray[ 4 ][ 2 ] = cake_4_2Image;
-    cakeImageArray[ 4 ][ 3 ] = cake_4_3Image;
-    cakeImageArray[ 4 ][ 4 ] = cake_4_4Image;
-    cakeImageArray[ 5 ][ 1 ] = cake_5_1Image;
-    cakeImageArray[ 5 ][ 2 ] = cake_5_2Image;
-    cakeImageArray[ 5 ][ 3 ] = cake_5_3Image;
-    cakeImageArray[ 5 ][ 4 ] = cake_5_4Image;
-    cakeImageArray[ 5 ][ 5 ] = cake_5_5Image;
-    cakeImageArray[ 6 ][ 1 ] = cake_6_1Image;
-    cakeImageArray[ 6 ][ 2 ] = cake_6_2Image;
-    cakeImageArray[ 6 ][ 3 ] = cake_6_3Image;
-    cakeImageArray[ 6 ][ 4 ] = cake_6_4Image;
-    cakeImageArray[ 6 ][ 5 ] = cake_6_5Image;
-    cakeImageArray[ 6 ][ 6 ] = cake_6_6Image;
-    cakeImageArray[ 7 ][ 1 ] = cake_7_1Image;
-    cakeImageArray[ 7 ][ 2 ] = cake_7_2Image;
-    cakeImageArray[ 7 ][ 3 ] = cake_7_3Image;
-    cakeImageArray[ 7 ][ 4 ] = cake_7_4Image;
-    cakeImageArray[ 7 ][ 5 ] = cake_7_5Image;
-    cakeImageArray[ 7 ][ 6 ] = cake_7_6Image;
-    cakeImageArray[ 7 ][ 7 ] = cake_7_7Image;
-    cakeImageArray[ 8 ][ 1 ] = cake_8_1Image;
-    cakeImageArray[ 8 ][ 2 ] = cake_8_2Image;
-    cakeImageArray[ 8 ][ 3 ] = cake_8_3Image;
-    cakeImageArray[ 8 ][ 4 ] = cake_8_4Image;
-    cakeImageArray[ 8 ][ 5 ] = cake_8_5Image;
-    cakeImageArray[ 8 ][ 6 ] = cake_8_6Image;
-    cakeImageArray[ 8 ][ 7 ] = cake_8_7Image;
-    cakeImageArray[ 8 ][ 8 ] = cake_8_8Image;
+    var cakeImageArray = [
+      [ cake_1_1Image ],
+      [ cake_2_1Image, cake_2_2Image ],
+      [ cake_3_1Image, cake_3_2Image, cake_3_3Image ],
+      [ cake_4_1Image, cake_4_2Image, cake_4_3Image, cake_4_4Image ],
+      [ cake_5_1Image, cake_5_2Image, cake_5_3Image, cake_5_4Image, cake_5_5Image ],
+      [ cake_6_1Image, cake_6_2Image, cake_6_3Image, cake_6_4Image, cake_6_5Image, cake_6_6Image ],
+      [ cake_7_1Image, cake_7_2Image, cake_7_3Image, cake_7_4Image, cake_7_5Image, cake_7_6Image, cake_7_7Image ],
+      [ cake_8_1Image, cake_8_2Image, cake_8_3Image, cake_8_4Image, cake_8_5Image, cake_8_6Image, cake_8_7Image,
+        cake_8_8Image ]
+    ];
 
-    var cakeGridImageArray = [];
-    cakeGridImageArray[ 1 ] = cake_grid_1Image;
-    cakeGridImageArray[ 2 ] = cake_grid_2Image;
-    cakeGridImageArray[ 3 ] = cake_grid_3Image;
-    cakeGridImageArray[ 4 ] = cake_grid_4Image;
-    cakeGridImageArray[ 5 ] = cake_grid_5Image;
-    cakeGridImageArray[ 6 ] = cake_grid_6Image;
-    cakeGridImageArray[ 7 ] = cake_grid_7Image;
-    cakeGridImageArray[ 8 ] = cake_grid_8Image;
+    var cakeGridImageArray = [
+      cake_grid_1Image,
+      cake_grid_2Image,
+      cake_grid_3Image,
+      cake_grid_4Image,
+      cake_grid_5Image,
+      cake_grid_6Image,
+      cake_grid_7Image,
+      cake_grid_8Image
+    ];
 
     /**
      * returns a scenery Node with slices of a cake and a grid
@@ -149,7 +124,7 @@ define( function( require ) {
       if ( options.visibleBackground ) {
 
         // add grid image of the cake
-        var gridImage = new Image( cakeGridImageArray[ denominator ], {
+        var gridImage = new Image( cakeGridImageArray[ denominator - 1 ], {
           maxHeight: options.maxHeight
         } );
 
@@ -211,10 +186,10 @@ define( function( require ) {
       var cakeLayerArray = [];
 
       // add slices of cake to the cakeLayerArray
-      for ( var sliceIndex = 1; sliceIndex <= numberOfSlices; sliceIndex++ ) {
+      for ( var sliceIndex = 0; sliceIndex < numberOfSlices; sliceIndex++ ) {
 
         // fetch image based on the denominator and the slice number
-        var cakeImage = new Image( cakeImageArray[ denominator ][ sliceIndex ],
+        var cakeImage = new Image( cakeImageArray[ denominator - 1 ][ sliceIndex ],
           { maxHeight: options.maxHeight } );
         cakeLayerArray.push( cakeImage );
       }
