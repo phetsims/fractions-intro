@@ -38,7 +38,9 @@ define( function( require ) {
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} maxProperty - control the upper bound of the number line
    * @param {Property.<number>} multiplicationFactorProperty - ratio of the tick on the
-   *                                                            upper and lower side of the number line
+   *                                                            upper and lower side of the number line in order to
+   *                                                            increase  number of tick on the bottom of the number
+   *                                                            line to use in the equality tab.
    * @param {Object} [options]
    * @constructor
    */
@@ -48,10 +50,11 @@ define( function( require ) {
                            multiplicationFactorProperty,
                            options ) {
 
+    // plan to use the vertical option in the equality tab
     options = _.extend( {
         rotation: 0,  // horizontal -> 0, vertical -> -Math.PI/2
 
-        //This gives the user option to add an arrow to the numberline if set to true
+        //This gives the user option to add an arrow to the numberline if set to true or use number line
         displayArrow: false
       },
       options );
