@@ -26,6 +26,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
+
 
   // constants
   var HIGHLIGHTER_PADDING_HEIGHT = 5;
@@ -132,7 +134,10 @@ define( function( require ) {
     } );
 
     // initializes a unique markerCircle if displayArrow = false
-    var markerCircle = new Circle( MARKER_CIRCLE_RADIUS, { fill: 'green', lineWidth: 3, stroke: 'black' } );
+    var markerCircle = new Circle( MARKER_CIRCLE_RADIUS, {
+      fill: 'green',
+      lineWidth: 3,
+      stroke: 'black' } );
 
     if ( options.displayArrow ) {
       markerCircle.setOpacity( 0.7 );
@@ -150,8 +155,7 @@ define( function( require ) {
     var highlighterRectangle = new Rectangle( 0, 0, MARKER_CIRCLE_RADIUS * 2,
       (IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT), {
         fill: 'yellow',
-        centerX: 0,
-        centerY: 0
+        center: Vector2.ZERO
       } );
 
     // update position of the circle marker and the highlighter region based on the values of the numerator
