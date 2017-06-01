@@ -28,7 +28,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
 
-
   // constants
   var HIGHLIGHTER_PADDING_HEIGHT = 5;
   var MARKER_CIRCLE_RADIUS = 12;
@@ -163,6 +162,9 @@ define( function( require ) {
     Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
       markerCircle.centerX = segmentLength * numerator / denominator;
 
+      var tickLength = ( numerator / denominator % 1 === 0 ) ?
+                       IntroConstants.MAJOR_TICK_LENGTH : IntroConstants.MINOR_TICK_LENGTH;
+
       // Enables or Disables the ArrowNode
       if ( options.displayArrow ) {
 
@@ -170,24 +172,12 @@ define( function( require ) {
         markerArrow.centerX = markerCircle.centerX;
 
         // markerArrow moves vertically depending on the position of the tick marks
-        if ( numerator / denominator % 1 === 0 ) {
-          markerArrow.bottom = -IntroConstants.MAJOR_TICK_LENGTH / 2 - ARROW_VERTICAL_OFFSET;
-        }
-        else {
-          markerArrow.bottom = -IntroConstants.MINOR_TICK_LENGTH / 2 - ARROW_VERTICAL_OFFSET;
-        }
-
+          markerArrow.bottom = -tickLength/ 2 - ARROW_VERTICAL_OFFSET;
       }
 
       // highlighted region scales differently depending on the position of the tick marks
-      if ( numerator / denominator % 1 === 0 ) {
-        highlighterRectangle.setRectHeight( IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT );
+        highlighterRectangle.setRectHeight( tickLength + HIGHLIGHTER_PADDING_HEIGHT );
 
-      }
-      else {
-        highlighterRectangle.setRectHeight( IntroConstants.MINOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT );
-
-      }
       highlighterRectangle.center = markerCircle.center;
     } );
 
