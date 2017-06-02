@@ -105,7 +105,7 @@ define( function( require ) {
         top: representationPanel.bottom + 60
       } );
 
-      var verticalBarNode = new VerticalBarNode( introModel.containerSet, {
+      var verticalBarNode = new VerticalBarNode( introModel.containerSet, introModel.pieces, {
         center: self.layoutBounds.center.plus( new Vector2( 0, -50 ) )
       } );
 

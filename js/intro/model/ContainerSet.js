@@ -30,7 +30,15 @@ define( function( require ) {
     // @public (read only)
     this.denominatorProperty = denominatorProperty;
 
+    // @public
+    this.numeratorProperty = numeratorProperty;
+
+    // @private
     this.containersEmitter = new Emitter();
+
+    // @private
+    // an account of the previous amount of filled cells
+    this.oldCellCount = this.numeratorProperty.value;
 
     // present for the lifetime of the simulation
     maxProperty.link( function( max, oldMax ) {
@@ -84,24 +92,32 @@ define( function( require ) {
     numeratorProperty.link( function( numerator, oldNumerator ) {
         var difference = numerator - oldNumerator;
 
-        // numerator is increasing
-        if ( difference > 0 ) {
+        // the difference between filled cell count now and before numerator was changed
+        // should be zero unless emptyThisCell method is used
+        var cellCountDifference = self.getFilledCellsCount( self.flattenContainers( self.containers ) ) - self.oldCellCount;
 
-          // toggle isFilled of 'difference' number of cells from false to true
-          self.toggleIsFilledTo( difference, false );
-        }
+        // if these two values are equal, then emptyThisCell method has been used and we can skip toggleIsFilledTo
+        if ( difference !== cellCountDifference ) {
+          // numerator is increasing
+          if ( difference > 0 ) {
 
-        // numerator is decreasing
-        else if ( difference < 0 ) {
-
-          // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
-          if ( oldNumerator / denominatorProperty.value <= maxProperty.value ) {
-
-            // toggle isFilled of '-difference' (a positive number) of cells from true to false
-            self.toggleIsFilledTo( -difference, true );
+            // toggle isFilled of 'difference' number of cells from false to true
+            self.toggleIsFilledTo( difference, false );
           }
+
+          // numerator is decreasing
+          else if ( difference < 0 ) {
+
+            // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
+            if ( oldNumerator / denominatorProperty.value <= maxProperty.value ) {
+
+              // toggle isFilled of '-difference' (a positive number) of cells from true to false
+              self.toggleIsFilledTo( -difference, true );
+            }
+          }
+          self.containersEmitter.emit();
         }
-        self.containersEmitter.emit();
+        self.oldCellCount = self.numeratorProperty.value;
       }
     );
   }
@@ -247,6 +263,19 @@ define( function( require ) {
       return containers.reduce( function( accumulator, container ) {
         return accumulator.concat( container.cells );
       }, [] );
+    },
+
+    /**
+     * empties a given cell and updates numerator property and oldCellCount
+     * @param {Cell} cell
+     */
+    emptyThisCell: function( cell ) {
+
+      // must be done in this order or the emptied cell will be double counted!!
+      this.oldCellCount = this.getFilledCellsCount( this.flattenContainers( this.containers ) );
+      cell.isFilledProperty.value = false;
+      this.numeratorProperty.value = this.numeratorProperty.value - 1;
+      this.containersEmitter.emit();
     }
 
   } );

@@ -14,7 +14,9 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constant
@@ -24,10 +26,11 @@ define( function( require ) {
   /**
    *
    * @param {ContainerSet} containerSet
+   * @param {ObservableArray.<Pieces>} pieces
    * @param {Object} [options]
    * @constructor
    */
-  function VerticalBarNode( containerSet, options ) {
+  function VerticalBarNode( containerSet, pieces, options ) {
     options = _.extend( {
         align: 'center',
         containerSpacing: 22,
@@ -40,11 +43,20 @@ define( function( require ) {
       options );
 
     Node.call( this );
+
+    // @private
+    this.pieces = pieces;
+
+    // @private
+    this.options = options;
+
+    // @private
+    this.containerSet = containerSet;
     var self = this;
 
     // A HBox to hold the set of containers
-    var setOfContainers = new HBox( { align: options.align, spacing: options.containerSpacing } );
-    this.addChild( setOfContainers );
+    var setOfVerticalBarNodes = new HBox( { align: options.align, spacing: options.containerSpacing } );
+    this.addChild( setOfVerticalBarNodes );
 
     // function for displaying the containers
     function displayContainers() {
@@ -74,13 +86,11 @@ define( function( require ) {
 
           // the fill of the cell depends upon the filled property
           var cellFill = cell.isFilledProperty.value ? '#FFE600' : 'white';
-          var cellRectangle = new Rectangle( 0, 0, options.containerWidth, cellHeight, 0, 0, {
-            fill: cellFill,
-            lineWidth: 1,
-            stroke: containerStroke,
-            bottom: options.containerHeight - (index * cellHeight)
-          } );
 
+          var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
+          if ( cell.isFilledProperty.value ) {
+            cellRectangle.addInputListener( self.createDragHandler( cellRectangle.center, cell ) );
+          }
           cellsRectangle.push( cellRectangle );
 
         } );
@@ -90,7 +100,7 @@ define( function( require ) {
         containersLayer.push( containerNode );
       } );
 
-      setOfContainers.setChildren( containersLayer );
+      setOfVerticalBarNodes.setChildren( containersLayer );
       self.center = options.center;
     }
 
@@ -110,6 +120,7 @@ define( function( require ) {
      * create vertical bar pieces to use inside the bucket
      * @param denominatorProperty
      * @returns {Node}
+     * @private
      */
     createVerticalBarPiece: function( denominatorProperty ) {
 
@@ -136,7 +147,63 @@ define( function( require ) {
 
       return containerNode;
 
+    },
+    /**
+     * create a drag handler that adds a piece to the model
+     * @param {Vector2} centerPosition - centerPosition of the shape
+     * @returns {SimpleDragHandler}
+     * @private
+     */
+    createDragHandler: function( centerPosition, cell ) {
+      var piece = null;
+      var self = this;
+      var dragHandler = new SimpleDragHandler( {
+
+        allowTouchSnag: true,
+        start: function() {
+
+          // create a model piece
+          piece = new Piece( {
+            position: centerPosition,
+            dragging: true
+          } );
+
+          // add the model piece to the observable array
+          self.pieces.add( piece );
+          self.containerSet.emptyThisCell( cell );
+        },
+
+        translate: function( translationParams ) {
+          piece.positionProperty.value = piece.positionProperty.value.plus( translationParams.delta );
+        },
+
+        end: function() {
+          piece.draggingProperty.set( false );
+          piece = null;
+        }
+      } );
+
+      return dragHandler;
+    },
+    /**
+     * creates a rectangle to be used to represent a cell of the
+     * @param {number} cellHeight
+     * @param {string} cellFill
+     * @param {string} containerStroke
+     * @param {number} index
+     * @returns {Rectangle}
+     * @private
+     */
+    createCellRectangle: function( cellHeight, cellFill, containerStroke, index ) {
+      var cellRectangle = new Rectangle( 0, 0, this.options.containerWidth, cellHeight, 0, 0, {
+        fill: cellFill,
+        lineWidth: 1,
+        stroke: containerStroke,
+        bottom: this.options.containerHeight - (index * cellHeight)
+      } );
+      return cellRectangle;
     }
 
   } );
-} );
+} )
+;

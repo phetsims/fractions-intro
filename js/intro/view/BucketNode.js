@@ -230,7 +230,7 @@ define( function( require ) {
 
         case Representation.VERTICAL_BAR:
 
-          var verticalBarNode = new VerticalBarNode( this.containerSet, options );
+          var verticalBarNode = new VerticalBarNode( this.containerSet, this.pieces, options );
           return verticalBarNode;
 
         case Representation.BEAKER:
