@@ -31,7 +31,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
@@ -164,7 +163,7 @@ define( function( require ) {
         default:
           // TODO: temporary  remove when done
 
-          bucketFront.setLabel( new Text( '' ) );
+          bucketFront.setLabel();
           options.children = [ underneathRectangle, bucketHole, bucketFront ];
           break;
       }
