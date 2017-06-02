@@ -27,7 +27,7 @@ define( function( require ) {
     // @public
     this.containers = [];
 
-    // @private
+    // @public (read only)
     this.denominatorProperty = denominatorProperty;
 
     this.containersEmitter = new Emitter();

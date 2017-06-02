@@ -240,8 +240,7 @@ define( function( require ) {
         case Representation.CAKE:
 
           // creating cake
-          var cakeNode = new CakeNode( new NumberProperty( 1 ),
-            this.denominatorProperty, options );
+          var cakeNode = new CakeNode( this.containerSet, options );
           return cakeNode;
 
         default:

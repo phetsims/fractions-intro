@@ -100,7 +100,7 @@ define( function( require ) {
         top: representationPanel.bottom + 60
       } );
 
-      var cakeNode = new CakeNode( introModel.numeratorProperty, introModel.denominatorProperty, {
+      var cakeNode = new CakeNode( introModel.containerSet, {
         centerX: this.layoutBounds.centerX,
         top: representationPanel.bottom + 60
       } );
