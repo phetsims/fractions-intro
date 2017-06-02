@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var CakeCellNode = require( 'FRACTIONS_INTRO/intro/view/CakeCellNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
@@ -17,43 +18,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // images
-  var cake_1_1Image = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
-  var cake_2_1Image = require( 'image!FRACTIONS_INTRO/cake_2_1.png' );
-  var cake_2_2Image = require( 'image!FRACTIONS_INTRO/cake_2_2.png' );
-  var cake_3_1Image = require( 'image!FRACTIONS_INTRO/cake_3_1.png' );
-  var cake_3_2Image = require( 'image!FRACTIONS_INTRO/cake_3_2.png' );
-  var cake_3_3Image = require( 'image!FRACTIONS_INTRO/cake_3_3.png' );
-  var cake_4_1Image = require( 'image!FRACTIONS_INTRO/cake_4_1.png' );
-  var cake_4_2Image = require( 'image!FRACTIONS_INTRO/cake_4_2.png' );
-  var cake_4_3Image = require( 'image!FRACTIONS_INTRO/cake_4_3.png' );
-  var cake_4_4Image = require( 'image!FRACTIONS_INTRO/cake_4_4.png' );
-  var cake_5_1Image = require( 'image!FRACTIONS_INTRO/cake_5_1.png' );
-  var cake_5_2Image = require( 'image!FRACTIONS_INTRO/cake_5_2.png' );
-  var cake_5_3Image = require( 'image!FRACTIONS_INTRO/cake_5_3.png' );
-  var cake_5_4Image = require( 'image!FRACTIONS_INTRO/cake_5_4.png' );
-  var cake_5_5Image = require( 'image!FRACTIONS_INTRO/cake_5_5.png' );
-  var cake_6_1Image = require( 'image!FRACTIONS_INTRO/cake_6_1.png' );
-  var cake_6_2Image = require( 'image!FRACTIONS_INTRO/cake_6_2.png' );
-  var cake_6_3Image = require( 'image!FRACTIONS_INTRO/cake_6_3.png' );
-  var cake_6_4Image = require( 'image!FRACTIONS_INTRO/cake_6_4.png' );
-  var cake_6_5Image = require( 'image!FRACTIONS_INTRO/cake_6_5.png' );
-  var cake_6_6Image = require( 'image!FRACTIONS_INTRO/cake_6_6.png' );
-  var cake_7_1Image = require( 'image!FRACTIONS_INTRO/cake_7_1.png' );
-  var cake_7_2Image = require( 'image!FRACTIONS_INTRO/cake_7_2.png' );
-  var cake_7_3Image = require( 'image!FRACTIONS_INTRO/cake_7_3.png' );
-  var cake_7_4Image = require( 'image!FRACTIONS_INTRO/cake_7_4.png' );
-  var cake_7_5Image = require( 'image!FRACTIONS_INTRO/cake_7_5.png' );
-  var cake_7_6Image = require( 'image!FRACTIONS_INTRO/cake_7_6.png' );
-  var cake_7_7Image = require( 'image!FRACTIONS_INTRO/cake_7_7.png' );
-  var cake_8_1Image = require( 'image!FRACTIONS_INTRO/cake_8_1.png' );
-  var cake_8_2Image = require( 'image!FRACTIONS_INTRO/cake_8_2.png' );
-  var cake_8_3Image = require( 'image!FRACTIONS_INTRO/cake_8_3.png' );
-  var cake_8_4Image = require( 'image!FRACTIONS_INTRO/cake_8_4.png' );
-  var cake_8_5Image = require( 'image!FRACTIONS_INTRO/cake_8_5.png' );
-  var cake_8_6Image = require( 'image!FRACTIONS_INTRO/cake_8_6.png' );
-  var cake_8_7Image = require( 'image!FRACTIONS_INTRO/cake_8_7.png' );
-  var cake_8_8Image = require( 'image!FRACTIONS_INTRO/cake_8_8.png' );
-
   var cake_grid_1Image = require( 'image!FRACTIONS_INTRO/cake_grid_1.png' );
   var cake_grid_2Image = require( 'image!FRACTIONS_INTRO/cake_grid_2.png' );
   var cake_grid_3Image = require( 'image!FRACTIONS_INTRO/cake_grid_3.png' );
@@ -62,18 +26,6 @@ define( function( require ) {
   var cake_grid_6Image = require( 'image!FRACTIONS_INTRO/cake_grid_6.png' );
   var cake_grid_7Image = require( 'image!FRACTIONS_INTRO/cake_grid_7.png' );
   var cake_grid_8Image = require( 'image!FRACTIONS_INTRO/cake_grid_8.png' );
-
-  var cakeImageArray = [
-    [ cake_1_1Image ],
-    [ cake_2_1Image, cake_2_2Image ],
-    [ cake_3_1Image, cake_3_2Image, cake_3_3Image ],
-    [ cake_4_1Image, cake_4_2Image, cake_4_3Image, cake_4_4Image ],
-    [ cake_5_1Image, cake_5_2Image, cake_5_3Image, cake_5_4Image, cake_5_5Image ],
-    [ cake_6_1Image, cake_6_2Image, cake_6_3Image, cake_6_4Image, cake_6_5Image, cake_6_6Image ],
-    [ cake_7_1Image, cake_7_2Image, cake_7_3Image, cake_7_4Image, cake_7_5Image, cake_7_6Image, cake_7_7Image ],
-    [ cake_8_1Image, cake_8_2Image, cake_8_3Image, cake_8_4Image, cake_8_5Image, cake_8_6Image, cake_8_7Image,
-      cake_8_8Image ]
-  ];
 
   var cakeGridImageArray = [
     cake_grid_1Image,
@@ -88,13 +40,12 @@ define( function( require ) {
 
   /**
    * @param {ContainerSet} containerSet
-   * @param {object} [options]
+   * @param {Object} [options]
    * @constructor
    */
   function CakeNode( containerSet, options ) {
 
     options = _.extend( {
-      maxHeight: 160, // maximum height of this node
       visibleBackground: true, // is the grid and white ellipse background visible
       spacing: 180 // separation of two adjacent cakes
     }, options );
@@ -103,10 +54,18 @@ define( function( require ) {
 
     var self = this;
 
+    var platesNode = new Node();
+    var allSlicesNode = new Node();
+
+    this.addChild( platesNode );
+    this.addChild( allSlicesNode );
+
     var updateCakesDisplay = function() {
 
       // TODO: check how much of a performance hit to use such a simple approach
-      self.removeAllChildren();
+      allSlicesNode.removeAllChildren();
+      platesNode.removeAllChildren();
+
 
       var numberOfContainers = containerSet.containers.length;
 
@@ -119,9 +78,9 @@ define( function( require ) {
 
         // is the cakePlate visible
         if ( options.visibleBackground ) {
-          var cakePlateNode = self.getCakePlateNode( numberOfCells );
+          var cakePlateNode = self.getCakePlateNode( numberOfCells, options );
           cakePlateNode.centerX = centerX;
-          self.addChild( cakePlateNode );
+          platesNode.addChild( cakePlateNode );
         }
 
         // TODO: but the slices in the first container will be beneath
@@ -129,9 +88,9 @@ define( function( require ) {
         if ( !container.isContainerEmpty() ) {
 
           // all the slices associated with this container
-          var slicesNode = self.getSlicesNode( container );
+          var slicesNode = self.getSlicesNode( container, options );
           slicesNode.centerX = centerX;
-          self.addChild( slicesNode );
+          allSlicesNode.addChild( slicesNode );
         }
       } );
     };
@@ -156,7 +115,7 @@ define( function( require ) {
      * @returns {Node}
      * @private
      */
-    getSlicesNode: function( container ) {
+    getSlicesNode: function( container, options ) {
 
       // an array of cells {Cell[]}
       var cells = container.cells;
@@ -179,7 +138,8 @@ define( function( require ) {
           var zOrder = zLayerArray[ index ];
 
           // place the cakeImage in the z ordered array
-          slicesImage[ zOrder ] = new Image( cakeImageArray[ numberOfCells - 1 ][ index ] );
+          slicesImage[ zOrder ] = new CakeCellNode( index, numberOfCells, options );
+
         }
       } );
 
@@ -195,10 +155,10 @@ define( function( require ) {
      * @returns {Node}
      * @private
      */
-    getCakePlateNode: function( numberOfCells ) {
+    getCakePlateNode: function( numberOfCells, options ) {
 
       // add grid image of the cake with the appropriate number of cells
-      var gridImage = new Image( cakeGridImageArray[ numberOfCells - 1 ] );
+      var gridImage = new Image( cakeGridImageArray[ numberOfCells - 1 ], { height: options.imageHeight } );
 
       // create white background for the cake.
       // The shape of the ellipse is determined empirically based on the image

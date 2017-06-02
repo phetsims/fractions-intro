@@ -98,77 +98,79 @@ define( function( require ) {
 
     representationProperty.link( function( representation ) {
 
-        var contentPieces;
-        // TODO: change from switch to if to prevent copy paste of code
-        switch( representation ) {
+      var contentPieces;
+      // TODO: change from switch to if to prevent copy paste of code
+      switch( representation ) {
 
-          case Representation.BEAKER:
+        case Representation.BEAKER:
 
-            var beakerOptions = {
-              beakerWidth: IntroConstants.BEAKER_WIDTH,
-              beakerHeight: IntroConstants.BEAKER_LENGTH,
-              tickWidth: 3
-            };
-            contentPieces = self.createContentPieces( representation, bucketHole.center,
-              beakerOptions );
+          var beakerOptions = {
+            beakerWidth: IntroConstants.BEAKER_WIDTH,
+            beakerHeight: IntroConstants.BEAKER_LENGTH,
+            tickWidth: 3
+          };
+          contentPieces = self.createContentPieces( representation, bucketHole.center,
+            beakerOptions );
 
-            piecesNode.setChildren( contentPieces );
+          piecesNode.setChildren( contentPieces );
 
-            var beakerIconOptions = {
-              beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
-              beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
-              tickWidth: 1
-            };
-            bucketFront.setLabel( self.createLabelBox( representation, beakerIconOptions ) );
+          var beakerIconOptions = {
+            beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
+            beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
+            tickWidth: 1
+          };
+          bucketFront.setLabel( self.createLabelBox( representation, beakerIconOptions ) );
 
-            options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
-            break;
+          options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
+          break;
 
-          case Representation.CAKE:
+        case Representation.CAKE:
 
-            var cakeOptions = {
-              visibleBackground: false
-            };
+          var cakeOptions = {
+            visibleBackground: false,
+            isDraggable: false
+          };
 
-            contentPieces = self.createContentPieces( representation, bucketHole.center,
-              cakeOptions );
+          contentPieces = self.createContentPieces( representation, bucketHole.center,
+            cakeOptions );
 
-            piecesNode.setChildren( contentPieces );
+          piecesNode.setChildren( contentPieces );
 
-            var cakeIconOptions = {
-              maxHeight: 40
-            };
-            bucketFront.setLabel( self.createLabelBox( representation, cakeIconOptions ) );
+          var cakeIconOptions = {
+            imageHeight: 40,
+            isDraggable: false
+          };
+          bucketFront.setLabel( self.createLabelBox( representation, cakeIconOptions ) );
 
-            options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
-            break;
+          options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
+          break;
 
-          case Representation.VERTICAL_BAR:
-            // set the label on the bucket
+        case Representation.VERTICAL_BAR:
+          // set the label on the bucket
 
-            var verticalBarIconOptions = {
-              containerWidth: 30,
-              containerHeight: 60,
-              outlineLineWidth: 1
-            };
-            bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
-            options.children = [ bucketHole, bucketFront ];
-            break;
+          var verticalBarIconOptions = {
+            containerWidth: 30,
+            containerHeight: 60,
+            outlineLineWidth: 1
+          };
+          bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
+          options.children = [ bucketHole, bucketFront ];
+          break;
 
-          case Representation.NUMBER_LINE :
-            options.children = [];
-            break;
+        case Representation.NUMBER_LINE :
+          options.children = [];
+          break;
 
-          default:
-            // TODO: temporary  remove when done
+        default:
+          // TODO: temporary  remove when done
 
-            bucketFront.setLabel( new Text( '' ) );
-            options.children = [ underneathRectangle, bucketHole, bucketFront ];
-            break;
-        }
+          bucketFront.setLabel( new Text( '' ) );
+          options.children = [ underneathRectangle, bucketHole, bucketFront ];
+          break;
+      }
 
-        self.mutate( options );
-      }    );
+      self.mutate( options );
+    } );
 
     // handle the coming and going of pieces
     pieces.addItemAddedListener( function( addedPiece ) {
