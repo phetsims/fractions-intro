@@ -108,6 +108,21 @@ define( function( require ) {
       return this.cells.every( function( cell ) {
         return !cell.isFilledProperty.value;
       } );
+    },
+
+    /**
+     * count the number of filled cells
+     * @returns {number}
+     */
+    getNumberOfFilledCells: function() {
+      var filledCellCounter = 0;
+
+      for ( var index = 0; index < this.cells.length; index++ ) {
+        if ( this.cells[ index ].isFilledProperty.value ) {
+          filledCellCounter += 1;
+        }
+      }
+      return filledCellCounter;
     }
 
   } );
