@@ -182,6 +182,7 @@ define( function( require ) {
     /**
      * get last container that has at least one filled cell
      * @returns {Container}
+     * @private
      */
     getLastNonEmptyContainer: function() {
       return this.containers.reduce( function( previous, current ) {
@@ -195,6 +196,7 @@ define( function( require ) {
     /**
      * get the next container that has at least one empty cell
      * @returns {Container}
+     * @private
      */
     getNextNonFullContainer: function() {
       for ( var index = 0; index < this.containers.length; index++ ) {
@@ -208,6 +210,7 @@ define( function( require ) {
      * get Filled Cells
      * @param {Cell[]} cells
      * @returns {Cell[]}
+     * @private
      */
     getFilledCells: function( cells ) {
       return cells.filter( function( cell ) { return cell.isFilledProperty.value; } );
@@ -226,6 +229,7 @@ define( function( require ) {
      * get empty cells
      * @param {Cell[]} cells
      * @returns {Cell[]}
+     * @private
      */
     getEmptyCells: function( cells ) {
       return cells.filter( function( cell ) { return !cell.isFilledProperty.value; } );
@@ -234,7 +238,8 @@ define( function( require ) {
     /**
      * find number of empty cells
      * @param {Cell[]} cells
-     * @return (number)
+     * @return {number}
+     * @public
      */
     getEmptyCellsCount: function( cells ) {
       return this.getEmptyCells( cells ).length;
@@ -244,6 +249,7 @@ define( function( require ) {
      * finds closest empty cell of an array of containers to toVector
      * @param {Vector2} toVector - the vector to find the closest cell to
      * @returns {Cell}
+     * @private
      */
     getClosestEmptyCell: function( toVector ) {
       var closestCell = this.containers.map( function( container ) {
@@ -258,6 +264,7 @@ define( function( require ) {
      * Flatten an array of containers to an array of cells
      * @param {Container[]} containers
      * @returns {Cell[]}
+     * @public
      */
     flattenContainers: function( containers ) {
       return containers.reduce( function( accumulator, container ) {
@@ -268,6 +275,7 @@ define( function( require ) {
     /**
      * empties a given cell and updates numerator property and oldCellCount
      * @param {Cell} cell
+     * @public
      */
     emptyThisCell: function( cell ) {
 

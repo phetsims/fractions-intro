@@ -42,6 +42,7 @@ define( function( require ) {
      * finds closest empty cell of this container to toVector
      * @param {Vector2} toVector - the vector to find the closest cell to
      * @returns {Cell}
+     * @public
      */
     getClosestEmptyCell: function( toVector ) {
       var closestCell = this.cells.reduce( function( previous, current ) {
@@ -54,6 +55,7 @@ define( function( require ) {
     /**
      * get next cell to be filled
      * @returns {Cell}
+     * @public
      */
     getNextEmptyCell: function() {
       for ( var index = 0; index < this.cells.length; index++ ) {
@@ -66,6 +68,7 @@ define( function( require ) {
     /**
      * get next cell to be emptied
      * @returns {Cell}
+     * @public
      */
     getNextFilledCell: function() {
       for ( var index = this.cells.length - 1; index > -1; index-- ) {
@@ -113,6 +116,7 @@ define( function( require ) {
     /**
      * count the number of filled cells
      * @returns {number}
+     * @public
      */
     getNumberOfFilledCells: function() {
       var filledCellCounter = 0;
