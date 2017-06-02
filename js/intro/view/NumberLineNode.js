@@ -136,7 +136,8 @@ define( function( require ) {
     var markerCircle = new Circle( MARKER_CIRCLE_RADIUS, {
       fill: 'green',
       lineWidth: 3,
-      stroke: 'black' } );
+      stroke: 'black'
+    } );
 
     if ( options.displayArrow ) {
       markerCircle.setOpacity( 0.7 );
@@ -172,11 +173,11 @@ define( function( require ) {
         markerArrow.centerX = markerCircle.centerX;
 
         // markerArrow moves vertically depending on the position of the tick marks
-          markerArrow.bottom = -tickLength/ 2 - ARROW_VERTICAL_OFFSET;
+        markerArrow.bottom = -tickLength / 2 - ARROW_VERTICAL_OFFSET;
       }
 
       // highlighted region scales differently depending on the position of the tick marks
-        highlighterRectangle.setRectHeight( tickLength + HIGHLIGHTER_PADDING_HEIGHT );
+      highlighterRectangle.setRectHeight( tickLength + HIGHLIGHTER_PADDING_HEIGHT );
 
       highlighterRectangle.center = markerCircle.center;
     } );

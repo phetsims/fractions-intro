@@ -66,7 +66,6 @@ define( function( require ) {
       allSlicesNode.removeAllChildren();
       platesNode.removeAllChildren();
 
-
       var numberOfContainers = containerSet.containers.length;
 
       var numberOfCells = containerSet.denominatorProperty.value;
