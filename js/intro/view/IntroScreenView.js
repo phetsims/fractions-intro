@@ -193,7 +193,7 @@ define( function( require ) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       var options = {
-        children: [ resetAllButton, representationsNode, fractionNode, maxSpinner, representationPanel, bucketNode,
+        children: [ representationsNode, representationPanel, bucketNode, resetAllButton, fractionNode, maxSpinner,
           transparencySlider, pictureSpinner, pictureNode ]
       };
       this.mutate( options );
