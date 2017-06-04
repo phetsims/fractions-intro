@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -55,16 +54,16 @@ define( function( require ) {
     var self = this;
 
     // A HBox to hold the set of containers
-    var setOfVerticalBarNodes = new HBox( { align: options.align, spacing: options.containerSpacing } );
-    this.addChild( setOfVerticalBarNodes );
+    var setOfVerticalBarNode = new Node();
+    this.addChild( setOfVerticalBarNode );
 
     // function for displaying the containers
-    function displayContainers() {
+    this.displayContainers = function() {
 
-      var containersLayer = [];
+      setOfVerticalBarNode.removeAllChildren();
 
       // loop over all the containers in the container set
-      containerSet.containers.forEach( function( container ) {
+      containerSet.containers.forEach( function( container, containerIndex ) {
 
         var containerNode = new Node();
 
@@ -89,10 +88,12 @@ define( function( require ) {
 
           var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
 
-          cell.positionProperty.value = cellRectangle.center;
+          cell.positionProperty.value = cellRectangle.center.plus(
+            new Vector2( ( options.containerWidth + options.containerSpacing) *
+                         (containerIndex - containerSet.containers.length / 2) + 600, 300 ) );
 
           if ( cell.isFilledProperty.value ) {
-            cellRectangle.addInputListener( self.createDragHandler( cellRectangle.center, cell ) );
+            cellRectangle.addInputListener( self.createDragHandler( cell.positionProperty.value, cell ) );
           }
           cellsRectangle.push( cellRectangle );
 
@@ -100,19 +101,21 @@ define( function( require ) {
 
         containerNode.setChildren( cellsRectangle );
         containerNode.addChild( containerRectangle );
-        containersLayer.push( containerNode );
+        containerNode.centerX = 600 + ( options.containerWidth + options.containerSpacing) *
+                                      (containerIndex - containerSet.containers.length / 2);
+        containerNode.bottom = 300;
+
+        setOfVerticalBarNode.addChild( containerNode );
       } );
 
-      setOfVerticalBarNodes.setChildren( containersLayer );
-      self.center = options.center;
-    }
+    };
 
     // needs to be called once or the beginning state of the containers will not be displayed
-    displayContainers();
+    this.displayContainers();
 
     // add listener to container sets
     containerSet.containersEmitter.addListener( function() {
-      displayContainers();
+      self.displayContainers();
     } );
   }
 
@@ -167,6 +170,8 @@ define( function( require ) {
             dragging: true
           } );
 
+          piece.updateCellsEmitter.addListener( self.displayContainers );
+
           // add the model piece to the observable array
           self.pieces.add( piece );
           self.containerSet.emptyThisCell( cell );
@@ -177,9 +182,12 @@ define( function( require ) {
         },
 
         end: function() {
-          var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-          piece.animateTo( destinationCell.positionProperty.value );
-//          piece.draggingProperty.set( false );
+
+          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
+            var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
+            piece.animateToCell( destinationCell );
+            self.containerSet.fillThisCell( destinationCell );
+          }
           piece = null;
         }
       } );
@@ -206,5 +214,4 @@ define( function( require ) {
     }
 
   } );
-} )
-;
+} );

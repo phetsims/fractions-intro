@@ -27,27 +27,19 @@ define( function( require ) {
       dragging: false // {boolean} is the user dragging the point?
     }, options );
 
-    var self = this;
-
     // @public {Property.<Vector2>} position of point
     this.positionProperty = new Property( options.position );
 
     this.destinationCellProperty = new Property( null );
 
     // @public {Property.<boolean>}
-    this.draggingProperty = new BooleanProperty( options.dragging ); // {boolean} is the user dragging the point?
+    this.draggingProperty = new BooleanProperty( options.dragging ); // {boolean} is the user dragging the piece?
 
-    // @private {boolean} is the point animated by external means (say TWEEN). Animated points are not used for curve fits
-    this.animated = false;
+    // create emitter that will signal that the piece has reached its destination
+    this.reachedDestinationEmitter = new Emitter();
 
-    // create emitter that will signal that the piece has returned to the bucket
-    this.returnToOriginEmitter = new Emitter();
-
-    this.draggingProperty.link( function( dragging ) {
-      if ( !dragging ) {
-        self.animateTo( self.positionProperty.initialValue);
-      }
-    } );
+    // create emitter that will signal the the piece has reached its cell.
+    this.updateCellsEmitter = new Emitter();
   }
 
   fractionsIntro.register( 'Piece', Piece );
@@ -55,14 +47,60 @@ define( function( require ) {
   return inherit( Object, Piece, {
 
     /**
-     * Animates the piece back to its original position (inside the bucket).
+     * Animates the piece to a cell
+     * @param {Cell} cell
+     * @public
+     */
+    animateToCell: function( cell ) {
+
+      this.draggingProperty.value = false;
+
+      var self = this;
+
+      var finalPosition = cell.positionProperty.value;
+
+      var location = {
+        x: this.positionProperty.value.x,
+        y: this.positionProperty.value.y
+      };
+
+      // distance to the final position
+      var distance = finalPosition.distance( this.positionProperty.value );
+
+      if ( distance > 0 ) {
+        var animationTween = new TWEEN.Tween( location )
+          .to( { x: finalPosition.x, y: finalPosition.y },
+            distance / 1 )
+          .easing( TWEEN.Easing.Cubic.InOut )
+          .onUpdate( function() {
+            self.positionProperty.set( new Vector2( location.x, location.y ) );
+          } )
+          .onComplete( function() {
+            cell.isFilledProperty.value = true;
+            self.reachedDestinationEmitter.emit();
+            self.updateCellsEmitter.emit();
+          } );
+
+        animationTween.start( phet.joist.elapsedTime );
+      }
+      else {
+        // for cases where the distance is zero
+        self.reachedDestinationEmitter.emit();
+        self.updateCellsEmitter.emit();
+      }
+    },
+
+
+    /**
+     * Animates the piece back to the bucket
      * @param {Vector2} finalPosition
      * @public
      */
-    animateTo: function( finalPosition) {
+    animateToBucket: function( finalPosition ) {
 
       var self = this;
-      this.animated = true;
+
+      this.draggingProperty.value = false;
 
       var location = {
         x: this.positionProperty.value.x,
@@ -82,7 +120,7 @@ define( function( require ) {
           } )
           .onComplete( function() {
             self.animated = false;
-            self.returnToOriginEmitter.emit();
+            self.reachedDestinationEmitter.emit();
           } );
 
         animationTween.start( phet.joist.elapsedTime );
@@ -90,8 +128,10 @@ define( function( require ) {
       else {
         // for cases where the distance is zero
         self.animated = false;
-        self.returnToOriginEmitter.emit();
+        self.reachedDestinationEmitter.emit();
       }
     }
+
+
   } );
 } );

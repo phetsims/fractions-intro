@@ -203,7 +203,7 @@ define( function( require ) {
         } );
         piecesNode.addChild( pieceNode );
 
-        addedPiece.returnToOriginEmitter.addListener( function() {
+        addedPiece.reachedDestinationEmitter.addListener( function() {
           piecesNode.removeChild( pieceNode );
         } );
 
@@ -311,6 +311,12 @@ define( function( require ) {
         },
 
         end: function() {
+
+          var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
+          piece.animateToCell( destinationCell );
+          self.introModel.containerSet.fillThisCell( destinationCell );
+          //   piece.animateToBucket( piece.positionProperty.initialValue );
+
           piece.draggingProperty.set( false );
           piece = null;
         }

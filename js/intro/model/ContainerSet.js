@@ -56,9 +56,11 @@ define( function( require ) {
 
         var removedCells = self.flattenContainers( removedContainers );
 
-        var removedFilledCellsCount = self.getFilledCellsCount( removedCells );
+        var removedFilledCells = removedCells.filter( function( cell ) {
+          return cell.isFilledProperty.value;
+        } );
 
-        self.toggleIsFilledTo( removedFilledCellsCount, false );
+        self.toggleIsFilledTo( removedFilledCells.length, false );
 
       }
       self.containersEmitter.emit();
@@ -81,9 +83,11 @@ define( function( require ) {
           return accumulator.concat( container.cells.splice( denominator - 1, -difference ) );
         }, [] );
 
-        var removeCellsCount = self.getFilledCellsCount( removedCells );
+        var removedFilledCells = removedCells.filter( function( cell ) {
+          return cell.isFilledProperty.value;
+        } );
 
-        self.toggleIsFilledTo( removeCellsCount, false );
+        self.toggleIsFilledTo( removedFilledCells.length, false );
       }
       self.containersEmitter.emit();
     } );
@@ -94,7 +98,7 @@ define( function( require ) {
 
       // the difference between filled cell count now and before numerator was changed
       // should be zero unless emptyThisCell method is used
-      var cellCountDifference = self.getFilledCellsCount( self.flattenContainers( self.containers ) ) - self.oldCellCount;
+      var cellCountDifference = self.getFilledCellsCount() - self.oldCellCount;
 
       // if these two values are equal, then emptyThisCell method has been used and we can skip toggleIsFilledTo
       if ( difference !== cellCountDifference ) {
@@ -159,7 +163,7 @@ define( function( require ) {
     toggleIsFilledTo: function( numberOfCellsToToggle, toggleTo ) {
 
       if ( toggleTo ) {
-        var availableFilledCells = this.getFilledCellsCount( this.flattenContainers( this.containers ) );
+        var availableFilledCells = this.getFilledCellsCount();
 
         // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
         var numberOfCellsToEmpty = availableFilledCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableFilledCells;
@@ -168,7 +172,7 @@ define( function( require ) {
         }
       }
       else {
-        var availableEmptyCells = this.getEmptyCellsCount( this.flattenContainers( this.containers ) );
+        var availableEmptyCells = this.getEmptyCellsCount();
 
         // if there are more cells to BE filled than there are cells to fill, only fill as many cells as possible
         var numberOfCellsToFill = availableEmptyCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableEmptyCells;
@@ -206,42 +210,44 @@ define( function( require ) {
     },
 
     /**
-     * get Filled Cells
-     * @param {Cell[]} cells
+     * get Filled Cells in this container
      * @returns {Cell[]}
      * @private
      */
-    getFilledCells: function( cells ) {
-      return cells.filter( function( cell ) { return cell.isFilledProperty.value; } );
+    getFilledCells: function() {
+      var cells = this.getAllCells();
+      return cells.filter( function( cell ) {
+        return cell.isFilledProperty.value;
+      } );
     },
 
     /**
-     * get Filled Cells Count
-     * @param {Cell[]} cells
+     * get Filled Cells Count in this container
      * @returns {number}
      */
-    getFilledCellsCount: function( cells ) {
-      return this.getFilledCells( cells ).length;
+    getFilledCellsCount: function() {
+      return this.getFilledCells().length;
     },
 
     /**
-     * get empty cells
-     * @param {Cell[]} cells
+     * get all the empty cells in this container
      * @returns {Cell[]}
      * @private
      */
-    getEmptyCells: function( cells ) {
-      return cells.filter( function( cell ) { return !cell.isFilledProperty.value; } );
+    getEmptyCells: function() {
+      var cells = this.getAllCells();
+      return cells.filter( function( cell ) {
+        return !cell.isFilledProperty.value;
+      } );
     },
 
     /**
-     * find number of empty cells
-     * @param {Cell[]} cells
+     * find number of empty cells in this container
      * @return {number}
      * @public
      */
-    getEmptyCellsCount: function( cells ) {
-      return this.getEmptyCells( cells ).length;
+    getEmptyCellsCount: function() {
+      return this.getEmptyCells().length;
     },
 
     /**
@@ -252,12 +258,10 @@ define( function( require ) {
      */
     getClosestEmptyCell: function( toVector ) {
 
-      var closestCell = this.containers.map( function( container ) {
-        container.getClosestEmptyCell( toVector );
-      } ).reduce( function( previous, current ) {
-        return (previous.positionProperty.value.distance( toVector ) <
-                current.positionProperty.value.distance( toVector )) ? current : previous;
-      }, Number.POSITIVE_INFINITY );
+      var closestCell = this.getEmptyCells().reduce( function( previousCell, currentCell ) {
+        return (previousCell.distanceTo( toVector ) <
+                currentCell.distanceTo( toVector )) ? previousCell : currentCell;
+      } );
       return closestCell;
     },
 
@@ -274,20 +278,29 @@ define( function( require ) {
     },
 
     /**
+     * get all the cells in the container
+     * @returns {Cell[]}
+     * @public
+     */
+    getAllCells: function() {
+      return this.flattenContainers( this.containers );
+    },
+
+    /**
      * empties a given cell and updates numerator property and oldCellCount
      * @param {Cell} cell
      * @public
      */
     emptyThisCell: function( cell ) {
 
-
       // must be done in this order or the emptied cell will be double counted!!
-      this.oldCellCount = this.getNumberOfFilledCells();
+      this.oldCellCount = this.getFilledCellsCount();
 
       // update the fill property of this cell to empty
       cell.isFilledProperty.value = false;
 
       this.numeratorProperty.value = this.numeratorProperty.value - 1;
+      this.containersEmitter.emit();
     },
 
     /**
@@ -297,22 +310,13 @@ define( function( require ) {
      */
     fillThisCell: function( cell ) {
 
-      this.oldCellCount = this.getNumberOfFilledCells();
+      this.oldCellCount = this.getFilledCellsCount();
 
       // update the fill property of this cell to fill
       cell.isFilledProperty.value = true;
 
       this.numeratorProperty.value = this.numeratorProperty.value + 1;
-    },
-
-    /**
-     * returns the number of filled cells in the container set
-     * @returns {number}
-     * @public
-     */
-    getNumberOfFilledCells: function() {
-      return this.getFilledCellsCount( this.flattenContainers( this.containers ) );
+      this.containersEmitter.emit();
     }
-
   } );
 } );

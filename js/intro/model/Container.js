@@ -45,11 +45,11 @@ define( function( require ) {
      * @public
      */
     getClosestEmptyCell: function( toVector ) {
-      var closestCell = this.cells.reduce( function( previous, current ) {
-        return (previous.positionProperty.value.distance( toVector ) <
-                current.positionProperty.value.distance( toVector ) &&
-                current .isFilledProperty.value === false) ? current : previous;
-      }, Number.POSITIVE_INFINITY );
+
+      var closestCell = this.getEmptyCells().reduce( function( previousCell, currentCell ) {
+        return (previousCell.distanceTo( toVector ) <
+                currentCell.distanceTo( toVector )) ? previousCell : currentCell;
+      } );
       return closestCell;
     },
 
@@ -60,7 +60,7 @@ define( function( require ) {
      */
     getNextEmptyCell: function() {
       for ( var index = 0; index < this.cells.length; index++ ) {
-        if ( this.cells[ index ].isFilledProperty.value === false ) {
+        if ( this.cells[ index ].getIsFilled() === false ) {
           return this.cells[ index ];
         }
       }
@@ -73,7 +73,7 @@ define( function( require ) {
      */
     getNextFilledCell: function() {
       for ( var index = this.cells.length - 1; index > -1; index-- ) {
-        if ( this.cells[ index ].isFilledProperty.value ) {
+        if ( this.cells[ index ].getIsFilled() ) {
           return this.cells[ index ];
         }
       }
@@ -99,7 +99,7 @@ define( function( require ) {
      */
     isContainerFull: function() {
       return this.cells.every( function( cell ) {
-        return cell.isFilledProperty.value;
+        return cell.getIsFilled();
       } );
     },
 
@@ -110,7 +110,7 @@ define( function( require ) {
      */
     isContainerEmpty: function() {
       return this.cells.every( function( cell ) {
-        return !cell.isFilledProperty.value;
+        return !cell.getIsFilled();
       } );
     },
 
@@ -120,15 +120,31 @@ define( function( require ) {
      * @public
      */
     getNumberOfFilledCells: function() {
-      var filledCellCounter = 0;
+      return this.getFilledCells().length;
+    },
 
-      for ( var index = 0; index < this.cells.length; index++ ) {
-        if ( this.cells[ index ].isFilledProperty.value ) {
-          filledCellCounter += 1;
-        }
-      }
-      return filledCellCounter;
+    /**
+     * returns the filled cells in this container
+     * @returns {Cell[]}
+     * @public
+     */
+    getFilledCells: function() {
+      var filledCells = this.cells.filter( function( cell ) {
+        return cell.getIsFilled();
+      } );
+      return filledCells;
+    },
+
+    /**
+     * returns the empty cells in this container
+     * @returns {Cell[]}
+     * @public
+     */
+    getEmptyCells: function() {
+      var emptyCells = this.cells.filter( function( cell ) {
+        return !cell.getIsFilled();
+      } );
+      return emptyCells;
     }
-
   } );
 } );
