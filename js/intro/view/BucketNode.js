@@ -145,15 +145,19 @@ define( function( require ) {
           break;
 
         case Representation.VERTICAL_BAR:
-          // set the label on the bucket
+
+          contentPieces = self.createContentPieces( representation, bucketHole.center );
+          piecesNode.setChildren( contentPieces );
 
           var verticalBarIconOptions = {
             containerWidth: 30,
             containerHeight: 60,
             outlineLineWidth: 1
           };
+
+          // set the label on the bucket
           bucketFront.setLabel( self.createLabelBox( representation, verticalBarIconOptions ) );
-          options.children = [ bucketHole, bucketFront ];
+          options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
           break;
 
         case Representation.NUMBER_LINE :
@@ -230,7 +234,7 @@ define( function( require ) {
         case Representation.VERTICAL_BAR:
 
           var verticalBarNode = new VerticalBarNode( this.containerSet, this.pieces, options );
-          return verticalBarNode;
+          return verticalBarNode.createVerticalBarPiece( this.denominatorProperty );
 
         case Representation.BEAKER:
 

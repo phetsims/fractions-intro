@@ -88,6 +88,9 @@ define( function( require ) {
           var cellFill = cell.isFilledProperty.value ? '#FFE600' : 'white';
 
           var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
+
+          cell.positionProperty.value = cellRectangle.center;
+
           if ( cell.isFilledProperty.value ) {
             cellRectangle.addInputListener( self.createDragHandler( cellRectangle.center, cell ) );
           }
@@ -130,17 +133,12 @@ define( function( require ) {
         containerNode.removeAllChildren();
         var cellHeight = CONTAINER_HEIGHT / denominator;
 
-        //find the length to minus from each side of the cell to fit in the bucket at all time
-        var sizeDiff = CONTAINER_HEIGHT / denominator;
-        var sideLengthMinus = (CONTAINER_HEIGHT - sizeDiff) / 2;
-
-        //make one cell
+        // make one cell
         var cellRectangle = new Rectangle( 0, 0, CONTAINER_WIDTH, cellHeight, 0, 0, {
           fill: '#FFE600',
           lineWidth: 1,
           stroke: 'black',
-          top: CONTAINER_HEIGHT - (sideLengthMinus),
-          bottom: CONTAINER_HEIGHT - sideLengthMinus
+          centerY: 0
         } );
         containerNode.addChild( cellRectangle );
       } );
@@ -151,6 +149,7 @@ define( function( require ) {
     /**
      * create a drag handler that adds a piece to the model
      * @param {Vector2} centerPosition - centerPosition of the shape
+     * @param {Cell} cell
      * @returns {SimpleDragHandler}
      * @private
      */
@@ -178,7 +177,9 @@ define( function( require ) {
         },
 
         end: function() {
-          piece.draggingProperty.set( false );
+          var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
+          piece.animateTo( destinationCell.positionProperty.value );
+//          piece.draggingProperty.set( false );
           piece = null;
         }
       } );

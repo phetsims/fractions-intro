@@ -251,10 +251,12 @@ define( function( require ) {
      * @private
      */
     getClosestEmptyCell: function( toVector ) {
+
       var closestCell = this.containers.map( function( container ) {
         container.getClosestEmptyCell( toVector );
       } ).reduce( function( previous, current ) {
-        return (previous.distanceTo( toVector ) < current.distanceTo( toVector )) ? current : previous;
+        return (previous.positionProperty.value.distance( toVector ) <
+                current.positionProperty.value.distance( toVector )) ? current : previous;
       }, Number.POSITIVE_INFINITY );
       return closestCell;
     },

@@ -46,8 +46,9 @@ define( function( require ) {
      */
     getClosestEmptyCell: function( toVector ) {
       var closestCell = this.cells.reduce( function( previous, current ) {
-        return (previous.distanceTo( toVector ) < current.distanceTo( toVector ) &&
-                current.isFilledProperty.value === false) ? current : previous;
+        return (previous.positionProperty.value.distance( toVector ) <
+                current.positionProperty.value.distance( toVector ) &&
+                current .isFilledProperty.value === false) ? current : previous;
       }, Number.POSITIVE_INFINITY );
       return closestCell;
     },

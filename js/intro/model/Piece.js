@@ -45,7 +45,7 @@ define( function( require ) {
 
     this.draggingProperty.link( function( dragging ) {
       if ( !dragging ) {
-        self.animate();
+        self.animateTo( self.positionProperty.initialValue);
       }
     } );
   }
@@ -56,10 +56,10 @@ define( function( require ) {
 
     /**
      * Animates the piece back to its original position (inside the bucket).
-     *
+     * @param {Vector2} finalPosition
      * @public
      */
-    animate: function() {
+    animateTo: function( finalPosition) {
 
       var self = this;
       this.animated = true;
@@ -69,12 +69,12 @@ define( function( require ) {
         y: this.positionProperty.value.y
       };
 
-      // distance to the origin
-      var distance = this.positionProperty.initialValue.distance( this.positionProperty.value );
+      // distance to the final position
+      var distance = finalPosition.distance( this.positionProperty.value );
 
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
-          .to( { x: this.positionProperty.initialValue.x, y: this.positionProperty.initialValue.y },
+          .to( { x: finalPosition.x, y: finalPosition.y },
             distance / 1 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
