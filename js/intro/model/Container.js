@@ -119,7 +119,7 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    getNumberOfFilledCells: function() {
+    getFilledCellsCount: function() {
       return this.getFilledCells().length;
     },
 
