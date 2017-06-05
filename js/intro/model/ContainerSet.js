@@ -210,7 +210,7 @@ define( function( require ) {
     },
 
     /**
-     * get Filled Cells in this container
+     * get Filled Cells in this container set
      * @returns {Cell[]}
      * @private
      */
@@ -222,7 +222,7 @@ define( function( require ) {
     },
 
     /**
-     * get Filled Cells Count in this container
+     * get Filled Cells Count in this container set
      * @returns {number}
      */
     getFilledCellsCount: function() {
@@ -230,19 +230,20 @@ define( function( require ) {
     },
 
     /**
-     * get all the empty cells in this container
+     * get all the empty cells in this container set
+     * does not include cell that are currently empty and will be filled by a piece.
      * @returns {Cell[]}
      * @private
      */
     getEmptyCells: function() {
       var cells = this.getAllCells();
       return cells.filter( function( cell ) {
-        return !cell.isFilledProperty.value;
+        return !cell.isFilledProperty.value && (cell.incomingPieceProperty.value === null);
       } );
     },
 
     /**
-     * find number of empty cells in this container
+     * find number of empty cells in this container set
      * @return {number}
      * @public
      */
