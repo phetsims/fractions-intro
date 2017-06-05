@@ -70,7 +70,7 @@ define( function( require ) {
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
           .to( { x: finalPosition.x, y: finalPosition.y },
-            distance / 1 )
+            distance * 10 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
             self.positionProperty.set( new Vector2( location.x, location.y ) );
@@ -89,7 +89,6 @@ define( function( require ) {
         self.updateCellsEmitter.emit();
       }
     },
-
 
     /**
      * Animates the piece back to the bucket
@@ -113,13 +112,12 @@ define( function( require ) {
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
           .to( { x: finalPosition.x, y: finalPosition.y },
-            distance / 1 )
+            distance * 10 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
             self.positionProperty.set( new Vector2( location.x, location.y ) );
           } )
           .onComplete( function() {
-            self.animated = false;
             self.reachedDestinationEmitter.emit();
           } );
 
@@ -127,11 +125,9 @@ define( function( require ) {
       }
       else {
         // for cases where the distance is zero
-        self.animated = false;
         self.reachedDestinationEmitter.emit();
       }
     }
-
 
   } );
 } );

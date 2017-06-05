@@ -35,7 +35,6 @@ define( function( require ) {
         containerSpacing: 22,
         containerWidth: 130,
         containerHeight: 185,
-        center: new Vector2( 0, 160 ),
         visibleBackground: true,
         outlineLineWidth: 3
       },
@@ -69,10 +68,14 @@ define( function( require ) {
 
         // outline of the container and inner line depend on the filled status of the container
         var containerStroke = container.isContainerEmpty() ? 'grey' : 'black';
-        var containerRectangle = new Rectangle( 0, 0, options.containerWidth, options.containerHeight, 0, 0, {
+        var containerRectangle = new Rectangle( -options.containerWidth / 2, -options.containerHeight / 2, options.containerWidth, options.containerHeight, 0, 0, {
           stroke: containerStroke,
           lineWidth: options.outlineLineWidth
         } );
+
+        containerRectangle.centerX = 600 + ( options.containerWidth + options.containerSpacing) *
+                                           (containerIndex - containerSet.containers.length / 2);
+        containerRectangle.centerY = 300;
 
         var numberOfCells = container.cells.length;
         var cellHeight = options.containerHeight / numberOfCells;
@@ -88,9 +91,10 @@ define( function( require ) {
 
           var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
 
-          cell.positionProperty.value = cellRectangle.center.plus(
-            new Vector2( ( options.containerWidth + options.containerSpacing) *
-                         (containerIndex - containerSet.containers.length / 2) + 600, 300 ) );
+          cellRectangle.centerY = ((numberOfCells - 1) / 2 - index) * cellHeight + containerRectangle.centerY;
+          cellRectangle.centerX = containerRectangle.centerX;
+
+          cell.positionProperty.value = cellRectangle.center;
 
           if ( cell.isFilledProperty.value ) {
             cellRectangle.addInputListener( self.createDragHandler( cell.positionProperty.value, cell ) );
@@ -101,9 +105,6 @@ define( function( require ) {
 
         containerNode.setChildren( cellsRectangle );
         containerNode.addChild( containerRectangle );
-        containerNode.centerX = 600 + ( options.containerWidth + options.containerSpacing) *
-                                      (containerIndex - containerSet.containers.length / 2);
-        containerNode.bottom = 300;
 
         setOfVerticalBarNode.addChild( containerNode );
       } );
@@ -186,7 +187,7 @@ define( function( require ) {
           if ( self.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
             piece.animateToCell( destinationCell );
-            self.containerSet.fillThisCell( destinationCell );
+            // self.containerSet.fillThisCell( destinationCell );
           }
           piece = null;
         }
@@ -207,8 +208,7 @@ define( function( require ) {
       var cellRectangle = new Rectangle( 0, 0, this.options.containerWidth, cellHeight, 0, 0, {
         fill: cellFill,
         lineWidth: 1,
-        stroke: containerStroke,
-        bottom: this.options.containerHeight - (index * cellHeight)
+        stroke: containerStroke
       } );
       return cellRectangle;
     }

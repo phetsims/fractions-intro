@@ -179,44 +179,43 @@ define( function( require ) {
     pieces.addItemAddedListener( function( addedPiece ) {
 
 
-        // TODO: clean up handling of options
-        var options = {};
+      // TODO: clean up handling of options
+      var options = {};
 
-        if ( representationProperty.value === Representation.BEAKER ) {
+      if ( representationProperty.value === Representation.BEAKER ) {
 
-          options = {
-            beakerWidth: IntroConstants.BEAKER_WIDTH,
-            beakerHeight: IntroConstants.BEAKER_LENGTH,
-            tickWidth: 3
-          };
-        }
-        if ( representationProperty.value === Representation.CAKE ) {
-          options = {
-            visibleBackground: false
-          };
-        }
-
-        var pieceNode = self.createRepresentation( representationProperty.value, options );
-
-        addedPiece.positionProperty.link( function( position ) {
-          pieceNode.center = position;
-        } );
-        piecesNode.addChild( pieceNode );
-
-        addedPiece.reachedDestinationEmitter.addListener( function() {
-          piecesNode.removeChild( pieceNode );
-        } );
-
-        pieces.addItemRemovedListener( function removalListener( removedPiece ) {
-          if ( removedPiece === addedPiece ) {
-            self.removeChild( pieceNode );
-
-            //  TODO: we need a dispose function on PieceNode
-            pieces.removeItemRemovedListener( removalListener );
-          }
-        } );
+        options = {
+          beakerWidth: IntroConstants.BEAKER_WIDTH,
+          beakerHeight: IntroConstants.BEAKER_LENGTH,
+          tickWidth: 3
+        };
       }
-    );
+      if ( representationProperty.value === Representation.CAKE ) {
+        options = {
+          visibleBackground: false
+        };
+      }
+
+      var pieceNode = self.createRepresentation( representationProperty.value, options );
+
+      addedPiece.positionProperty.link( function( position ) {
+        pieceNode.center = position;
+      } );
+      piecesNode.addChild( pieceNode );
+
+      addedPiece.reachedDestinationEmitter.addListener( function() {
+        piecesNode.removeChild( pieceNode );
+      } );
+
+      pieces.addItemRemovedListener( function removalListener( removedPiece ) {
+        if ( removedPiece === addedPiece ) {
+          self.removeChild( pieceNode );
+
+          //  TODO: we need a dispose function on PieceNode
+          pieces.removeItemRemovedListener( removalListener );
+        }
+      } );
+    } );
   }
 
   fractionsIntro.register( 'BucketNode', BucketNode );
@@ -312,12 +311,13 @@ define( function( require ) {
 
         end: function() {
 
-          var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-          piece.animateToCell( destinationCell );
-          self.introModel.containerSet.fillThisCell( destinationCell );
-          //   piece.animateToBucket( piece.positionProperty.initialValue );
-
-          piece.draggingProperty.set( false );
+          if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
+            var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
+            piece.animateToCell( destinationCell );
+          }
+          else {
+            piece.animateToBucket( piece.positionProperty.initialValue );
+          }
           piece = null;
         }
       } );
@@ -352,5 +352,4 @@ define( function( require ) {
       return contentPieces;
     }
   } );
-} )
-;
+} );
