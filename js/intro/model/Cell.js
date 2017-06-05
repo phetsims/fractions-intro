@@ -29,6 +29,9 @@ define( function( require ) {
 
     // @public {Property.<number>}
     this.rotationAngleProperty = new NumberProperty( 0 );
+
+    // @public {Property.<Piece|null>}
+    this.incomingPieceProperty = new Property( null );
   }
 
   fractionsIntro.register( 'Cell', Cell );

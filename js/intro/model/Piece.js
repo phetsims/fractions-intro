@@ -27,9 +27,12 @@ define( function( require ) {
       dragging: false // {boolean} is the user dragging the point?
     }, options );
 
+    var self = this;
+
     // @public {Property.<Vector2>} position of point
     this.positionProperty = new Property( options.position );
 
+    // @public {Property.<Cell|null>}
     this.destinationCellProperty = new Property( null );
 
     // @public {Property.<boolean>}
@@ -40,12 +43,33 @@ define( function( require ) {
 
     // create emitter that will signal the the piece has reached its cell.
     this.updateCellsEmitter = new Emitter();
+
+    // tween animation for cell
+    var animateCell = function( cell ) {
+      if ( !(cell === null ) ) {
+        self.animateToCell( cell );
+      }
+    };
+
+    this.destinationCellProperty.link( animateCell );
+
+    // dispose function for this type
+    this.disposePiece = function() {
+      self.destinationCellProperty.unlink( animateCell );
+    };
   }
 
   fractionsIntro.register( 'Piece', Piece );
 
   return inherit( Object, Piece, {
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.disposePiece();
+    },
 
+    //TODO: consolidate animateToCell and animateToBucket
     /**
      * Animates the piece to a cell
      * @param {Cell} cell
@@ -57,37 +81,45 @@ define( function( require ) {
 
       var self = this;
 
+      var onCompletion = function() {
+        cell.isFilledProperty.value = true;
+        self.reachedDestinationEmitter.emit();
+        self.updateCellsEmitter.emit();
+        self.destinationCellProperty.set( null );
+      };
+
       var finalPosition = cell.positionProperty.value;
+
+      // distance to the final position
+      var distance = finalPosition.distance( this.positionProperty.value );
+
+      var finalDestination = {
+        x: finalPosition.x,
+        y: finalPosition.y
+      };
 
       var location = {
         x: this.positionProperty.value.x,
         y: this.positionProperty.value.y
       };
 
-      // distance to the final position
-      var distance = finalPosition.distance( this.positionProperty.value );
-
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
-          .to( { x: finalPosition.x, y: finalPosition.y },
-            distance * 10 )
+          .to( finalDestination, distance * 10 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
             self.positionProperty.set( new Vector2( location.x, location.y ) );
           } )
-          .onComplete( function() {
-            cell.isFilledProperty.value = true;
-            self.reachedDestinationEmitter.emit();
-            self.updateCellsEmitter.emit();
-          } );
+          .onComplete( onCompletion );
 
         animationTween.start( phet.joist.elapsedTime );
       }
       else {
+
         // for cases where the distance is zero
-        self.reachedDestinationEmitter.emit();
-        self.updateCellsEmitter.emit();
+        onCompletion();
       }
+
     },
 
     /**
@@ -130,4 +162,5 @@ define( function( require ) {
     }
 
   } );
-} );
+} )
+;
