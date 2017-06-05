@@ -313,7 +313,8 @@ define( function( require ) {
 
           if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            piece.animateToCell( destinationCell );
+            destinationCell.incomingPieceProperty.set( piece );
+            piece.destinationCellProperty.set( destinationCell );
           }
           else {
             piece.animateToBucket( piece.positionProperty.initialValue );

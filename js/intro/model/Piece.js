@@ -151,6 +151,7 @@ define( function( require ) {
           } )
           .onComplete( function() {
             self.reachedDestinationEmitter.emit();
+            self.updateCellsEmitter.emit();
           } );
 
         animationTween.start( phet.joist.elapsedTime );
