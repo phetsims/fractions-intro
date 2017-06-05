@@ -16,7 +16,6 @@ define( function( require ) {
   var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   // constant
   var CONTAINER_WIDTH = 130;

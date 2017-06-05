@@ -25,7 +25,6 @@ define( function( require ) {
     var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
     var ScreenView = require( 'JOIST/ScreenView' );
-    var Vector2 = require( 'DOT/Vector2' );
     var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
