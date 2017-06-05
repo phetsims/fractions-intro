@@ -203,13 +203,13 @@ define( function( require ) {
       } );
       piecesNode.addChild( pieceNode );
 
-      addedPiece.reachedDestinationEmitter.addListener( function() {
-        piecesNode.removeChild( pieceNode );
+      addedPiece.reachedDestinationEmitter.addListener( function removeAddedPiece() {
+        pieces.remove( addedPiece );
       } );
 
       pieces.addItemRemovedListener( function removalListener( removedPiece ) {
         if ( removedPiece === addedPiece ) {
-          self.removeChild( pieceNode );
+          piecesNode.removeChild( pieceNode );
 
           //  TODO: we need a dispose function on PieceNode
           pieces.removeItemRemovedListener( removalListener );
