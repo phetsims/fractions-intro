@@ -46,6 +46,7 @@ define( function( require ) {
       this.isDraggedProperty.reset();
       this.isFilledProperty.reset();
       this.positionProperty.reset();
+      this.incomingPieceProperty.reset();
     },
 
     /**

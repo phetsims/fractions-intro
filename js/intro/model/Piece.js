@@ -63,6 +63,16 @@ define( function( require ) {
 
   return inherit( Object, Piece, {
     /**
+     * reset the property of this piece
+     * @public
+     */
+    reset: function() {
+      this.positionProperty.reset();
+      this.draggingProperty.reset();
+      this.destinationCellProperty.reset();
+    },
+
+    /**
      * @public
      */
     dispose: function() {
