@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -94,6 +95,7 @@ define( function( require ) {
           cellRectangle.centerX = containerRectangle.centerX;
 
           cell.positionProperty.value = cellRectangle.center;
+          cell.boundsProperty.value = cellRectangle.bounds;
 
           if ( cell.isFilledProperty.value ) {
             cellRectangle.addInputListener( self.createDragHandler( cell.positionProperty.value, cell ) );
@@ -182,8 +184,17 @@ define( function( require ) {
 
           if ( self.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            piece.destinationCellProperty.value = destinationCell;
+            if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
+              piece.destinationCellProperty.value = destinationCell;
+            }
+            else {
+              piece.animateToDestination( IntroConstants.BUCKET_POSITION );
+            }
           }
+          else {
+            piece.animateToDestination( IntroConstants.BUCKET_POSITION );
+          }
+
           piece = null;
         }
       } );

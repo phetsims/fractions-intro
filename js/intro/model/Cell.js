@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -23,6 +24,9 @@ define( function( require ) {
 
     // @public {Property.<Vector2>}
     this.positionProperty = new Property( Vector2.ZERO );
+
+    // @public {Property.<Bound2>}
+    this.boundsProperty = new Property( Bounds2.NOTHING );
 
     // @public {Property.<boolean>}
     this.isFilledProperty = new BooleanProperty( false );
@@ -47,6 +51,7 @@ define( function( require ) {
       this.isFilledProperty.reset();
       this.positionProperty.reset();
       this.incomingPieceProperty.reset();
+      this.boundsProperty.reset();
     },
 
     /**

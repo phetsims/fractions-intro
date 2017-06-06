@@ -57,10 +57,7 @@ define( function( require ) {
    */
   function BucketNode( introModel, pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
 
-    options = _.extend( {
-      bucketPosition: new Vector2( 570, 497 ),
-      bucketSize: new Dimension2( 355, 125 )
-    }, options );
+    options = _.extend( {}, options );
 
     Node.call( this, options );
 
@@ -74,9 +71,9 @@ define( function( require ) {
 
     // Bucket model to be filled with piece
     var bucket = new Bucket( {
-      position: options.bucketPosition,
+      position: IntroConstants.BUCKET_POSITION,
       baseColor: '#8eb7f2',
-      size: options.bucketSize,
+      size: IntroConstants.BUCKET_SIZE,
       invertY: true
     } );
 
@@ -302,7 +299,9 @@ define( function( require ) {
           self.pieces.add( piece );
 
           // TODO: this a very round about way to force an update of the view
-          piece.updateCellsEmitter.addListener( function() {self.introModel.containerSet.containersEmitter.emit();} );
+          piece.updateCellsEmitter.addListener( function() {
+            self.introModel.containerSet.containersEmitter.emit();
+          } );
         },
 
         translate: function( translationParams ) {
@@ -311,13 +310,19 @@ define( function( require ) {
 
         end: function() {
 
-          if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
-            var destinationCell = self.introModel.containerSet.getNextNonFullContainer().getNextEmptyCell();
-            piece.destinationCellProperty.value = destinationCell;
+          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
+            var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
+            if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
+              piece.destinationCellProperty.value = destinationCell;
+            }
+            else {
+              piece.animateToDestination( piece.positionProperty.initialValue );
+            }
           }
           else {
             piece.animateToDestination( piece.positionProperty.initialValue );
           }
+
           piece = null;
         }
       } );
