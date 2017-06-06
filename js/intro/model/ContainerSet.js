@@ -168,7 +168,7 @@ define( function( require ) {
         // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
         var numberOfCellsToEmpty = availableFilledCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableFilledCells;
         for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
-          this.getLastNonEmptyContainer().getNextFilledCell().isFilledProperty.toggle();
+          this.getLastNonEmptyContainer().getNextFilledCell().toggleIsFilled();
         }
       }
       else {
@@ -177,7 +177,7 @@ define( function( require ) {
         // if there are more cells to BE filled than there are cells to fill, only fill as many cells as possible
         var numberOfCellsToFill = availableEmptyCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableEmptyCells;
         for ( var j = 0; j < numberOfCellsToFill; j++ ) {
-          this.getNextNonFullContainer().getNextEmptyCell().isFilledProperty.toggle();
+          this.getNextNonFullContainer().getNextEmptyCell().toggleIsFilled();
         }
       }
     },
@@ -217,7 +217,7 @@ define( function( require ) {
     getFilledCells: function() {
       var cells = this.getAllCells();
       return cells.filter( function( cell ) {
-        return cell.isFilledProperty.value;
+        return cell.isFilled();
       } );
     },
 
@@ -238,7 +238,7 @@ define( function( require ) {
     getEmptyCells: function() {
       var cells = this.getAllCells();
       return cells.filter( function( cell ) {
-        return !cell.isFilledProperty.value && (cell.incomingPieceProperty.value === null);
+        return cell.isEmpty() && (cell.incomingPieceProperty.value === null);
       } );
     },
 

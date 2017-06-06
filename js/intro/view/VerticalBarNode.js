@@ -185,8 +185,8 @@ define( function( require ) {
 
           if ( self.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            destinationCell.incomingPieceProperty.set( piece );
-            piece.destinationCellProperty.set( destinationCell );
+            destinationCell.incomingPieceProperty.value = piece;
+            piece.destinationCellProperty.value = destinationCell;
           }
           piece = null;
         }
@@ -202,7 +202,7 @@ define( function( require ) {
      * @returns {Rectangle}
      * @private
      */
-    createCellRectangle: function( cellHeight, cellFill, containerStroke) {
+    createCellRectangle: function( cellHeight, cellFill, containerStroke ) {
       var cellRectangle = new Rectangle( 0, 0, this.options.containerWidth, cellHeight, 0, 0, {
         fill: cellFill,
         lineWidth: 1,

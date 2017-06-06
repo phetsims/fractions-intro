@@ -317,7 +317,7 @@ define( function( require ) {
             piece.destinationCellProperty.set( destinationCell );
           }
           else {
-            piece.animateToBucket( piece.positionProperty.initialValue );
+            piece.animateToDestination( piece.positionProperty.initialValue );
           }
           piece = null;
         }

@@ -72,8 +72,17 @@ define( function( require ) {
      * @returns {boolean}
      * @public
      */
-    getIsFilled: function() {
+    isFilled: function() {
       return this.isFilledProperty.value;
+    },
+
+    /**
+     * Returns true is the cell is empty
+     * @returns {boolean}
+     * @public
+     */
+    isEmpty: function() {
+      return !this.isFilled();
     },
 
     /**

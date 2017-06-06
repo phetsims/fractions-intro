@@ -44,10 +44,10 @@ define( function( require ) {
     // create emitter that will signal the the piece has reached its cell.
     this.updateCellsEmitter = new Emitter();
 
-    // tween animation for cell
+    // tween animation for piece to cell
     var animateCell = function( cell ) {
       if ( !(cell === null ) ) {
-        self.animateToCell( cell );
+        self.animateToDestination( cell.positionProperty.value );
       }
     };
 
@@ -73,71 +73,45 @@ define( function( require ) {
     },
 
     /**
+     * dispose of this piece
      * @public
      */
     dispose: function() {
       this.disposePiece();
     },
 
-    //TODO: consolidate animateToCell and animateToBucket
     /**
-     * Animates the piece to a cell
-     * @param {Cell} cell
-     * @public
+     * callback to trigger upon completion of the animation
+     * @private
      */
-    animateToCell: function( cell ) {
+    triggerOnCompletion: function() {
 
-      this.draggingProperty.value = false;
+      // additional actions if the piece reached a cell
+      if ( !(this.destinationCellProperty.value === null) ) {
+        var destinationCell = this.destinationCellProperty.value;
 
-      var self = this;
+        destinationCell.isFilledProperty.value = true;
 
-      var onCompletion = function() {
-        cell.isFilledProperty.value = true;
-        self.reachedDestinationEmitter.emit();
-        self.updateCellsEmitter.emit();
-        self.destinationCellProperty.set( null );
-      };
+        // sets the value of incoming Piece to null
+        destinationCell.incomingPieceProperty.value = null;
 
-      var finalPosition = cell.positionProperty.value;
+        // sets the destination cell to null
+        this.destinationCellProperty.value = null;
 
-      // distance to the final position
-      var distance = finalPosition.distance( this.positionProperty.value );
-
-      var finalDestination = {
-        x: finalPosition.x,
-        y: finalPosition.y
-      };
-
-      var location = {
-        x: this.positionProperty.value.x,
-        y: this.positionProperty.value.y
-      };
-
-      if ( distance > 0 ) {
-        var animationTween = new TWEEN.Tween( location )
-          .to( finalDestination, distance * 10 )
-          .easing( TWEEN.Easing.Cubic.InOut )
-          .onUpdate( function() {
-            self.positionProperty.set( new Vector2( location.x, location.y ) );
-          } )
-          .onComplete( onCompletion );
-
-        animationTween.start( phet.joist.elapsedTime );
-      }
-      else {
-
-        // for cases where the distance is zero
-        onCompletion();
+        // updates the view of the cells and containers
+        this.updateCellsEmitter.emit();
       }
 
+      // the piece can be removed from the pieces observable array
+      this.reachedDestinationEmitter.emit();
     },
 
     /**
-     * Animates the piece back to the bucket
+     * Animates the piece to the destination
      * @param {Vector2} finalPosition
      * @public
      */
-    animateToBucket: function( finalPosition ) {
+    animateToDestination: function( finalPosition ) {
 
       var self = this;
 
@@ -157,21 +131,20 @@ define( function( require ) {
             distance * 10 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
-            self.positionProperty.set( new Vector2( location.x, location.y ) );
+            self.positionProperty.value = new Vector2( location.x, location.y );
           } )
           .onComplete( function() {
-            self.reachedDestinationEmitter.emit();
-            self.updateCellsEmitter.emit();
+            self.triggerOnCompletion();
           } );
 
         animationTween.start( phet.joist.elapsedTime );
       }
       else {
+
         // for cases where the distance is zero
-        self.reachedDestinationEmitter.emit();
+        self.triggerOnCompletion();
       }
     }
 
   } );
-} )
-;
+} );

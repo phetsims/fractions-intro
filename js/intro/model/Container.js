@@ -60,7 +60,7 @@ define( function( require ) {
      */
     getNextEmptyCell: function() {
       for ( var index = 0; index < this.cells.length; index++ ) {
-        if ( this.cells[ index ].getIsFilled() === false ) {
+        if ( this.cells[ index ].isEmpty() ) {
           return this.cells[ index ];
         }
       }
@@ -73,7 +73,7 @@ define( function( require ) {
      */
     getNextFilledCell: function() {
       for ( var index = this.cells.length - 1; index > -1; index-- ) {
-        if ( this.cells[ index ].getIsFilled() ) {
+        if ( this.cells[ index ].isFilled() ) {
           return this.cells[ index ];
         }
       }
@@ -99,7 +99,7 @@ define( function( require ) {
      */
     isContainerFull: function() {
       return this.cells.every( function( cell ) {
-        return cell.getIsFilled();
+        return cell.isFilled();
       } );
     },
 
@@ -110,7 +110,7 @@ define( function( require ) {
      */
     isContainerEmpty: function() {
       return this.cells.every( function( cell ) {
-        return !cell.getIsFilled();
+        return cell.isEmpty();
       } );
     },
 
@@ -130,7 +130,7 @@ define( function( require ) {
      */
     getFilledCells: function() {
       var filledCells = this.cells.filter( function( cell ) {
-        return cell.getIsFilled();
+        return cell.isFilled();
       } );
       return filledCells;
     },
@@ -142,7 +142,7 @@ define( function( require ) {
      */
     getEmptyCells: function() {
       var emptyCells = this.cells.filter( function( cell ) {
-        return !cell.getIsFilled();
+        return !cell.isFilled();
       } );
       return emptyCells;
     }
