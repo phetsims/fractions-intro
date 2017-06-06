@@ -234,7 +234,7 @@ define( function( require ) {
         case Representation.BEAKER:
 
           // creates beaker icon on bucket node
-          var beakerNode = new BeakerNode( this.denominatorProperty, this.segmentProperty, options );
+          var beakerNode = new BeakerNode( this.containerSet, options );
           return beakerNode;
 
         case Representation.CAKE:

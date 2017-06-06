@@ -28,17 +28,90 @@ define( function( require ) {
   var FULL_CAP_COLOR = 'rgba(70,200,238,0.8)';
 
   /**
-   * @param {Property.<number>} denominatorProperty
-   * @param {Property.<number>} filledProperty
+   * @param {Property.<number>} containerSet
    * @param {object} [options]
    * @constructor
    */
-  function BeakerNode( denominatorProperty, filledProperty, options ) {
+  function BeakerNode( containerSet, options ) {
 
     options = _.extend( {
       beakerWidth: IntroConstants.BEAKER_WIDTH,
       beakerHeight: IntroConstants.BEAKER_LENGTH,
       tickWidth: 3,
+      align: 'center',
+      containerSpacing: 22,
+      containerWidth: 130,
+      containerHeight: 185,
+      perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
+    }, options );
+
+    Node.call( this );
+
+    // @private
+    this.options = options;
+
+    var self = this;
+
+    // @private
+    this.containerSet = containerSet;
+
+    // A Node to hold the set of containers
+    var setOfBeakerNode = new Node();
+    this.addChild( setOfBeakerNode );
+
+    // function for displaying the containers
+    this.displayContainers = function() {
+
+      setOfBeakerNode.removeAllChildren();
+
+      // loop over all the containers in the container set
+      containerSet.containers.forEach( function( container, containerIndex ) {
+
+
+        var fraction = container.getFraction();
+        var containerNode = new Node();
+
+        // creates a new beakernode to display on screen
+        var containerBeakerNode = new createBeakerNode( containerSet, fraction, options );
+
+        containerBeakerNode.centerX = 512 + (options.containerWidth + options.containerSpacing) *
+                                            (containerIndex - (containerSet.containers.length - 1) / 2);
+
+        containerBeakerNode.centerY = 260;
+
+
+
+        containerNode.addChild( containerBeakerNode );
+        setOfBeakerNode.addChild( containerNode );
+
+      } );
+    };
+
+    // needs to be called once or the beginning state of the containers will not be displayed
+    this.displayContainers();
+
+    // add listener to container sets
+    containerSet.containersEmitter.addListener( function() {
+      self.displayContainers();
+    } );
+  }
+
+  /**
+   * @param (ContainerSet) containerSet
+   * @param (Property.<number>) fraction
+   * @param {object} [options]
+   * @returns {Node}
+   */
+  var createBeakerNode = function( containerSet, fraction, options ) {
+
+    options = _.extend( {
+      beakerWidth: IntroConstants.BEAKER_WIDTH,
+      beakerHeight: IntroConstants.BEAKER_LENGTH,
+      tickWidth: 3,
+      align: 'center',
+      containerSpacing: 22,
+      containerWidth: 130,
+      containerHeight: 185,
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );
 
@@ -82,7 +155,6 @@ define( function( require ) {
 
     //middle layer
     // updates how 'full' beaker is when fraction is changed
-    filledProperty.link( function( fraction ) {
       var height = fraction * options.beakerHeight;
 
       // gradient should change if beaker is full of liquid
@@ -95,7 +167,7 @@ define( function( require ) {
           liquidFillGradient, capFillGradient, { isLiquid: true } );
         beakerContainer.addChild( liquidInBeaker );
       }
-    } );
+
 
     //top layer
     //front of the beaker and tick mark
@@ -113,9 +185,9 @@ define( function( require ) {
     var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: options.tickWidth } );
 
     // updates ticks when denominator is changed
-    denominatorProperty.link( function( denominator ) {
+    containerSet.denominatorProperty.link( function( denominator ) {
 
-      // tickSeparation determines how far tick marks on beaker should be spread out
+      // tickSeparation   determines how far tick marks on beaker should be spread out
       var tickSeparation = options.beakerHeight / denominator;
       var tickMarksShape = new Shape();
       for ( var i = 1; i <= denominator; i++ ) {
@@ -130,9 +202,11 @@ define( function( require ) {
     } );
 
     // add children to scene graph. z order matters here.
-    options.children = [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, BeakerFront, tickMarksPath ];
-    Node.call( this, options );
-  }
+    return new Node( {
+      children: [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, BeakerFront, tickMarksPath ]
+    } )
+
+  };
 
   /**
    * Creates both the empty beaker and filled beaker

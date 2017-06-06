@@ -92,9 +92,7 @@ define( function( require ) {
         } );
 
       // create beaker node
-      var beakerNode = new BeakerNode( introModel.denominatorProperty, introModel.fractionProperty, {
-        beakerWidth: IntroConstants.BEAKER_WIDTH,
-        beakerHeight: IntroConstants.BEAKER_LENGTH,
+      var beakerNode = new BeakerNode( introModel.containerSet, {
         centerX: this.layoutBounds.centerX,
         top: representationPanel.bottom + 60
       } );

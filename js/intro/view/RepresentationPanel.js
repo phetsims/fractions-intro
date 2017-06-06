@@ -12,6 +12,7 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -37,6 +38,9 @@ define( function( require ) {
       xMargin: 10,
       yMargin: 10
     }, options );
+
+    // containerSet for icon with a numerator of 1, denominator of 1, and max value of 1
+    var containerSet = new ContainerSet( new NumberProperty( 1 ), new NumberProperty( 1 ), new NumberProperty( 1 ) );
 
     // TODO get the size and color from the java simulation
     var content = new RadioButtonGroup( representationProperty, [
@@ -67,7 +71,7 @@ define( function( require ) {
 
       {
         value: Representation.BEAKER,
-        node: new BeakerNode( new NumberProperty( 1 ), new NumberProperty( 1 ), {
+        node: new BeakerNode( containerSet, {
           beakerWidth: 30,
           beakerHeight: 50
         } )

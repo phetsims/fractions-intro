@@ -157,6 +157,15 @@ define( function( require ) {
         return cell.isEmpty();
       } );
       return emptyCells;
+    },
+
+    /**
+     * returns the ratio of filled cells to total cells
+     * @returns {number}
+     * @public
+     */
+    getFraction: function(){
+      return this.getFilledCellsCount()/this.cells.length;
     }
   } );
 } );
