@@ -72,9 +72,9 @@ define( function( require ) {
           lineWidth: options.outlineLineWidth
         } );
 
-        containerRectangle.centerX = 600 + ( options.containerWidth + options.containerSpacing) *
-                                           (containerIndex - containerSet.containers.length / 2);
-        containerRectangle.centerY = 300;
+        containerRectangle.centerX = 512 + ( options.containerWidth + options.containerSpacing) *
+                                           (containerIndex - (containerSet.containers.length - 1) / 2);
+        containerRectangle.centerY = 260;
 
         var numberOfCells = container.cells.length;
         var cellHeight = options.containerHeight / numberOfCells;
