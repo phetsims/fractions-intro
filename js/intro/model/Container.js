@@ -142,7 +142,7 @@ define( function( require ) {
      */
     getEmptyCells: function() {
       var emptyCells = this.cells.filter( function( cell ) {
-        return !cell.isFilled();
+        return cell.isEmpty();
       } );
       return emptyCells;
     }

@@ -21,7 +21,7 @@ define( function( require ) {
    */
   function Cell() {
 
-    // @private {Property.<Vector2>}
+    // @public {Property.<Vector2>}
     this.positionProperty = new Property( Vector2.ZERO );
 
     // @public {Property.<boolean>}
@@ -68,16 +68,27 @@ define( function( require ) {
     },
 
     /**
-     * Returns the fill status of this cell
+     * Returns true is the cell is currently filled
+     * Does not account for the existence of an incoming piece
      * @returns {boolean}
      * @public
      */
-    isFilled: function() {
+    isCurrentlyFilled: function() {
       return this.isFilledProperty.value;
     },
 
     /**
-     * Returns true is the cell is empty
+     * Returns true is the cell is filled or will soon be filled
+     * (because an incomingPiece is animated towards it)
+     * @returns {boolean}
+     * @public
+     */
+    isFilled: function() {
+      return this.isFilledProperty.value || !(this.incomingPieceProperty.value === null);
+    },
+
+    /**
+     * Returns true is the cell is empty and no incomingPiece if flying toward it
      * @returns {boolean}
      * @public
      */
@@ -93,5 +104,6 @@ define( function( require ) {
     getPosition: function() {
       return this.positionProperty.value;
     }
+
   } );
 } );

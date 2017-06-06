@@ -238,7 +238,7 @@ define( function( require ) {
     getEmptyCells: function() {
       var cells = this.getAllCells();
       return cells.filter( function( cell ) {
-        return cell.isEmpty() && (cell.incomingPieceProperty.value === null);
+        return cell.isEmpty();
       } );
     },
 
