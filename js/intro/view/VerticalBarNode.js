@@ -182,7 +182,6 @@ define( function( require ) {
 
           if ( self.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            destinationCell.incomingPieceProperty.value = piece;
             piece.destinationCellProperty.value = destinationCell;
           }
           piece = null;

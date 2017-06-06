@@ -312,8 +312,7 @@ define( function( require ) {
         end: function() {
 
           if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
-            var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            destinationCell.incomingPieceProperty.value = piece;
+            var destinationCell = self.introModel.containerSet.getNextNonFullContainer().getNextEmptyCell();
             piece.destinationCellProperty.value = destinationCell;
           }
           else {

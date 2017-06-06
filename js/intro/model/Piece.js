@@ -53,9 +53,20 @@ define( function( require ) {
 
     this.destinationCellProperty.link( animateCell );
 
+    // sets the CELL incomingPiece property to THIS piece.
+    var pairCellToDestination = function( cell ) {
+      if ( !(cell === null ) ) {
+        cell.incomingPieceProperty.value = self;
+      }
+    };
+
+    // ensure that the destination cell and this piece are mutually locked in.
+    this.destinationCellProperty.link( pairCellToDestination );
+
     // dispose function for this type
     this.disposePiece = function() {
       self.destinationCellProperty.unlink( animateCell );
+      self.destinationCellProperty.unlink( pairCellToDestination );
     };
   }
 
