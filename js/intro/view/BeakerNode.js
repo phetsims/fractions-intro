@@ -86,9 +86,9 @@ define( function( require ) {
 
     // needs to be called once or the beginning state of the containers will not be displayed
 
-    containerSet.maxProperty.link(function(){
+    containerSet.maxProperty.link( function() {
       self.displayContainers();
-    });
+    } );
 
     // add listener to container sets
     containerSet.containersEmitter.addListener( function() {
@@ -96,7 +96,7 @@ define( function( require ) {
         container.fractionProperty.value = container.getFraction();
 
       } );
-    } )
+    } );
   }
 
   /**
