@@ -252,16 +252,16 @@ define( function( require ) {
     },
 
     /**
-     * finds closest empty cell of an array of containers to toVector
-     * @param {Vector2} toVector - the vector to find the closest cell to
+     * finds closest empty cell of an array of containers to position
+     * @param {Vector2} position - the vector to find the closest cell to
      * @returns {Cell}
      * @private
      */
-    getClosestEmptyCell: function( toVector ) {
+    getClosestEmptyCell: function( position ) {
 
       var closestCell = this.getEmptyCells().reduce( function( previousCell, currentCell ) {
-        return (previousCell.distanceTo( toVector ) <
-                currentCell.distanceTo( toVector )) ? previousCell : currentCell;
+        return (previousCell.distanceTo( position ) <
+                currentCell.distanceTo( position )) ? previousCell : currentCell;
       } );
       return closestCell;
     },
