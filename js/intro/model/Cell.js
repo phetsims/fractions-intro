@@ -84,7 +84,7 @@ define( function( require ) {
      * @public
      */
     isFilled: function() {
-      return this.isFilledProperty.value || !(this.incomingPieceProperty.value === null);
+      return this.isFilledProperty.value || (this.incomingPieceProperty.value !== null);
     },
 
     /**

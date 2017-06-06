@@ -46,7 +46,7 @@ define( function( require ) {
 
     // tween animation for piece to cell
     var animateCell = function( cell ) {
-      if ( !(cell === null ) ) {
+      if ( cell !== null ) {
         self.animateToDestination( cell.positionProperty.value );
       }
     };
@@ -55,7 +55,7 @@ define( function( require ) {
 
     // sets the CELL incomingPiece property to THIS piece.
     var pairCellToDestination = function( cell ) {
-      if ( !(cell === null ) ) {
+      if ( cell !== null ) {
         cell.incomingPieceProperty.value = self;
       }
     };
@@ -98,7 +98,7 @@ define( function( require ) {
     triggerOnCompletion: function() {
 
       // additional actions if the piece reached a cell
-      if ( !(this.destinationCellProperty.value === null) ) {
+      if ( this.destinationCellProperty.value !== null ) {
         var destinationCell = this.destinationCellProperty.value;
 
         destinationCell.isFilledProperty.value = true;
