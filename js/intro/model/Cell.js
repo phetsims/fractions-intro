@@ -51,12 +51,12 @@ define( function( require ) {
 
     /**
      * Finds the distance between this cell and another vector
-     * @param {Vector2} toVector - the vector to find this cells distance from
+     * @param {Vector2} position - the vector to find this cells distance from
      * @returns {number}
      * @public
      */
-    distanceTo: function( toVector ) {
-      return this.positionProperty.value.distance( toVector );
+    distanceTo: function( position ) {
+      return this.positionProperty.value.distance( position );
     },
 
     /**
