@@ -296,13 +296,13 @@ define( function( require ) {
         start: function() {
 
           // create a model piece
-          piece = new Piece( {
-            position: centerPosition,
-            dragging: true
-          } );
+          piece = new Piece( { position: centerPosition } );
 
           // add the model piece to the observable array
           self.pieces.add( piece );
+
+          // TODO: this a very round about way to force an update of the view
+          piece.updateCellsEmitter.addListener( function() {self.introModel.containerSet.containersEmitter.emit()} );
         },
 
         translate: function( translationParams ) {
@@ -313,8 +313,8 @@ define( function( require ) {
 
           if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            destinationCell.incomingPieceProperty.set( piece );
-            piece.destinationCellProperty.set( destinationCell );
+            destinationCell.incomingPieceProperty.value = piece;
+            piece.destinationCellProperty.value = destinationCell;
           }
           else {
             piece.animateToDestination( piece.positionProperty.initialValue );

@@ -165,10 +165,7 @@ define( function( require ) {
         start: function() {
 
           // create a model piece
-          piece = new Piece( {
-            position: centerPosition,
-            dragging: true
-          } );
+          piece = new Piece( { position: centerPosition } );
 
           piece.updateCellsEmitter.addListener( self.displayContainers );
 

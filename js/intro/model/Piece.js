@@ -24,7 +24,7 @@ define( function( require ) {
 
     options = _.extend( {
       position: new Vector2( 0, 0 ), // {Vector2} initial position
-      dragging: false // {boolean} is the user dragging the point?
+      dragging: true // {boolean} is the user dragging the piece
     }, options );
 
     var self = this;
