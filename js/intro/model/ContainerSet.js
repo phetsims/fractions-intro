@@ -9,8 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Emitter = require( 'AXON/Emitter' );
   var Container = require( 'FRACTIONS_INTRO/intro/model/Container' );
+  var Emitter = require( 'AXON/Emitter' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
 
@@ -128,18 +128,6 @@ define( function( require ) {
   fractionsIntro.register( 'ContainerSet', ContainerSet );
 
   return inherit( Object, ContainerSet, {
-
-    /**
-     * Reshuffles the purge filled cells to remaining containers
-     * @param {Cell[]} removedFilledCells
-     * @private
-     */
-    reshuffleFilledCells: function( removedFilledCells ) {
-      var count = removedFilledCells.length;
-
-      // toggle isFilled of 'count' number of cells from false to true
-      this.toggleIsFilledTo( count, false );
-    },
 
     /**
      * Add 'numberOfContainers' to ContainerSet
