@@ -302,7 +302,7 @@ define( function( require ) {
           self.pieces.add( piece );
 
           // TODO: this a very round about way to force an update of the view
-          piece.updateCellsEmitter.addListener( function() {self.introModel.containerSet.containersEmitter.emit()} );
+          piece.updateCellsEmitter.addListener( function() {self.introModel.containerSet.containersEmitter.emit();} );
         },
 
         translate: function( translationParams ) {
