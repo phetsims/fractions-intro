@@ -17,7 +17,6 @@ define( function( require ) {
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -67,7 +66,7 @@ define( function( require ) {
     this.denominatorProperty = denominatorProperty;
     this.segmentProperty = segmentProperty;
     this.introModel = introModel;
-    this.containerSet = new ContainerSet( new NumberProperty( 1 ), this.denominatorProperty, new NumberProperty( 1 ) );
+    this.iconContainerSet = new ContainerSet( new NumberProperty( 1 ), this.denominatorProperty, new NumberProperty( 1 ) );
 
     // Bucket model to be filled with piece
     var bucket = new Bucket( {
@@ -229,7 +228,7 @@ define( function( require ) {
 
         case Representation.VERTICAL_BAR:
 
-          var verticalBarNode = new VerticalBarNode( this.containerSet, this.pieces, options );
+          var verticalBarNode = new VerticalBarNode( this.iconContainerSet, this.pieces, options );
           return verticalBarNode.createVerticalBarPiece( this.denominatorProperty );
 
         case Representation.BEAKER:
@@ -241,7 +240,7 @@ define( function( require ) {
         case Representation.CAKE:
 
           // creating cake
-          var cakeNode = new CakeNode( this.containerSet, options );
+          var cakeNode = new CakeNode( this.iconContainerSet, options );
           return cakeNode;
 
         default:
@@ -310,7 +309,7 @@ define( function( require ) {
 
         end: function() {
 
-          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
+          if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
             if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
               piece.destinationCellProperty.value = destinationCell;
