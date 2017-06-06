@@ -204,7 +204,7 @@ define( function( require ) {
     // add children to scene graph. z order matters here.
     return new Node( {
       children: [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, BeakerFront, tickMarksPath ]
-    } )
+    } );
 
   };
 
