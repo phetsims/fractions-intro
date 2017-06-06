@@ -28,7 +28,7 @@ define( function( require ) {
   var FULL_CAP_COLOR = 'rgba(70,200,238,0.8)';
 
   /**
-   * @param {Property.<number>} containerSet
+   * @param {ContainerSet} containerSet
    * @param {object} [options]
    * @constructor
    */
@@ -67,19 +67,16 @@ define( function( require ) {
       // loop over all the containers in the container set
       containerSet.containers.forEach( function( container, containerIndex ) {
 
-
-        var fraction = container.getFraction();
+        var fractionProperty = container.fractionProperty;
         var containerNode = new Node();
 
-        // creates a new beakernode to display on screen
-        var containerBeakerNode = new createBeakerNode( containerSet, fraction, options );
+        // creates a new beakerNode to display on screen
+        var containerBeakerNode = new createBeakerNode( containerSet, fractionProperty, options );
 
         containerBeakerNode.centerX = 512 + (options.containerWidth + options.containerSpacing) *
                                             (containerIndex - (containerSet.containers.length - 1) / 2);
 
         containerBeakerNode.centerY = 260;
-
-
 
         containerNode.addChild( containerBeakerNode );
         setOfBeakerNode.addChild( containerNode );
@@ -88,12 +85,18 @@ define( function( require ) {
     };
 
     // needs to be called once or the beginning state of the containers will not be displayed
-    this.displayContainers();
+
+    containerSet.maxProperty.link(function(){
+      self.displayContainers();
+    });
 
     // add listener to container sets
     containerSet.containersEmitter.addListener( function() {
-      self.displayContainers();
-    } );
+      containerSet.containers.forEach( function( container ) {
+        container.fractionProperty.value = container.getFraction();
+
+      } );
+    } )
   }
 
   /**
@@ -102,7 +105,7 @@ define( function( require ) {
    * @param {object} [options]
    * @returns {Node}
    */
-  var createBeakerNode = function( containerSet, fraction, options ) {
+  var createBeakerNode = function( containerSet, fractionProperty, options ) {
 
     options = _.extend( {
       beakerWidth: IntroConstants.BEAKER_WIDTH,
@@ -152,9 +155,9 @@ define( function( require ) {
         fill: emptyFillGradient
       }
     );
-
-    //middle layer
-    // updates how 'full' beaker is when fraction is changed
+    fractionProperty.link( function( fraction ) {
+      //middle layer
+      // updates how 'full' beaker is when fraction is changed
       var height = fraction * options.beakerHeight;
 
       // gradient should change if beaker is full of liquid
@@ -167,7 +170,7 @@ define( function( require ) {
           liquidFillGradient, capFillGradient, { isLiquid: true } );
         beakerContainer.addChild( liquidInBeaker );
       }
-
+    } );
 
     //top layer
     //front of the beaker and tick mark

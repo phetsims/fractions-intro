@@ -12,6 +12,7 @@ define( function( require ) {
   var Cell = require( 'FRACTIONS_INTRO/intro/model/Cell' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -32,6 +33,8 @@ define( function( require ) {
     // @private {Property.<Vector2>}
     this.positionProperty = new Property( Vector2.ZERO );
 
+    // @public (Property.<Number>)
+    this.fractionProperty = new NumberProperty( this.getFraction() );
   }
 
   fractionsIntro.register( 'Container', Container );
@@ -164,8 +167,8 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    getFraction: function(){
-      return this.getFilledCellsCount()/this.cells.length;
+    getFraction: function() {
+      return this.getFilledCellsCount() / this.cells.length;
     }
   } );
 } );

@@ -33,6 +33,9 @@ define( function( require ) {
     // @public
     this.numeratorProperty = numeratorProperty;
 
+    // @public
+    this.maxProperty = maxProperty;
+
     // @private
     this.containersEmitter = new Emitter();
 
@@ -41,7 +44,7 @@ define( function( require ) {
     this.oldCellCount = this.numeratorProperty.value;
 
     // present for the lifetime of the simulation
-    maxProperty.link( function( max, oldMax ) {
+    this.maxProperty.link( function( max, oldMax ) {
       var difference = max - oldMax;
 
       if ( difference > 0 ) {
