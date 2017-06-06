@@ -109,7 +109,6 @@ define( function( require ) {
 
           piecesNode.setChildren( contentPieces );
 
-
           var beakerIconOptions = {
             beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
             beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
@@ -170,6 +169,43 @@ define( function( require ) {
       }
 
       self.mutate( options );
+    } );
+
+    this.introModel.numeratorProperty.link( function( numerator, oldNumerator ) {
+
+      var difference = numerator - oldNumerator;
+
+      if ( difference > 0 ) {
+        var piece = new Piece( {
+          position: IntroConstants.BUCKET_POSITION,
+          dragging: false
+        } );
+        pieces.add( piece );
+
+        var destinationContainer = introModel.containerSet.getNextNonFullContainer();
+        var destinationCell = destinationContainer.getNextEmptyCell();
+        piece.cellToProperty.value = destinationCell;
+        piece.updateCellsEmitter.addListener( function() {
+          self.introModel.containerSet.containersEmitter.emit();
+        } );
+      }
+
+      if ( difference < 0 ) {
+        var sourceContainer = introModel.containerSet.getLastNonEmptyContainer();
+
+        var sourceCell = sourceContainer.getNextFilledCell();
+
+        piece = new Piece( { position: sourceCell.positionProperty.value } );
+
+        pieces.add( piece );
+
+        piece.updateCellsEmitter.addListener( function() {
+          self.introModel.containerSet.containersEmitter.emit();
+        } );
+
+        piece.cellFromProperty.value = sourceCell;
+      }
+
     } );
 
     // handle the coming and going of pieces
@@ -313,14 +349,14 @@ define( function( require ) {
           if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
             if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
-              piece.destinationCellProperty.value = destinationCell;
+              piece.cellToProperty.value = destinationCell;
             }
             else {
-              piece.animateToDestination( piece.positionProperty.initialValue );
+              piece.animateToAndFrom( piece.positionProperty.initialValue, IntroConstants.BUCKET_POSITION );
             }
           }
           else {
-            piece.animateToDestination( piece.positionProperty.initialValue );
+            piece.animateToAndFrom( piece.positionProperty.initialValue, IntroConstants.BUCKET_POSITION );
           }
 
           piece = null;

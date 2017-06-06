@@ -12,6 +12,7 @@ define( function( require ) {
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Emitter = require( 'AXON/Emitter' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -33,7 +34,10 @@ define( function( require ) {
     this.positionProperty = new Property( options.position );
 
     // @public {Property.<Cell|null>}
-    this.destinationCellProperty = new Property( null );
+    this.cellToProperty = new Property( null );
+
+    // @public {Property.<Cell|null>}
+    this.cellFromProperty = new Property( null );
 
     // @public {Property.<boolean>}
     this.draggingProperty = new BooleanProperty( options.dragging ); // {boolean} is the user dragging the piece?
@@ -45,28 +49,53 @@ define( function( require ) {
     this.updateCellsEmitter = new Emitter();
 
     // tween animation for piece to cell
-    var animateCell = function( cell ) {
+    var animateToCell = function( cell ) {
       if ( cell !== null ) {
-        self.animateToDestination( cell.positionProperty.value );
+        self.animateToAndFrom( self.positionProperty.value, cell.positionProperty.value, {
+          onComplete: function() {
+            self.triggerToCell();
+          }
+        } );
       }
     };
 
-    this.destinationCellProperty.link( animateCell );
+    this.cellToProperty.link( animateToCell );
 
     // sets the CELL incomingPiece property to THIS piece.
     var pairCellToDestination = function( cell ) {
       if ( cell !== null ) {
-        cell.incomingPieceProperty.value = self;
+        cell.pieceToProperty.value = self;
+      }
+    };
+
+    var animateFromCell = function( cell ) {
+      if ( cell !== null ) {
+
+        // update the fill status of the cell we are leaving from
+        cell.isFilledProperty.value = false;
+
+        // force an update of the view
+        self.updateCellsEmitter.emit();
+
+        // animate from the cell to the bucket
+        self.animateToAndFrom( cell.positionProperty.value, IntroConstants.BUCKET_POSITION );
+
+        // sets the value of the cellFrom to null
+        self.cellFromProperty.value = null;
       }
     };
 
     // ensure that the destination cell and this piece are mutually locked in.
-    this.destinationCellProperty.link( pairCellToDestination );
+    this.cellToProperty.link( pairCellToDestination );
+
+    // ensure that the destination cell and this piece are mutually locked in.
+    this.cellFromProperty.link( animateFromCell );
 
     // dispose function for this type
     this.disposePiece = function() {
-      self.destinationCellProperty.unlink( animateCell );
-      self.destinationCellProperty.unlink( pairCellToDestination );
+      self.cellToProperty.unlink( animateToCell );
+      self.cellToProperty.unlink( pairCellToDestination );
+      self.cellFromProperty.unlink( animateFromCell );
     };
   }
 
@@ -80,7 +109,8 @@ define( function( require ) {
     reset: function() {
       this.positionProperty.reset();
       this.draggingProperty.reset();
-      this.destinationCellProperty.reset();
+      this.cellToProperty.reset();
+      this.cellFromProperty.reset();
     },
 
     /**
@@ -92,49 +122,50 @@ define( function( require ) {
     },
 
     /**
-     * callback to trigger upon completion of the animation
+     * callback to trigger upon completion of the animation to a cell
      * @private
      */
-    triggerOnCompletion: function() {
+    triggerToCell: function() {
 
-      // additional actions if the piece reached a cell
-      if ( this.destinationCellProperty.value !== null ) {
-        var destinationCell = this.destinationCellProperty.value;
+      var destinationCell = this.cellToProperty.value;
 
-        destinationCell.isFilledProperty.value = true;
+      destinationCell.isFilledProperty.value = true;
 
-        // sets the value of incoming Piece to null
-        destinationCell.incomingPieceProperty.value = null;
+      // sets the value of incoming Piece to null
+      destinationCell.pieceToProperty.value = null;
 
-        // sets the destination cell to null
-        this.destinationCellProperty.value = null;
+      // sets the destination cell to null
+      this.cellToProperty.value = null;
 
-        // updates the view of the cells and containers
-        this.updateCellsEmitter.emit();
-      }
+      // updates the view of the cells and containers
+      this.updateCellsEmitter.emit();
 
-      // the piece can be removed from the pieces observable array
-      this.reachedDestinationEmitter.emit();
     },
 
     /**
-     * Animates the piece to the destination
+     * Animates the piece from an initialPosition to a finalPosition
+     * @param {Vector2} initialPosition
      * @param {Vector2} finalPosition
+     * @param {Object} [options]
      * @public
      */
-    animateToDestination: function( finalPosition ) {
+    animateToAndFrom: function( initialPosition, finalPosition, options ) {
+
+      options = _.extend( {
+        onComplete: function() {}  // callback to be performed upon completion of the animation
+      }, options );
 
       var self = this;
 
       this.draggingProperty.value = false;
 
       var location = {
-        x: this.positionProperty.value.x,
-        y: this.positionProperty.value.y
+        x: initialPosition.x,
+        y: initialPosition.y
       };
 
       // distance to the final position
-      var distance = finalPosition.distance( this.positionProperty.value );
+      var distance = finalPosition.distance( initialPosition );
 
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
@@ -145,7 +176,11 @@ define( function( require ) {
             self.positionProperty.value = new Vector2( location.x, location.y );
           } )
           .onComplete( function() {
-            self.triggerOnCompletion();
+
+            options.onComplete();
+
+            // the piece can be removed from the pieces observable array
+            self.reachedDestinationEmitter.emit();
           } );
 
         animationTween.start( phet.joist.elapsedTime );
@@ -153,9 +188,13 @@ define( function( require ) {
       else {
 
         // for cases where the distance is zero
-        self.triggerOnCompletion();
+
+        //  optional call back
+        options.onComplete();
+
+        // the piece can be removed from the pieces observable array
+        self.reachedDestinationEmitter.emit();
       }
     }
-
   } );
 } );

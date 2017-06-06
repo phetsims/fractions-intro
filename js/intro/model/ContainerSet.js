@@ -95,37 +95,6 @@ define( function( require ) {
       self.containersEmitter.emit();
     } );
 
-    // updates the isFilledProperty of cells upon the change of the numerator
-    numeratorProperty.link( function( numerator, oldNumerator ) {
-      var difference = numerator - oldNumerator;
-
-      // the difference between filled cell count now and before numerator was changed
-      // should be zero unless emptyThisCell method is used
-      var cellCountDifference = self.getFilledCellsCount() - self.oldCellCount;
-
-      // if these two values are equal, then emptyThisCell method has been used and we can skip toggleIsFilledTo
-      if ( difference !== cellCountDifference ) {
-        // numerator is increasing
-        if ( difference > 0 ) {
-
-          // toggle isFilled of 'difference' number of cells from false to true
-          self.toggleIsFilledTo( difference, false );
-        }
-
-        // numerator is decreasing
-        else if ( difference < 0 ) {
-
-          // prevents update of isFillerProperty if numerator value and max value decrease at the same time.
-          if ( oldNumerator / denominatorProperty.value <= maxProperty.value ) {
-
-            // toggle isFilled of '-difference' (a positive number) of cells from true to false
-            self.toggleIsFilledTo( -difference, true );
-          }
-        }
-      }
-      self.containersEmitter.emit();
-      self.oldCellCount = self.numeratorProperty.value;
-    } );
   }
 
   fractionsIntro.register( 'ContainerSet', ContainerSet );
@@ -291,7 +260,7 @@ define( function( require ) {
       // update the fill property of this cell to empty
       cell.isFilledProperty.value = false;
 
-      this.numeratorProperty.value = this.numeratorProperty.value - 1;
+      //this.numeratorProperty.value = this.numeratorProperty.value - 1;
       this.containersEmitter.emit();
     },
 
@@ -307,7 +276,7 @@ define( function( require ) {
       // update the fill property of this cell to fill
       cell.isFilledProperty.value = true;
 
-      this.numeratorProperty.value = this.numeratorProperty.value + 1;
+      // this.numeratorProperty.value = this.numeratorProperty.value + 1;
       this.containersEmitter.emit();
     }
   } );

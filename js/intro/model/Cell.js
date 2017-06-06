@@ -35,7 +35,10 @@ define( function( require ) {
     this.rotationAngleProperty = new NumberProperty( 0 );
 
     // @public {Property.<Piece|null>}
-    this.incomingPieceProperty = new Property( null );
+    this.pieceToProperty = new Property( null );
+
+    // @public {Property.<Piece|null>}
+    this.pieceFromProperty = new Property( null );
   }
 
   fractionsIntro.register( 'Cell', Cell );
@@ -50,8 +53,9 @@ define( function( require ) {
       this.isDraggedProperty.reset();
       this.isFilledProperty.reset();
       this.positionProperty.reset();
-      this.incomingPieceProperty.reset();
+      this.pieceToProperty.reset();
       this.boundsProperty.reset();
+      this.pieceFromProperty.reset();
     },
 
     /**
@@ -89,7 +93,7 @@ define( function( require ) {
      * @public
      */
     isFilled: function() {
-      return this.isFilledProperty.value || (this.incomingPieceProperty.value !== null);
+      return this.isFilledProperty.value || (this.pieceToProperty.value !== null);
     },
 
     /**

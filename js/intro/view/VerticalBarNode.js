@@ -185,14 +185,14 @@ define( function( require ) {
           if ( self.containerSet.getEmptyCellsCount() > 0 ) {
             var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
             if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
-              piece.destinationCellProperty.value = destinationCell;
+              piece.cellToProperty.value = destinationCell;
             }
             else {
-              piece.animateToDestination( IntroConstants.BUCKET_POSITION );
+              piece.animateToAndFrom( piece.positionProperty.value, IntroConstants.BUCKET_POSITION );
             }
           }
           else {
-            piece.animateToDestination( IntroConstants.BUCKET_POSITION );
+            piece.animateToAndFrom( piece.positionProperty.value, IntroConstants.BUCKET_POSITION );
           }
 
           piece = null;
