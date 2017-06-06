@@ -39,16 +39,28 @@ define( function( require ) {
   return inherit( Object, Container, {
 
     /**
-     * finds closest empty cell of this container to toVector
-     * @param {Vector2} toVector - the vector to find the closest cell to
+     * TODO: what is the best way to reset container?
+     * resets this container
+     * @public
+     */
+    reset: function() {
+      this.positionProperty.reset();
+      this.cells.forEach( function( cell ) {
+        cell.reset();
+      } );
+    },
+
+    /**
+     * finds closest empty cell of this container to position
+     * @param {Vector2} position - the vector to find the closest cell to
      * @returns {Cell}
      * @public
      */
-    getClosestEmptyCell: function( toVector ) {
+    getClosestEmptyCell: function( position ) {
 
       var closestCell = this.getEmptyCells().reduce( function( previousCell, currentCell ) {
-        return (previousCell.distanceTo( toVector ) <
-                currentCell.distanceTo( toVector )) ? previousCell : currentCell;
+        return (previousCell.distanceTo( position ) <
+                currentCell.distanceTo( position )) ? previousCell : currentCell;
       } );
       return closestCell;
     },
@@ -115,7 +127,7 @@ define( function( require ) {
     },
 
     /**
-     * count the number of filled cells
+     * count the number of filled cells in this container
      * @returns {number}
      * @public
      */
