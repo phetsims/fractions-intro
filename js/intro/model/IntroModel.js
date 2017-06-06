@@ -83,6 +83,7 @@ define( function( require ) {
       this.denominatorProperty.reset();
       this.maxProperty.reset();
       this.representationProperty.reset();
+      this.pieces.reset();
     }
   } );
 } );
