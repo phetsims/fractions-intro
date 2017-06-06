@@ -352,11 +352,11 @@ define( function( require ) {
               piece.cellToProperty.value = destinationCell;
             }
             else {
-              piece.animateToAndFrom( piece.positionProperty.initialValue, IntroConstants.BUCKET_POSITION );
+              piece.animateToAndFrom( piece.positionProperty.value, piece.positionProperty.initialValue );
             }
           }
           else {
-            piece.animateToAndFrom( piece.positionProperty.initialValue, IntroConstants.BUCKET_POSITION );
+            piece.animateToAndFrom( piece.positionProperty.value, piece.positionProperty.initialValue );
           }
 
           piece = null;
