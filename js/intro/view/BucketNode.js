@@ -109,6 +109,7 @@ define( function( require ) {
 
           piecesNode.setChildren( contentPieces );
 
+
           var beakerIconOptions = {
             beakerWidth: IntroConstants.BEAKER_WIDTH / 4,
             beakerHeight: IntroConstants.BEAKER_LENGTH / 4,
@@ -234,7 +235,7 @@ define( function( require ) {
         case Representation.BEAKER:
 
           // creates beaker icon on bucket node
-          var beakerNode = new BeakerNode( this.containerSet, options );
+          var beakerNode = new BeakerNode( this.iconContainerSet, options );
           return beakerNode;
 
         case Representation.CAKE:
