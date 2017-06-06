@@ -81,28 +81,6 @@ define( function( require ) {
         y: 10
       } );
 
-      // create number line Node
-      var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
-        introModel.denominatorProperty,
-        introModel.maxProperty,
-        new NumberProperty( 1 ), {
-          left: 5,
-          top: representationPanel.bottom + 70
-        } );
-
-      // create beaker node
-      var beakerNode = new BeakerNode( introModel.containerSet, {
-        centerX: this.layoutBounds.centerX,
-        top: representationPanel.bottom + 60
-      } );
-
-      var cakeNode = new CakeNode( introModel.containerSet, {
-        centerX: this.layoutBounds.centerX,
-        top: representationPanel.bottom + 60
-      } );
-
-      var verticalBarNode = new VerticalBarNode( introModel.containerSet, introModel.pieces );
-
       // generic node storing the various representation
       var representationsNode = new Node();
 
@@ -119,15 +97,42 @@ define( function( require ) {
             // representationsNode.addChild( horizontalBarNode );
             break;
           case Representation.VERTICAL_BAR:
+
+            // create and add the set of vertical bars node
+            var verticalBarNode = new VerticalBarNode( introModel.containerSet,
+              introModel.pieces );
+
             representationsNode.addChild( verticalBarNode );
             break;
           case Representation.BEAKER:
+
+            // create and add set of beakers node
+            var beakerNode = new BeakerNode( introModel.containerSet, {
+              centerX: this.layoutBounds.centerX,
+              top: representationPanel.bottom + 60
+            } );
             representationsNode.addChild( beakerNode );
             break;
           case Representation.CAKE:
+
+            // create and add set of cakes node
+            var cakeNode = new CakeNode( introModel.containerSet, {
+              centerX: this.layoutBounds.centerX,
+              top: representationPanel.bottom + 60
+            } );
             representationsNode.addChild( cakeNode );
             break;
           case Representation.NUMBER_LINE:
+
+            // create and add number line Node
+            var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
+              introModel.denominatorProperty,
+              introModel.maxProperty,
+              new NumberProperty( 1 ), {
+                left: 5,
+                top: representationPanel.bottom + 70
+              } );
+
             representationsNode.addChild( numberLineNode );
             break;
           default:
@@ -143,14 +148,18 @@ define( function( require ) {
 
       // fraction node with spinners on the denominator and numerator
       var fractionNode = new FractionWithSpinners( introModel.numeratorProperty,
-        introModel.denominatorProperty, introModel.maxProperty, {
+        introModel.denominatorProperty,
+        introModel.maxProperty, {
           x: 120,
           bottom: this.layoutBounds.maxY - 5
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel, introModel.pieces, introModel.representationProperty,
-        introModel.denominatorProperty, introModel.segmentProperty );
+      var bucketNode = new BucketNode( introModel,
+        introModel.pieces,
+        introModel.representationProperty,
+        introModel.denominatorProperty,
+        introModel.segmentProperty );
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // Temporary code used to find true of elements based on original simulation
@@ -162,7 +171,7 @@ define( function( require ) {
       var transparencyProperty = new NumberProperty( 0 );
       var transparencySlider = new HSlider( transparencyProperty, {
         min: 0,
-        max: .8
+        max: 0.8
       }, { right: this.layoutBounds.maxX - 10, bottom: resetAllButton.top - 10 } );
 
       var pictureIndex = new NumberProperty( 0 );
