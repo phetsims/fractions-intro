@@ -16,7 +16,6 @@ define( function( require ) {
     var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
     var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
     var inherit = require( 'PHET_CORE/inherit' );
-    var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
     var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
