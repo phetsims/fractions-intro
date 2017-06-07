@@ -155,7 +155,7 @@ define( function( require ) {
         } );
 
       // create bucket node
-      var bucketNode = new BucketNode( introModel,
+      var bucketNode = new BucketNode( introModel.containerSet,
         introModel.pieces,
         introModel.representationProperty,
         introModel.denominatorProperty,

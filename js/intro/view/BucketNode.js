@@ -46,7 +46,7 @@ define( function( require ) {
   ];
 
   /**
-   * @param {IntroModel} introModel
+   * @param {ContainerSet} containerSet
    * @param {ObservableArray.<Piece>} pieces
    * @param {Property.<number>} representationProperty
    * @param {Property.<number>} denominatorProperty
@@ -54,7 +54,7 @@ define( function( require ) {
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( introModel, pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
+  function BucketNode( containerSet, pieces, representationProperty, denominatorProperty, segmentProperty, options ) {
 
     options = _.extend( {}, options );
 
@@ -65,7 +65,7 @@ define( function( require ) {
     this.pieces = pieces;
     this.denominatorProperty = denominatorProperty;
     this.segmentProperty = segmentProperty;
-    this.introModel = introModel;
+    this.containerSet = containerSet;
 
     // create a container set with one filled cell and one container
     // the number of cells is determined by the introModel
@@ -306,7 +306,7 @@ define( function( require ) {
         representationNode.center = centerPosition;
 
         representationNode.addInputListener( new PieceDragHandler( centerPosition,
-          self.introModel.containerSet, self.pieces ) );
+          self.containerSet, self.pieces ) );
 
         return representationNode;
 
