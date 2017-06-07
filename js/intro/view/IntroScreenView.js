@@ -20,6 +20,7 @@ define( function( require ) {
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
     var NumberProperty = require( 'AXON/NumberProperty' );
+    var Property = require( 'AXON/Property' );
     var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
     var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -176,7 +177,7 @@ define( function( require ) {
 
       var pictureIndex = new NumberProperty( 0 );
       var range = new RangeWithValue( 0, 20, 0 );
-      var pictureSpinner = new NumberSpinner( pictureIndex, range, {
+      var pictureSpinner = new NumberSpinner( pictureIndex, new Property( range ), {
         right: this.layoutBounds.maxX - 20,
         bottom: resetAllButton.top - 80
       } );
