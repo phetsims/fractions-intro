@@ -12,11 +12,9 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
+  var PieceDragHandler = require( 'FRACTIONS_INTRO/intro/view/PieceDragHandler' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   // constant
   var CONTAINER_WIDTH = 130;
@@ -25,7 +23,7 @@ define( function( require ) {
   /**
    *
    * @param {ContainerSet} containerSet
-   * @param {ObservableArray.<Pieces>} pieces
+   * @param {ObservableArray.<Piece>} pieces
    * @param {Object} [options]
    * @constructor
    */
@@ -98,7 +96,14 @@ define( function( require ) {
           cell.boundsProperty.value = cellRectangle.bounds;
 
           if ( cell.isFilledProperty.value ) {
-            cellRectangle.addInputListener( self.createDragHandler( cell.positionProperty.value, cell ) );
+            cellRectangle.addInputListener(
+              new PieceDragHandler( cell.positionProperty.value,
+                containerSet,
+                pieces, {
+                  startDrag: function() {
+                    containerSet.emptyThisCell( cell );
+                  }
+                } ) );
           }
           cellsRectangle.push( cellRectangle );
 
@@ -151,56 +156,7 @@ define( function( require ) {
       return containerNode;
 
     },
-    /**
-     * create a drag handler that adds a piece to the model
-     * @param {Vector2} centerPosition - centerPosition of the shape
-     * @param {Cell} cell
-     * @returns {SimpleDragHandler}
-     * @private
-     */
-    createDragHandler: function( centerPosition, cell ) {
-      var piece = null;
-      var self = this;
-      var dragHandler = new SimpleDragHandler( {
 
-        allowTouchSnag: true,
-        start: function() {
-
-          // create a model piece
-          piece = new Piece( { position: centerPosition } );
-
-          piece.updateCellsEmitter.addListener( self.displayContainers );
-
-          // add the model piece to the observable array
-          self.pieces.add( piece );
-          self.containerSet.emptyThisCell( cell );
-        },
-
-        translate: function( translationParams ) {
-          piece.positionProperty.value = piece.positionProperty.value.plus( translationParams.delta );
-        },
-
-        end: function() {
-
-          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
-            var destinationCell = self.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
-              piece.cellToProperty.value = destinationCell;
-            }
-            else {
-              piece.animateToAndFrom( piece.positionProperty.value, IntroConstants.BUCKET_POSITION );
-            }
-          }
-          else {
-            piece.animateToAndFrom( piece.positionProperty.value, IntroConstants.BUCKET_POSITION );
-          }
-
-          piece = null;
-        }
-      } );
-
-      return dragHandler;
-    },
     /**
      * creates a rectangle to be used to represent a cell of the
      * @param {number} cellHeight

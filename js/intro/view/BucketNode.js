@@ -25,11 +25,10 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
+  var PieceDragHandler = require( 'FRACTIONS_INTRO/intro/view/PieceDragHandler' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
@@ -287,58 +286,6 @@ define( function( require ) {
     },
 
     /**
-     * create a drag handler that adds a piece to the model
-     * @param {Vector2} centerPosition - centerPosition of the shape
-     * @returns {SimpleDragHandler}
-     * @private
-     */
-    createDragHandler: function( centerPosition ) {
-      var piece = null;
-      var self = this;
-      var dragHandler = new SimpleDragHandler( {
-
-        allowTouchSnag: true,
-
-        start: function() {
-
-          // create a model piece
-          piece = new Piece( { position: centerPosition } );
-
-          // add the model piece to the observable array
-          self.pieces.add( piece );
-
-          // TODO: this a very round about way to force an update of the view
-          piece.updateCellsEmitter.addListener( function() {
-            self.introModel.containerSet.containersEmitter.emit();
-          } );
-        },
-
-        translate: function( translationParams ) {
-          piece.positionProperty.value = piece.positionProperty.value.plus( translationParams.delta );
-        },
-
-        end: function() {
-
-          if ( self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
-            var destinationCell = self.introModel.containerSet.getClosestEmptyCell( piece.positionProperty.value );
-            if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
-              piece.cellToProperty.value = destinationCell;
-            }
-            else {
-              piece.animateToAndFrom( piece.positionProperty.value, piece.positionProperty.initialValue );
-            }
-          }
-          else {
-            piece.animateToAndFrom( piece.positionProperty.value, piece.positionProperty.initialValue );
-          }
-
-          piece = null;
-        }
-      } );
-
-      return dragHandler;
-    },
-    /**
      * create an array of pieces for the bucket
      *
      * @param {Representation} representation
@@ -358,7 +305,8 @@ define( function( require ) {
 
         representationNode.center = centerPosition;
 
-        representationNode.addInputListener( self.createDragHandler( centerPosition ) );
+        representationNode.addInputListener( new PieceDragHandler( centerPosition,
+          self.introModel.containerSet, self.pieces ) );
 
         return representationNode;
 
