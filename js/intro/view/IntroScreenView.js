@@ -108,7 +108,7 @@ define( function( require ) {
 
             // create and add set of beakers node
             var beakerNode = new BeakerNode( introModel.containerSet, {
-              centerX: this.layoutBounds.centerX,
+              centerX: self.layoutBounds.centerX,
               top: representationPanel.bottom + 60
             } );
             representationsNode.addChild( beakerNode );
@@ -117,7 +117,7 @@ define( function( require ) {
 
             // create and add set of cakes node
             var cakeNode = new CakeNode( introModel.containerSet, {
-              centerX: this.layoutBounds.centerX,
+              centerX: self.layoutBounds.centerX,
               top: representationPanel.bottom + 60
             } );
             representationsNode.addChild( cakeNode );

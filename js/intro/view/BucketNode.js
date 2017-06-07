@@ -175,7 +175,8 @@ define( function( require ) {
 
       var difference = numerator - oldNumerator;
 
-      if ( difference > 0 ) {
+      if ( difference > 0 && self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
+
         var piece = new Piece( {
           position: IntroConstants.BUCKET_POSITION,
           dragging: false
@@ -190,7 +191,7 @@ define( function( require ) {
         } );
       }
 
-      if ( difference < 0 ) {
+      if ( difference < 0 && introModel.containerSet.getFilledCellsCount() > 0 ) {
         var sourceContainer = introModel.containerSet.getLastNonEmptyContainer();
 
         var sourceCell = sourceContainer.getNextFilledCell();
@@ -231,13 +232,18 @@ define( function( require ) {
 
       var pieceNode = self.createRepresentation( representationProperty.value, options );
 
-      addedPiece.positionProperty.link( function( position ) {
+      var positionListener = function( position ) {
         pieceNode.center = position;
-      } );
-      piecesNode.addChild( pieceNode );
+      };
 
+      addedPiece.positionProperty.link( positionListener );
+      piecesNode.addChild( pieceNode );
       addedPiece.reachedDestinationEmitter.addListener( function removeAddedPiece() {
         pieces.remove( addedPiece );
+
+        addedPiece.positionProperty.unlink( positionListener );
+
+        addedPiece.dispose();
       } );
 
       pieces.addItemRemovedListener( function removalListener( removedPiece ) {
