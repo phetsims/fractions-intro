@@ -48,6 +48,7 @@ define( function( require ) {
      */
     reset: function() {
       this.positionProperty.reset();
+      this.fractionProperty.reset();
       this.cells.forEach( function( cell ) {
         cell.reset();
       } );
@@ -163,12 +164,21 @@ define( function( require ) {
     },
 
     /**
-     * returns the ratio of filled cells to total cells
+     * returns the ratio of filled cells to the number of cells in this container
      * @returns {number}
      * @public
      */
     getFraction: function() {
       return this.getFilledCellsCount() / this.cells.length;
+    },
+
+    /**
+     * returns the number of cells in the container
+     * @returns {number}
+     * @public
+     */
+    getCellsCount: function() {
+      return this.cells.length;
     }
   } );
 } );

@@ -39,10 +39,6 @@ define( function( require ) {
     // @private
     this.containersEmitter = new Emitter();
 
-    // @private
-    // an account of the previous amount of filled cells
-    this.oldCellCount = this.numeratorProperty.value;
-
     // present for the lifetime of the simulation
     this.maxProperty.link( function( max, oldMax ) {
       var difference = max - oldMax;
@@ -254,13 +250,9 @@ define( function( require ) {
      */
     emptyThisCell: function( cell ) {
 
-      // must be done in this order or the emptied cell will be double counted!!
-      this.oldCellCount = this.getFilledCellsCount();
-
       // update the fill property of this cell to empty
       cell.isFilledProperty.value = false;
 
-      //this.numeratorProperty.value = this.numeratorProperty.value - 1;
       this.containersEmitter.emit();
     },
 
@@ -271,12 +263,9 @@ define( function( require ) {
      */
     fillThisCell: function( cell ) {
 
-      this.oldCellCount = this.getFilledCellsCount();
-
       // update the fill property of this cell to fill
       cell.isFilledProperty.value = true;
 
-      // this.numeratorProperty.value = this.numeratorProperty.value + 1;
       this.containersEmitter.emit();
     }
   } );

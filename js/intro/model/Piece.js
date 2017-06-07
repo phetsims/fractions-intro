@@ -33,10 +33,10 @@ define( function( require ) {
     // @public {Property.<Vector2>} position of point
     this.positionProperty = new Property( options.position );
 
-    // @public {Property.<Cell|null>}
+    // @public {Property.<Cell|null>} the destination cell for the piece
     this.cellToProperty = new Property( null );
 
-    // @public {Property.<Cell|null>}
+    // @public {Property.<Cell|null>} the origin cell of the piece
     this.cellFromProperty = new Property( null );
 
     // @public {Property.<boolean>}
@@ -48,7 +48,8 @@ define( function( require ) {
     // create emitter that will signal the the piece has reached its cell.
     this.updateCellsEmitter = new Emitter();
 
-    // tween animation for piece to cell
+    // animate piece from its current position to the cell
+    // callback triggerToCell will update the status of the cell
     var animateToCell = function( cell ) {
       if ( cell !== null ) {
         self.animateToAndFrom( self.positionProperty.value, cell.positionProperty.value, {
@@ -59,6 +60,7 @@ define( function( require ) {
       }
     };
 
+    // animate piece from its current position to the cell
     this.cellToProperty.link( animateToCell );
 
     // sets the CELL incomingPiece property to THIS piece.
@@ -68,6 +70,7 @@ define( function( require ) {
       }
     };
 
+    // listener that is responsible for animating a piece from cell towards the bucket
     var animateFromCell = function( cell ) {
       if ( cell !== null ) {
 
@@ -88,7 +91,7 @@ define( function( require ) {
     // ensure that the destination cell and this piece are mutually locked in.
     this.cellToProperty.link( pairCellToDestination );
 
-    // ensure that the destination cell and this piece are mutually locked in.
+    // animate the piece from the cell to the bucket
     this.cellFromProperty.link( animateFromCell );
 
     // dispose function for this type
@@ -122,7 +125,7 @@ define( function( require ) {
     },
 
     /**
-     * callback to trigger upon completion of the animation to a cell
+     * callback to trigger upon completion of the animation TO a cell
      * @private
      */
     triggerToCell: function() {

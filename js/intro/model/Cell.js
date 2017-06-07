@@ -56,6 +56,7 @@ define( function( require ) {
       this.pieceToProperty.reset();
       this.boundsProperty.reset();
       this.pieceFromProperty.reset();
+      this.rotationAngleProperty.reset();
     },
 
     /**
@@ -69,7 +70,7 @@ define( function( require ) {
     },
 
     /**
-     * Toggle the value of isFilled
+     * Toggles the value of isFilled
      * @public
      */
     toggleIsFilled: function() {
