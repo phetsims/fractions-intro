@@ -55,14 +55,22 @@ define( function( require ) {
     options = _.extend( {
         rotation: 0,  // horizontal -> 0, vertical -> -Math.PI/2
 
-        //This gives the user option to add an arrow to the numberline if set to true or use number line
-        displayArrow: false
+        // this gives the user option to add an arrow to the numberLine if set to true or use number line
+        displayArrow: false,
+
+        // is the marker circle draggable
+        isDraggable: true
       },
       options );
 
     // main Number line
-    // the point (0,0) is set as the origin of of the number line
-    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, { stroke: 'black', lineWidth: 3 } );
+    // the point (0,0) is set as the origin of the number line
+    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, {
+      stroke: 'black',
+      lineWidth: 3,
+      strokePickable: true,
+      cursor: 'pointer'
+    } );
 
     // for even major ticks, the lineWidth is slightly thicker than for odd Major Ticks
     var evenMajorTicksPath = new Path( null, { stroke: 'black', lineWidth: 5 } );
@@ -136,7 +144,9 @@ define( function( require ) {
     var markerCircle = new Circle( MARKER_CIRCLE_RADIUS, {
       fill: 'green',
       lineWidth: 3,
-      stroke: 'black'
+      stroke: 'black',
+      pickable: true,
+      cursor: 'pointer'
     } );
 
     if ( options.displayArrow ) {
@@ -144,7 +154,7 @@ define( function( require ) {
       markerCircle.fill = '#ff5eaf';
     }
 
-    //marker Arrow indicating the fraction and marker circle
+    // marker Arrow indicating the fraction and marker circle
     var markerArrow = new ArrowNode( 0, -ARROW_LENGTH, 0, 0, {
       fill: '#ff5eaf',
       opacity: 0.7,
@@ -182,22 +192,45 @@ define( function( require ) {
       highlighterRectangle.center = markerCircle.center;
     } );
 
-    // add a drag handler to the circle on the number line
-    markerCircle.addInputListener( new SimpleDragHandler( {
-      allowTouchSnag: true,
-      drag: function( event ) {
-        if ( options.rotation === 0 ) {
-          var x = markerCircle.globalToParentPoint( event.pointer.point ).x;
-          var tickMarkSeparation = segmentLength / denominatorProperty.value;
+    if ( options.isDraggable ) {
 
-          // update the value of the numerator ensuring that it is always an integer
-          // recall the x=0, y=0 is conveniently set at the zero of the number line
-          // no need to update the position of any view elements since the numeratorProperty has callbacks to them
-          numeratorProperty.value = Util.clamp( Util.roundSymmetric( x / tickMarkSeparation ),
-            0, denominatorProperty.value * maxProperty.value );
+      var handleEvent = function( node, event ) {
+        var x = node.globalToParentPoint( event.pointer.point ).x;
+        var tickMarkSeparation = segmentLength / denominatorProperty.value;
+
+        // update the value of the numerator ensuring that it is always an integer
+        // recall the x=0, y=0 is conveniently set at the zero of the number line
+        // no need to update the position of any view elements since the numeratorProperty has callbacks to them
+        numeratorProperty.value = Util.clamp( Util.roundSymmetric( x / tickMarkSeparation ),
+          0, denominatorProperty.value * maxProperty.value );
+      };
+
+      // add a drag handler to the main number line
+      mainNumberLine.addInputListener( new SimpleDragHandler( {
+        allowTouchSnag: true,
+        start: function( event ) {
+          handleEvent( mainNumberLine, event );
+        },
+        drag: function( event ) {
+          handleEvent( mainNumberLine, event );
         }
-      }
-    } ) );
+      } ) );
+
+      // expand the mouse and touch area of number line to make it easier to pick
+      mainNumberLine.mouseArea = mainNumberLine.bounds.dilated( 10 );
+      mainNumberLine.touchArea = mainNumberLine.bounds.dilated( 10 );
+
+      // add a drag handler to the circle on the number line
+      markerCircle.addInputListener( new SimpleDragHandler( {
+        allowTouchSnag: true,
+        drag: function( event ) {
+          handleEvent( markerCircle, event );
+        }
+      } ) );
+
+      markerCircle.mouseArea = markerCircle.bounds.dilated( 10 );
+      markerCircle.touchArea = markerCircle.bounds.dilated( 10 );
+    }
 
     // Specify the children to be rendered with this node
     options.children = [
