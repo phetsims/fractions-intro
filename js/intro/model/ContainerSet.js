@@ -98,7 +98,7 @@ define( function( require ) {
   return inherit( Object, ContainerSet, {
 
     /**
-     * Add 'numberOfContainers' to ContainerSet
+     * adds 'numberOfContainers' to ContainerSet
      * @param {number} numberOfContainers
      * @private
      */
@@ -111,7 +111,7 @@ define( function( require ) {
     },
 
     /**
-     * Toggle the cell value of isFilledProperty to isFilled for 'numberOfCells' cells in ContainerSet
+     * toggles the cell value of isFilledProperty to isFilled for 'numberOfCells' cells in ContainerSet
      * @param {number} numberOfCellsToToggle
      * @param {boolean} toggleTo
      * @private
@@ -139,7 +139,7 @@ define( function( require ) {
     },
 
     /**
-     * get last container that has at least one filled cell
+     * gets last container that has at least one filled cell
      * @returns {Container}
      * @private
      */
@@ -153,7 +153,7 @@ define( function( require ) {
     },
 
     /**
-     * get the next container that has at least one empty cell
+     * gets the next container that has at least one empty cell
      * @returns {Container}
      * @private
      */
@@ -166,7 +166,7 @@ define( function( require ) {
     },
 
     /**
-     * get Filled Cells in this container set
+     * gets filled cells in this container set
      * @returns {Cell[]}
      * @private
      */
@@ -178,7 +178,7 @@ define( function( require ) {
     },
 
     /**
-     * get Filled Cells Count in this container set
+     * gets filled cells count in this container set
      * @returns {number}
      */
     getFilledCellsCount: function() {
@@ -186,7 +186,7 @@ define( function( require ) {
     },
 
     /**
-     * get all the empty cells in this container set
+     * gets all the empty cells in this container set
      * does not include cell that are currently empty and will be filled by a piece.
      * @returns {Cell[]}
      * @private
@@ -199,7 +199,7 @@ define( function( require ) {
     },
 
     /**
-     * find number of empty cells in this container set
+     * finds number of empty cells in this container set
      * @return {number}
      * @public
      */
@@ -223,7 +223,7 @@ define( function( require ) {
     },
 
     /**
-     * Flatten an array of containers to an array of cells
+     * flattens an array of containers to an array of cells
      * @param {Container[]} containers
      * @returns {Cell[]}
      * @public
@@ -235,7 +235,7 @@ define( function( require ) {
     },
 
     /**
-     * get all the cells in the container
+     * gets all the cells in the container
      * @returns {Cell[]}
      * @public
      */
@@ -244,7 +244,7 @@ define( function( require ) {
     },
 
     /**
-     * empties a given cell and updates numerator property and oldCellCount
+     * empties a given cell
      * @param {Cell} cell
      * @public
      */
@@ -257,7 +257,7 @@ define( function( require ) {
     },
 
     /**
-     * fill a given cell and updates numerator property and oldCellCount
+     * fills a given cell
      * @param {Cell} cell
      * @public
      */
