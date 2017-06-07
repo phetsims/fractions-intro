@@ -33,9 +33,10 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalBarNode = require( 'FRACTIONS_INTRO/intro/view/VerticalBarNode' );
 
-  //constants
+  // constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
   var PIECE_OFFSET_POSITIONS = [
+
     // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
     new Vector2( -80, -4 ),
     new Vector2( -45, -5 ),
@@ -66,7 +67,11 @@ define( function( require ) {
     this.denominatorProperty = denominatorProperty;
     this.segmentProperty = segmentProperty;
     this.introModel = introModel;
-    this.iconContainerSet = new ContainerSet( new NumberProperty( 1 ), this.denominatorProperty, new NumberProperty( 1 ) );
+
+    // create a container set with one filled cell and one container
+    // the number of cells is determined by the introModel
+    this.iconContainerSet = new ContainerSet( new NumberProperty( 1 ),
+      denominatorProperty, new NumberProperty( 1 ) );
 
     // Bucket model to be filled with piece
     var bucket = new Bucket( {
@@ -169,44 +174,6 @@ define( function( require ) {
       }
 
       self.mutate( options );
-    } );
-
-    this.introModel.numeratorProperty.link( function( numerator, oldNumerator ) {
-
-      var difference = numerator - oldNumerator;
-
-      if ( difference > 0 && self.introModel.containerSet.getEmptyCellsCount() > 0 ) {
-
-        var piece = new Piece( {
-          position: IntroConstants.BUCKET_POSITION,
-          dragging: false
-        } );
-        pieces.add( piece );
-
-        var destinationContainer = introModel.containerSet.getNextNonFullContainer();
-        var destinationCell = destinationContainer.getNextEmptyCell();
-        piece.cellToProperty.value = destinationCell;
-        piece.updateCellsEmitter.addListener( function() {
-          self.introModel.containerSet.containersEmitter.emit();
-        } );
-      }
-
-      if ( difference < 0 && introModel.containerSet.getFilledCellsCount() > 0 ) {
-        var sourceContainer = introModel.containerSet.getLastNonEmptyContainer();
-
-        var sourceCell = sourceContainer.getNextFilledCell();
-
-        piece = new Piece( { position: sourceCell.positionProperty.value } );
-
-        pieces.add( piece );
-
-        piece.updateCellsEmitter.addListener( function() {
-          self.introModel.containerSet.containersEmitter.emit();
-        } );
-
-        piece.cellFromProperty.value = sourceCell;
-      }
-
     } );
 
     // handle the coming and going of pieces
