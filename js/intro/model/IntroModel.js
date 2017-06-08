@@ -66,7 +66,7 @@ define( function( require ) {
       // adding a piece that will be animated from the bucket to a cell for the difference
       if ( difference > 0 && self.containerSet.getEmptyCellsCount() > 0 ) {
 
-        for (var i = difference; i>0; i--){
+        for ( var i = difference; i > 0; i-- ) {
           self.addAnimatingPieceInBucket();
         }
       }
@@ -74,23 +74,23 @@ define( function( require ) {
       // a piece will fly from a cell to the bucket each time for the difference
       if ( difference < 0 && self.containerSet.getFilledCellsCount() > 0 ) {
 
-        for (var i = difference; i<0; i++) {
+        for ( var j = difference; j < 0; j++ ) {
           self.addAnimatingPieceAtCell();
         }
       }
     } );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
-   /* Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
-      function( denominator, numerator, max ) {
+    /* Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
+     function( denominator, numerator, max ) {
 
-        // If the maximum decreases, the numerator may also need to be decreased to compensate
-        if ( numerator / denominator > max ) {
+     // If the maximum decreases, the numerator may also need to be decreased to compensate
+     if ( numerator / denominator > max ) {
 
-          // decreases numeratorProperty as dependent on the max and denominator
-          self.numeratorProperty.value = denominator * max;
-        }
-      } );*/
+     // decreases numeratorProperty as dependent on the max and denominator
+     self.numeratorProperty.value = denominator * max;
+     }
+     } );*/
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
@@ -150,7 +150,6 @@ define( function( require ) {
         } );
       }
 
-
     },
 
     /**
@@ -171,7 +170,7 @@ define( function( require ) {
 
         sourceCell.isFilledProperty.value = false;
       }
-      else{
+      else {
 
 
         // create a piece at the position of the source cell
