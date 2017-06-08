@@ -20,7 +20,6 @@ define( function( require ) {
     var Node = require( 'SCENERY/nodes/Node' );
     var NumberLineNode = require( 'FRACTIONS_INTRO/intro/view/NumberLineNode' );
     var NumberProperty = require( 'AXON/NumberProperty' );
-    var Property = require( 'AXON/Property' );
     var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
     var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
     var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -72,8 +71,8 @@ define( function( require ) {
         listener: function() {
           introModel.reset();
         },
-        right: this.layoutBounds.maxX - 10,
-        bottom: this.layoutBounds.maxY - 10
+        right: this.layoutBounds.right - 10,
+        bottom: this.layoutBounds.bottom - 10
       } );
 
       // representation panel at the top of the simulation
@@ -143,8 +142,8 @@ define( function( require ) {
 
       // create spinner controlling the maximum
       var maxSpinner = new MaxSpinner( introModel.maxProperty, {
-        right: this.layoutBounds.maxX - 15,
-        y: this.layoutBounds.minY + 50
+        right: this.layoutBounds.right - 15,
+        y: this.layoutBounds.top + 50
       } );
 
       // fraction node with spinners on the denominator and numerator
@@ -152,7 +151,7 @@ define( function( require ) {
         introModel.denominatorProperty,
         introModel.maxProperty, {
           x: 120,
-          bottom: this.layoutBounds.maxY - 5
+          bottom: this.layoutBounds.bottom - 5
         } );
 
       // create bucket node
@@ -173,12 +172,12 @@ define( function( require ) {
       var transparencySlider = new HSlider( transparencyProperty, {
         min: 0,
         max: 0.8
-      }, { right: this.layoutBounds.maxX - 10, bottom: resetAllButton.top - 10 } );
+      }, { right: this.layoutBounds.right - 10, bottom: resetAllButton.top - 10 } );
 
       var pictureIndex = new NumberProperty( 0 );
       var range = new RangeWithValue( 0, 20, 0 );
-      var pictureSpinner = new NumberSpinner( pictureIndex, new Property( range ), {
-        right: this.layoutBounds.maxX - 20,
+      var pictureSpinner = new NumberSpinner( pictureIndex, range, {
+        right: this.layoutBounds.right - 20,
         bottom: resetAllButton.top - 80
       } );
 

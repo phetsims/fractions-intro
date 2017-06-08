@@ -40,13 +40,13 @@ define( function( require ) {
     // creates numerator node
     var numeratorNode = new Text( numeratorProperty.get(), {
       font: options.font, fill: options.fill,
-      centerX: line.centerX, bottom: line.bounds.minY - 2
+      centerX: line.centerX, bottom: line.bounds.top - 2
     } );
 
     // creates denominator node
     var denominatorNode = new Text( denominatorProperty.get(), {
       font: options.font, fill: options.fill,
-      centerX: line.centerX, top: line.bounds.maxY + 2
+      centerX: line.centerX, top: line.bounds.bottom + 2
     } );
 
     // centers the numeratorNode horizontally between the division line
