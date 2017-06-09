@@ -62,6 +62,9 @@ define( function( require ) {
 
         if ( containerSet.getEmptyCellsCount() > 0 ) {
           var destinationCell = containerSet.getClosestEmptyCell( piece.positionProperty.value );
+
+          assert && assert( destinationCell, 'destination cell does not exist' );
+
           if ( destinationCell.boundsProperty.value.containsPoint( piece.positionProperty.value ) ) {
             piece.cellToProperty.value = destinationCell;
           }

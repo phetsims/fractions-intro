@@ -64,18 +64,22 @@ define( function( require ) {
       var difference = numerator - oldNumerator;
 
       // adding a piece that will be animated from the bucket to a cell for the difference
-      if ( difference > 0 && self.containerSet.getEmptyCellsCount() > 0 ) {
+      if ( difference > 0 ) {
 
         for ( var i = difference; i > 0; i-- ) {
-          self.addAnimatingPieceInBucket();
+          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
+            self.addAnimatingPieceInBucket();
+          }
         }
       }
 
       // a piece will fly from a cell to the bucket each time for the difference
-      if ( difference < 0 && self.containerSet.getFilledCellsCount() > 0 ) {
+      if ( difference < 0 ) {
 
         for ( var j = difference; j < 0; j++ ) {
-          self.addAnimatingPieceAtCell();
+          if ( self.containerSet.getFilledCellsCount() > 0 ) {
+            self.addAnimatingPieceAtCell();
+          }
         }
       }
     } );
@@ -122,6 +126,8 @@ define( function( require ) {
       // find an empty destination cell for the piece
       var destinationContainer = this.containerSet.getNextNonFullContainer();
       var destinationCell = destinationContainer.getNextEmptyCell();
+
+      assert && assert( destinationCell, 'destination cell does not exist' );
 
       // no visual affect while in numberLineNode but update the containerSet.
       if ( this.representationProperty.value === Representation.NUMBER_LINE ) {

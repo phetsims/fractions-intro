@@ -97,6 +97,9 @@ define( function( require ) {
 
     representationProperty.link( function( representation ) {
 
+      // remove all pieces from observable array
+      pieces.clear();
+
       var contentPieces;
       // TODO: change from switch to if to prevent copy paste of code
       switch( representation ) {
