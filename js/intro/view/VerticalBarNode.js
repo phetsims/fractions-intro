@@ -66,11 +66,16 @@ define( function( require ) {
 
         // outline of the container and inner line depend on the filled status of the container
         var containerStroke = container.isContainerEmpty() ? 'grey' : 'black';
-        var containerRectangle = new Rectangle( -options.containerWidth / 2, -options.containerHeight / 2, options.containerWidth, options.containerHeight, 0, 0, {
+        var containerRectangle = new Rectangle( {
+          rectX: -options.containerWidth / 2,
+          rectY: -options.containerHeight / 2,
+          rectWidth: options.containerWidth,
+          rectHeight: options.containerHeight,
           stroke: containerStroke,
           lineWidth: options.outlineLineWidth
         } );
 
+        // TODO pass these as options to the function?
         containerRectangle.centerX = 512 + ( options.containerWidth + options.containerSpacing) *
                                            (containerIndex - (containerSet.containers.length - 1) / 2);
         containerRectangle.centerY = 260;
@@ -89,6 +94,7 @@ define( function( require ) {
 
           var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
 
+          // TODO pass these as options to the function?
           cellRectangle.centerY = ((numberOfCells - 1) / 2 - index) * cellHeight + containerRectangle.centerY;
           cellRectangle.centerX = containerRectangle.centerX;
 
@@ -144,7 +150,9 @@ define( function( require ) {
         var cellHeight = CONTAINER_HEIGHT / denominator;
 
         // make one cell
-        var cellRectangle = new Rectangle( 0, 0, CONTAINER_WIDTH, cellHeight, 0, 0, {
+        var cellRectangle = new Rectangle( {
+          rectWidth: CONTAINER_WIDTH,
+          rectHeight: cellHeight,
           fill: '#FFE600',
           lineWidth: 1,
           stroke: 'black',
@@ -166,7 +174,9 @@ define( function( require ) {
      * @private
      */
     createCellRectangle: function( cellHeight, cellFill, containerStroke ) {
-      var cellRectangle = new Rectangle( 0, 0, this.options.containerWidth, cellHeight, 0, 0, {
+      var cellRectangle = new Rectangle( {
+        rectWidth: this.options.containerWidth,
+        rectHeight: cellHeight,
         fill: cellFill,
         lineWidth: 1,
         stroke: containerStroke

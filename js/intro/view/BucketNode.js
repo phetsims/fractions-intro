@@ -86,7 +86,9 @@ define( function( require ) {
     var bucketHole = new BucketHole( bucket, IDENTITY_TRANSFORM );
 
     // creates a white rectangle beneath the bucket to prevent slices to appear below the bucket
-    var underneathRectangle = new Rectangle( 0, 0, bucketFront.width * 0.8, 150, 0, 0, {
+    var underneathRectangle = new Rectangle( {
+      rectWidth: bucketFront.width * 0.8,
+      rectHeight: 150,
       fill: 'white',
       centerX: bucketHole.centerX,
       top: bucketFront.bottom - 30
@@ -250,6 +252,24 @@ define( function( require ) {
           // creating cake
           var cakeNode = new CakeNode( this.iconContainerSet, options );
           return cakeNode;
+
+        case Representation.CIRCLE:
+          var circleNode = new Circle( 20, {
+            fill: '#8EC53F',
+            lineWidth: 2,
+            stroke: 'black'
+          } );
+          return circleNode;
+
+        case Representation.HORIZONTAL_BAR:
+          var rectangleNode = new Rectangle( {
+            rectWidth: 80,
+            rectHeight: 20,
+            fill: '#ED4344',
+            lineWidth: 2,
+            stroke: 'black'
+          } );
+          return rectangleNode;
 
         default:
           throw new Error( 'Unknown Representation: ' + representation );

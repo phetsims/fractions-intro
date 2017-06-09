@@ -54,7 +54,9 @@ define( function( require ) {
       },
       {
         value: Representation.HORIZONTAL_BAR,
-        node: new Rectangle( 0, 0, 80 * options.iconScale, 20 * options.iconScale, {
+        node: new Rectangle( {
+          rectWidth: 80 * options.iconScale,
+          rectHeight: 20 * options.iconScale,
           fill: '#ED4344',
           lineWidth: 2,
           stroke: 'black'
@@ -62,7 +64,9 @@ define( function( require ) {
       },
       {
         value: Representation.VERTICAL_BAR,
-        node: new Rectangle( 0, 0, 40 * options.iconScale, 60 * options.iconScale, {
+        node: new Rectangle( {
+          rectWidth: 40 * options.iconScale,
+          rectHeight: 60 * options.iconScale,
           fill: '#FFE600',
           lineWidth: 2,
           stroke: 'black'

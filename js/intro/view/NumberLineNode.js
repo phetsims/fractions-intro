@@ -162,11 +162,12 @@ define( function( require ) {
     } );
 
     // highlighter region for the marker
-    var highlighterRectangle = new Rectangle( 0, 0, MARKER_CIRCLE_RADIUS * 2,
-      (IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT), {
-        fill: 'yellow',
-        center: Vector2.ZERO
-      } );
+    var highlighterRectangle = new Rectangle( {
+      rectWidth: MARKER_CIRCLE_RADIUS * 2,
+      rectHeight: IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT,
+      fill: 'yellow',
+      center: Vector2.ZERO
+    } );
 
     // update position of the circle marker and the highlighter region based on the values of the numerator
     // denominator
