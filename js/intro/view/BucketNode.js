@@ -15,6 +15,7 @@ define( function( require ) {
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
