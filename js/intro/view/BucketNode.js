@@ -15,6 +15,7 @@ define( function( require ) {
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -103,6 +104,17 @@ define( function( require ) {
       var contentPieces;
       // TODO: change from switch to if to prevent copy paste of code
       switch( representation ) {
+
+        case Representation.CIRCLE:
+        case Representation.HORIZONTAL_BAR:
+          contentPieces = self.createContentPieces( representation, bucketHole.center );
+
+          piecesNode.setChildren( contentPieces );
+
+          bucketFront.setLabel( self.createLabelBox( representation ) );
+          options.children = [ bucketHole, piecesNode, underneathRectangle, bucketFront ];
+
+          break;
 
         case Representation.BEAKER:
 
@@ -254,6 +266,22 @@ define( function( require ) {
           // creating cake
           var cakeNode = new CakeNode( this.iconContainerSet, options );
           return cakeNode;
+
+        case Representation.CIRCLE:
+          var circleNode = new Circle( 20, {
+            fill: '#8EC53F',
+            lineWidth: 2,
+            stroke: 'black'
+          } );
+          return circleNode;
+
+        case Representation.HORIZONTAL_BAR:
+          var rectangleNode = new Rectangle( 0, 0, 80, 20, {
+            fill: '#ED4344',
+            lineWidth: 2,
+            stroke: 'black'
+          } );
+          return rectangleNode;
 
         default:
           throw new Error( 'Unknown Representation: ' + representation );
