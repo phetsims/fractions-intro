@@ -292,6 +292,7 @@ define( function( require ) {
     /**
      * creates an HBox with an icon and a fraction
      * @param {Representation} representation
+     * @param {Object} options
      * @returns {HBox}
      * @private
      */
