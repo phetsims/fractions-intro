@@ -176,7 +176,7 @@ define( function( require ) {
       }, { right: this.layoutBounds.right - 10, bottom: resetAllButton.top - 10 } );
 
       var pictureIndex = new NumberProperty( 0 );
-      var rangeProperty = new Property(new RangeWithValue( 0, 20, 0 ));
+      var rangeProperty = new Property( new RangeWithValue( 0, 20, 0 ) );
       var pictureSpinner = new NumberSpinner( pictureIndex, rangeProperty, {
         right: this.layoutBounds.right - 20,
         bottom: resetAllButton.top - 80

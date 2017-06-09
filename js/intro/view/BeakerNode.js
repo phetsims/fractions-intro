@@ -75,7 +75,6 @@ define( function( require ) {
 
         containerBeakerNode.center = container.positionProperty.value;
 
-
         containerNode.addChild( containerBeakerNode );
         setOfBeakerNode.addChild( containerNode );
 
