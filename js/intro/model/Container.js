@@ -35,6 +35,9 @@ define( function( require ) {
 
     // @public (Property.<Number>)
     this.fractionProperty = new NumberProperty( this.getFraction() );
+
+    // @public (Property.<Number>)
+    this.denominatorProperty = denominatorProperty;
   }
 
   fractionsIntro.register( 'Container', Container );

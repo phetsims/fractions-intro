@@ -18,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.2)';
@@ -65,47 +66,49 @@ define( function( require ) {
       setOfBeakerNode.removeAllChildren();
 
       // loop over all the containers in the container set
-      containerSet.containers.forEach( function( container, containerIndex ) {
+      containerSet.containers.forEach( function( container ) {
 
-        var fractionProperty = container.fractionProperty;
         var containerNode = new Node();
 
         // creates a new beakerNode to display on screen
-        var containerBeakerNode = new createBeakerNode( containerSet, fractionProperty, options );
+        var containerBeakerNode = new createBeakerNode( container, options );
 
-        containerBeakerNode.centerX = 512 + (options.containerWidth + options.containerSpacing) *
-                                            (containerIndex - (containerSet.containers.length - 1) / 2);
+        containerBeakerNode.center = container.positionProperty.value;
 
-        containerBeakerNode.centerY = 260;
 
         containerNode.addChild( containerBeakerNode );
         setOfBeakerNode.addChild( containerNode );
 
       } );
     };
-
-    // needs to be called once or the beginning state of the containers will not be displayed
-
     containerSet.maxProperty.link( function() {
       self.displayContainers();
     } );
 
     // add listener to container sets
     containerSet.containersEmitter.addListener( function() {
-      containerSet.containers.forEach( function( container ) {
+      containerSet.containers.forEach( function( container, containerIndex ) {
         container.fractionProperty.value = container.getFraction();
-
+        container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
+                                                              (containerIndex - (containerSet.containers.length - 1) / 2), 260 );
+        container.cells.forEach( function( cell ) {
+          cell.positionProperty.value = container.positionProperty.value;
+        } );
       } );
     } );
+    containerSet.containersEmitter.emit();
+
+    // needs to be called once or the beginning state of the containers will not be displayed
+    self.displayContainers();
+
   }
 
   /**
-   * @param (ContainerSet) containerSet
-   * @param (Property.<number>) fraction
+   * @param {Container} container
    * @param {object} [options]
    * @returns {Node}
    */
-  var createBeakerNode = function( containerSet, fractionProperty, options ) {
+  var createBeakerNode = function( container, options ) {
 
     options = _.extend( {
       beakerWidth: IntroConstants.BEAKER_WIDTH,
@@ -155,7 +158,7 @@ define( function( require ) {
         fill: emptyFillGradient
       }
     );
-    fractionProperty.link( function( fraction ) {
+    container.fractionProperty.link( function( fraction ) {
       //middle layer
       // updates how 'full' beaker is when fraction is changed
       var height = fraction * options.beakerHeight;
@@ -188,7 +191,7 @@ define( function( require ) {
     var tickMarksPath = new Path( null, { stroke: 'black', lineWidth: options.tickWidth } );
 
     // updates ticks when denominator is changed
-    containerSet.denominatorProperty.link( function( denominator ) {
+    container.denominatorProperty.link( function( denominator ) {
 
       // tickSeparation   determines how far tick marks on beaker should be spread out
       var tickSeparation = options.beakerHeight / denominator;
