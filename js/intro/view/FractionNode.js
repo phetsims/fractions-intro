@@ -26,7 +26,7 @@ define( function( require ) {
   function FractionNode( numeratorProperty, denominatorProperty, options ) {
 
     options = _.extend( {
-      fill: 'black',
+      color: 'black',
       font: new PhetFont( { size: 110 } ),
       dividingLineLength: 150,
       dividingLineWidth: 10
@@ -34,18 +34,18 @@ define( function( require ) {
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, options.dividingLineLength, 0, {
-      lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.fill
+      lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.color
     } );
 
     // creates numerator node
     var numeratorNode = new Text( numeratorProperty.get(), {
-      font: options.font, fill: options.fill,
+      font: options.font, color: options.color,
       centerX: line.centerX, bottom: line.bounds.top - 2
     } );
 
     // creates denominator node
     var denominatorNode = new Text( denominatorProperty.get(), {
-      font: options.font, fill: options.fill,
+      font: options.font, color: options.color,
       centerX: line.centerX, top: line.bounds.bottom + 2
     } );
 
