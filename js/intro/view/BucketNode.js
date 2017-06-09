@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Scenery Node for displaying bucket and pieces in bucker slice in fractions-intro
+ * Scenery Node for displaying bucket and pieces in bucket slice in fractions-intro
  * @author Vincent Davis (Berea College)
  *
  */
