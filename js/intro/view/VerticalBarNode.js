@@ -95,7 +95,7 @@ define( function( require ) {
           cell.positionProperty.value = cellRectangle.center;
           cell.boundsProperty.value = cellRectangle.bounds;
 
-          if ( cell.isFilledProperty.value ) {
+          if ( cell.isFilled() ) {
             cellRectangle.addInputListener(
               new PieceDragHandler( cell.positionProperty.value,
                 containerSet,

@@ -131,7 +131,7 @@ define( function( require ) {
       cells.forEach( function( cell, index ) {
 
         // check is the cell is filled with a slice
-        if ( cell.isFilledProperty.value ) {
+        if ( cell.isFilled() ) {
 
           // {integer} order of the slice, higher value indicates a higher z value
           var zOrder = zLayerArray[ index ];
