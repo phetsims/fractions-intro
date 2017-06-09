@@ -94,7 +94,7 @@ define( function( require ) {
     } );
 
     // initialize fill property of numerator value of cells
-    this.toggleIsFilledTo( numeratorProperty.value, false );
+    this.toggleIsFilledTo( numeratorProperty.value, true );
   }
 
   fractionsIntro.register( 'ContainerSet', ContainerSet );
