@@ -62,6 +62,7 @@ define( function( require ) {
         self.toggleIsFilledTo( removedFilledCells.length, false );
 
       }
+
       self.containersEmitter.emit();
     } );
 
@@ -91,6 +92,8 @@ define( function( require ) {
       self.containersEmitter.emit();
     } );
 
+    // initialize fill property of numerator value of cells
+    this.toggleIsFilledTo( numeratorProperty.value, false );
   }
 
   fractionsIntro.register( 'ContainerSet', ContainerSet );
