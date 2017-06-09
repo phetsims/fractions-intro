@@ -59,7 +59,8 @@ define( function( require ) {
           return cell.isFilledProperty.value;
         } );
 
-        self.toggleIsFilledTo( removedFilledCells.length, false );
+        // 'move' filled cells of removed container to empty cells of remaining containers
+        self.toggleIsFilledTo( removedFilledCells.length, true );
 
       }
 
@@ -87,7 +88,7 @@ define( function( require ) {
           return cell.isFilledProperty.value;
         } );
 
-        self.toggleIsFilledTo( removedFilledCells.length, false );
+        self.toggleIsFilledTo( removedFilledCells.length, true );
       }
       self.containersEmitter.emit();
     } );
@@ -114,7 +115,7 @@ define( function( require ) {
     },
 
     /**
-     * toggles the cell value of isFilledProperty to isFilled for 'numberOfCells' cells in ContainerSet
+     * toggles value of isFilledProperty of numberOfCellsToToggle many cells to value of toggleTo
      * @param {number} numberOfCellsToToggle
      * @param {boolean} toggleTo
      * @private
@@ -122,21 +123,21 @@ define( function( require ) {
     toggleIsFilledTo: function( numberOfCellsToToggle, toggleTo ) {
 
       if ( toggleTo ) {
-        var availableFilledCells = this.getFilledCellsCount();
-
-        // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
-        var numberOfCellsToEmpty = availableFilledCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableFilledCells;
-        for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
-          this.getLastNonEmptyContainer().getNextFilledCell().toggleIsFilled();
-        }
-      }
-      else {
         var availableEmptyCells = this.getEmptyCellsCount();
 
         // if there are more cells to BE filled than there are cells to fill, only fill as many cells as possible
         var numberOfCellsToFill = availableEmptyCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableEmptyCells;
         for ( var j = 0; j < numberOfCellsToFill; j++ ) {
           this.getNextNonFullContainer().getNextEmptyCell().toggleIsFilled();
+        }
+      }
+      else {
+        var availableFilledCells = this.getFilledCellsCount();
+
+        // if there are more cells to BE emptied than there are cells to empty, only empty as many cells as possible
+        var numberOfCellsToEmpty = availableFilledCells >= numberOfCellsToToggle ? numberOfCellsToToggle : availableFilledCells;
+        for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
+          this.getLastNonEmptyContainer().getNextFilledCell().toggleIsFilled();
         }
       }
     },
