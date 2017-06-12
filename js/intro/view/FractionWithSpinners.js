@@ -12,12 +12,14 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberSpinner = require( 'SUN/NumberSpinner' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -39,29 +41,26 @@ define( function( require ) {
 
     var fractionNode = new FractionNode( numeratorProperty, denominatorProperty );
 
-    // Enables or Disables number spinner depending upon the range
-    var numeratorRangeProperty = new Property( new RangeWithValue( 0, denominatorProperty.value * maxProperty.value, 0 ) );
+    // Enables or Disables Spinners as dependent on numeratorProperty, denominatorProperty, or maxProperty
+    var numeratorUpEnabledProperty = new DerivedProperty(
+      [ numeratorProperty, denominatorProperty, maxProperty ],
+      function( numerator, denominator, max ) { return numerator < denominator * max; } );
+    var numeratorDownEnabledProperty = new DerivedProperty(
+      [ numeratorProperty ],
+      function( numerator ) { return numerator > 0; } );
+    var denominatorUpEnabledProperty = new DerivedProperty(
+      [ denominatorProperty ],
+      function( denominator ) { return denominator < IntroConstants.DENOMINATOR_RANGE.max; } );
+    var denominatorDownEnabledProperty = new DerivedProperty(
+      [ numeratorProperty, denominatorProperty, maxProperty ],
+      function( numerator, denominator, max ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;} );
 
-    var denominatorRangeProperty = new Property( IntroConstants.DENOMINATOR_RANGE );
-
-    // update numerator range to be depending upon the max and denominator
-    Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
-
-      numeratorRangeProperty.value = new RangeWithValue( 0, denominator * max, 0 );
-
-    } );
 
     // creates spinner that is linked to the numeratorProperty
-    var numeratorSpinner = new NumberSpinner( numeratorProperty, numeratorRangeProperty, {
-      backgroundStroke: 'white',
-      arrowsScale: 0.5, font: new PhetFont( 112 ), arrowButtonFill: 'yellow'
-    } );
+    var numeratorSpinner = new UpDownSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty );
 
     // creates spinner that is linked to the denominatorProperty
-    var denominatorSpinner = new NumberSpinner( denominatorProperty, denominatorRangeProperty, {
-      backgroundStroke: 'white', arrowsScale: 0.5,
-      font: new PhetFont( 112 ), arrowButtonFill: 'yellow'
-    } );
+    var denominatorSpinner = new UpDownSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty );
 
     // Aligns the numeratorSpinner and denominatorSpinner vertically
     var spinnerVBox = new VBox( {
