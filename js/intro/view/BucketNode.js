@@ -74,7 +74,7 @@ define( function( require ) {
     // @private
     this.containerSet = containerSet;
 
-    // 2private {ContainerSet}
+    // @private {ContainerSet}
     // create a container set with one filled cell and one container
     // the number of cells is determined by the introModel
     this.iconContainerSet = new ContainerSet( new NumberProperty( 1 ),
