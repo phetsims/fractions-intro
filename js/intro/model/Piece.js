@@ -171,7 +171,7 @@ define( function( require ) {
       if ( distance > 0 ) {
         var animationTween = new TWEEN.Tween( location )
           .to( { x: finalPosition.x, y: finalPosition.y },
-            distance * 10 )
+            distance * 5 )
           .easing( TWEEN.Easing.Cubic.InOut )
           .onUpdate( function() {
             self.positionProperty.value = new Vector2( location.x, location.y );
