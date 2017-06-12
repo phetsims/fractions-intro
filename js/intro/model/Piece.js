@@ -24,7 +24,7 @@ define( function( require ) {
   function Piece( options ) {
 
     options = _.extend( {
-      position: new Vector2.ZERO , // {Vector2} initial position
+      position: Vector2.ZERO, // {Vector2} initial position
       dragging: true // {boolean} is the user dragging the piece
     }, options );
 
