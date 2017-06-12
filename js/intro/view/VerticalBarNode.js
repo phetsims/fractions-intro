@@ -67,8 +67,6 @@ define( function( require ) {
         // outline of the container and inner line depend on the filled status of the container
         var containerStroke = container.isContainerEmpty() ? 'grey' : 'black';
         var containerRectangle = new Rectangle( {
-          rectX: -options.containerWidth / 2,
-          rectY: -options.containerHeight / 2,
           rectWidth: options.containerWidth,
           rectHeight: options.containerHeight,
           stroke: containerStroke,
