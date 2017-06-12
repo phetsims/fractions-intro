@@ -107,6 +107,9 @@ define( function( require ) {
 
     representationProperty.link( function( representation ) {
 
+      // remove all the pieces from the model when changing representation
+      pieces.clear();
+
       var contentPieces;
       // TODO: change from switch to if to prevent copy paste of code
       switch( representation ) {
