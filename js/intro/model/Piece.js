@@ -132,10 +132,8 @@ define( function( require ) {
 
       var destinationCell = this.cellToProperty.value;
 
-      destinationCell.isFilledProperty.value = true;
-
-      // sets the value of incoming Piece to null
-      destinationCell.pieceToProperty.value = null;
+      // change state of cell to filled and reset its pieceToProperty
+      destinationCell.fillWithPiece();
 
       // sets the destination cell to null
       this.cellToProperty.value = null;

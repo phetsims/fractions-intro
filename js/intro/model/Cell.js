@@ -113,6 +113,15 @@ define( function( require ) {
      */
     getPosition: function() {
       return this.positionProperty.value;
+    },
+
+    /**
+     * Handles when a piece arrives to fill this cell
+     * @public
+     */
+    fillWithPiece: function() {
+      this.isFilledProperty.value = true;
+      this.pieceToProperty.value = null;
     }
 
   } );
