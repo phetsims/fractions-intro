@@ -13,9 +13,9 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @param {Property.<number>} numeratorProperty
@@ -34,40 +34,43 @@ define( function( require ) {
 
     // creates a division line beneath numerator
     var line = new Line( 0, 0, options.dividingLineLength, 0, {
-      lineWidth: options.dividingLineWidth, lineCap: 'round', stroke: options.color
+      lineWidth: options.dividingLineWidth,
+      lineCap: 'round',
+      stroke: options.color
     } );
 
     // creates numerator node
     var numeratorNode = new Text( numeratorProperty.get(), {
-      font: options.font, fill: options.color,
-      centerX: line.centerX, bottom: line.bounds.top - 2
+      font: options.font,
+      fill: options.color
     } );
 
     // creates denominator node
     var denominatorNode = new Text( denominatorProperty.get(), {
-      font: options.font, fill: options.color,
-      centerX: line.centerX, top: line.bounds.bottom + 2
+      font: options.font,
+      fill: options.color
     } );
 
     // centers the numeratorNode horizontally between the division line
     numeratorProperty.link( function( value ) {
       numeratorNode.text = value;
-      numeratorNode.centerX = line.centerX;
     } );
 
     // centers the denominatorNode horizontally between the division line
     denominatorProperty.link( function( value ) {
       denominatorNode.text = value;
-      denominatorNode.centerX = line.centerX;
     } );
 
     // Specify the children to be rendered with this node
-    options.children = [ line, numeratorNode, denominatorNode ];
-    Node.call( this, options );
+
+    VBox.call( this, _.extend( options, {
+      spacing: 2,
+      children: [ numeratorNode, line, denominatorNode ]
+    } ) );
   }
 
   fractionsIntro.register( 'FractionNode', FractionNode );
 
-  return inherit( Node, FractionNode );
+  return inherit( VBox, FractionNode );
 
 } );
