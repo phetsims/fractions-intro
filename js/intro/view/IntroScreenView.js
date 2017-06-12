@@ -119,7 +119,8 @@ define( function( require ) {
             // create and add set of cakes node
             var cakeNode = new CakeNode( introModel.containerSet, {
               centerX: self.layoutBounds.centerX,
-              top: representationPanel.bottom + 60
+              top: representationPanel.bottom + 20,
+              imageHeight: 160
             } );
             representationsNode.addChild( cakeNode );
             break;

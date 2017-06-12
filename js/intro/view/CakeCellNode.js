@@ -78,7 +78,7 @@ define( function( require ) {
     }, options );
 
     var self = this;
-    Image.call( this, cakeImageArray[ numberOfCells - 1 ][ index ], { height: options.imageHeight } );
+    Image.call( this, cakeImageArray[ numberOfCells - 1 ][ index ], { maxHeight: options.imageHeight } );
 
     if ( options.isDraggable ) {
       this.addInputListener( new SimpleDragHandler( {

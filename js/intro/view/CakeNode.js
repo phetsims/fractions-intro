@@ -47,7 +47,7 @@ define( function( require ) {
 
     options = _.extend( {
       visibleBackground: true, // is the grid and white ellipse background visible
-      spacing: 180 // separation of two adjacent cakes
+      spacing: 170 // separation of two adjacent cakes
     }, options );
 
     Node.call( this );
@@ -157,7 +157,7 @@ define( function( require ) {
     getCakePlateNode: function( numberOfCells, options ) {
 
       // add grid image of the cake with the appropriate number of cells
-      var gridImage = new Image( cakeGridImageArray[ numberOfCells - 1 ], { height: options.imageHeight } );
+      var gridImage = new Image( cakeGridImageArray[ numberOfCells - 1 ], { maxHeight: options.imageHeight } );
 
       // create white background for the cake.
       // The shape of the ellipse is determined empirically based on the image
