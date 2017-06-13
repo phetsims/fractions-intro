@@ -148,26 +148,41 @@ define( function( require ) {
     /**
      * create vertical bar pieces to use inside the bucket
      * @param denominatorProperty
-     * @returns {Rectangle}
+     * @returns {Node}
      * @private
      */
     createVerticalBarPiece: function( denominatorProperty ) {
 
       var containerNode = new Node();
 
+      // make one cell
+      var cellRectangle = new Rectangle( {
+        rectWidth: CONTAINER_WIDTH,
+        fill: '#FFE600',
+        stroke: 'black'
+      } );
+
+      var dropShadowOffset = 5;
+
+      // create the droppedShadow
+      var droppedShadowRectangle = new Rectangle( {
+        rectWidth: CONTAINER_WIDTH,
+        fill: 'black',
+        center: cellRectangle.center.plusXY( dropShadowOffset, dropShadowOffset )
+      } );
+
+      containerNode.setChildren( [ droppedShadowRectangle, cellRectangle ] );
+
       denominatorProperty.link( function( denominator ) {
-        containerNode.removeAllChildren();
         var cellHeight = CONTAINER_HEIGHT / denominator;
 
-        // make one cell
-        var cellRectangle = new Rectangle( {
-          rectWidth: CONTAINER_WIDTH,
-          rectHeight: cellHeight,
-          fill: '#FFE600',
-          stroke: 'black',
-          centerY: 0
-        } );
-        containerNode.addChild( cellRectangle );
+        // adjust height of the rectangles
+        cellRectangle.rectHeight = cellHeight;
+        droppedShadowRectangle.rectHeight = cellHeight;
+
+        // center the cells vertically
+        cellRectangle.centerY = 0;
+        droppedShadowRectangle.centerY = dropShadowOffset;
       } );
 
       return containerNode;
