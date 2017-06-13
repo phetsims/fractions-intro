@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PieceDragHandler = require( 'FRACTIONS_INTRO/intro/view/PieceDragHandler' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constant
   var CONTAINER_WIDTH = 130;
@@ -62,21 +63,23 @@ define( function( require ) {
       // loop over all the containers in the container set
       containerSet.containers.forEach( function( container, containerIndex ) {
 
+        // TODO: remove magic numbers
+        container.positionProperty.value = new Vector2( 512 + ( options.containerWidth + options.containerSpacing) *
+                                                              (containerIndex - (containerSet.containers.length - 1) / 2),
+          260 );
+
         var containerNode = new Node();
 
         // outline of the container and inner line depend on the filled status of the container
         var containerStroke = container.isContainerEmpty() ? 'grey' : 'black';
+
         var containerRectangle = new Rectangle( {
           rectWidth: options.containerWidth,
           rectHeight: options.containerHeight,
           stroke: containerStroke,
-          lineWidth: options.outlineLineWidth
+          lineWidth: options.outlineLineWidth,
+          center: container.positionProperty.value
         } );
-
-        // TODO pass these as options to the function?
-        containerRectangle.centerX = 512 + ( options.containerWidth + options.containerSpacing) *
-                                           (containerIndex - (containerSet.containers.length - 1) / 2);
-        containerRectangle.centerY = 260;
 
         var numberOfCells = container.cells.length;
         var cellHeight = options.containerHeight / numberOfCells;
@@ -87,16 +90,25 @@ define( function( require ) {
         // create the cells for the container
         container.cells.forEach( function( cell, index ) {
 
+          // set the position of the cell
+          cell.positionProperty.value = container.positionProperty.value
+            .plusXY( 0, ((numberOfCells - 1) / 2 - index) * cellHeight );
+
           // the fill of the cell depends upon the filled property
           var cellFill = cell.isFilledProperty.value ? '#FFE600' : 'white';
 
-          var cellRectangle = self.createCellRectangle( cellHeight, cellFill, containerStroke, index );
+          // create cell rectangle
+          var cellRectangle = new Rectangle( {
+            rectWidth: self.options.containerWidth,
+            rectHeight: cellHeight,
+            fill: cellFill,
+            stroke: containerStroke,
+            center: cell.positionProperty.value
+          } );
 
-          // TODO pass these as options to the function?
-          cellRectangle.centerY = ((numberOfCells - 1) / 2 - index) * cellHeight + containerRectangle.centerY;
-          cellRectangle.centerX = containerRectangle.centerX;
 
-          cell.positionProperty.value = cellRectangle.center;
+          cellRectangle.center = cell.positionProperty.value;
+
           cell.boundsProperty.value = cellRectangle.bounds;
 
           if ( cell.isFilled() ) {
@@ -136,7 +148,7 @@ define( function( require ) {
     /**
      * create vertical bar pieces to use inside the bucket
      * @param denominatorProperty
-     * @returns {Node}
+     * @returns {Rectangle}
      * @private
      */
     createVerticalBarPiece: function( denominatorProperty ) {
@@ -152,7 +164,6 @@ define( function( require ) {
           rectWidth: CONTAINER_WIDTH,
           rectHeight: cellHeight,
           fill: '#FFE600',
-          lineWidth: 1,
           stroke: 'black',
           centerY: 0
         } );
@@ -161,25 +172,6 @@ define( function( require ) {
 
       return containerNode;
 
-    },
-
-    /**
-     * creates a rectangle to be used to represent a cell of the
-     * @param {number} cellHeight
-     * @param {string} cellFill
-     * @param {string} containerStroke
-     * @returns {Rectangle}
-     * @private
-     */
-    createCellRectangle: function( cellHeight, cellFill, containerStroke ) {
-      var cellRectangle = new Rectangle( {
-        rectWidth: this.options.containerWidth,
-        rectHeight: cellHeight,
-        fill: cellFill,
-        lineWidth: 1,
-        stroke: containerStroke
-      } );
-      return cellRectangle;
     }
 
   } );
