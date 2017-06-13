@@ -22,8 +22,6 @@ define( function( require ) {
    */
   function Container( denominatorProperty ) {
 
-    // TODO: why passed denominatorProperty if only the value is needed
-
     // @public {Cells[]} an array of cells
     this.cells = [];
 
@@ -33,10 +31,10 @@ define( function( require ) {
     // @private {Property.<Vector2>}
     this.positionProperty = new Property( Vector2.ZERO );
 
-    // @public (Property.<Number>)
+    // @public (Property.<number>)
     this.fractionProperty = new NumberProperty( this.getFraction() );
 
-    // @public (Property.<Number>)
+    // @public (Property.<number>)
     this.denominatorProperty = denominatorProperty;
   }
 
@@ -45,7 +43,6 @@ define( function( require ) {
   return inherit( Object, Container, {
 
     /**
-     * TODO: what is the best way to reset container?
      * resets this container
      * @public
      */
