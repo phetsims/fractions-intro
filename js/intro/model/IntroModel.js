@@ -98,41 +98,45 @@ define( function( require ) {
 
       var self = this;
 
-      // find an empty destination cell for the piece
-      var destinationContainer = this.containerSet.getNextNonFullContainer();
-      var destinationCell = destinationContainer.getNextEmptyCell();
+      // check that there is an empty cell
+      if ( this.containerSet.getEmptyCellsCount() > 0 ) {
 
-      assert && assert( destinationCell, 'destination cell does not exist' );
+        // find an empty destination cell for the piece
+        var destinationContainer = this.containerSet.getNextNonFullContainer();
+        var destinationCell = destinationContainer.getNextEmptyCell();
 
-      // no visual affect while in numberLineNode but update the containerSet.
-      if ( this.representationProperty.value === Representation.NUMBER_LINE ) {
+        assert && assert( destinationCell, 'destination cell does not exist' );
 
-        destinationCell.isFilledProperty.value = true;
+        // no visual affect while in numberLineNode but update the containerSet.
+        if ( this.representationProperty.value === Representation.NUMBER_LINE ) {
+
+          destinationCell.isFilledProperty.value = true;
+        }
+        else {
+
+
+          // create a piece at the location of the bucket
+          var piece = new Piece( {
+            position: IntroConstants.BUCKET_POSITION,
+            dragging: false
+          } );
+
+          // add the piece to the Observable array to notify the view
+          this.pieces.add( piece );
+
+          // lock in the destination cell to the piece
+          // a listener to cellToProperty will instantiate an animation
+          piece.cellToProperty.value = destinationCell;
+
+          // TODO: very round about way to force update view once the animation is complete
+          piece.updateCellsEmitter.addListener( function() {
+            self.containerSet.updatedContainersEmitter.emit();
+          } );
+        }
+
+        // increment the numerator by one
+        this.numeratorProperty.value++;
       }
-      else {
-
-
-        // create a piece at the location of the bucket
-        var piece = new Piece( {
-          position: IntroConstants.BUCKET_POSITION,
-          dragging: false
-        } );
-
-        // add the piece to the Observable array to notify the view
-        this.pieces.add( piece );
-
-        // lock in the destination cell to the piece
-        // a listener to cellToProperty will instantiate an animation
-        piece.cellToProperty.value = destinationCell;
-
-        // TODO: very round about way to force update view once the animation is complete
-        piece.updateCellsEmitter.addListener( function() {
-          self.containerSet.updatedContainersEmitter.emit();
-        } );
-      }
-
-      // increment the numerator by one
-      this.numeratorProperty.value++;
 
     },
 
@@ -145,37 +149,42 @@ define( function( require ) {
      */
     addAnimatingPieceAtCell: function() {
 
-      // find a filled source cell for the piece
-      var sourceContainer = this.containerSet.getLastNonEmptyContainer();
-      var sourceCell = sourceContainer.getNextFilledCell();
 
-      // no visual affect while in numberLineNode but update the containerSet.
-      if ( this.representationProperty.value === Representation.NUMBER_LINE ) {
+      // check that there is at least one filled cell
+      if ( this.containerSet.getFilledCellsCount() > 0 ) {
 
-        sourceCell.isFilledProperty.value = false;
+        // find a filled source cell for the piece
+        var sourceContainer = this.containerSet.getLastNonEmptyContainer();
+        var sourceCell = sourceContainer.getNextFilledCell();
+
+        // no visual affect while in numberLineNode but update the containerSet.
+        if ( this.representationProperty.value === Representation.NUMBER_LINE ) {
+
+          sourceCell.isFilledProperty.value = false;
+        }
+        else {
+
+
+          // create a piece at the position of the source cell
+          var piece = new Piece( {
+            position: sourceCell.positionProperty.value,
+            dragging: false
+          } );
+
+          // add the piece to the observable array to notify the view
+          this.pieces.add( piece );
+
+          // lock in the origin cell to the piece
+          // a listener to cellFromProperty will instantiate an animation
+          piece.cellFromProperty.value = sourceCell;
+
+        }
+        // forces an update on the view
+        this.containerSet.updatedContainersEmitter.emit();
+
+        // decrement the numerator by one
+        this.numeratorProperty.value--;
       }
-      else {
-
-
-        // create a piece at the position of the source cell
-        var piece = new Piece( {
-          position: sourceCell.positionProperty.value,
-          dragging: false
-        } );
-
-        // add the piece to the observable array to notify the view
-        this.pieces.add( piece );
-
-        // lock in the origin cell to the piece
-        // a listener to cellFromProperty will instantiate an animation
-        piece.cellFromProperty.value = sourceCell;
-
-      }
-      // forces an update on the view
-      this.containerSet.updatedContainersEmitter.emit();
-
-      // decrement the numerator by one
-      this.numeratorProperty.value--;
     }
 
   } );
