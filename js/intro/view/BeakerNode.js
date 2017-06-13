@@ -95,7 +95,7 @@ define( function( require ) {
 
         container.cells.forEach( function( cell, cellIndex ) {
 
-          // offset the postion of the fill to match the cell Height
+          // offset the position of the fill to match the cell Height
           cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
             options.beakerHeight - cellHeight * (cellIndex + 1) );
         } );

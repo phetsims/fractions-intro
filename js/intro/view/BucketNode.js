@@ -42,7 +42,8 @@ define( function( require ) {
     new Vector2( 80, -5 ),
     new Vector2( -20, -9 ),
     new Vector2( 10, -3 ),
-    new Vector2( 35, -5 )
+    new Vector2( 35, -5 ),
+    new Vector2( 0, 0 )
   ];
 
   /**
