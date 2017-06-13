@@ -94,6 +94,12 @@ define( function( require ) {
       self.updatedContainersEmitter.emit();
     } );
 
+
+    this.updatedContainersEmitter.addListener( function() {
+      numeratorProperty.value = self.getFilledCellsCount();
+    } );
+
+
     // initialize fill property of numerator value of cells
     this.toggleIsFilledTo( numeratorProperty.value, true );
   }
@@ -131,6 +137,8 @@ define( function( require ) {
         for ( var j = 0; j < numberOfCellsToFill; j++ ) {
           this.getNextNonFullContainer().getNextEmptyCell().toggleIsFilled();
         }
+
+        this.numeratorProperty.value += numberOfCellsToFill;
       }
       else {
         var availableFilledCells = this.getFilledCellsCount();
@@ -140,6 +148,8 @@ define( function( require ) {
         for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
           this.getLastNonEmptyContainer().getNextFilledCell().toggleIsFilled();
         }
+
+        this.numeratorProperty.value -= numberOfCellsToEmpty;
       }
     },
 
@@ -246,32 +256,6 @@ define( function( require ) {
      */
     getAllCells: function() {
       return this.flattenContainers( this.containers );
-    },
-
-    /**
-     * empties a given cell
-     * @param {Cell} cell
-     * @public
-     */
-    emptyThisCell: function( cell ) {
-
-      // update the fill property of this cell to empty
-      cell.isFilledProperty.value = false;
-
-      this.updatedContainersEmitter.emit();
-    },
-
-    /**
-     * fills a given cell
-     * @param {Cell} cell
-     * @public
-     */
-    fillThisCell: function( cell ) {
-
-      // update the fill property of this cell to fill
-      cell.isFilledProperty.value = true;
-
-      this.updatedContainersEmitter.emit();
     }
   } );
 } );

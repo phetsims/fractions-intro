@@ -106,7 +106,6 @@ define( function( require ) {
             center: cell.positionProperty.value
           } );
 
-
           cellRectangle.center = cell.positionProperty.value;
 
           cell.boundsProperty.value = cellRectangle.bounds;
@@ -117,7 +116,8 @@ define( function( require ) {
                 containerSet,
                 pieces, {
                   startDrag: function() {
-                    containerSet.emptyThisCell( cell );
+                    cell.toggleIsFilled();
+                    containerSet.updatedContainersEmitter.emit();
                   }
                 } ) );
           }

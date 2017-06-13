@@ -56,20 +56,6 @@ define( function( require ) {
     // @public a collection of piece
     this.pieces = new ObservableArray();
 
-    // present for the lifetime of the simulation
-    // responsible for creating pieces emanating or returning to the bucket
-
-    // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
-    /* Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
-     function( denominator, numerator, max ) {
-
-     // If the maximum decreases, the numerator may also need to be decreased to compensate
-     if ( numerator / denominator > max ) {
-
-     // decreases numeratorProperty as dependent on the max and denominator
-     self.numeratorProperty.value = denominator * max;
-     }
-     } );*/
   }
 
   fractionsIntro.register( 'IntroModel', IntroModel );
@@ -114,7 +100,6 @@ define( function( require ) {
         }
         else {
 
-
           // create a piece at the location of the bucket
           var piece = new Piece( {
             position: IntroConstants.BUCKET_POSITION,
@@ -133,9 +118,6 @@ define( function( require ) {
             self.containerSet.updatedContainersEmitter.emit();
           } );
         }
-
-        // increment the numerator by one
-        this.numeratorProperty.value++;
       }
 
     },
@@ -164,7 +146,6 @@ define( function( require ) {
         }
         else {
 
-
           // create a piece at the position of the source cell
           var piece = new Piece( {
             position: sourceCell.positionProperty.value,
@@ -179,11 +160,10 @@ define( function( require ) {
           piece.cellFromProperty.value = sourceCell;
 
         }
+
         // forces an update on the view
         this.containerSet.updatedContainersEmitter.emit();
 
-        // decrement the numerator by one
-        this.numeratorProperty.value--;
       }
     }
 
