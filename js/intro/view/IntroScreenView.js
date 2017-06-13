@@ -149,9 +149,11 @@ define( function( require ) {
       } );
 
       // fraction node with spinners on the denominator and numerator
-      var fractionNode = new FractionWithSpinners( introModel.numeratorProperty,
+      var fractionWithSpinners = new FractionWithSpinners( introModel.numeratorProperty,
         introModel.denominatorProperty,
-        introModel.maxProperty, {
+        introModel.maxProperty,
+        introModel.addAnimatingPieceInBucket.bind( introModel ),
+        introModel.addAnimatingPieceAtCell.bind( introModel ), {
           x: 120,
           bottom: this.layoutBounds.bottom - 5
         } );
@@ -198,7 +200,7 @@ define( function( require ) {
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       var options = {
-        children: [ representationsNode, representationPanel, bucketNode, resetAllButton, fractionNode, maxSpinner,
+        children: [ representationsNode, representationPanel, bucketNode, resetAllButton, fractionWithSpinners, maxSpinner,
           transparencySlider, pictureSpinner, pictureNode ]
       };
       this.mutate( options );

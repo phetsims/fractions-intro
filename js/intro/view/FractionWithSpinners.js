@@ -1,4 +1,4 @@
-// Copyright 2013-2017, University of Colorado Boulder
+// Copyright 2017, University of Colorado Boulder
 
 /**
  * Node for the fraction with up/down spinners for numerator/denominator
@@ -17,7 +17,7 @@ define( function( require ) {
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
@@ -27,7 +27,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function FractionWithSpinners( numeratorProperty, denominatorProperty, maxProperty, options ) {
+  function FractionWithSpinners( numeratorProperty, denominatorProperty, maxProperty, upButtonListener, downButtonListener, options ) {
 
     options = _.extend( {
       fill: 'black',
@@ -51,10 +51,12 @@ define( function( require ) {
       [ numeratorProperty, denominatorProperty, maxProperty ],
       function( numerator, denominator, max ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;} );
     // creates spinner that is linked to the numeratorProperty
-    var numeratorSpinner = new UpDownSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty );
+    var numeratorSpinner = new RoundSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty,
+      { fireOnHold: true, upButtonListener: upButtonListener, downButtonListener: downButtonListener } );
 
     // creates spinner that is linked to the denominatorProperty
-    var denominatorSpinner = new UpDownSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty );
+    var denominatorSpinner = new RoundSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty,
+      { fireOnHold: true } );
 
     var fractionNode = new FractionNode( numeratorProperty, denominatorProperty );
 

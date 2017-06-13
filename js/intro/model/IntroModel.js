@@ -25,7 +25,6 @@ define( function( require ) {
    */
   function IntroModel() {
 
-    var self = this;
     // @public {Property.<number>}
     this.denominatorProperty = new NumberProperty( IntroConstants.DENOMINATOR_RANGE.defaultValue );
 
@@ -59,30 +58,6 @@ define( function( require ) {
 
     // present for the lifetime of the simulation
     // responsible for creating pieces emanating or returning to the bucket
-    this.numeratorProperty.link( function( numerator, oldNumerator ) {
-
-      var difference = numerator - oldNumerator;
-
-      // adding a piece that will be animated from the bucket to a cell for the difference
-      if ( difference > 0 ) {
-
-        for ( var i = difference; i > 0; i-- ) {
-          if ( self.containerSet.getEmptyCellsCount() > 0 ) {
-            self.addAnimatingPieceInBucket();
-          }
-        }
-      }
-
-      // a piece will fly from a cell to the bucket each time for the difference
-      if ( difference < 0 ) {
-
-        for ( var j = difference; j < 0; j++ ) {
-          if ( self.containerSet.getFilledCellsCount() > 0 ) {
-            self.addAnimatingPieceAtCell();
-          }
-        }
-      }
-    } );
 
     // link numeratorProperty to denominatorProperty and to maxNumberOfUnits
     /* Property.multilink( [ this.denominatorProperty, this.numeratorProperty, this.maxProperty ],
@@ -156,6 +131,9 @@ define( function( require ) {
         } );
       }
 
+      // increment the numerator by one
+      this.numeratorProperty.value++;
+
     },
 
     /**
@@ -195,6 +173,9 @@ define( function( require ) {
       }
       // forces an update on the view
       this.containerSet.updatedContainersEmitter.emit();
+
+      // decrement the numerator by one
+      this.numeratorProperty.value--;
     }
 
   } );

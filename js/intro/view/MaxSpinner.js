@@ -16,8 +16,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var UpDownSpinner = require( 'SCENERY_PHET/UpDownSpinner' );
 
   // constants
   var FONT_SIZE = 32;
@@ -48,7 +48,7 @@ define( function( require ) {
       function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_RANGE.min; } );
 
     // creates spinner that is linked to the numeratorProperty
-    var maxValueSpinner = new UpDownSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty );
+    var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty, { fireOnHold: true } );
 
     // creates the maxValueText
     var maxValueText = new Text( maxProperty.get(), { font: font, fill: options.fill } );
