@@ -94,6 +94,10 @@ define( function( require ) {
       // sets the length of the main number line
       mainNumberLine.x2 = segmentLength * max;
 
+      // expand the mouse and touch area of number line to make it easier to pick
+      mainNumberLine.mouseArea = mainNumberLine.bounds.dilated( 15 );
+      mainNumberLine.touchArea = mainNumberLine.bounds.dilated( 15 );
+
       // create major ticks shape
       var evenMajorTicksShape = new Shape();
       var oddMajorTicksShape = new Shape();
@@ -217,9 +221,6 @@ define( function( require ) {
         }
       } ) );
 
-      // expand the mouse and touch area of number line to make it easier to pick
-      mainNumberLine.mouseArea = mainNumberLine.bounds.dilated( 10 );
-      mainNumberLine.touchArea = mainNumberLine.bounds.dilated( 10 );
 
       // add a drag handler to the circle on the number line
       markerCircle.addInputListener( new SimpleDragHandler( {
@@ -229,8 +230,8 @@ define( function( require ) {
         }
       } ) );
 
-      markerCircle.mouseArea = markerCircle.bounds.dilated( 10 );
-      markerCircle.touchArea = markerCircle.bounds.dilated( 10 );
+      markerCircle.mouseArea = markerCircle.bounds.dilated( 15 );
+      markerCircle.touchArea = markerCircle.bounds.dilated( 15 );
     }
 
     // Specify the children to be rendered with this node
