@@ -215,9 +215,6 @@ define( function( require ) {
         allowTouchSnag: true,
         start: function( event ) {
           handleEvent( mainNumberLine, event );
-        },
-        drag: function( event ) {
-          handleEvent( mainNumberLine, event );
         }
       } ) );
 
