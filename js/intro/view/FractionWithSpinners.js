@@ -10,9 +10,9 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -24,10 +24,17 @@ define( function( require ) {
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} maxProperty
+   * @param {Function} upButtonListener
+   * @param {Function} downButtonListener
    * @param {Object} [options]
    * @constructor
    */
-  function FractionWithSpinners( numeratorProperty, denominatorProperty, maxProperty, upButtonListener, downButtonListener, options ) {
+  function FractionWithSpinners( numeratorProperty,
+                                 denominatorProperty,
+                                 maxProperty,
+                                 upButtonListener,
+                                 downButtonListener,
+                                 options ) {
 
     options = _.extend( {
       fill: 'black',
@@ -49,13 +56,23 @@ define( function( require ) {
       function( denominator ) { return denominator < IntroConstants.DENOMINATOR_RANGE.max; } );
     var denominatorDownEnabledProperty = new DerivedProperty(
       [ numeratorProperty, denominatorProperty, maxProperty ],
-      function( numerator, denominator, max ) { return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;} );
+      function( numerator, denominator, max ) {
+        return denominator > IntroConstants.DENOMINATOR_RANGE.min && numerator <= (denominator - 1) * max;
+      } );
+
     // creates spinner that is linked to the numeratorProperty
-    var numeratorSpinner = new RoundSpinner( numeratorProperty, numeratorUpEnabledProperty, numeratorDownEnabledProperty,
-      { fireOnHold: true, upButtonListener: upButtonListener, downButtonListener: downButtonListener } );
+    var numeratorSpinner = new RoundSpinner( numeratorProperty,
+      numeratorUpEnabledProperty,
+      numeratorDownEnabledProperty, {
+        fireOnHold: true,
+        upButtonListener: upButtonListener,
+        downButtonListener: downButtonListener
+      } );
 
     // creates spinner that is linked to the denominatorProperty
-    var denominatorSpinner = new RoundSpinner( denominatorProperty, denominatorUpEnabledProperty, denominatorDownEnabledProperty,
+    var denominatorSpinner = new RoundSpinner( denominatorProperty,
+      denominatorUpEnabledProperty,
+      denominatorDownEnabledProperty,
       { fireOnHold: true } );
 
     var fractionNode = new FractionNode( numeratorProperty, denominatorProperty );
