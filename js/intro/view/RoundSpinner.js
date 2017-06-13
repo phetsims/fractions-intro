@@ -35,8 +35,8 @@ define( function( require ) {
         valueProperty.set( valueProperty.get() - 1 );
       },
       fireOnHold: false,
-      orientation: 'vertical',
-      buttonOrientation: 'vertical',
+      orientation: 'vertical', // orientation of the spinner with respect to one another
+      arrowOrientation: 'vertical', // direction of the arrow within a spinner
       iconScale: 1.3,
       radius: 20,
       spacing: 6
@@ -61,15 +61,36 @@ define( function( require ) {
 
     // Adjust the the arrow on the button for the correct orientation
     if ( options.orientation === 'horizontal' ) {
-      incrementIcon.rotateAround( incrementIcon.center, Math.PI / 2 );
-      decrementIcon.rotateAround( decrementIcon.center, Math.PI / 2 );
-      var xContentOffset = -3;
-      var yContentOffset = 0;
+
+      // case orientation is horizontal but arrowOrientation is vertical
+      if ( options.arrowOrientation === 'vertical' ) {
+        xContentOffset = 0;
+        yContentOffset = 3;
+      }
+
+      // case both arrowOrientation and Orientation are horizontal
+      else {
+        incrementIcon.rotateAround( incrementIcon.center, Math.PI / 2 );
+        decrementIcon.rotateAround( decrementIcon.center, Math.PI / 2 );
+        var xContentOffset = -3;
+        var yContentOffset = 0;
+      }
     }
     else {
-      yContentOffset = -3;
-      xContentOffset = 0;
 
+      // case both arrowOrientation and Orientation are vertical
+      if ( options.arrowOrientation === 'vertical' ) {
+        xContentOffset = 0;
+        yContentOffset = -3;
+      }
+
+      // case orientation is vertical but arrowOrientation is horizontal
+      else {
+        incrementIcon.rotateAround( incrementIcon.center, Math.PI / 2 );
+        decrementIcon.rotateAround( decrementIcon.center, Math.PI / 2 );
+        yContentOffset = 0;
+        xContentOffset = -3;
+      }
     }
 
     var incrementButton = new RoundPushButton( {
