@@ -218,7 +218,6 @@ define( function( require ) {
         }
       } ) );
 
-
       // add a drag handler to the circle on the number line
       markerCircle.addInputListener( new SimpleDragHandler( {
         allowTouchSnag: true,

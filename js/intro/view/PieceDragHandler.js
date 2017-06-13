@@ -46,7 +46,7 @@ define( function( require ) {
 
         // TODO: this a very round about way to force an update of the view
         piece.updateCellsEmitter.addListener( function() {
-          containerSet.containersEmitter.emit();
+          containerSet.updatedContainersEmitter.emit();
         } );
 
         options.startDrag();

@@ -98,7 +98,7 @@ define( function( require ) {
     updateCakesDisplay();
 
     // add listener to container sets
-    containerSet.containersEmitter.addListener( function() {
+    containerSet.updatedContainersEmitter.addListener( function() {
       updateCakesDisplay();
     } );
 

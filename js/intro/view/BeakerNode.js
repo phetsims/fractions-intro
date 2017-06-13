@@ -85,7 +85,7 @@ define( function( require ) {
     } );
 
     // add listener to container sets
-    containerSet.containersEmitter.addListener( function() {
+    containerSet.updatedContainersEmitter.addListener( function() {
       containerSet.containers.forEach( function( container, containerIndex ) {
         container.fractionProperty.value = container.getFraction();
         container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
@@ -95,7 +95,7 @@ define( function( require ) {
         } );
       } );
     } );
-    containerSet.containersEmitter.emit();
+    containerSet.updatedContainersEmitter.emit();
 
     // needs to be called once or the beginning state of the containers will not be displayed
     self.displayContainers();

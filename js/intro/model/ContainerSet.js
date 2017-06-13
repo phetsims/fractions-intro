@@ -36,8 +36,9 @@ define( function( require ) {
     // @public
     this.maxProperty = maxProperty;
 
-    // @private
-    this.containersEmitter = new Emitter();
+    // @public
+    // Emitter signals that the containers and cells have been updated
+    this.updatedContainersEmitter = new Emitter();
 
     // present for the lifetime of the simulation
     this.maxProperty.link( function( max, oldMax ) {
@@ -64,7 +65,7 @@ define( function( require ) {
 
       }
 
-      self.containersEmitter.emit();
+      self.updatedContainersEmitter.emit();
     } );
 
     // change the value of the denominator
@@ -90,7 +91,7 @@ define( function( require ) {
 
         self.toggleIsFilledTo( removedFilledCells.length, true );
       }
-      self.containersEmitter.emit();
+      self.updatedContainersEmitter.emit();
     } );
 
     // initialize fill property of numerator value of cells
@@ -257,7 +258,7 @@ define( function( require ) {
       // update the fill property of this cell to empty
       cell.isFilledProperty.value = false;
 
-      this.containersEmitter.emit();
+      this.updatedContainersEmitter.emit();
     },
 
     /**
@@ -270,7 +271,7 @@ define( function( require ) {
       // update the fill property of this cell to fill
       cell.isFilledProperty.value = true;
 
-      this.containersEmitter.emit();
+      this.updatedContainersEmitter.emit();
     }
   } );
 } );

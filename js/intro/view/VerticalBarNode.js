@@ -125,7 +125,7 @@ define( function( require ) {
     this.displayContainers();
 
     // add listener to container sets
-    containerSet.containersEmitter.addListener( function() {
+    containerSet.updatedContainersEmitter.addListener( function() {
       self.displayContainers();
     } );
   }

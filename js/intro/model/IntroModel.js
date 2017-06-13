@@ -152,7 +152,7 @@ define( function( require ) {
 
         // TODO: very round about way to force update view once the animation is complete
         piece.updateCellsEmitter.addListener( function() {
-          self.containerSet.containersEmitter.emit();
+          self.containerSet.updatedContainersEmitter.emit();
         } );
       }
 
@@ -194,7 +194,7 @@ define( function( require ) {
 
       }
       // forces an update on the view
-      this.containerSet.containersEmitter.emit();
+      this.containerSet.updatedContainersEmitter.emit();
     }
 
   } );
