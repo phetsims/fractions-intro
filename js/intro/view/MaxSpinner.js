@@ -48,7 +48,11 @@ define( function( require ) {
       function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_RANGE.min; } );
 
     // creates spinner that is linked to the numeratorProperty
-    var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty, { fireOnHold: true } );
+    var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty,
+      { fireOnHold: true,
+        radius: 10,
+        spacing:3
+      } );
 
     // creates the maxValueText
     var maxValueText = new Text( maxProperty.get(), { font: font, fill: options.fill } );
@@ -56,7 +60,7 @@ define( function( require ) {
       maxValueText.text = value;
 
       // moves maxValueText to the right of the maxValueSpinner
-      maxValueText.right = maxValueSpinner.left - 5;
+      maxValueText.right = maxValueSpinner.left - 10;
 
       // centers maxValueText vertically with maxValueSpinner
       maxValueText.centerY = maxValueSpinner.centerY;

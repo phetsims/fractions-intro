@@ -35,7 +35,7 @@ define( function( require ) {
         valueProperty.set( valueProperty.get() - 1 );
       },
       fireOnHold: false,
-      orientation: 'horizontal',
+      orientation: 'vertical',
       buttonOrientation: 'vertical',
       iconScale: 1.3,
       radius: 20,

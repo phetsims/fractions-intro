@@ -144,8 +144,8 @@ define( function( require ) {
 
       // create spinner controlling the maximum
       var maxSpinner = new MaxSpinner( introModel.maxProperty, {
-        right: this.layoutBounds.right - 15,
-        y: this.layoutBounds.top + 50
+        right: this.layoutBounds.right - 20,
+        y: this.layoutBounds.top + 70
       } );
 
       // fraction node with spinners on the denominator and numerator
@@ -154,8 +154,8 @@ define( function( require ) {
         introModel.maxProperty,
         introModel.addAnimatingPieceInBucket.bind( introModel ),
         introModel.addAnimatingPieceAtCell.bind( introModel ), {
-          x: 120,
-          bottom: this.layoutBounds.bottom - 5
+          x: 75,
+          bottom: this.layoutBounds.bottom - 5,
         } );
 
       // create bucket node
