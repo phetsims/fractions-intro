@@ -94,11 +94,9 @@ define( function( require ) {
       self.updatedContainersEmitter.emit();
     } );
 
-
     this.updatedContainersEmitter.addListener( function() {
       numeratorProperty.value = self.getFilledCellsCount();
     } );
-
 
     // initialize fill property of numerator value of cells
     this.toggleIsFilledTo( numeratorProperty.value, true );

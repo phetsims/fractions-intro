@@ -90,8 +90,14 @@ define( function( require ) {
         container.fractionProperty.value = container.getFraction();
         container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
                                                               (containerIndex - (containerSet.containers.length - 1) / 2), 260 );
-        container.cells.forEach( function( cell ) {
-          cell.positionProperty.value = container.positionProperty.value;
+
+        var cellHeight = options.beakerHeight / container.denominatorProperty.value;
+
+        container.cells.forEach( function( cell, cellIndex ) {
+
+          // offset the postion of the fill to match the cell Height
+          cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
+            options.beakerHeight - cellHeight * (cellIndex + 1) );
         } );
       } );
     } );
