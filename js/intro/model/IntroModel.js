@@ -164,6 +164,57 @@ define( function( require ) {
         this.containerSet.updatedContainersEmitter.emit();
 
       }
+    },
+    /**
+     * removes a container from the containerSet, takes removed containers filled cells and relocates them if possible
+     * animates cells that cannot be relocated to bucket, updates max Property
+     * @public
+     */
+    removeContainer: function() {
+      var self = this;
+
+      // get container from the end of the array.
+      var lastContainer = this.containerSet.containers[ this.containerSet.containers.length - 1 ];
+
+      //  how many filled cells in the last container could be relocated
+      var potentialCellsToToggle = lastContainer.getFilledCellsCount();
+
+      // how many empty cells in containerSet not including the empty cells of the last container
+      var availableEmptyCells = this.containerSet.getEmptyCellsCount() - lastContainer.getEmptyCellsCount();
+
+      // find the number of cells to toggle in container set not including the last container
+      var numberOfCellsToFill = availableEmptyCells >= potentialCellsToToggle ? potentialCellsToToggle : availableEmptyCells;
+
+      // cells to move to the bucket
+      var cellsToAnimate = potentialCellsToToggle - numberOfCellsToFill;
+
+      // move those cells to the bucket
+      if ( cellsToAnimate > 0 ) {
+        for ( var i = 0; i < cellsToAnimate; i++ ) {
+          self.addAnimatingPieceAtCell();
+        }
+      }
+
+      // update max property value
+      this.maxProperty.value = this.maxProperty.value - 1;
+
+      // remove the container from the container set
+      this.containerSet.containers.splice( this.containerSet.containers.length - 1, 1 );
+
+      // 'move' filled cells of removed container to empty cells of remaining containers
+      this.containerSet.toggleIsFilledTo( numberOfCellsToFill, true );
+      this.containerSet.updatedContainersEmitter.emit();
+
+    },
+    /**
+     * adds a container to the containerset, updates maxProperty value
+     * @public
+     */
+    addContainer: function() {
+
+      this.maxProperty.value = this.maxProperty.value + 1;
+      this.containerSet.addContainers( 1 );
+      this.containerSet.updatedContainersEmitter.emit();
     }
   } );
 } );

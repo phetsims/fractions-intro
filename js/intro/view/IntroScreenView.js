@@ -143,10 +143,12 @@ define( function( require ) {
       } );
 
       // create spinner controlling the maximum
-      var maxSpinner = new MaxSpinner( introModel.maxProperty, {
-        right: this.layoutBounds.right - 20,
-        y: this.layoutBounds.top + 70
-      } );
+      var maxSpinner = new MaxSpinner( introModel.maxProperty,
+        introModel.addContainer.bind( introModel ),
+        introModel.removeContainer.bind( introModel ), {
+          right: this.layoutBounds.right - 20,
+          y: this.layoutBounds.top + 70
+        } );
 
       // fraction node with spinners on the denominator and numerator
       var fractionWithSpinners = new FractionWithSpinners( introModel.numeratorProperty,
@@ -155,7 +157,7 @@ define( function( require ) {
         introModel.addAnimatingPieceInBucket.bind( introModel ),
         introModel.addAnimatingPieceAtCell.bind( introModel ), {
           x: 75,
-          bottom: this.layoutBounds.bottom - 5,
+          bottom: this.layoutBounds.bottom - 5
         } );
 
       // create bucket node

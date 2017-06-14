@@ -131,15 +131,6 @@ define( function( require ) {
     },
 
     /**
-     * count the number of filled cells in this container
-     * @returns {number}
-     * @public
-     */
-    getFilledCellsCount: function() {
-      return this.getFilledCells().length;
-    },
-
-    /**
      * returns the filled cells in this container
      * @returns {Cell[]}
      * @public
@@ -152,6 +143,15 @@ define( function( require ) {
     },
 
     /**
+     * count the number of filled cells in this container
+     * @returns {number}
+     * @public
+     */
+    getFilledCellsCount: function() {
+      return this.getFilledCells().length;
+    },
+
+    /**
      * returns the empty cells in this container
      * @returns {Cell[]}
      * @public
@@ -161,6 +161,15 @@ define( function( require ) {
         return cell.isEmpty();
       } );
       return emptyCells;
+    },
+
+    /**
+     * count the number of empty cells in this container
+     * @returns {number}
+     * @public
+     */
+    getEmptyCellsCount: function() {
+      return this.getEmptyCells().length;
     },
 
     /**

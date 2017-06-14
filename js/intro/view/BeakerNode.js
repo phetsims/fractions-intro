@@ -80,9 +80,6 @@ define( function( require ) {
 
       } );
     };
-    containerSet.maxProperty.link( function() {
-      self.displayContainers();
-    } );
 
     // add listener to container sets
     containerSet.updatedContainersEmitter.addListener( function() {
@@ -100,6 +97,7 @@ define( function( require ) {
             options.beakerHeight - cellHeight * (cellIndex + 1) );
         } );
       } );
+      self.displayContainers();
     } );
     containerSet.updatedContainersEmitter.emit();
 

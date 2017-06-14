@@ -40,33 +40,7 @@ define( function( require ) {
     // Emitter signals that the containers and cells have been updated
     this.updatedContainersEmitter = new Emitter();
 
-    // present for the lifetime of the simulation
-    this.maxProperty.link( function( max, oldMax ) {
-      var difference = max - oldMax;
-
-      if ( difference > 0 ) {
-
-        // add 'difference' number of containers
-        self.addContainers( difference );
-      }
-      else if ( difference < 0 ) {
-
-        // removed '-difference' containers starting from the end of the array.
-        var removedContainers = self.containers.splice( max, -difference );
-
-        var removedCells = self.flattenContainers( removedContainers );
-
-        var removedFilledCells = removedCells.filter( function( cell ) {
-          return cell.isFilledProperty.value;
-        } );
-
-        // 'move' filled cells of removed container to empty cells of remaining containers
-        self.toggleIsFilledTo( removedFilledCells.length, true );
-
-      }
-
-      self.updatedContainersEmitter.emit();
-    } );
+    this.addContainers(maxProperty.value);
 
     // change the value of the denominator
     denominatorProperty.lazyLink( function( denominator, oldDenominator ) {

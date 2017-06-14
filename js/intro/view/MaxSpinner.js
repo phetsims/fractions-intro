@@ -28,10 +28,12 @@ define( function( require ) {
   /**
    *
    * @param {Property.<number>} maxProperty
+   * @param {function} upButtonListener
+   * @param {function} downButtonListener
    * @param {Object} [options]
    * @constructor
    */
-  function MaxSpinner( maxProperty, options ) {
+  function MaxSpinner( maxProperty, upButtonListener, downButtonListener, options ) {
 
     options = _.extend( {
 
@@ -48,10 +50,12 @@ define( function( require ) {
       function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_RANGE.min; } );
 
     // creates spinner that is linked to the numeratorProperty
-    var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty,
-      { radius: 10,
-        spacing:3
-      } );
+    var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty, {
+      upButtonListener: upButtonListener,
+      downButtonListener: downButtonListener,
+      radius: 10,
+      spacing: 3
+    } );
 
     // creates the maxValueText
     var maxValueText = new Text( maxProperty.value, { font: font, fill: options.fill } );
