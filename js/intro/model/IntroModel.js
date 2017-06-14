@@ -75,6 +75,14 @@ define( function( require ) {
     },
 
     /**
+     * create and add a piece to the observable array
+     * @public
+     */
+    createPiece: function( options ) {
+      this.pieces.add( new Piece( options ) );
+    },
+
+    /**
      * create a piece in the bucket that will be animated to an empty cell
      * The chosen empty cell is the 'closest' empty cell, that is from the
      * cell and container with the lowest indices
@@ -100,18 +108,18 @@ define( function( require ) {
         }
         else {
 
+
+          // TODO use createPiece pattern (See #44)
+
           // create a piece at the location of the bucket
           var piece = new Piece( {
             position: IntroConstants.BUCKET_POSITION,
-            dragging: false
+            dragging: false,
+            cellTo: destinationCell //   destination cell for the animation
           } );
 
           // add the piece to the Observable array to notify the view
           this.pieces.add( piece );
-
-          // lock in the destination cell to the piece
-          // a listener to cellToProperty will instantiate an animation
-          piece.cellToProperty.value = destinationCell;
 
           // TODO: very round about way to force update view once the animation is complete
           piece.updateCellsEmitter.addListener( function() {
@@ -131,7 +139,6 @@ define( function( require ) {
      */
     addAnimatingPieceAtCell: function() {
 
-
       // check that there is at least one filled cell
       if ( this.containerSet.getFilledCellsCount() > 0 ) {
 
@@ -146,19 +153,11 @@ define( function( require ) {
         }
         else {
 
-          // create a piece at the position of the source cell
-          var piece = new Piece( {
+          this.createPiece( {
             position: sourceCell.positionProperty.value,
-            dragging: false
+            dragging: false,
+            cellFrom: sourceCell // the cell the piece comes from
           } );
-
-          // add the piece to the observable array to notify the view
-          this.pieces.add( piece );
-
-          // lock in the origin cell to the piece
-          // a listener to cellFromProperty will instantiate an animation
-          piece.cellFromProperty.value = sourceCell;
-
         }
 
         // forces an update on the view
@@ -166,6 +165,5 @@ define( function( require ) {
 
       }
     }
-
   } );
 } );

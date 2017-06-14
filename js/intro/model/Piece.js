@@ -25,7 +25,9 @@ define( function( require ) {
 
     options = _.extend( {
       position: Vector2.ZERO, // {Vector2} initial position
-      dragging: true // {boolean} is the user dragging the piece
+      dragging: true,  // {boolean} is the user dragging the piece,
+      cellTo: null, // {Cell|null}
+      cellFrom: null //{Cell|null}
     }, options );
 
     var self = this;
@@ -34,10 +36,10 @@ define( function( require ) {
     this.positionProperty = new Property( options.position );
 
     // @public {Property.<Cell|null>} the destination cell for the piece
-    this.cellToProperty = new Property( null );
+    this.cellToProperty = new Property( options.cellTo );
 
     // @public {Property.<Cell|null>} the origin cell of the piece
-    this.cellFromProperty = new Property( null );
+    this.cellFromProperty = new Property( options.cellFrom );
 
     // @public {Property.<boolean>}
     this.draggingProperty = new BooleanProperty( options.dragging ); // {boolean} is the user dragging the piece?
