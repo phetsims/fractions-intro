@@ -223,7 +223,6 @@ define( function( require ) {
 
         addedPiece.positionProperty.unlink( positionListener );
 
-        addedPiece.dispose();
       } );
 
       pieces.addItemRemovedListener( function removalListener( removedPiece ) {

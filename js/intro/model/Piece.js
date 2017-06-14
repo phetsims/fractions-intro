@@ -52,7 +52,7 @@ define( function( require ) {
 
     // animate piece from its current position to the cell
     // callback triggerToCell will update the status of the cell
-    var animateToCell = function( cell ) {
+    this.cellToProperty.link( function( cell ) {
       if ( cell !== null ) {
         self.animateToAndFrom( self.positionProperty.value, cell.positionProperty.value, {
           onComplete: function() {
@@ -60,20 +60,17 @@ define( function( require ) {
           }
         } );
       }
-    };
+    } );
 
-    // animate piece from its current position to the cell
-    this.cellToProperty.link( animateToCell );
-
-    // sets the CELL incomingPiece property to THIS piece.
-    var pairCellToDestination = function( cell ) {
+    // ensure that the destination cell and this piece are mutually locked in.
+    this.cellToProperty.link( function( cell ) {
       if ( cell !== null ) {
         cell.pieceToProperty.value = self;
       }
-    };
+    } );
 
-    // listener that is responsible for animating a piece from cell towards the bucket
-    var animateFromCell = function( cell ) {
+    // listener will animate the piece from the cell to the bucket
+    this.cellFromProperty.link( function( cell ) {
       if ( cell !== null ) {
 
         // update the fill status of the cell we are leaving from
@@ -88,20 +85,7 @@ define( function( require ) {
         // sets the value of the cellFrom to null
         self.cellFromProperty.value = null;
       }
-    };
-
-    // ensure that the destination cell and this piece are mutually locked in.
-    this.cellToProperty.link( pairCellToDestination );
-
-    // animate the piece from the cell to the bucket
-    this.cellFromProperty.link( animateFromCell );
-
-    // dispose function for this type
-    this.disposePiece = function() {
-      self.cellToProperty.unlink( animateToCell );
-      self.cellToProperty.unlink( pairCellToDestination );
-      self.cellFromProperty.unlink( animateFromCell );
-    };
+    });
   }
 
   fractionsIntro.register( 'Piece', Piece );
@@ -116,14 +100,6 @@ define( function( require ) {
       this.draggingProperty.reset();
       this.cellToProperty.reset();
       this.cellFromProperty.reset();
-    },
-
-    /**
-     * dispose of this piece
-     * @public
-     */
-    dispose: function() {
-      this.disposePiece();
     },
 
     /**
