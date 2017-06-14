@@ -64,7 +64,6 @@ define( function( require ) {
     var numeratorSpinner = new RoundSpinner( numeratorProperty,
       numeratorUpEnabledProperty,
       numeratorDownEnabledProperty, {
-        fireOnHold: true,
         upButtonListener: upButtonListener,
         downButtonListener: downButtonListener
       } );
@@ -72,8 +71,7 @@ define( function( require ) {
     // creates spinner that is linked to the denominatorProperty
     var denominatorSpinner = new RoundSpinner( denominatorProperty,
       denominatorUpEnabledProperty,
-      denominatorDownEnabledProperty,
-      { fireOnHold: true } );
+      denominatorDownEnabledProperty);
 
     var fractionNode = new FractionNode( numeratorProperty, denominatorProperty );
 
