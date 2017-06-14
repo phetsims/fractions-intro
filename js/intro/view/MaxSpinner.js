@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * Spinner that shows and allows the user to change the maximum for the sim between 1-6.
+ * Scenery Node that displays a spinner with the label 'Max' and displays the max number
  *
  * @author Vincent Davis (Berea College)
  */
@@ -10,8 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -19,14 +19,10 @@ define( function( require ) {
   var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  // constants
-  var FONT_SIZE = 32;
-
   // strings
   var maxString = require( 'string!FRACTIONS_INTRO/max' );
 
   /**
-   *
    * @param {Property.<number>} maxProperty
    * @param {function} upButtonListener
    * @param {function} downButtonListener
@@ -36,29 +32,27 @@ define( function( require ) {
   function MaxSpinner( maxProperty, upButtonListener, downButtonListener, options ) {
 
     options = _.extend( {
-
-      fill: 'black'
+      font: new PhetFont( 32 ),
+      radius: 10, // radius of the button
+      spacing: 3 // spacing for spinner
     }, options );
 
-    var font = new PhetFont( { size: FONT_SIZE } );
-
-    var maxUpEnabledProperty = new DerivedProperty(
-      [ maxProperty ],
+    var maxUpEnabledProperty = new DerivedProperty( [ maxProperty ],
       function( maxNumberOfUnits ) { return maxNumberOfUnits < IntroConstants.MAX_RANGE.max; } );
-    var maxDownEnabledProperty = new DerivedProperty(
-      [ maxProperty ],
+    var maxDownEnabledProperty = new DerivedProperty( [ maxProperty ],
       function( maxNumberOfUnits ) { return maxNumberOfUnits > IntroConstants.MAX_RANGE.min; } );
 
-    // creates spinner that is linked to the numeratorProperty
+    // creates spinner that is linked to the maxProperty
     var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty, {
       upButtonListener: upButtonListener,
       downButtonListener: downButtonListener,
-      radius: 10,
-      spacing: 3
+      radius: options.radius,
+      spacing: options.spacing
     } );
 
     // creates the maxValueText
-    var maxValueText = new Text( maxProperty.value, { font: font, fill: options.fill } );
+    var maxValueText = new Text( maxProperty.value, { font: options.font } );
+
     maxProperty.link( function( value ) {
       maxValueText.text = value;
 
@@ -70,8 +64,7 @@ define( function( require ) {
     } );
 
     var maxLabelText = new Text( maxString, {
-      font: font,
-      fill: options.fill,
+      font: options.font,
       bottom: maxValueSpinner.top,
       left: maxValueText.left
     } );
