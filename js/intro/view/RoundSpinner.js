@@ -14,7 +14,6 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    *
@@ -25,7 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function RoundSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
-    Tandem.indicateUninstrumentedCode();
 
     options = _.extend( {
       upButtonListener: function() {
@@ -47,13 +45,13 @@ define( function( require ) {
     var arrowShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 * options.radius / 20 ).lineTo( shapeWidth, 0 );
 
     var incrementIcon = new Path( arrowShape, {
-      lineWidth: 5 * options.radius / 20,
+      lineWidth: options.radius / 4,
       stroke: 'black',
       lineCap: 'round'
     } );
 
     var decrementIcon = new Path( arrowShape, {
-      lineWidth: 5 * options.radius / 20,
+      lineWidth: options.radius / 4,
       stroke: 'black',
       lineCap: 'round'
     } );
