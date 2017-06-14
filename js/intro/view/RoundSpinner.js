@@ -15,6 +15,10 @@ define( function( require ) {
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Shape = require( 'KITE/Shape' );
 
+  // constants
+  var ORIENTATION_VALUES = [ 'horizontal', 'vertical' ];   // possible values for options.orientation
+  var ARROW_ORIENTATION_VALUES = [ 'horizontal', 'vertical' ];   // possible values for options.arrowOrientation
+
   /**
    *
    * @param {Property.<number>} valueProperty
@@ -26,23 +30,25 @@ define( function( require ) {
   function RoundSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
 
     options = _.extend( {
-      upButtonListener: function() {
-        valueProperty.set( valueProperty.get() + 1 );
-      },
-      downButtonListener: function() {
-        valueProperty.set( valueProperty.get() - 1 );
-      },
-      fireOnHold: true,
+      upButtonListener: function() {valueProperty.set( valueProperty.get() + 1 );},
+      downButtonListener: function() {valueProperty.set( valueProperty.get() - 1 );},
+      baseColor: '#fefd53',  // color of the button
+      radius: 20, // radius of the push button
+      iconScale: 0.65, // ratio of the width of the arrow over the diameter of the button
+      spacing: 6, // separation of the two buttons
       orientation: 'vertical', // orientation of the spinner with respect to one another
       arrowOrientation: 'vertical', // direction of the arrow within a spinner
-      iconScale: 1.3,
-      radius: 20,
-      spacing: 6
+      fireOnHold: true
     }, options );
 
-    var shapeWidth = options.radius * options.iconScale;
+    // validate options
+    assert && assert( _.includes( ORIENTATION_VALUES, options.orientation ), 'invalid orientation: ' + options.orientation );
+    assert && assert( _.includes( ARROW_ORIENTATION_VALUES, options.arrowOrientation ), 'invalid arrowOrientation: ' + options.arrowOrientation );
 
-    // shape of the arrow
+    // width of the arrow
+    var shapeWidth = options.radius * options.iconScale * 2;
+
+    // shape of the arrow, pointing up
     var arrowShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -shapeWidth / 3 ).lineTo( shapeWidth, 0 );
 
     // rotation of the arrow for the increment and decrement buttons
@@ -71,7 +77,7 @@ define( function( require ) {
       listener: options.upButtonListener,
       radius: options.radius,
       touchAreaDilation: 5,
-      baseColor: '#fefd53',
+      baseColor: options.baseColor,
       xContentOffset: (options.arrowOrientation === 'horizontal') ? offset : 0,
       yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : -offset,
 
@@ -86,7 +92,7 @@ define( function( require ) {
       listener: options.downButtonListener,
       radius: options.radius,
       touchAreaDilation: 5,
-      baseColor: '#fefd53',
+      baseColor: options.baseColor,
       xContentOffset: (options.arrowOrientation === 'horizontal') ? -offset : 0,
       yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : offset,
 
@@ -100,7 +106,7 @@ define( function( require ) {
 
     downEnabledProperty.linkAttribute( decrementButton, 'enabled' );
 
-    this.roundSpinnerDispose = function() {
+    this.disposeRoundSpinner = function() {
       upEnabledProperty.unlinkAttribute( incrementButton );
       downEnabledProperty.unlinkAttribute( decrementButton );
     };
@@ -121,7 +127,7 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.roundSpinnerDispose();
+      this.disposeRoundSpinner();
     }
   } );
 } );
