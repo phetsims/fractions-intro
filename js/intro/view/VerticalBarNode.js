@@ -34,8 +34,8 @@ define( function( require ) {
         containerSpacing: 22,
         containerWidth: 130,
         containerHeight: 185,
-        visibleBackground: true,
-        outlineLineWidth: 3
+        outlineLineWidth: 3,
+        isIcon: false //  is an icon without drag ability
       },
       options );
 
@@ -110,7 +110,7 @@ define( function( require ) {
 
           cell.boundsProperty.value = cellRectangle.bounds;
 
-          if ( cell.isFilled() ) {
+          if ( cell.isFilled() && !options.isIcon ) {
             cellRectangle.addInputListener(
               new PieceDragHandler( cell.positionProperty.value,
                 containerSet,
