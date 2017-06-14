@@ -147,7 +147,7 @@ define( function( require ) {
   return inherit( Node, VerticalBarNode, {
     /**
      * create vertical bar pieces to use inside the bucket
-     * @param denominatorProperty
+     * @param {Property.<number>} denominatorProperty
      * @returns {Node}
      * @private
      */
@@ -186,8 +186,6 @@ define( function( require ) {
       } );
 
       return containerNode;
-
     }
-
   } );
 } );
