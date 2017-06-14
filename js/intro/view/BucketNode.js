@@ -242,17 +242,22 @@ define( function( require ) {
     /**
      * @param {Representation} representation
      * @param {Object} [options]
-     * @returns {HBox}
+     * @returns {Node}
      * @private
      */
     createRepresentation: function( representation, options ) {
+
+      options = _.extend( {
+        isIcon: false
+      }, options );
 
       switch( representation ) {
 
         case Representation.VERTICAL_BAR:
 
           var verticalBarNode = new VerticalBarNode( this.iconContainerSet, this.pieces, options );
-          return verticalBarNode.createVerticalBarPiece( this.denominatorProperty );
+
+          return (options.isIcon) ? verticalBarNode : verticalBarNode.createVerticalBarPiece( this.denominatorProperty );
 
         case Representation.BEAKER:
 
@@ -298,6 +303,10 @@ define( function( require ) {
      */
     createLabelBox: function( representation, options ) {
 
+      options = _.extend( {
+        isIcon: true
+      }, options );
+
       // create the fraction with a numerator of 1
       var fractionNode = new FractionNode(
         new NumberProperty( 1 ),
@@ -331,7 +340,7 @@ define( function( require ) {
       var self = this;
       // create all pieces for the bucket
       var contentPieces = PIECE_OFFSET_POSITIONS.map( function( position ) {
-        var centerPosition = position.plus( bucketHoleCenter ).plus( new Vector2( 0, 15 ) );
+        var centerPosition = position.plus( bucketHoleCenter ).plusXY( 0, 15 );
 
         var representationNode = self.createRepresentation( representation, options );
 
