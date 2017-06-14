@@ -28,6 +28,6 @@ define( function( require ) {
 
     // Constants for bucket
     BUCKET_POSITION: new Vector2( 570, 497 ),
-    BUCKET_SIZE: new Dimension2( 355, 125 ),
+    BUCKET_SIZE: new Dimension2( 355, 125 )
   } );
 } );
