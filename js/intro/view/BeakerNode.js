@@ -216,10 +216,10 @@ define( function( require ) {
 
       // add tick shapes to new node
       var minorTickNodes = minorTickLocation.map( function( y ) {
-        return new Path( minorTickMarkShape, { y: y, stroke: 'black', lineWidth: options.tickWidth } )
+        return new Path( minorTickMarkShape, { y: y, stroke: 'black', lineWidth: options.tickWidth } );
       } );
       var majorTickNodes = majorTickLocation.map( function( y ) {
-        return new Path( majorTickMarkShape, { y: y, stroke: 'black', lineWidth: options.tickWidth } )
+        return new Path( majorTickMarkShape, { y: y, stroke: 'black', lineWidth: options.tickWidth } );
       } );
 
       var tickNodes = minorTickNodes.concat( majorTickNodes );
