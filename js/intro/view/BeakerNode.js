@@ -182,7 +182,7 @@ define( function( require ) {
 
     //top layer
     //front of the beaker and tick mark
-    var BeakerFront = new Path( new Shape().moveTo( -radius, 0 )
+    var beakerFront = new Path( new Shape().moveTo( -radius, 0 )
         .ellipticalArc( 0, 0, radius, radius * options.perspectiveFactor, 0, Math.PI, 2 * Math.PI, true )
         .verticalLineToRelative( -options.beakerHeight )
         .ellipticalArc( 0, -options.beakerHeight, radius, radius * options.perspectiveFactor, 0, 2 * Math.PI, Math.PI, false )
@@ -214,7 +214,7 @@ define( function( require ) {
 
     // add children to scene graph. z order matters here.
     return new Node( {
-      children: [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, BeakerFront, tickMarksPath ]
+      children: [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, beakerFront, tickMarksPath ]
     } );
 
   };
@@ -271,9 +271,7 @@ define( function( require ) {
         stroke: 'grey'
       } );
 
-    return new Node( {
-      children: [ bodyPath, backsideBottomArc, capPath, liquidArc ]
-    } );
+    return new Node( { children: [ bodyPath, backsideBottomArc, capPath, liquidArc ] } );
   };
   fractionsIntro.register( 'BeakerNode', BeakerNode );
 
