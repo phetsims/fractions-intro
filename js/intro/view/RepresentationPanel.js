@@ -9,10 +9,10 @@ define( function( require ) {
 
   // modules
   var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var ContainerSet = require( 'FRACTIONS_INTRO/intro/model/ContainerSet' );
+  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -34,19 +34,17 @@ define( function( require ) {
 
     options = _.extend( {
       fill: '#efe8e1',
-      iconScale: 1,
       xMargin: 10,
       yMargin: 10
     }, options );
 
-    // containerSet for icon with a numerator of 1, denominator of 1, and max value of 1
-    var containerSet = new ContainerSet( new NumberProperty( 1 ), new NumberProperty( 1 ), new NumberProperty( 1 ) );
+    // containerSet for beakerIcon with a numerator of 1, denominator of 1, and max value of 1
+    var beakerContainerSet = new ContainerSet( new NumberProperty( 1 ), new NumberProperty( 1 ), new NumberProperty( 1 ) );
 
-    // TODO get the size and color from the java simulation
     var content = new RadioButtonGroup( representationProperty, [
       {
         value: Representation.CIRCLE,
-        node: new Circle( 20 * options.iconScale, {
+        node: new Circle( 20, {
           fill: '#8EC53F',
           lineWidth: 2,
           stroke: 'black'
@@ -55,8 +53,8 @@ define( function( require ) {
       {
         value: Representation.HORIZONTAL_BAR,
         node: new Rectangle( {
-          rectWidth: 80 * options.iconScale,
-          rectHeight: 20 * options.iconScale,
+          rectWidth: 80,
+          rectHeight: 20,
           fill: '#ED4344',
           lineWidth: 2,
           stroke: 'black'
@@ -65,8 +63,8 @@ define( function( require ) {
       {
         value: Representation.VERTICAL_BAR,
         node: new Rectangle( {
-          rectWidth: 40 * options.iconScale,
-          rectHeight: 60 * options.iconScale,
+          rectWidth: 40,
+          rectHeight: 60,
           fill: '#FFE600',
           lineWidth: 2,
           stroke: 'black'
@@ -75,7 +73,7 @@ define( function( require ) {
 
       {
         value: Representation.BEAKER,
-        node: new BeakerNode( containerSet, {
+        node: new BeakerNode( beakerContainerSet, {
           beakerWidth: 30,
           beakerHeight: 50
         } )
