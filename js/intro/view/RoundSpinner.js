@@ -1,6 +1,6 @@
 // Copyright 2017, University of Colorado Boulder
 /**
- * Node for spinner with fire on hold and callback options.  Used in the Fractions sims to increase/decrease numerator/denominator.
+ * Node for round spinner with fire on hold and callback options.
  *
  * @author Dusty Cole (Berea College)
  */
@@ -11,9 +11,9 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
 
   /**
    *
@@ -32,7 +32,7 @@ define( function( require ) {
       downButtonListener: function() {
         valueProperty.set( valueProperty.get() - 1 );
       },
-      fireOnHold: false,
+      fireOnHold: true,
       orientation: 'vertical', // orientation of the spinner with respect to one another
       arrowOrientation: 'vertical', // direction of the arrow within a spinner
       iconScale: 1.3,
@@ -42,54 +42,29 @@ define( function( require ) {
 
     var shapeWidth = options.radius * options.iconScale;
 
-    var arrowShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -10 * options.radius / 20 ).lineTo( shapeWidth, 0 );
+    // shape of the arrow
+    var arrowShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -shapeWidth / 3 ).lineTo( shapeWidth, 0 );
+
+    // rotation of the arrow for the increment and decrement buttons
+    var incrementIconRotation = ( options.arrowOrientation === 'horizontal' ) ? Math.PI / 2 : 0;
+    var decrementIconRotation = ( options.arrowOrientation === 'horizontal' ) ? 3 * Math.PI / 2 : Math.PI;
 
     var incrementIcon = new Path( arrowShape, {
       lineWidth: options.radius / 4,
       stroke: 'black',
-      lineCap: 'round'
+      lineCap: 'round',
+      rotation: incrementIconRotation
     } );
 
     var decrementIcon = new Path( arrowShape, {
       lineWidth: options.radius / 4,
       stroke: 'black',
-      lineCap: 'round'
+      lineCap: 'round',
+      rotation: decrementIconRotation
     } );
-    decrementIcon.rotateAround( decrementIcon.center, Math.PI );
 
-    // Adjust the the arrow on the button for the correct orientation
-    if ( options.orientation === 'horizontal' ) {
-
-      // case orientation is horizontal but arrowOrientation is vertical
-      if ( options.arrowOrientation === 'vertical' ) {
-        xContentOffset = 0;
-        yContentOffset = 3;
-      }
-
-      // case both arrowOrientation and Orientation are horizontal
-      else {
-        incrementIcon.rotateAround( incrementIcon.center, Math.PI / 2 );
-        decrementIcon.rotateAround( decrementIcon.center, Math.PI / 2 );
-        var xContentOffset = -3;
-        var yContentOffset = 0;
-      }
-    }
-    else {
-
-      // case both arrowOrientation and Orientation are vertical
-      if ( options.arrowOrientation === 'vertical' ) {
-        xContentOffset = 0;
-        yContentOffset = -3;
-      }
-
-      // case orientation is vertical but arrowOrientation is horizontal
-      else {
-        incrementIcon.rotateAround( incrementIcon.center, Math.PI / 2 );
-        decrementIcon.rotateAround( decrementIcon.center, Math.PI / 2 );
-        yContentOffset = 0;
-        xContentOffset = -3;
-      }
-    }
+    // offset of the arrow from center
+    var offset = shapeWidth / 10;
 
     var incrementButton = new RoundPushButton( {
       content: incrementIcon,
@@ -97,8 +72,8 @@ define( function( require ) {
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: '#fefd53',
-      yContentOffset: (options.orientation === 'horizontal') ? -yContentOffset : yContentOffset,
-      xContentOffset: -xContentOffset,
+      xContentOffset: (options.arrowOrientation === 'horizontal') ? offset : 0,
+      yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : -offset,
 
       // options related to fire-on-hold feature
       fireOnHold: options.fireOnHold,
@@ -112,8 +87,8 @@ define( function( require ) {
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: '#fefd53',
-      yContentOffset: (options.orientation === 'horizontal') ? yContentOffset : -yContentOffset,
-      xContentOffset: xContentOffset,
+      xContentOffset: (options.arrowOrientation === 'horizontal') ? -offset : 0,
+      yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : offset,
 
       // options related to fire-on-hold feature
       fireOnHold: options.fireOnHold,
@@ -125,6 +100,12 @@ define( function( require ) {
 
     downEnabledProperty.linkAttribute( decrementButton, 'enabled' );
 
+    this.roundSpinnerDispose = function() {
+      upEnabledProperty.unlinkAttribute( incrementButton );
+      downEnabledProperty.unlinkAttribute( decrementButton );
+    };
+
+    // decrement button is on the left side in horizontal orientation but at the bottom when  oriented vertically
     var orderArray = (options.orientation === 'horizontal') ? [ decrementButton, incrementButton ] : [ incrementButton, decrementButton ];
 
     LayoutBox.call( this, { spacing: options.spacing, children: orderArray } );
@@ -134,5 +115,13 @@ define( function( require ) {
 
   fractionsIntro.register( 'RoundSpinner', RoundSpinner );
 
-  return inherit( LayoutBox, RoundSpinner );
+  return inherit( LayoutBox, RoundSpinner, {
+    /**
+     * dispose function
+     * @public
+     */
+    dispose: function() {
+      this.roundSpinnerDispose();
+    }
+  } );
 } );
