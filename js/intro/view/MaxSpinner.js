@@ -54,7 +54,7 @@ define( function( require ) {
       } );
 
     // creates the maxValueText
-    var maxValueText = new Text( maxProperty.get(), { font: font, fill: options.fill } );
+    var maxValueText = new Text( maxProperty.value, { font: font, fill: options.fill } );
     maxProperty.link( function( value ) {
       maxValueText.text = value;
 

@@ -30,8 +30,8 @@ define( function( require ) {
   function RoundSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
 
     options = _.extend( {
-      upButtonListener: function() {valueProperty.set( valueProperty.get() + 1 );},
-      downButtonListener: function() {valueProperty.set( valueProperty.get() - 1 );},
+      upButtonListener: function() {valueProperty.value += 1;},
+      downButtonListener: function() {valueProperty.value -= 1;},
       baseColor: '#fefd53',  // color of the button
       radius: 20, // radius of the push button
       iconScale: 0.65, // ratio of the width of the arrow over the diameter of the button

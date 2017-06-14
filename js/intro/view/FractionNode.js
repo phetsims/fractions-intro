@@ -40,13 +40,13 @@ define( function( require ) {
     } );
 
     // creates numerator node
-    var numeratorNode = new Text( numeratorProperty.get(), {
+    var numeratorNode = new Text( numeratorProperty.value, {
       font: options.font,
       fill: options.color
     } );
 
     // creates denominator node
-    var denominatorNode = new Text( denominatorProperty.get(), {
+    var denominatorNode = new Text( denominatorProperty.value, {
       font: options.font,
       fill: options.color
     } );
