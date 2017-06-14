@@ -49,8 +49,7 @@ define( function( require ) {
 
     // creates spinner that is linked to the numeratorProperty
     var maxValueSpinner = new RoundSpinner( maxProperty, maxUpEnabledProperty, maxDownEnabledProperty,
-      { fireOnHold: true,
-        radius: 10,
+      { radius: 10,
         spacing:3
       } );
 
