@@ -4,7 +4,10 @@
  * Main screen view of the Intro screen for Fractions Intro, which shows a radio button group of representations
  * at the top, a fraction in the bottom left and the selected representation in the middle of the screen.
  *
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Dusty Cole ( Berea College)
+ * @author Vincent Davis ( Berea College)
+ * @author Michael Moorer ( Berea College)
+ * @author Martin Veillette ( Berea College)
  */
 define( function( require ) {
     'use strict';
