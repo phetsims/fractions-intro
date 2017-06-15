@@ -209,7 +209,7 @@ define( function( require ) {
         // no need to update the position of any view elements since the numeratorProperty has callbacks to them
         numeratorProperty.value = Util.clamp( Util.roundSymmetric( x / tickMarkSeparation ),
           0, denominatorProperty.value * maxProperty.value );
-        updateContainerSet()
+        updateContainerSet();
       };
 
       // add a drag handler to the main number line
