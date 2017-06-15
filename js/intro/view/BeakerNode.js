@@ -137,7 +137,7 @@ define( function( require ) {
     // beakerContainer holds liquidInBeaker
     var beakerContainer = new Node();
 
-    //bottom layer
+    // bottom layer
     // emptyBeakerBackside is the backside of the beaker
     var emptyBeakerBackside = new Path( new Shape()
       .ellipticalArc( 0, -options.beakerHeight, xRadius, yRadius, 0, Math.PI, 0, false )
@@ -153,7 +153,7 @@ define( function( require ) {
       }
     );
     container.fractionProperty.link( function( fraction ) {
-      //middle layer
+      // middle layer
       // updates how 'full' beaker is when fraction is changed
       var height = fraction * options.beakerHeight;
 
@@ -177,8 +177,8 @@ define( function( require ) {
       }
     } );
 
-    //top layer
-    //front of the beaker and tick mark
+    // top layer
+    // front of the beaker and tick mark
     var beakerFront = new Path( new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
       .ellipticalArc( 0, -options.beakerHeight, xRadius, yRadius, 0, Math.PI, 0, true ), {
       stroke: 'grey',

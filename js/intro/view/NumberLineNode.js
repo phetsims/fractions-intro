@@ -184,7 +184,7 @@ define( function( require ) {
       // Enables or Disables the ArrowNode
       if ( options.displayArrow ) {
 
-        //Centers the marker arrow with respect to the number line
+        // Centers the marker arrow with respect to the number line
         markerArrow.centerX = markerCircle.centerX;
 
         // markerArrow moves vertically depending on the position of the tick marks
