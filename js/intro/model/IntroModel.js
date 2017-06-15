@@ -189,10 +189,13 @@ define( function( require ) {
       // cells to move to the bucket
       var cellsToAnimate = potentialCellsToToggle - numberOfCellsToFill;
 
-      // move those cells to the bucket
-      if ( cellsToAnimate > 0 ) {
-        for ( var i = 0; i < cellsToAnimate; i++ ) {
-          self.addAnimatingPieceAtCell();
+      if ( this.representationProperty.value !== Representation.NUMBER_LINE ) {
+
+        // move those cells to the bucket
+        if ( cellsToAnimate > 0 ) {
+          for ( var i = 0; i < cellsToAnimate; i++ ) {
+            self.addAnimatingPieceAtCell();
+          }
         }
       }
 
@@ -222,17 +225,12 @@ define( function( require ) {
      * @public
      */
     fixDisparity: function() {
-      var self = this;
       var disparity = this.numeratorProperty.value - this.containerSet.getFilledCellsCount();
       if ( disparity > 0 ) {
-        for ( var i = 0; i < disparity; i++ ) {
-          self.addAnimatingPieceInBucket();
-        }
+        this.containerSet.toggleIsFilledTo( disparity, true );
       }
       else {
-        for ( var j = disparity; j < 0; j++ ) {
-          self.addAnimatingPieceAtCell();
-        }
+        this.containerSet.toggleIsFilledTo( -disparity, false );
       }
     }
   } );

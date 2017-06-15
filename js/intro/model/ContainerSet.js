@@ -40,7 +40,7 @@ define( function( require ) {
     // Emitter signals that the containers and cells have been updated
     this.updatedContainersEmitter = new Emitter();
 
-    this.addContainers(maxProperty.value);
+    this.addContainers( maxProperty.value );
 
     // change the value of the denominator
     denominatorProperty.lazyLink( function( denominator, oldDenominator ) {
@@ -109,8 +109,6 @@ define( function( require ) {
         for ( var j = 0; j < numberOfCellsToFill; j++ ) {
           this.getNextNonFullContainer().getNextEmptyCell().toggleIsFilled();
         }
-
-        this.numeratorProperty.value += numberOfCellsToFill;
       }
       else {
         var availableFilledCells = this.getFilledCellsCount();
@@ -120,8 +118,6 @@ define( function( require ) {
         for ( var i = 0; i < numberOfCellsToEmpty; i++ ) {
           this.getLastNonEmptyContainer().getNextFilledCell().toggleIsFilled();
         }
-
-        this.numeratorProperty.value -= numberOfCellsToEmpty;
       }
     },
 
