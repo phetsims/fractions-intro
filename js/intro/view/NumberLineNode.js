@@ -89,9 +89,8 @@ define( function( require ) {
     // distance between 0 and 1 on the number Line
     var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_RANGE.max;
 
-    // Present for the lifetime of the simulation
     // Updates the minor and major ticks as well as the main number line
-    Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
+    var updateTicksMultilink = Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
 
       // sets the length of the main number line
       mainNumberLine.x2 = segmentLength * max;
@@ -177,7 +176,7 @@ define( function( require ) {
 
     // update position of the circle marker and the highlighter region based on the values of the numerator
     // denominator
-    Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
+    var updateMarkerMultilink = Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
       markerCircle.centerX = segmentLength * numerator / denominator;
 
       var tickLength = ( numerator / denominator % 1 === 0 ) ?
@@ -244,9 +243,23 @@ define( function( require ) {
       markerArrow,
       markerCircle ];
     Node.call( this, options );
+
+
+    // @private called by dispose
+    this.disposeNumberLineNode = function() {
+      Property.unmultilink( updateTicksMultilink );
+      Property.unmultilink( updateMarkerMultilink );
+    };
   }
 
   fractionsIntro.register( 'NumberLineNode', NumberLineNode );
 
-  return inherit( Node, NumberLineNode, {} );
+  return inherit( Node, NumberLineNode, {
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.disposeNumberLineNode();
+    }
+  } );
 } );
