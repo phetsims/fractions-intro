@@ -224,6 +224,11 @@ define( function( require ) {
      */
     getAllCells: function() {
       return this.flattenContainers( this.containers );
+    },
+
+    reset: function() {
+      this.containers = [];
+      this.addContainers( this.maxProperty.value );
     }
   } );
 } );

@@ -67,9 +67,10 @@ define( function( require ) {
      * @public
      */
     reset: function() {
+      this.maxProperty.reset(); // must be reset before containerset or the containers will remain on the screen
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
-      this.maxProperty.reset();
+      this.containerSet.reset();
       this.representationProperty.reset();
       this.pieces.reset();
     },
