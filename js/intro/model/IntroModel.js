@@ -105,6 +105,7 @@ define( function( require ) {
         if ( this.representationProperty.value === Representation.NUMBER_LINE ) {
 
           destinationCell.isFilledProperty.value = true;
+          self.containerSet.updatedContainersEmitter.emit();
         }
         else {
 
