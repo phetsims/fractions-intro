@@ -216,6 +216,24 @@ define( function( require ) {
       this.maxProperty.value = this.maxProperty.value + 1;
       this.containerSet.addContainers( 1 );
       this.containerSet.updatedContainersEmitter.emit();
+    },
+    /**
+     * updates containerset to reflect numeratorProperty.value set by numberlinenode
+     * @public
+     */
+    fixDisparity: function() {
+      var self = this;
+      var disparity = this.numeratorProperty.value - this.containerSet.getFilledCellsCount();
+      if ( disparity > 0 ) {
+        for ( var i = 0; i < disparity; i++ ) {
+          self.addAnimatingPieceInBucket();
+        }
+      }
+      else {
+        for ( var j = disparity; j < 0; j++ ) {
+          self.addAnimatingPieceAtCell();
+        }
+      }
     }
   } );
 } );

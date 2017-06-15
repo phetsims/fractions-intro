@@ -130,7 +130,8 @@ define( function( require ) {
             var numberLineNode = new NumberLineNode( introModel.numeratorProperty,
               introModel.denominatorProperty,
               introModel.maxProperty,
-              new NumberProperty( 1 ), {
+              new NumberProperty( 1 ),
+              introModel.fixDisparity.bind( introModel ), {
                 left: 5,
                 top: representationPanel.bottom + 70
               } );

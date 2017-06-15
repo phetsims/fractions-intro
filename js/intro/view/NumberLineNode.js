@@ -42,6 +42,7 @@ define( function( require ) {
    *                                                            upper and lower side of the number line in order to
    *                                                            increase  number of tick on the bottom of the number
    *                                                            line to use in the equality tab.
+   * @param {function} updateContainerSet - function to update the containerset when the marker is dragged
    * @param {Object} [options]
    * @constructor
    */
@@ -49,6 +50,7 @@ define( function( require ) {
                            denominatorProperty,
                            maxProperty,
                            multiplicationFactorProperty,
+                           updateContainerSet,
                            options ) {
 
     // plan to use the vertical option in the equality tab
@@ -208,6 +210,7 @@ define( function( require ) {
         // no need to update the position of any view elements since the numeratorProperty has callbacks to them
         numeratorProperty.value = Util.clamp( Util.roundSymmetric( x / tickMarkSeparation ),
           0, denominatorProperty.value * maxProperty.value );
+        updateContainerSet()
       };
 
       // add a drag handler to the main number line
