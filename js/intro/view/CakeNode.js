@@ -100,12 +100,25 @@ define( function( require ) {
     // add listener to container sets
     containerSet.updatedContainersEmitter.addListener( updateCakesDisplay );
 
+    // @private called by dispose
+    this.disposeCakeNode = function() {
+      containerSet.updatedContainersEmitter.removeInputListener( updateCakesDisplay );
+    };
+
     this.mutate( options );
   }
 
   fractionsIntro.register( 'CakeNode', CakeNode );
 
   return inherit( Node, CakeNode, {
+
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.disposeCakeNode();
+    },
+
     /**
      * returns a scenery Node with slices of a cake
      * @param {Container} container
