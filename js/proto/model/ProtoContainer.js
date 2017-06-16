@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var ProtoCell = require( 'FRACTIONS_INTRO/proto/model/ProtoCell' );
 
@@ -21,6 +22,9 @@ define( function( require ) {
   function ProtoContainer() {
     // @public {ObservableArray.<ProtoCell>}
     this.cells = new ObservableArray();
+
+    // @public {Property.<boolean>} TODO: better way?
+    this.filledCellCountProperty = new NumberProperty( 0 );
   }
 
   fractionsIntro.register( 'ProtoContainer', ProtoContainer );
@@ -38,8 +42,15 @@ define( function( require ) {
       while ( quantity > 0 ) {
         var lastCell = this.cells.get( this.cells.length - 1 );
         // TODO: removing cell, do something to get rid of a value?
-        if ( lastCell.isFilledProperty.value && this.hasEmptyCell() ) {
-          this.fillNextCell();
+        if ( lastCell.isFilledProperty.value ) {
+          this.filledCellCountProperty.value -= 1;
+
+          if ( this.hasEmptyCell() ) {
+            this.fillNextCell();
+          }
+          else {
+            removedCount++;
+          }
         }
         this.cells.pop();
         quantity -= 1;
@@ -62,6 +73,7 @@ define( function( require ) {
         var cell = this.cells.get( i );
         if ( !cell.isFilledProperty.value ) {
           cell.isFilledProperty.value = true;
+          this.filledCellCountProperty.value += 1;
           return;
         }
       }
@@ -71,6 +83,7 @@ define( function( require ) {
         var cell = this.cells.get( i );
         if ( cell.isFilledProperty.value ) {
           cell.isFilledProperty.value = false;
+          this.filledCellCountProperty.value -= 1;
           //TODO: interrupt animation? (link up somewhere)
           return;
         }

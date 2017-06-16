@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -17,6 +18,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -135,6 +137,13 @@ define( function( require ) {
       },
       right: this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
+    } ) );
+
+    var rectangularView = new RectangularView( model );
+    this.addChild( new AlignBox( rectangularView, {
+      alignBounds: this.layoutBounds,
+      yAlign: 'top',
+      topMargin: 50
     } ) );
   }
 

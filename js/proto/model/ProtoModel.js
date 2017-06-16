@@ -65,7 +65,21 @@ define( function( require ) {
     },
 
     onMaxChange: function( newMax, oldMax ) {
-      // no change needed?
+      var self = this;
+      var change = Math.abs( newMax - oldMax );
+      _.times( change, function() {
+        if ( newMax > oldMax ) {
+          var container = new ProtoContainer();
+          container.addCells( self.denominatorProperty.value );
+          self.containers.push( container );
+        }
+        else {
+          var removedCount = self.containers.pop().filledCellCountProperty.value;
+          _.times( removedCount, function() {
+            self.fillNextCell();
+          } );
+        }
+      } );
     },
 
     onNumeratorChange: function( newNumerator, oldNumerator ) {
