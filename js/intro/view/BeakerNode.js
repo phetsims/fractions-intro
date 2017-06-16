@@ -43,6 +43,7 @@ define( function( require ) {
       containerSpacing: 22,
       containerWidth: 130,
       containerHeight: 185,
+      isIcon: false, //  is an icon without drag ability
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );
 
@@ -75,10 +76,10 @@ define( function( require ) {
       // loop over all the containers in the container set
       containerSet.containers.forEach( function( container ) {
 
-
         // creates a new beakerNode to display on screen
         var containerBeakerNode = new createBeakerNode( container, options );
 
+        // centers position of BeakerNode
         containerBeakerNode.center = container.positionProperty.value;
 
         setOfBeakerNode.addChild( containerBeakerNode );
@@ -91,7 +92,8 @@ define( function( require ) {
       containerSet.containers.forEach( function( container, containerIndex ) {
         container.fractionProperty.value = container.getFraction();
         container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
-                                                              (containerIndex - (containerSet.containers.length - 1) / 2), 260 );
+                                                              (containerIndex -
+                                                               (containerSet.containers.length - 1) / 2), 260 );
 
         var cellHeight = options.beakerHeight / container.denominatorProperty.value;
 
@@ -246,8 +248,17 @@ define( function( require ) {
       container.denominatorProperty.unlink( denominatorPropertyListener );
     };
 
-    return beakerNode;
+    // creates bounds for the container
+    container.boundsProperty.value = beakerNode.bounds.shifted(
+      container.positionProperty.value.x, container.positionProperty.value.y ).dilatedXY( 20, 100 );
 
+    // creates bounds for every cell in container
+    container.cells.forEach( function( cell ) {
+      cell.boundsProperty.value = container.boundsProperty.value;
+
+    } );
+
+    return beakerNode;
   };
 
   fractionsIntro.register( 'BeakerNode', BeakerNode );

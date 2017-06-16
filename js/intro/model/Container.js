@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Cell = require( 'FRACTIONS_INTRO/intro/model/Cell' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -27,6 +28,9 @@ define( function( require ) {
 
     // add initial cells to the container
     this.addCells( denominatorProperty.value );
+
+    // @public {Property.<Bound2>}
+    this.boundsProperty = new Property( Bounds2.NOTHING );
 
     // @private {Property.<Vector2>}
     this.positionProperty = new Property( Vector2.ZERO );
@@ -49,6 +53,7 @@ define( function( require ) {
     reset: function() {
       this.positionProperty.reset();
       this.fractionProperty.reset();
+      this.boundsProperty.reset();
       this.cells.forEach( function( cell ) {
         cell.reset();
       } );
