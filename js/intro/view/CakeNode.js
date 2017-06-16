@@ -98,9 +98,12 @@ define( function( require ) {
     updateCakesDisplay();
 
     // add listener to container sets
-    containerSet.updatedContainersEmitter.addListener( function() {
-      updateCakesDisplay();
-    } );
+    containerSet.updatedContainersEmitter.addListener( updateCakesDisplay );
+
+    // @private called by dispose
+    this.disposeCakeNode = function() {
+      containerSet.updatedContainersEmitter.removeInputListener( updateCakesDisplay );
+    };
 
     this.mutate( options );
   }
@@ -108,9 +111,18 @@ define( function( require ) {
   fractionsIntro.register( 'CakeNode', CakeNode );
 
   return inherit( Node, CakeNode, {
+
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.disposeCakeNode();
+    },
+
     /**
      * returns a scenery Node with slices of a cake
      * @param {Container} container
+     * @param {Object} [options]
      * @returns {Node}
      * @private
      */
@@ -151,6 +163,7 @@ define( function( require ) {
     /**
      * returns a scenery Node of the cake plate with grid and white background
      * @param {number} numberOfCells
+     * @param {Object} [options]
      * @returns {Node}
      * @private
      */
