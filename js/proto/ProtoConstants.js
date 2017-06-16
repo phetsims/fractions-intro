@@ -14,6 +14,9 @@ define( function( require ) {
 
   return fractionsIntro.register( 'ProtoConstants', {
     // @public {Range} - Possible number of active containers
-    CONTAINER_RANGE: new Range( 1, 6 )
+    MAX_RANGE: new Range( 1, 6 ),
+
+    // @public {Range}
+    DENOMINATOR_RANGE: new Range( 1, 8 )
   } );
 } );

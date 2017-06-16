@@ -19,7 +19,7 @@ define( function( require ) {
    * @extends {Object}
    */
   function ContainerSet() {
-    this.containers = _.range( 0, ProtoConstants.CONTAINER_RANGE ).map( function() {
+    this.containers = _.range( 0, ProtoConstants.MAX_RANGE ).map( function() {
       return new Container();
     } );
   }
