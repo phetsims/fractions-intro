@@ -87,25 +87,37 @@ define( function( require ) {
       } );
     };
 
-    // add listener to container sets
-    containerSet.updatedContainersEmitter.addListener( function() {
-      containerSet.containers.forEach( function( container, containerIndex ) {
-        container.fractionProperty.value = container.getFraction();
-        container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
-                                                              (containerIndex -
-                                                               (containerSet.containers.length - 1) / 2), 260 );
 
-        var cellHeight = options.beakerHeight / container.denominatorProperty.value;
+    var containerSetListener =
+      function() {
+        containerSet.containers.forEach( function( container, containerIndex ) {
+          container.fractionProperty.value = container.getFraction();
+          container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
+                                                                (containerIndex -
+                                                                 (containerSet.containers.length - 1) / 2), 260 );
 
-        container.cells.forEach( function( cell, cellIndex ) {
+          var cellHeight = options.beakerHeight / container.denominatorProperty.value;
 
-          // offset the position of the fill to match the cell Height
-          cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
-            options.beakerHeight - cellHeight * (cellIndex + 1) );
+          container.cells.forEach( function( cell, cellIndex ) {
+
+            // offset the position of the fill to match the cell Height
+            cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
+              options.beakerHeight - cellHeight * (cellIndex + 1) );
+          } );
         } );
-      } );
-      self.displayContainers();
-    } );
+        self.displayContainers();
+      };
+
+
+    // add listener to container sets
+    containerSet.updatedContainersEmitter.addListener( containerSetListener );
+
+
+    // @private
+    this.disposeBeakerNode = function() {
+      containerSet.updatedContainersEmitter.removeListener( containerSetListener );
+    };
+
     containerSet.updatedContainersEmitter.emit();
 
     // needs to be called once or the beginning state of the containers will not be displayed
