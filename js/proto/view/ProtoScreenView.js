@@ -144,6 +144,7 @@ define( function( require ) {
     this.addChild( new ResetAllButton( {
       listener: function() {
         model.reset();
+        showingCirclesProperty.reset();
       },
       right: this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10

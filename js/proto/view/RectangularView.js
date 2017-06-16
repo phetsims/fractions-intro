@@ -9,68 +9,26 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var arrayRemove = require( 'PHET_CORE/arrayRemove' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
+  var ProtoSceneView = require( 'FRACTIONS_INTRO/proto/view/ProtoSceneView' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/proto/view/RectangularContainerNode' );
 
   /**
    * @constructor
-   * @extends {HBox}
+   * @extends {ProtoSceneView}
    *
    * @param {ProtoModel} model
    */
   function RectangularView( model ) {
-    // @private
-    this.model = model;
-
-    HBox.call( this, {
-      spacing: 30
-    } );
-
-    // @private {Array.<RectangularContainerNode>}
-    this.containerNodes = [];
-
-    // @private {function}
-    this.addListener = this.addContainer.bind( this );
-    this.removeListener = this.removeContainer.bind( this );
-
-    model.containers.addItemAddedListener( this.addListener );
-    model.containers.addItemRemovedListener( this.removeListener );
-
-    // Initial setup
-    model.containers.forEach( this.addListener );
+    ProtoSceneView.call( this, model );
   }
 
   fractionsIntro.register( 'RectangularView', RectangularView );
 
-  return inherit( HBox, RectangularView, {
-    addContainer: function( container ) {
-      var containerNode = new RectangularContainerNode( container );
-
-      this.containerNodes.push( containerNode );
-      this.addChild( containerNode );
-    },
-    removeContainer: function( container ) {
-      var containerNode = _.find( this.containerNodes, function( containerNode ) {
-        return containerNode.container === container;
-      } );
-
-      this.removeChild( containerNode );
-      arrayRemove( this.containerNodes, containerNode );
-
-      containerNode.dispose();
-    },
-    dispose: function() {
-      _.each( this.containerNodes, function( containerNode ) {
-        containerNode.dispose();
-      } );
-
-      this.model.containers.removeItemAddedListener( this.addListener );
-      this.model.containers.removeItemRemovedListener( this.removeListener );
-
-      HBox.prototype.dispose.call( this );
+  return inherit( ProtoSceneView, RectangularView, {
+    createContainerNode: function( container ) {
+      return new RectangularContainerNode( container );
     }
   } );
 } );
