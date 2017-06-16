@@ -228,8 +228,8 @@ define( function( require ) {
         }
       } ) );
 
-      markerCircle.mouseArea = markerCircle.bounds.dilated( 15 );
-      markerCircle.touchArea = markerCircle.bounds.dilated( 15 );
+      markerCircle.mouseArea = markerCircle.localBounds.dilated( 15 );
+      markerCircle.touchArea = markerCircle.localBounds.dilated( 15 );
     }
 
     // Specify the children to be rendered with this node
@@ -243,7 +243,6 @@ define( function( require ) {
       markerArrow,
       markerCircle ];
     Node.call( this, options );
-
 
     // @private called by dispose
     this.disposeNumberLineNode = function() {
