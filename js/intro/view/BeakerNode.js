@@ -263,5 +263,14 @@ define( function( require ) {
 
   fractionsIntro.register( 'BeakerNode', BeakerNode );
 
-  return inherit( Node, BeakerNode, {} );
+  return inherit( Node, BeakerNode, {
+    /**
+     * disposes of links & listeners
+     * @public
+     */
+    dispose: function() {
+      this.disposeBeakerNode();
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );

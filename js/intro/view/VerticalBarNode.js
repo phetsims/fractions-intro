@@ -136,10 +136,15 @@ define( function( require ) {
     // needs to be called once or the beginning state of the containers will not be displayed
     this.displayContainers();
 
-    // add listener to container sets
-    containerSet.updatedContainersEmitter.addListener( function() {
+    var containerSetListener = function() {
       self.displayContainers();
-    } );
+    };
+    // add listener to container sets
+    containerSet.updatedContainersEmitter.addListener( containerSetListener );
+
+    this.disposeVerticalBarNode = function() {
+      containerSet.updatedContainersEmitter.removeListener( containerSetListener );
+    };
   }
 
   fractionsIntro.register( 'VerticalBarNode', VerticalBarNode );
@@ -173,7 +178,7 @@ define( function( require ) {
 
       containerNode.setChildren( [ droppedShadowRectangle, cellRectangle ] );
 
-      denominatorProperty.link( function( denominator ) {
+      var denominatorPropertyListener = function( denominator ) {
         var cellHeight = CONTAINER_HEIGHT / denominator;
 
         // adjust height of the rectangles
@@ -183,9 +188,23 @@ define( function( require ) {
         // center the cells vertically
         cellRectangle.centerY = 0;
         droppedShadowRectangle.centerY = dropShadowOffset;
-      } );
+      };
+
+      denominatorProperty.link( denominatorPropertyListener );
+
+      containerNode.disposeVerticalBarPiece = function() {
+        denominatorProperty.unlink( denominatorPropertyListener );
+      };
 
       return containerNode;
+    },
+    /**
+     * disposes of links & listeners
+     * @public
+     */
+    dispose: function() {
+      this.disposeVerticalBarNode();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );

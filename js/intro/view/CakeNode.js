@@ -102,7 +102,7 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeCakeNode = function() {
-      containerSet.updatedContainersEmitter.removeInputListener( updateCakesDisplay );
+      containerSet.updatedContainersEmitter.removeListener( updateCakesDisplay );
     };
 
     this.mutate( options );
@@ -113,10 +113,12 @@ define( function( require ) {
   return inherit( Node, CakeNode, {
 
     /**
+     * disposes of links & listeners
      * @public
      */
     dispose: function() {
       this.disposeCakeNode();
+      Node.prototype.dispose.call( this );
     },
 
     /**
