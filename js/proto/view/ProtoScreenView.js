@@ -10,14 +10,18 @@ define( function( require ) {
 
   // modules
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var RectangularToggleButton = require( 'SUN/buttons/RectangularToggleButton' );
   var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -145,11 +149,29 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } ) );
 
-    var rectangularView = new RectangularView( model );
-    this.addChild( new AlignBox( rectangularView, {
+    var viewContainer = new Node();
+
+    this.addChild( new AlignBox( viewContainer, {
       alignBounds: this.layoutBounds,
       yAlign: 'top',
       topMargin: 50
+    } ) );
+
+    var currentView = null;
+    var showingCirclesProperty = new BooleanProperty( false );
+    showingCirclesProperty.link( function( showCircles ) {
+      if ( currentView ) {
+        viewContainer.removeChild( currentView );
+        currentView.dispose();
+      }
+      currentView = showCircles ? new CircularView( model ) : new RectangularView( model );
+      viewContainer.addChild( currentView );
+    } );
+
+    this.addChild( new RectangularToggleButton( false, true, showingCirclesProperty, {
+      content: new Text( 'Toggle Scene', { font: new PhetFont( 20 ) } ),
+      centerX: this.layoutBounds.centerX,
+      bottom: this.layoutBounds.bottom - 10
     } ) );
   }
 

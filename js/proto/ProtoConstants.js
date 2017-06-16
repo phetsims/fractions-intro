@@ -20,7 +20,10 @@ define( function( require ) {
     // @public {Range}
     DENOMINATOR_RANGE: new Range( 1, 8 ),
 
+    // @public {Dimension2}
+    RECTANGULAR_SIZE: new Dimension2( 50, 200 ),
+
     // @public {number}
-    RECTANGULAR_SIZE: new Dimension2( 50, 200 )
+    CIRCULAR_RADIUS: 60
   } );
 } );

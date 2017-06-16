@@ -19,7 +19,6 @@ define( function( require ) {
    * @extends {Rectangle}
    *
    * @param {number} denominator
-   * @param {boolean} isFilled
    */
   function RectangleNode( denominator ) {
     Rectangle.call( this, {
