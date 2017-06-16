@@ -19,7 +19,7 @@ define( function( require ) {
    *
    * @param {number} index
    */
-  function Cell( index ) {
+  function ProtoCell( index ) {
     // @public {number}
     this.index = index;
 
@@ -28,9 +28,12 @@ define( function( require ) {
 
     // @public {Property.<boolean>}
     this.appearsFilledProperty = new BooleanProperty( false );
+
+    //TODO: not always true, remove
+    this.isFilledProperty.linkAttribute( this.appearsFilledProperty, 'value' );
   }
 
-  fractionsIntro.register( 'Cell', Cell );
+  fractionsIntro.register( 'ProtoCell', ProtoCell );
 
-  return inherit( Object, Cell );
+  return inherit( Object, ProtoCell );
 } );

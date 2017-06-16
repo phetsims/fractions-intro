@@ -90,7 +90,7 @@ define( function( require ) {
       return ( max + 1 ) <= ProtoConstants.MAX_RANGE.max;
     } );
     var canDecreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( max - 1 ) >= ProtoConstants.MAX_RANGE.min;
+      return ( max - 1 ) >= ProtoConstants.MAX_RANGE.min && numerator / denominator <= ( max - 1 );
     } );
 
     var numeratorSpinner = createTempSpinner( model.numeratorProperty, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
