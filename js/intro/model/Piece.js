@@ -85,7 +85,7 @@ define( function( require ) {
         // sets the value of the cellFrom to null
         self.cellFromProperty.value = null;
       }
-    });
+    } );
   }
 
   fractionsIntro.register( 'Piece', Piece );
@@ -146,34 +146,23 @@ define( function( require ) {
       // distance to the final position
       var distance = finalPosition.distance( initialPosition );
 
-      if ( distance > 0 ) {
-        var animationTween = new TWEEN.Tween( location )
-          .to( { x: finalPosition.x, y: finalPosition.y },
-            distance * 5 )
-          .easing( TWEEN.Easing.Cubic.InOut )
-          .onUpdate( function() {
-            self.positionProperty.value = new Vector2( location.x, location.y );
-          } )
-          .onComplete( function() {
+      var animationTween = new TWEEN.Tween( location )
+        .to( { x: finalPosition.x, y: finalPosition.y },
+          distance * 5 )
+        .easing( TWEEN.Easing.Cubic.InOut )
+        .onUpdate( function() {
+          self.positionProperty.value = new Vector2( location.x, location.y );
+        } )
+        .onComplete( function() {
 
-            options.onComplete();
+          options.onComplete();
 
-            // the piece can be removed from the pieces observable array
-            self.reachedDestinationEmitter.emit();
-          } );
+          // the piece can be removed from the pieces observable array
+          self.reachedDestinationEmitter.emit();
+        } );
 
-        animationTween.start( phet.joist.elapsedTime );
-      }
-      else {
-
-        // for cases where the distance is zero
-
-        //  optional call back
-        options.onComplete();
-
-        // the piece can be removed from the pieces observable array
-        self.reachedDestinationEmitter.emit();
-      }
+      animationTween.start( phet.joist.elapsedTime );
     }
+
   } );
 } );
