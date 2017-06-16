@@ -50,20 +50,26 @@ define( function( require ) {
     model.maxProperty.linkAttribute( maxText, 'text' );
 
     function createTempSpinner( property, upEnabledProperty, downEnabledProperty ) {
-      var upButton = new RectangularPushButton( {
+      var buttonOptions = {
+        fireOnHold: true,
+        fireOnHoldDelay: 400,
+        fireOnHoldInterval: 200
+      };
+
+      var upButton = new RectangularPushButton( _.extend( {
         content: new Text( 'up', { font: new PhetFont( 15 ) } ),
         listener: function() {
           property.value += 1;
         }
-      } );
+      }, buttonOptions ) );
       upEnabledProperty.linkAttribute( upButton, 'enabled' );
 
-      var downButton = new RectangularPushButton( {
+      var downButton = new RectangularPushButton( _.extend( {
         content: new Text( 'down', { font: new PhetFont( 15 ) } ),
         listener: function() {
           property.value -= 1;
         }
-      } );
+      }, buttonOptions ) );
       downEnabledProperty.linkAttribute( downButton, 'enabled' );
 
       return new VBox( {
