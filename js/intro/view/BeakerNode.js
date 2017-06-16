@@ -63,20 +63,25 @@ define( function( require ) {
     // function for displaying the containers
     this.displayContainers = function() {
 
+      // dispose of links from prior beaker nodes
+      if ( setOfBeakerNode.hasChildren() ) {
+        var beakerArray = setOfBeakerNode.getChildren();
+        beakerArray.forEach( function( beakerNode ) {
+          beakerNode.disposeBeakerNode();
+        } );
+      }
       setOfBeakerNode.removeAllChildren();
 
       // loop over all the containers in the container set
       containerSet.containers.forEach( function( container ) {
 
-        var containerNode = new Node();
 
         // creates a new beakerNode to display on screen
         var containerBeakerNode = new createBeakerNode( container, options );
 
         containerBeakerNode.center = container.positionProperty.value;
 
-        containerNode.addChild( containerBeakerNode );
-        setOfBeakerNode.addChild( containerNode );
+        setOfBeakerNode.addChild( containerBeakerNode );
 
       } );
     };
@@ -152,7 +157,7 @@ define( function( require ) {
         fill: EMPTY_BEAKER_COLOR
       }
     );
-    container.fractionProperty.link( function( fraction ) {
+    var liquidHeightListener = function( fraction ) {
       // middle layer
       // updates how 'full' beaker is when fraction is changed
       var height = fraction * options.beakerHeight;
@@ -175,7 +180,8 @@ define( function( require ) {
         beakerContainer.addChild( liquidInBeaker );
         beakerContainer.addChild( liquidTop );
       }
-    } );
+    };
+    container.fractionProperty.link( liquidHeightListener );
 
     // top layer
     // front of the beaker and tick mark
@@ -197,7 +203,7 @@ define( function( require ) {
     var tickLayer = new Node();
 
     // updates ticks when denominator is changed
-    container.denominatorProperty.link( function( denominator ) {
+    var denominatorPropertyListener = function( denominator ) {
 
       var minorTickLocation = [];
 
@@ -226,12 +232,21 @@ define( function( require ) {
 
       tickLayer.setChildren( tickNodes );
 
-    } );
+    };
+
+    container.denominatorProperty.link( denominatorPropertyListener );
 
     // add children to scene graph. z order matters here.
-    return new Node( {
+    var beakerNode = new Node( {
       children: [ emptyBeakerBackside, emptyBeakerBottom, beakerContainer, beakerFront, tickLayer ]
     } );
+
+    beakerNode.disposeBeakerNode = function() {
+      container.fractionProperty.unlink( liquidHeightListener );
+      container.denominatorProperty.unlink( denominatorPropertyListener );
+    };
+
+    return beakerNode;
 
   };
 
