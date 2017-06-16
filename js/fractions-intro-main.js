@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var IntroScreen = require( 'FRACTIONS_INTRO/intro/IntroScreen' );
+  var ProtoScreen = require( 'FRACTIONS_INTRO/proto/ProtoScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
@@ -29,7 +30,10 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
-    var sim = new Sim( fractionsIntroTitleString, [ new IntroScreen() ], simOptions );
+    var sim = new Sim( fractionsIntroTitleString, [
+      new IntroScreen(),
+      new ProtoScreen()
+    ], simOptions );
     sim.start();
   } );
 } );

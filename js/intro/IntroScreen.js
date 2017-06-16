@@ -22,6 +22,7 @@ define( function( require ) {
   function IntroScreen() {
 
     var options = {
+      name: 'Intro', // TODO: remove temporary name when proto goes away
       backgroundColorProperty: new Property( 'white' )
     };
 
