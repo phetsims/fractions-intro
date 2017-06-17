@@ -25,6 +25,9 @@ define( function( require ) {
     this.denominator = denominator;
 
     // @public {Property.<ProtoCell|null>}
+    this.originCellProperty = new Property( null );
+
+    // @public {Property.<ProtoCell|null>}
     this.destinationCellProperty = new Property( null );
   }
 

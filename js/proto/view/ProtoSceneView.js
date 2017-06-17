@@ -97,6 +97,15 @@ define( function( require ) {
       } );
     },
 
+    getCellCenter: function( cell ) {
+      var containerNode = _.find( this.containerNodes, function( containerNode ) {
+        return containerNode.container === cell.container;
+      } );
+      //TODO: proper coordinate transform
+      var matrix = containerNode.getUniqueTrail().getMatrixTo( this.pieceLayer.getUniqueTrail() );
+      return matrix.timesVector2( containerNode.getCenterByIndex( cell.index ) );
+    },
+
     onPieceAdded: function( piece ) {
       var self = this;
 
@@ -106,21 +115,21 @@ define( function( require ) {
           self.model.completePiece( piece );
         } );
 
+        var originCell = piece.originCellProperty.value;
+        if ( originCell ) {
+          pieceNode.originProperty.value = this.getCellCenter( originCell );
+        }
+        else {
+          pieceNode.originProperty.value = this.bucket.centerTop;
+        }
+
         var destinationCell = piece.destinationCellProperty.value;
         if ( destinationCell ) {
-          var containerNode = _.find( this.containerNodes, function( containerNode ) {
-            return containerNode.container === destinationCell.container;
-          } );
-          //TODO: proper coordinate transform
-          var matrix = containerNode.getUniqueTrail().getMatrixTo( self.pieceLayer.getUniqueTrail() );
-          pieceNode.destinationProperty.value = matrix.timesVector2( containerNode.getCenterByIndex( destinationCell.index ) );
+          pieceNode.destinationProperty.value = this.getCellCenter( destinationCell );
         }
         else {
           pieceNode.destinationProperty.value = this.bucket.centerTop;
         }
-
-        // TODO: how to set other origins properly
-        pieceNode.originProperty.value = this.bucket.centerTop;
 
         this.pieceNodes.push( pieceNode );
         this.pieceLayer.addChild( pieceNode );

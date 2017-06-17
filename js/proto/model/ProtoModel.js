@@ -118,7 +118,14 @@ define( function( require ) {
           }
 
           cell.empty();
-          //TODO: animate piece?
+
+          // TODO: when to animate?
+          if ( !targetedPiece ) {
+            var newPiece = new ProtoPiece( this.denominatorProperty.value );
+            newPiece.originCellProperty.value = cell;
+            this.pieces.push( newPiece );
+          }
+
           return;
         }
       }
