@@ -64,9 +64,13 @@ define( function( require ) {
     } );
 
     // @public
+    var initialOffset;
     this.dragListener = new SimpleDragHandler( {
-      translate: function( options ) {
-        self.translate( options.delta );
+      start: function( event ) {
+        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
+      },
+      drag: function( event ) {
+        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
       },
       end: function() {
         droppedCallback( piece );

@@ -60,6 +60,11 @@ define( function( require ) {
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
 
+    var originCell = piece.originCellProperty.value;
+    if ( originCell ) {
+      this.rotation = originCell.index * 2 * Math.PI / this.piece.denominator;
+    }
+
     this.originProperty.lazyLink( function( origin ) {
       self.ratio = 0;
       self.setMidpoint( origin );
@@ -70,9 +75,13 @@ define( function( require ) {
     } );
 
     // @public
+    var initialOffset;
     this.dragListener = new SimpleDragHandler( {
-      translate: function( options ) {
-        self.translate( options.delta );
+      start: function( event ) {
+        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
+      },
+      drag: function( event ) {
+        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
       },
       end: function() {
         droppedCallback( piece );
@@ -106,8 +115,10 @@ define( function( require ) {
       else {
         // rotate before centering
         var destinationCell = this.piece.destinationCellProperty.value;
-        var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;
+
         var originRotation = this.originRotation;
+        var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;
+
         // Hack to get closest rotation
         if ( targetRotation - originRotation > Math.PI ) {
           targetRotation -= 2 * Math.PI;

@@ -65,6 +65,7 @@ define( function( require ) {
       cell.empty();
 
       var piece = new ProtoPiece( this.denominatorProperty.value );
+      piece.originCellProperty.value = cell;
       this.pieces.push( piece );
       return piece;
     },
