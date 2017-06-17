@@ -102,8 +102,6 @@ define( function( require ) {
 
     step: function( dt ) {
       if ( this.isUserControlledProperty.value ) {
-        // TODO: rotate to the closest
-
         return;
       }
 

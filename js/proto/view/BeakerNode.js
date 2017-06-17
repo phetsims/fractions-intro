@@ -71,19 +71,23 @@ define( function( require ) {
     var bucketBottom = new Path( bucketBottomShape, {
       stroke: 'grey',
       fill: EMPTY_BEAKER_COLOR,
-      lineWidth: 2
+      lineWidth: 2,
+      pickable: false
     } );
     var waterSide = new Path( waterSideShape, {
       stroke: 'black',
       fill: WATER_SIDE_COLOR,
-      lineWidth: 2
+      lineWidth: 2,
+      pickable: false
     } );
     var waterTop = new Path( waterTopShape, {
-      fill: WATER_TOP_COLOR
+      fill: WATER_TOP_COLOR,
+      pickable: false
     } );
     var ticks = new Path( ticksShape, {
       stroke: 'black',
-      lineWidth: 2
+      lineWidth: 2,
+      pickable: false
     } );
 
     Node.call( this, {

@@ -299,7 +299,7 @@ define( function( require ) {
 
     /**
      * For manually changing the numerator, where we have already applied the action to be taken manually.
-     * @private
+     * @public
      *
      * This is in contrast to automatic changes (from spinners?) where we still have yet to take the actions to make our
      * state match internally.

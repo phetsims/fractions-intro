@@ -12,6 +12,7 @@ define( function( require ) {
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
   var BeakerContainerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerContainerNode' );
+  var BeakerPieceNode = require( 'FRACTIONS_INTRO/proto/view/BeakerPieceNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -55,12 +56,13 @@ define( function( require ) {
     this.addListener = this.addContainer.bind( this );
     this.removeListener = this.removeContainer.bind( this );
     this.pieceAddedListener = this.onPieceAdded.bind( this );
-    this.pieceRemovedListener = this.onPieceRemoved.bind( this );
+    this.clearListener = this.onClearChange.bind( this );
 
     model.containers.addItemAddedListener( this.addListener );
     model.containers.addItemRemovedListener( this.removeListener );
     model.pieces.addItemAddedListener( this.pieceAddedListener );
-    model.pieces.addItemRemovedListener( this.pieceRemovedListener );
+    model.denominatorProperty.lazyLink( this.clearListener );
+    model.maxProperty.lazyLink( this.clearListener );
 
     // Initial setup
     model.containers.forEach( this.addListener );
@@ -83,7 +85,7 @@ define( function( require ) {
     this.bucket.addChild( bucketLabel );
     this.bucket.addInputListener( {
       down: function( event ) {
-        self.onBucketDragStart( event );
+        self.startBeakerDrag( event );
       }
     } );
 
@@ -102,93 +104,82 @@ define( function( require ) {
 
   return inherit( Node, BeakerView, {
     step: function( dt ) {
-      // nothing?
+      _.each( this.pieceNodes.slice(), function( pieceNode ) {
+        if ( !pieceNode.isUserControlledProperty.value ) {
+          pieceNode.step( dt );
+        }
+      } );
+    },
+
+    onClearChange: function() {
+      this.pieceLayer.interruptSubtreeInput();
+      this.pieceLayer.removeAllChildren();
+      this.pieceNodes = [];
     },
 
     onPieceAdded: function( piece ) {
-      // var self = this;
-
-      // //TODO: support on all
-      // if ( this.createPieceNode ) {
-      //   var pieceNode = this.createPieceNode( piece, function() {
-      //     self.model.completePiece( piece );
-      //   }, function() {
-      //     var currentMidpoint = pieceNode.getMidpoint();
-
-      //     var closestCell = self.getClosestCell( currentMidpoint, 100 );
-
-      //     pieceNode.isUserControlledProperty.value = false;
-      //     pieceNode.originProperty.value = currentMidpoint;
-
-      //     if ( closestCell ) {
-      //       pieceNode.destinationProperty.value = self.getCellMidpoint( closestCell );
-      //       self.model.targetPieceToCell( piece, closestCell );
-      //     }
-      //     else {
-      //       pieceNode.destinationProperty.value = self.bucket.centerTop;
-      //     }
-      //   } );
-
-      //   var originCell = piece.originCellProperty.value;
-      //   if ( originCell ) {
-      //     pieceNode.originProperty.value = this.getCellMidpoint( originCell );
-      //   }
-      //   else {
-      //     pieceNode.originProperty.value = this.bucket.centerTop;
-      //   }
-
-      //   var destinationCell = piece.destinationCellProperty.value;
-      //   if ( destinationCell ) {
-      //     pieceNode.destinationProperty.value = this.getCellMidpoint( destinationCell );
-      //   }
-      //   else {
-      //     pieceNode.destinationProperty.value = this.bucket.centerTop;
-      //   }
-
-      //   this.pieceNodes.push( pieceNode );
-      //   this.pieceLayer.addChild( pieceNode );
-      // }
-      // else {
-      //   this.model.completePiece( piece );
-      // }
+      this.model.completePiece( piece ); // don't animate pieces
     },
 
-    onPieceRemoved: function( piece ) {
-      // //TODO: support on all
-      // if ( this.createPieceNode ) {
-      //   var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
-      //     return pieceNode.piece === piece;
-      //   } );
-      //   arrayRemove( this.pieceNodes, pieceNode );
-      //   this.pieceLayer.removeChild( pieceNode );
-      // }
+    onBeakerDropped: function( pieceNode ) {
+      var self = this;
+
+      var closestContainer = null;
+      var closestDistance = 150;
+
+      _.each( this.containerNodes, function( containerNode ) {
+        var matrix = containerNode.getUniqueTrail().getMatrixTo( self.pieceLayer.getUniqueTrail() );
+        var position = matrix.timesVector2( containerNode.localBounds.center );
+        var distance = pieceNode.center.distance( position );
+        var container = containerNode.container;
+
+        if ( distance < closestDistance && container.getNextEmptyCell() ) {
+          closestContainer = containerNode.container;
+          closestDistance = distance;
+        }
+      } );
+
+      if ( closestContainer ) {
+        this.model.changeNumeratorManually( 1 );
+        closestContainer.getNextEmptyCell().fill();
+
+        arrayRemove( this.pieceNodes, pieceNode );
+        this.pieceLayer.removeChild( pieceNode );
+      }
+      else {
+        pieceNode.originProperty.value = pieceNode.center;
+        pieceNode.destinationProperty.value = this.bucket.centerTop;
+        pieceNode.isUserControlledProperty.value = false;
+      }
     },
 
-    onBucketDragStart: function( event ) {
-      // var piece = this.model.grabFromBucket();
-      // var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
-      //   return pieceNode.piece === piece;
-      // } );
+    startBeakerDrag: function( event ) {
+      var self = this;
 
-      // pieceNode.originProperty.value = this.globalToLocalPoint( event.pointer.point );
-      // pieceNode.isUserControlledProperty.value = true;
-      // pieceNode.dragListener.startDrag( event );
+      var pieceNode = new BeakerPieceNode( this.model.denominatorProperty.value, function( pieceNode ) {
+        arrayRemove( self.pieceNodes, pieceNode );
+        self.pieceLayer.removeChild( pieceNode );
+        pieceNode.dispose();
+      }, this.onBeakerDropped.bind( this ) );
+      this.pieceNodes.push( pieceNode );
+      this.pieceLayer.addChild( pieceNode );
+
+      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.center = pieceNode.globalToParentPoint( event.pointer.point );
+      pieceNode.dragListener.startDrag( event );
     },
 
-    onExistingCellDragStart: function( cell, event ) {
-      // var piece = this.model.grabCell( cell );
-      // var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
-      //   return pieceNode.piece === piece;
-      // } );
-
-      // pieceNode.originProperty.value = this.getCellMidpoint( cell );
-      // pieceNode.isUserControlledProperty.value = true;
-      // pieceNode.dragListener.startDrag( event );
+    onExistingCellDragStart: function( container, event ) {
+      this.model.changeNumeratorManually( -1 );
+      container.getNextFilledCell().empty();
+      this.startBeakerDrag( event );
     },
 
     addContainer: function( container ) {
-      var containerNode = new BeakerContainerNode( container, function() {
-        console.log( 'down' );
+      var self = this;
+
+      var containerNode = new BeakerContainerNode( container, function( event ) {
+        self.onExistingCellDragStart( container, event );
       } );
 
       this.containerNodes.push( containerNode );
@@ -212,7 +203,8 @@ define( function( require ) {
       this.model.containers.removeItemAddedListener( this.addListener );
       this.model.containers.removeItemRemovedListener( this.removeListener );
       this.model.pieces.removeItemAddedListener( this.pieceAddedListener );
-      this.model.pieces.removeItemRemovedListener( this.pieceRemovedListener );
+      this.model.denominatorProperty.unlink( this.clearListener );
+      this.model.maxProperty.unlink( this.clearListener );
 
       Node.prototype.dispose.call( this );
     }

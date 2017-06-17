@@ -45,13 +45,32 @@ define( function( require ) {
       ];
     } );
 
+    // @private
+    this.cursorListener = this.updateCursor.bind( this );
+
+    container.filledCellCountProperty.link( this.cursorListener );
+
+    this.addInputListener( {
+      down: function( event ) {
+        if ( container.filledCellCountProperty.value > 0 ) {
+          cellDownCallback( event );
+        }
+      }
+    } );
+
   }
 
   fractionsIntro.register( 'BeakerContainerNode', BeakerContainerNode );
 
   return inherit( Node, BeakerContainerNode, {
+    updateCursor: function() {
+      this.cursor = this.container.filledCellCountProperty.value > 0 ? 'pointer' : null;
+    },
+
     dispose: function() {
-      // TODO:?
+      this.multilink.dispose();
+
+      this.container.filledCellCountProperty.unlink( this.cursorListener );
 
       Node.prototype.dispose.call( this );
     }
