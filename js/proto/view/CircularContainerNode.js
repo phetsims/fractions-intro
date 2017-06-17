@@ -54,8 +54,10 @@ define( function( require ) {
   fractionsIntro.register( 'CircularContainerNode', CircularContainerNode );
 
   return inherit( Circle, CircularContainerNode, {
-    getCenterByIndex: function( index ) {
-      return this.cellNodes[ index ].center;
+    getMidpointByIndex: function( index ) {
+      var node = this.cellNodes[ index ];
+
+      return node.translation.plus( node.midpointOffset );
     },
 
     rebuild: function() {

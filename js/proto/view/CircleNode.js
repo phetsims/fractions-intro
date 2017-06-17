@@ -14,6 +14,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
@@ -38,6 +39,9 @@ define( function( require ) {
       stroke: 'black',
       lineWidth: 2
     } );
+
+    // @public {Vector2}
+    this.midpointOffset = denominator === 1 ? Vector2.ZERO : Vector2.createPolar( ProtoConstants.CIRCULAR_RADIUS / 2, ( startAngle + endAngle ) / 2 );
   }
 
   fractionsIntro.register( 'CircleNode', CircleNode );

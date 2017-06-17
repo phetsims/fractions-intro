@@ -38,9 +38,12 @@ define( function( require ) {
     // @private {function}
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
+    // @private TODO note more than just node, has midpointOffset variable
+    this.graphic = new CircleNode( piece.denominator, 0 );
+
     Node.call( this, {
       children: [
-        new CircleNode( piece.denominator, 0 )
+        this.graphic
       ]
     } );
 
@@ -59,7 +62,7 @@ define( function( require ) {
 
     this.originProperty.lazyLink( function( origin ) {
       self.ratio = 0;
-      self.center = origin;
+      self.setMidpoint( origin );
       self.originRotation = self.rotation;
     } );
     this.destinationProperty.lazyLink( function() {
@@ -80,6 +83,14 @@ define( function( require ) {
   fractionsIntro.register( 'CircularPieceNode', CircularPieceNode );
 
   return inherit( Node, CircularPieceNode, {
+    getMidpoint: function() {
+      return this.localToParentPoint( this.graphic.midpointOffset );
+    },
+
+    setMidpoint: function( midpoint ) {
+      this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
+    },
+
     step: function( dt ) {
       if ( this.isUserControlledProperty.value ) {
         // TODO: rotate to the closest
@@ -93,15 +104,18 @@ define( function( require ) {
         this.finishedAnimatingCallback();
       }
       else {
+        // rotate before centering
         var destinationCell = this.piece.destinationCellProperty.value;
-        if ( destinationCell ) {
-          var targetRotation = destinationCell.index * 2 * Math.PI / this.piece.denominator;
-          // TODO: pick closest rotation
-          this.rotation = ( 1 - this.ratio ) * this.originRotation + this.ratio * targetRotation;
+        var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;
+        var originRotation = this.originRotation;
+        // Hack to get closest rotation
+        if ( targetRotation - originRotation > Math.PI ) {
+          targetRotation -= 2 * Math.PI;
         }
+        this.rotation = ( 1 - this.ratio ) * this.originRotation + this.ratio * targetRotation;
 
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
-        this.center = this.originProperty.value.blend( this.destinationProperty.value, easedRatio );
+        this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
 

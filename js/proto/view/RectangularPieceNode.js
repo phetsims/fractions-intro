@@ -36,9 +36,12 @@ define( function( require ) {
     // @private {function}
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
+    // @private TODO note more than just node, has midpointOffset variable
+    this.graphic = new RectangleNode( piece.denominator );
+
     Node.call( this, {
       children: [
-        new RectangleNode( piece.denominator )
+        this.graphic
       ]
     } );
 
@@ -54,7 +57,7 @@ define( function( require ) {
 
     this.originProperty.lazyLink( function( origin ) {
       self.ratio = 0;
-      self.center = origin;
+      self.setMidpoint( origin );
     } );
     this.destinationProperty.lazyLink( function() {
       self.ratio = 0;
@@ -74,6 +77,14 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularPieceNode', RectangularPieceNode );
 
   return inherit( Node, RectangularPieceNode, {
+    getMidpoint: function() {
+      return this.localToParentPoint( this.graphic.midpointOffset );
+    },
+
+    setMidpoint: function( midpoint ) {
+      this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
+    },
+
     step: function( dt ) {
       if ( this.isUserControlledProperty.value ) {
         return;
@@ -86,7 +97,7 @@ define( function( require ) {
       }
       else {
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
-        this.center = this.originProperty.value.blend( this.destinationProperty.value, easedRatio );
+        this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
 

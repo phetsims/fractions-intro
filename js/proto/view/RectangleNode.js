@@ -28,6 +28,9 @@ define( function( require ) {
       stroke: 'black',
       lineWidth: 2
     } );
+
+    // @public {Vector2}
+    this.midpointOffset = this.center;
   }
 
   fractionsIntro.register( 'RectangleNode', RectangleNode );

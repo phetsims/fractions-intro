@@ -54,8 +54,10 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularContainerNode', RectangularContainerNode );
 
   return inherit( Rectangle, RectangularContainerNode, {
-    getCenterByIndex: function( index ) {
-      return this.cellNodes[ index ].center;
+    getMidpointByIndex: function( index ) {
+      var node = this.cellNodes[ index ];
+
+      return node.translation.plus( node.midpointOffset );
     },
 
     rebuild: function() {

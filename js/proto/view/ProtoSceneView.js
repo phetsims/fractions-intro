@@ -106,13 +106,13 @@ define( function( require ) {
       } );
     },
 
-    getCellCenter: function( cell ) {
+    getCellMidpoint: function( cell ) {
       var containerNode = _.find( this.containerNodes, function( containerNode ) {
         return containerNode.container === cell.container;
       } );
       //TODO: proper coordinate transform
       var matrix = containerNode.getUniqueTrail().getMatrixTo( this.pieceLayer.getUniqueTrail() );
-      return matrix.timesVector2( containerNode.getCenterByIndex( cell.index ) );
+      return matrix.timesVector2( containerNode.getMidpointByIndex( cell.index ) );
     },
 
     onPieceAdded: function( piece ) {
@@ -123,15 +123,15 @@ define( function( require ) {
         var pieceNode = this.createPieceNode( piece, function() {
           self.model.completePiece( piece );
         }, function() {
-          var currentCenter = pieceNode.center;
+          var currentMidpoint = pieceNode.getMidpoint();
 
           var closestCell = null;
           var closestDistance = 100; // TODO: document threshold
           self.model.containers.forEach( function( container ) {
             container.cells.forEach( function( cell ) {
               if ( !cell.isFilledProperty.value ) {
-                var center = self.getCellCenter( cell );
-                var distance = center.distance( currentCenter );
+                var midpoint = self.getCellMidpoint( cell );
+                var distance = midpoint.distance( currentMidpoint );
                 if ( distance < closestDistance ) {
                   closestDistance = distance;
                   closestCell = cell;
@@ -141,10 +141,10 @@ define( function( require ) {
           } );
 
           pieceNode.isUserControlledProperty.value = false;
-          pieceNode.originProperty.value = currentCenter;
+          pieceNode.originProperty.value = currentMidpoint;
 
           if ( closestCell ) {
-            pieceNode.destinationProperty.value = self.getCellCenter( closestCell );
+            pieceNode.destinationProperty.value = self.getCellMidpoint( closestCell );
             self.model.targetPieceToCell( piece, closestCell );
           }
           else {
@@ -154,7 +154,7 @@ define( function( require ) {
 
         var originCell = piece.originCellProperty.value;
         if ( originCell ) {
-          pieceNode.originProperty.value = this.getCellCenter( originCell );
+          pieceNode.originProperty.value = this.getCellMidpoint( originCell );
         }
         else {
           pieceNode.originProperty.value = this.bucket.centerTop;
@@ -162,7 +162,7 @@ define( function( require ) {
 
         var destinationCell = piece.destinationCellProperty.value;
         if ( destinationCell ) {
-          pieceNode.destinationProperty.value = this.getCellCenter( destinationCell );
+          pieceNode.destinationProperty.value = this.getCellMidpoint( destinationCell );
         }
         else {
           pieceNode.destinationProperty.value = this.bucket.centerTop;
@@ -204,7 +204,7 @@ define( function( require ) {
         return pieceNode.piece === piece;
       } );
 
-      pieceNode.originProperty.value = this.getCellCenter( cell );
+      pieceNode.originProperty.value = this.getCellMidpoint( cell );
       pieceNode.isUserControlledProperty.value = true;
       pieceNode.dragListener.startDrag( event );
     },

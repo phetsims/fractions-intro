@@ -159,7 +159,7 @@ define( function( require ) {
 
     // @private TODO doc
     this.currentView = null;
-    var showingCirclesProperty = new BooleanProperty( false );
+    var showingCirclesProperty = new BooleanProperty( true );
     showingCirclesProperty.link( function( showCircles ) {
       // Finish all animations
       model.completeAllPieces();
