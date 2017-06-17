@@ -20,74 +20,109 @@ define( function( require ) {
    * @extends {Object}
    */
   function ProtoContainer() {
+    var self = this;
+
     // @public {ObservableArray.<ProtoCell>}
     this.cells = new ObservableArray();
 
-    // @public {Property.<boolean>} TODO: better way?
+    // @public {Property.<boolean>}
     this.filledCellCountProperty = new NumberProperty( 0 );
+
+    function fillChange( filled ) {
+      if ( filled ) {
+        self.filledCellCountProperty.value += 1;
+      }
+      else {
+        self.filledCellCountProperty.value -= 1;
+      }
+    }
+
+    // When a cell is added, listen to when its fill changes
+    this.cells.addItemAddedListener( function( cell ) {
+      // If it's already filled, increment
+      if ( cell.isFilledProperty.value ) {
+        self.filledCellCountProperty.value += 1;
+      }
+      cell.isFilledProperty.lazyLink( fillChange );
+    } );
+
+    // When a cell is removed, stop listening to its fill changes
+    this.cells.addItemRemovedListener( function( cell ) {
+      cell.isFilledProperty.unlink( fillChange );
+
+      // If it's filled, decrement
+      if ( cell.isFilledProperty.value ) {
+        self.filledCellCountProperty.value -= 1;
+      }
+    } );
   }
 
   fractionsIntro.register( 'ProtoContainer', ProtoContainer );
 
   return inherit( Object, ProtoContainer, {
+    /**
+     * Adds a certain number of empty cells.
+     * @public
+     *
+     * @param {number} quantity
+     */
     addCells: function( quantity ) {
       var self = this;
       _.times( quantity, function() {
         self.cells.push( new ProtoCell() );
       } );
     },
+
+    /**
+     * Removes a certain number of cells, attempting to redistribute any filled ones to empty cells.
+     * @public
+     *
+     * @param {number} quantity
+     * @returns {number} - The number of filled cells removed that couldn't be handled by filling another empty cell.
+     */
     removeCells: function( quantity ) {
+      var self = this;
       var removedCount = 0;
 
-      while ( quantity > 0 ) {
-        var lastCell = this.cells.get( this.cells.length - 1 );
-        // TODO: removing cell, do something to get rid of a value?
-        if ( lastCell.isFilledProperty.value ) {
-          this.filledCellCountProperty.value -= 1;
+      _.times( quantity, function() {
+        var removedCell = self.cells.pop();
 
-          if ( this.hasEmptyCell() ) {
-            this.fillNextCell();
+        // If the removed cell is filled, we need to find another cell to fill
+        if ( removedCell.isFilledProperty.value ) {
+          var cell = self.getNextEmptyCell();
+
+          if ( cell ) {
+            cell.fill();
           }
           else {
             removedCount++;
           }
         }
-        this.cells.pop();
-        quantity -= 1;
-      }
+      } );
 
       return removedCount;
     },
-    hasEmptyCell: function() {
-      return _.some( this.cells.getArray(), function( cell ) {
-        return !cell.isFilledProperty.value;
-      } );
-    },
-    hasFilledCell: function() {
-      return _.some( this.cells.getArray(), function( cell ) {
-        return cell.isFilledProperty.value;
-      } );
-    },
-    fillNextCell: function() {
+
+    // {ProtoCell|null}
+    getNextEmptyCell: function() {
       for ( var i = 0; i < this.cells.length; i++ ) {
         var cell = this.cells.get( i );
         if ( !cell.isFilledProperty.value ) {
-          cell.isFilledProperty.value = true;
-          this.filledCellCountProperty.value += 1;
-          return;
+          return cell;
         }
       }
+      return null;
     },
-    emptyNextCell: function() {
+
+    // {ProtoCell|null}
+    getNextFilledCell: function() {
       for ( var i = this.cells.length - 1; i >= 0; i-- ) {
         var cell = this.cells.get( i );
         if ( cell.isFilledProperty.value ) {
-          cell.isFilledProperty.value = false;
-          this.filledCellCountProperty.value -= 1;
-          //TODO: interrupt animation? (link up somewhere)
-          return;
+          return cell;
         }
       }
+      return null;
     }
   } );
 } );

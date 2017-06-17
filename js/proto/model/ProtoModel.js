@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var ProtoPiece = require( 'FRACTIONS_INTRO/proto/model/ProtoPiece' );
 
   /**
    * @constructor
@@ -32,6 +33,12 @@ define( function( require ) {
     // @public {ObservableArray.<ProtoContainer>}
     this.containers = new ObservableArray();
 
+    // @private {boolean}
+    this.changingManually = false;
+
+    // @public {ObservableArray.<ProtoPiece>}
+    this.pieces = new ObservableArray();
+
     var initialContainer = new ProtoContainer();
     initialContainer.addCells( this.denominatorProperty.value );
     this.containers.push( initialContainer );
@@ -44,27 +51,85 @@ define( function( require ) {
   fractionsIntro.register( 'ProtoModel', ProtoModel );
 
   return inherit( Object, ProtoModel, {
+    // @returns a piece with the reference
+    grabCell: function( cell ) {
+      this.changeNumeratorManually( -1 );
+      cell.empty();
+
+      var piece = new ProtoPiece();
+      this.pieces.push( piece );
+      return piece;
+    },
+
+    targetPieceToCell: function( piece, cell ) {
+      assert && assert( piece.destinationCellProperty.value === null );
+
+      this.changeNumeratorManually( 1 );
+      cell.targetWithPiece( piece );
+    },
+
+    untargetPiece: function( piece ) {
+      assert && assert( piece.destinationCellProperty.value !== null );
+
+      this.changeNumeratorManually( -1 );
+      piece.destinationCellProperty.value.untargetFromPiece( piece );
+    },
+
+    completePiece: function( piece ) {
+      var destinationCell = piece.destinationCellProperty.value;
+      if ( destinationCell ) {
+        destinationCell.fillWithPiece( piece );
+      }
+      this.pieces.remove( piece );
+    },
+
+    completeAllPieces: function() {
+      while ( this.pieces.length ) {
+        this.completePiece( this.pieces.get( 0 ) );
+      }
+    },
+
     fillNextCell: function() {
+      var piece = new ProtoPiece();
+      this.pieces.push( piece );
+
       for ( var i = 0; i < this.containers.length; i++ ) {
         var container = this.containers.get( i );
-        if ( container.hasEmptyCell() ) {
-          container.fillNextCell();
+        var cell = container.getNextEmptyCell();
+
+        if ( cell ) {
+          cell.targetWithPiece( piece );
           return;
         }
       }
+
+      throw new Error( 'could not fill a cell' );
     },
 
     emptyNextCell: function() {
       for ( var i = this.containers.length - 1; i >= 0; i-- ) {
         var container = this.containers.get( i );
-        if ( container.hasFilledCell() ) {
-          container.emptyNextCell();
+
+        var cell = container.getNextFilledCell();
+        if ( cell ) {
+          // If something was animating to this cell, finish the animation first
+          var targetedPiece = cell.targetedPieceProperty.value;
+          if ( targetedPiece ) {
+            this.completePiece( targetedPiece );
+          }
+
+          cell.empty();
           return;
         }
       }
+
+      throw new Error( 'could not empty a cell' );
     },
 
     onMaxChange: function( newMax, oldMax ) {
+      // So we don't have to worry about animating to different places
+      this.completeAllPieces();
+
       var self = this;
       var change = Math.abs( newMax - oldMax );
       _.times( change, function() {
@@ -83,6 +148,11 @@ define( function( require ) {
     },
 
     onNumeratorChange: function( newNumerator, oldNumerator ) {
+      // Ignore changes to this if the user made a manual change
+      if ( this.changingManually ) {
+        return;
+      }
+
       var self = this;
       var change = Math.abs( newNumerator - oldNumerator );
       _.times( change, function() {
@@ -96,6 +166,9 @@ define( function( require ) {
     },
 
     onDenominatorChange: function( newDenominator, oldDenominator ) {
+      // So we don't have to worry about animating to different places
+      this.completeAllPieces();
+
       var self = this;
       var change = Math.abs( newDenominator - oldDenominator );
       if ( newDenominator > oldDenominator ) {
@@ -112,6 +185,12 @@ define( function( require ) {
           self.fillNextCell();
         } );
       }
+    },
+
+    changeNumeratorManually: function( delta ) {
+      this.changingManually = true;
+      this.numeratorProperty.value += delta;
+      this.changingManually = false;
     },
 
     /**

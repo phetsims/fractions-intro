@@ -161,6 +161,9 @@ define( function( require ) {
     var currentView = null;
     var showingCirclesProperty = new BooleanProperty( false );
     showingCirclesProperty.link( function( showCircles ) {
+      // Finish all animations
+      model.completeAllPieces();
+
       if ( currentView ) {
         viewContainer.removeChild( currentView );
         currentView.dispose();
