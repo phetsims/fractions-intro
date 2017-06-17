@@ -19,8 +19,6 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  var ANIMATION_DURATION = 0.5;
-
   /**
    * @constructor
    * @extends {Node}
@@ -81,7 +79,8 @@ define( function( require ) {
         return;
       }
 
-      this.ratio = Math.min( 1, this.ratio + dt / ANIMATION_DURATION );
+      // Smaller animations are somewhat faster
+      this.ratio = Math.min( 1, this.ratio + dt * 20 / Math.sqrt( this.originProperty.value.distance( this.destinationProperty.value ) ) );
       if ( this.ratio === 1 ) {
         this.finishedAnimatingCallback();
       }

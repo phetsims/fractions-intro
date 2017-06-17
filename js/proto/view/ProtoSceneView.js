@@ -29,6 +29,9 @@ define( function( require ) {
    * @param {ProtoModel} model
    */
   function ProtoSceneView( model ) {
+
+    var self = this;
+
     // @private
     this.model = model;
 
@@ -79,7 +82,7 @@ define( function( require ) {
     this.bucket.addChild( bucketLabel );
     this.bucket.addInputListener( {
       down: function( event ) {
-
+        self.onBucketDragStart( event );
       }
     } );
 
@@ -123,14 +126,16 @@ define( function( require ) {
           var currentCenter = pieceNode.center;
 
           var closestCell = null;
-          var closestDistance = 50; // TODO: document threshold
+          var closestDistance = 100; // TODO: document threshold
           self.model.containers.forEach( function( container ) {
             container.cells.forEach( function( cell ) {
-              var center = self.getCellCenter( cell );
-              var distance = center.distance( currentCenter );
-              if ( distance < closestDistance ) {
-                closestDistance = distance;
-                closestCell = cell;
+              if ( !cell.isFilledProperty.value ) {
+                var center = self.getCellCenter( cell );
+                var distance = center.distance( currentCenter );
+                if ( distance < closestDistance ) {
+                  closestDistance = distance;
+                  closestCell = cell;
+                }
               }
             } );
           } );
@@ -182,24 +187,34 @@ define( function( require ) {
       }
     },
 
+    onBucketDragStart: function( event ) {
+      var piece = this.model.grabFromBucket();
+      var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
+        return pieceNode.piece === piece;
+      } );
+
+      pieceNode.originProperty.value = this.globalToLocalPoint( event.pointer.point );
+      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.dragListener.startDrag( event );
+    },
+
+    onExistingCellDragStart: function( cell, event ) {
+      var piece = this.model.grabCell( cell );
+      var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
+        return pieceNode.piece === piece;
+      } );
+
+      pieceNode.originProperty.value = this.getCellCenter( cell );
+      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.dragListener.startDrag( event );
+    },
+
     createContainerNode: function( container, cellDownCallback ) {
       throw new Error( 'abstract method' );
     },
 
     addContainer: function( container ) {
-      var self = this;
-
-      // TODO: own function?
-      var containerNode = this.createContainerNode( container, function( cell, event ) {
-        var piece = self.model.grabCell( cell );
-        var pieceNode = _.find( self.pieceNodes, function( pieceNode ) {
-          return pieceNode.piece === piece;
-        } );
-
-        pieceNode.originProperty.value = self.getCellCenter( cell );
-        pieceNode.isUserControlledProperty.value = true;
-        pieceNode.dragListener.startDrag( event );
-      } );
+      var containerNode = this.createContainerNode( container, this.onExistingCellDragStart.bind( this ) );
 
       this.containerNodes.push( containerNode );
       this.containerLayer.addChild( containerNode );
