@@ -56,7 +56,7 @@ define( function( require ) {
       this.changeNumeratorManually( -1 );
       cell.empty();
 
-      var piece = new ProtoPiece();
+      var piece = new ProtoPiece( this.denominatorProperty.value );
       this.pieces.push( piece );
       return piece;
     },
@@ -90,15 +90,14 @@ define( function( require ) {
     },
 
     fillNextCell: function() {
-      var piece = new ProtoPiece();
-      this.pieces.push( piece );
-
       for ( var i = 0; i < this.containers.length; i++ ) {
         var container = this.containers.get( i );
         var cell = container.getNextEmptyCell();
 
         if ( cell ) {
+          var piece = new ProtoPiece( this.denominatorProperty.value );
           cell.targetWithPiece( piece );
+          this.pieces.push( piece );
           return;
         }
       }
@@ -119,6 +118,7 @@ define( function( require ) {
           }
 
           cell.empty();
+          //TODO: animate piece?
           return;
         }
       }

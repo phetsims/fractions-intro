@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ProtoSceneView = require( 'FRACTIONS_INTRO/proto/view/ProtoSceneView' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/proto/view/RectangularContainerNode' );
+  var RectangularPieceNode = require( 'FRACTIONS_INTRO/proto/view/RectangularPieceNode' );
 
   /**
    * @constructor
@@ -29,6 +30,10 @@ define( function( require ) {
   return inherit( ProtoSceneView, RectangularView, {
     createContainerNode: function( container ) {
       return new RectangularContainerNode( container );
+    },
+
+    createPieceNode: function( piece, finishedAnimatingCallback ) {
+      return new RectangularPieceNode( piece, finishedAnimatingCallback );
     }
   } );
 } );

@@ -13,6 +13,9 @@
     "requirejsNamespace": "FRACTIONS_INTRO",
     "preload": [
       "../sherpa/lib/Tween-r12.js"
+    ],
+    "phetLibs": [
+      "twixt"
     ]
   }
 }

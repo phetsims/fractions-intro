@@ -16,8 +16,13 @@ define( function( require ) {
   /**
    * @constructor
    * @extends {Object}
+   *
+   * @param {number} denominator
    */
-  function ProtoPiece() {
+  function ProtoPiece( denominator ) {
+
+    // @private {number}
+    this.denominator = denominator;
 
     // @public {Property.<ProtoCell|null>}
     this.destinationCellProperty = new Property( null );

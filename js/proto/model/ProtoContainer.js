@@ -69,7 +69,7 @@ define( function( require ) {
     addCells: function( quantity ) {
       var self = this;
       _.times( quantity, function() {
-        self.cells.push( new ProtoCell() );
+        self.cells.push( new ProtoCell( self.cells.length ) );
       } );
     },
 

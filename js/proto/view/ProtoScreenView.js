@@ -36,6 +36,8 @@ define( function( require ) {
    */
   function ProtoScreenView( model ) {
 
+    var self = this;
+
     ScreenView.call( this );
 
     // @private {ProtoModel}
@@ -158,18 +160,19 @@ define( function( require ) {
       topMargin: 50
     } ) );
 
-    var currentView = null;
+    // @private TODO doc
+    this.currentView = null;
     var showingCirclesProperty = new BooleanProperty( false );
     showingCirclesProperty.link( function( showCircles ) {
       // Finish all animations
       model.completeAllPieces();
 
-      if ( currentView ) {
-        viewContainer.removeChild( currentView );
-        currentView.dispose();
+      if ( self.currentView ) {
+        viewContainer.removeChild( self.currentView );
+        self.currentView.dispose();
       }
-      currentView = showCircles ? new CircularView( model ) : new RectangularView( model );
-      viewContainer.addChild( currentView );
+      self.currentView = showCircles ? new CircularView( model ) : new RectangularView( model );
+      viewContainer.addChild( self.currentView );
     } );
 
     this.addChild( new RectangularToggleButton( false, true, showingCirclesProperty, {
@@ -181,5 +184,9 @@ define( function( require ) {
 
   fractionsIntro.register( 'ProtoScreenView', ProtoScreenView );
 
-  return inherit( ScreenView, ProtoScreenView );
+  return inherit( ScreenView, ProtoScreenView, {
+    step: function( dt ) {
+      this.currentView.step( dt );
+    }
+  } );
 } );
