@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Contains up to N cells, where N is the denominator. Represents up to N/N (N cells of 1/N each).
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -25,9 +25,10 @@ define( function( require ) {
     // @public {ObservableArray.<ProtoCell>}
     this.cells = new ObservableArray();
 
-    // @public {Property.<boolean>}
+    // @public {Property.<boolean>} - How many cells are logically filled?
     this.filledCellCountProperty = new NumberProperty( 0 );
 
+    // Called when a fill property changes
     function fillChange( filled ) {
       if ( filled ) {
         self.filledCellCountProperty.value += 1;
@@ -87,7 +88,7 @@ define( function( require ) {
       _.times( quantity, function() {
         var removedCell = self.cells.pop();
 
-        // If the removed cell is filled, we need to find another cell to fill
+        // If the removed cell is filled, we want to find another cell to fill
         if ( removedCell.isFilledProperty.value ) {
           var cell = self.getNextEmptyCell();
 
@@ -103,8 +104,14 @@ define( function( require ) {
       return removedCount;
     },
 
-    // {ProtoCell|null}
+    /**
+     * Finds the next empty cell (looking at the smallest indices first).
+     * @public
+     *
+     * @returns {ProtoCell|null}
+     */
     getNextEmptyCell: function() {
+      // forwards order
       for ( var i = 0; i < this.cells.length; i++ ) {
         var cell = this.cells.get( i );
         if ( !cell.isFilledProperty.value ) {
@@ -114,8 +121,14 @@ define( function( require ) {
       return null;
     },
 
-    // {ProtoCell|null}
+    /**
+     * Finds the next filled cell (looking at the largest indices first).
+     * @public
+     *
+     * @returns {ProtoCell|null}
+     */
     getNextFilledCell: function() {
+      // backwards order
       for ( var i = this.cells.length - 1; i >= 0; i-- ) {
         var cell = this.cells.get( i );
         if ( cell.isFilledProperty.value ) {

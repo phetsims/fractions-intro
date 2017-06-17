@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Represents a floating piece that is not in a cell.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -21,13 +21,14 @@ define( function( require ) {
    */
   function ProtoPiece( denominator ) {
 
-    // @private {number}
+    // @private {number} - If the denominator would ever change, this piece would just cease to exist.
     this.denominator = denominator;
 
-    // @public {Property.<ProtoCell|null>}
+    // @public {Property.<ProtoCell|null>} - Where this piece started
     this.originCellProperty = new Property( null );
 
-    // @public {Property.<ProtoCell|null>}
+    // @public {Property.<ProtoCell|null>} - Where this piece will end up. If set to a cell, it will change the cell
+    //                                       appearance when the piece goes away.
     this.destinationCellProperty = new Property( null );
   }
 
