@@ -107,7 +107,10 @@ define( function( require ) {
         pieceNode.step( dt );
 
         if ( pieceNode.isUserControlledProperty.value ) {
-          pieceNode.orient( self.getClosestCell( pieceNode.getMidpoint() ), dt );
+          var closestCell = self.getClosestCell( pieceNode.getMidpoint() );
+          if ( closestCell ) {
+            pieceNode.orient( closestCell, dt );
+          }
         }
       } );
     },
