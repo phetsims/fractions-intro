@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IntroScreen = require( 'FRACTIONS_INTRO/intro/IntroScreen' );
+  // var IntroScreen = require( 'FRACTIONS_INTRO/intro/IntroScreen' );
   var ProtoScreen = require( 'FRACTIONS_INTRO/proto/ProtoScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
