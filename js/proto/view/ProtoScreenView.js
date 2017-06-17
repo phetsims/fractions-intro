@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BeakerView = require( 'FRACTIONS_INTRO/proto/view/BeakerView' );
   var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -169,6 +170,10 @@ define( function( require ) {
       {
         value: Representation.VERTICAL_BAR,
         node: new Text( 'VBar', { font: new PhetFont( 14 ) } )
+      },
+      {
+        value: Representation.BEAKER,
+        node: new Text( 'Beaker', { font: new PhetFont( 14 ) } )
       }
     ], {
       centerX: this.layoutBounds.centerX,
@@ -190,6 +195,9 @@ define( function( require ) {
       }
       else if ( representation === Representation.VERTICAL_BAR ) {
         self.currentView = new RectangularView( model );
+      }
+      else if ( representation === Representation.BEAKER ) {
+        self.currentView = new BeakerView( model );
       }
       if ( self.currentView ) {
         viewContainer.addChild( self.currentView );
