@@ -89,15 +89,20 @@ define( function( require ) {
       }
     },
 
-    fillNextCell: function() {
+    fillNextCell: function( animate ) {
       for ( var i = 0; i < this.containers.length; i++ ) {
         var container = this.containers.get( i );
         var cell = container.getNextEmptyCell();
 
         if ( cell ) {
-          var piece = new ProtoPiece( this.denominatorProperty.value );
-          cell.targetWithPiece( piece );
-          this.pieces.push( piece );
+          if ( animate ) {
+            var piece = new ProtoPiece( this.denominatorProperty.value );
+            cell.targetWithPiece( piece );
+            this.pieces.push( piece );
+          }
+          else {
+            cell.fill();
+          }
           return;
         }
       }
@@ -105,7 +110,7 @@ define( function( require ) {
       throw new Error( 'could not fill a cell' );
     },
 
-    emptyNextCell: function() {
+    emptyNextCell: function( animate ) {
       for ( var i = this.containers.length - 1; i >= 0; i-- ) {
         var container = this.containers.get( i );
 
@@ -120,7 +125,7 @@ define( function( require ) {
           cell.empty();
 
           // TODO: when to animate?
-          if ( !targetedPiece ) {
+          if ( animate && !targetedPiece ) {
             var newPiece = new ProtoPiece( this.denominatorProperty.value );
             newPiece.originCellProperty.value = cell;
             this.pieces.push( newPiece );
@@ -148,7 +153,7 @@ define( function( require ) {
         else {
           var removedCount = self.containers.pop().filledCellCountProperty.value;
           _.times( removedCount, function() {
-            self.fillNextCell();
+            self.fillNextCell( false );
           } );
         }
       } );
@@ -164,10 +169,10 @@ define( function( require ) {
       var change = Math.abs( newNumerator - oldNumerator );
       _.times( change, function() {
         if ( newNumerator > oldNumerator ) {
-          self.fillNextCell();
+          self.fillNextCell( true );
         }
         else {
-          self.emptyNextCell();
+          self.emptyNextCell( true );
         }
       } );
     },
@@ -189,7 +194,7 @@ define( function( require ) {
           removedCount += container.removeCells( change );
         } );
         _.times( removedCount, function() {
-          self.fillNextCell();
+          self.fillNextCell( false );
         } );
       }
     },
