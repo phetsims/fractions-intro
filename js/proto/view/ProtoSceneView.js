@@ -9,12 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * @constructor
@@ -57,9 +61,28 @@ define( function( require ) {
     // Initial setup
     model.containers.forEach( this.addListener );
 
+    // @private
+    this.bucket = new Rectangle( {
+      rectWidth: 300,
+      rectHeight: 100,
+      centerX: 0,
+      centerY: 100,
+      fill: 'rgb(200,200,200)',
+      stroke: 'black'
+    } );
+    var bucketLabel = new Text( 'Definitely a bucket', {
+      font: new PhetFont( 30 ),
+      center: this.bucket.localBounds.center,
+      pickable: false
+    } );
+    this.bucket.addChild( bucketLabel );
+
     Node.call( this, {
       children: [
-        this.containerLayer,
+        this.bucket,
+        new AlignBox( this.containerLayer, {
+          alignBounds: Bounds2.point( 0, -150 )
+        } ),
         this.pieceLayer
       ]
     } );
@@ -73,6 +96,7 @@ define( function( require ) {
         pieceNode.step( dt );
       } );
     },
+
     onPieceAdded: function( piece ) {
       var self = this;
 
@@ -81,8 +105,23 @@ define( function( require ) {
         var pieceNode = this.createPieceNode( piece, function() {
           self.model.completePiece( piece );
         } );
-        pieceNode.originProperty.value = new Vector2( 0, 200 );
-        pieceNode.destinationProperty.value = new Vector2( 0, 0 );
+
+        var destinationCell = piece.destinationCellProperty.value;
+        if ( destinationCell ) {
+          var containerNode = _.find( this.containerNodes, function( containerNode ) {
+            return containerNode.container === destinationCell.container;
+          } );
+          //TODO: proper coordinate transform
+          var matrix = containerNode.getUniqueTrail().getMatrixTo( self.pieceLayer.getUniqueTrail() );
+          pieceNode.destinationProperty.value = matrix.timesVector2( containerNode.getCenterByIndex( destinationCell.index ) );
+        }
+        else {
+          pieceNode.destinationProperty.value = this.bucket.centerTop;
+        }
+
+        // TODO: how to set other origins properly
+        pieceNode.originProperty.value = this.bucket.centerTop;
+
         this.pieceNodes.push( pieceNode );
         this.pieceLayer.addChild( pieceNode );
       }

@@ -34,7 +34,8 @@ define( function( require ) {
     Rectangle.call( this, {
       rectWidth: ProtoConstants.RECTANGULAR_SIZE.width,
       rectHeight: ProtoConstants.RECTANGULAR_SIZE.height,
-      stroke: this.strokeProperty
+      stroke: this.strokeProperty,
+      lineWidth: 3
     } );
 
     // @private {function}
@@ -49,6 +50,10 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularContainerNode', RectangularContainerNode );
 
   return inherit( Rectangle, RectangularContainerNode, {
+    getCenterByIndex: function( index ) {
+      return this.cellNodes[ index ].center;
+    },
+
     rebuild: function() {
       this.removeCellNodes();
 

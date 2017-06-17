@@ -25,7 +25,8 @@ define( function( require ) {
       rectWidth: ProtoConstants.RECTANGULAR_SIZE.width,
       rectHeight: ProtoConstants.RECTANGULAR_SIZE.height / denominator,
       fill: 'red',
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: 2
     } );
   }
 

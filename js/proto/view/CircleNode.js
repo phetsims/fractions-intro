@@ -35,7 +35,8 @@ define( function( require ) {
 
     Path.call( this, shape, {
       fill: 'blue',
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: 2
     } );
   }
 

@@ -18,9 +18,13 @@ define( function( require ) {
    * @constructor
    * @extends {Object}
    *
+   * @param {ProtoContainer} container
    * @param {number} index
    */
-  function ProtoCell( index ) {
+  function ProtoCell( container, index ) {
+    // @public {ProtoContainer}
+    this.container = container;
+
     // @public {number}
     this.index = index;
 

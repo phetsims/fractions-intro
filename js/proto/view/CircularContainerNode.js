@@ -34,7 +34,8 @@ define( function( require ) {
     } );
 
     Circle.call( this, ProtoConstants.CIRCULAR_RADIUS, {
-      stroke: this.strokeProperty
+      stroke: this.strokeProperty,
+      lineWidth: 3
     } );
 
     // @private {function}
@@ -49,6 +50,10 @@ define( function( require ) {
   fractionsIntro.register( 'CircularContainerNode', CircularContainerNode );
 
   return inherit( Circle, CircularContainerNode, {
+    getCenterByIndex: function( index ) {
+      return this.cellNodes[ index ].center;
+    },
+
     rebuild: function() {
       this.removeCellNodes();
 

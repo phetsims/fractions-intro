@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -59,7 +58,7 @@ define( function( require ) {
       var buttonOptions = {
         fireOnHold: true,
         fireOnHoldDelay: 400,
-        fireOnHoldInterval: 200
+        fireOnHoldInterval: 100
       };
 
       var upButton = new RectangularPushButton( _.extend( {
@@ -152,13 +151,11 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } ) );
 
-    var viewContainer = new Node();
+    var viewContainer = new Node( {
+      translation: this.layoutBounds.center
+    } );
 
-    this.addChild( new AlignBox( viewContainer, {
-      alignBounds: this.layoutBounds,
-      yAlign: 'top',
-      topMargin: 50
-    } ) );
+    this.addChild( viewContainer );
 
     // @private TODO doc
     this.currentView = null;
