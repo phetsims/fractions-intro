@@ -32,8 +32,8 @@ define( function( require ) {
       return new RectangularContainerNode( container, cellDownCallback );
     },
 
-    createPieceNode: function( piece, finishedAnimatingCallback ) {
-      return new RectangularPieceNode( piece, finishedAnimatingCallback );
+    createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
+      return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
     }
   } );
 } );

@@ -16,6 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var RectangleNode = require( 'FRACTIONS_INTRO/proto/view/RectangleNode' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
   var ANIMATION_DURATION = 0.5;
@@ -26,8 +27,9 @@ define( function( require ) {
    *
    * @param {ProtoPiece} piece
    * @param {function} finishedAnimatingCallback - Called as function( {ProtoPiece} ) with the piece to finish animating.
+   * @param {function} droppedCallback - Called as function( {ProtoPiece} )
    */
-  function RectangularPieceNode( piece, finishedAnimatingCallback ) {
+  function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
     var self = this;
 
     // @private {ProtoPiece}
@@ -58,6 +60,16 @@ define( function( require ) {
     } );
     this.destinationProperty.lazyLink( function() {
       self.ratio = 0;
+    } );
+
+    // @public
+    this.dragListener = new SimpleDragHandler( {
+      translate: function( options ) {
+        self.translate( options.delta );
+      },
+      end: function() {
+        droppedCallback( piece );
+      }
     } );
   }
 

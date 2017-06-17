@@ -119,6 +119,32 @@ define( function( require ) {
       if ( this.createPieceNode ) {
         var pieceNode = this.createPieceNode( piece, function() {
           self.model.completePiece( piece );
+        }, function() {
+          var currentCenter = pieceNode.center;
+
+          var closestCell = null;
+          var closestDistance = 50; // TODO: document threshold
+          self.model.containers.forEach( function( container ) {
+            container.cells.forEach( function( cell ) {
+              var center = self.getCellCenter( cell );
+              var distance = center.distance( currentCenter );
+              if ( distance < closestDistance ) {
+                closestDistance = distance;
+                closestCell = cell;
+              }
+            } );
+          } );
+
+          pieceNode.isUserControlledProperty.value = false;
+          pieceNode.originProperty.value = currentCenter;
+
+          if ( closestCell ) {
+            pieceNode.destinationProperty.value = self.getCellCenter( closestCell );
+            self.model.targetPieceToCell( piece, closestCell );
+          }
+          else {
+            pieceNode.destinationProperty.value = self.bucket.centerTop;
+          }
         } );
 
         var originCell = piece.originCellProperty.value;
@@ -163,15 +189,16 @@ define( function( require ) {
     addContainer: function( container ) {
       var self = this;
 
+      // TODO: own function?
       var containerNode = this.createContainerNode( container, function( cell, event ) {
         var piece = self.model.grabCell( cell );
         var pieceNode = _.find( self.pieceNodes, function( pieceNode ) {
           return pieceNode.piece === piece;
         } );
 
-        // TODO: start the drag
         pieceNode.originProperty.value = self.getCellCenter( cell );
-        pieceNode.destinationProperty.value = self.bucket.centerTop;
+        pieceNode.isUserControlledProperty.value = true;
+        pieceNode.dragListener.startDrag( event );
       } );
 
       this.containerNodes.push( containerNode );
