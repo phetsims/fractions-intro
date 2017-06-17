@@ -28,8 +28,8 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularView', RectangularView );
 
   return inherit( ProtoSceneView, RectangularView, {
-    createContainerNode: function( container ) {
-      return new RectangularContainerNode( container );
+    createContainerNode: function( container, cellDownCallback ) {
+      return new RectangularContainerNode( container, cellDownCallback );
     },
 
     createPieceNode: function( piece, finishedAnimatingCallback ) {

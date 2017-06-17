@@ -23,10 +23,14 @@ define( function( require ) {
    * TODO: factor out common things with RectangularContainerNode
    *
    * @param {ProtoContainer} container
+   * @param {function} cellDownCallback TODO doc, function( event )
    */
-  function CircularContainerNode( container ) {
+  function CircularContainerNode( container, cellDownCallback ) {
     // @private
     this.container = container;
+
+    // @private
+    this.cellDownCallback = cellDownCallback;
 
     // @private {Property.<string>} TODO factor out?
     this.strokeProperty = new DerivedProperty( [ container.filledCellCountProperty ], function( count ) {
@@ -55,19 +59,29 @@ define( function( require ) {
     },
 
     rebuild: function() {
+      var self = this;
+
       this.removeCellNodes();
 
       var denominator = this.container.cells.length;
       for ( var i = 0; i < denominator; i++ ) {
-        var cell = this.container.cells.get( i );
+        (function(){
+          var cell = self.container.cells.get( i );
 
-        var cellNode = new CircleNode( denominator, i );
-        this.cellNodes.push( cellNode );
-        this.addChild( cellNode );
+          var cellNode = new CircleNode( denominator, i );
+          self.cellNodes.push( cellNode );
+          self.addChild( cellNode );
+          cellNode.cursor = 'pointer';
+          cellNode.addInputListener( {
+            down: function( event ) {
+              self.cellDownCallback( cell, event );
+            }
+          } );
 
-        // TODO: don't do it this way
-        cellNode.cell = cell;
-        cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
+          // TODO: don't do it this way
+          cellNode.cell = cell;
+          cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
+        })();
       }
     },
 

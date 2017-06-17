@@ -21,10 +21,14 @@ define( function( require ) {
    * @extends {Rectangle}
    *
    * @param {ProtoContainer} container
+   * @param {function} cellDownCallback TODO doc, function( event )
    */
-  function RectangularContainerNode( container ) {
+  function RectangularContainerNode( container, cellDownCallback ) {
     // @private
     this.container = container;
+
+    // @private
+    this.cellDownCallback = cellDownCallback;
 
     // @private {Property.<string>}
     this.strokeProperty = new DerivedProperty( [ container.filledCellCountProperty ], function( count ) {
@@ -55,22 +59,32 @@ define( function( require ) {
     },
 
     rebuild: function() {
+      var self = this;
+
       this.removeCellNodes();
 
       var denominator = this.container.cells.length;
       for ( var i = 0; i < denominator; i++ ) {
-        var cell = this.container.cells.get( i );
+        (function(){
+          var cell = self.container.cells.get( i );
 
-        var cellNode = new RectangleNode( denominator );
-        this.cellNodes.push( cellNode );
-        this.addChild( cellNode );
+          var cellNode = new RectangleNode( denominator );
+          self.cellNodes.push( cellNode );
+          self.addChild( cellNode );
+          cellNode.cursor = 'pointer';
+          cellNode.addInputListener( {
+            down: function( event ) {
+              self.cellDownCallback( cell, event );
+            }
+          } );
 
-        var sortedIndex = denominator - i - 1;
-        cellNode.y = ProtoConstants.RECTANGULAR_SIZE.height * sortedIndex / denominator;
+          var sortedIndex = denominator - i - 1;
+          cellNode.y = ProtoConstants.RECTANGULAR_SIZE.height * sortedIndex / denominator;
 
-        // TODO: don't do it this way
-        cellNode.cell = cell;
-        cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
+          // TODO: don't do it this way
+          cellNode.cell = cell;
+          cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
+        })();
       }
     },
 

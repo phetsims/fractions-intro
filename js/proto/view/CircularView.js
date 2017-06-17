@@ -27,8 +27,8 @@ define( function( require ) {
   fractionsIntro.register( 'CircularView', CircularView );
 
   return inherit( ProtoSceneView, CircularView, {
-    createContainerNode: function( container ) {
-      return new CircularContainerNode( container );
+    createContainerNode: function( container, cellDownCallback ) {
+      return new CircularContainerNode( container, cellDownCallback );
     }
   } );
 } );

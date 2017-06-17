@@ -61,6 +61,13 @@ define( function( require ) {
       return piece;
     },
 
+    // @returns a piece with the reference
+    grabFromBucket: function() {
+      var piece = new ProtoPiece( this.denominatorProperty.value );
+      this.pieces.push( piece );
+      return piece;
+    },
+
     targetPieceToCell: function( piece, cell ) {
       assert && assert( piece.destinationCellProperty.value === null );
 

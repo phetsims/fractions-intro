@@ -68,7 +68,8 @@ define( function( require ) {
       centerX: 0,
       centerY: 100,
       fill: 'rgb(200,200,200)',
-      stroke: 'black'
+      stroke: 'black',
+      cursor: 'pointer'
     } );
     var bucketLabel = new Text( 'Definitely a bucket', {
       font: new PhetFont( 30 ),
@@ -76,6 +77,11 @@ define( function( require ) {
       pickable: false
     } );
     this.bucket.addChild( bucketLabel );
+    this.bucket.addInputListener( {
+      down: function( event ) {
+
+      }
+    } );
 
     Node.call( this, {
       children: [
@@ -150,12 +156,23 @@ define( function( require ) {
       }
     },
 
-    createContainerNode: function( container ) {
+    createContainerNode: function( container, cellDownCallback ) {
       throw new Error( 'abstract method' );
     },
 
     addContainer: function( container ) {
-      var containerNode = this.createContainerNode( container );
+      var self = this;
+
+      var containerNode = this.createContainerNode( container, function( cell, event ) {
+        var piece = self.model.grabCell( cell );
+        var pieceNode = _.find( self.pieceNodes, function( pieceNode ) {
+          return pieceNode.piece === piece;
+        } );
+
+        // TODO: start the drag
+        pieceNode.originProperty.value = self.getCellCenter( cell );
+        pieceNode.destinationProperty.value = self.bucket.centerTop;
+      } );
 
       this.containerNodes.push( containerNode );
       this.containerLayer.addChild( containerNode );
