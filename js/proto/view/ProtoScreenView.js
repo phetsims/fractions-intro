@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -19,9 +18,10 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var RectangularToggleButton = require( 'SUN/buttons/RectangularToggleButton' );
   var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
+  var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -147,7 +147,6 @@ define( function( require ) {
     this.addChild( new ResetAllButton( {
       listener: function() {
         model.reset();
-        showingCirclesProperty.reset();
       },
       right: this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
@@ -161,8 +160,23 @@ define( function( require ) {
 
     // @private TODO doc
     this.currentView = null;
-    var showingCirclesProperty = new BooleanProperty( true );
-    showingCirclesProperty.link( function( showCircles ) {
+
+    this.addChild( new RadioButtonGroup( model.representationProperty, [
+      {
+        value: Representation.CIRCLE,
+        node: new Text( 'Circle', { font: new PhetFont( 14 ) } )
+      },
+      {
+        value: Representation.VERTICAL_BAR,
+        node: new Text( 'VBar', { font: new PhetFont( 14 ) } )
+      }
+    ], {
+      centerX: this.layoutBounds.centerX,
+      bottom: this.layoutBounds.bottom - 10,
+      orientation: 'horizontal'
+    } ) );
+
+    model.representationProperty.link( function( representation ) {
       // Finish all animations
       model.completeAllPieces();
 
@@ -170,15 +184,17 @@ define( function( require ) {
         viewContainer.removeChild( self.currentView );
         self.currentView.dispose();
       }
-      self.currentView = showCircles ? new CircularView( model ) : new RectangularView( model );
-      viewContainer.addChild( self.currentView );
+      self.currentView = null;
+      if ( representation === Representation.CIRCLE ) {
+        self.currentView = new CircularView( model );
+      }
+      else if ( representation === Representation.VERTICAL_BAR ) {
+        self.currentView = new RectangularView( model );
+      }
+      if ( self.currentView ) {
+        viewContainer.addChild( self.currentView );
+      }
     } );
-
-    this.addChild( new RectangularToggleButton( false, true, showingCirclesProperty, {
-      content: new Text( 'Toggle Scene', { font: new PhetFont( 20 ) } ),
-      centerX: this.layoutBounds.centerX,
-      bottom: this.layoutBounds.bottom - 10
-    } ) );
   }
 
   fractionsIntro.register( 'ProtoScreenView', ProtoScreenView );

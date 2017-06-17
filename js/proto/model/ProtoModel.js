@@ -14,13 +14,18 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var Property = require( 'AXON/Property' );
   var ProtoPiece = require( 'FRACTIONS_INTRO/proto/model/ProtoPiece' );
+  var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
 
   /**
    * @constructor
    * @extends {Object}
    */
   function ProtoModel() {
+    // @public {Property.<Representation>}
+    this.representationProperty = new Property( Representation.CIRCLE );
+
     // @public {Property.<number>} - If a fraction is N/D, the numerator is the N
     this.numeratorProperty = new NumberProperty( 0 );
 
@@ -143,6 +148,7 @@ define( function( require ) {
       this.numeratorProperty.reset();
       this.denominatorProperty.reset();
       this.maxProperty.reset();
+      this.representationProperty.reset();
     },
 
     /**
