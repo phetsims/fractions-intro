@@ -51,7 +51,9 @@ define( function( require ) {
 
   return inherit( Node, BeakerContainerNode, {
     dispose: function() {
+      // TODO:?
 
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
