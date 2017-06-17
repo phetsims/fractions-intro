@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var CircularContainerNode = require( 'FRACTIONS_INTRO/proto/view/CircularContainerNode' );
+  var CircularPieceNode = require( 'FRACTIONS_INTRO/proto/view/CircularPieceNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ProtoSceneView = require( 'FRACTIONS_INTRO/proto/view/ProtoSceneView' );
@@ -29,6 +30,10 @@ define( function( require ) {
   return inherit( ProtoSceneView, CircularView, {
     createContainerNode: function( container, cellDownCallback ) {
       return new CircularContainerNode( container, cellDownCallback );
+    },
+
+    createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
+      return new CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
     }
   } );
 } );
