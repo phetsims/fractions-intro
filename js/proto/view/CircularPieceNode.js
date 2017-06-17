@@ -119,7 +119,7 @@ define( function( require ) {
         var originRotation = this.originRotation;
         var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;
 
-        // Hack to get closest rotation
+        // Hack to get closest rotation AND deduplicate this code
         if ( targetRotation - originRotation > Math.PI ) {
           targetRotation -= 2 * Math.PI;
         }
@@ -128,6 +128,28 @@ define( function( require ) {
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
+    },
+
+    orient: function( closestCell, dt ) {
+      var originRotation = this.rotation;
+      var targetRotation = closestCell.index * 2 * Math.PI / this.piece.denominator;
+
+      // Hack to get closest rotation AND deduplicate this code
+      if ( targetRotation - originRotation > Math.PI ) {
+        targetRotation -= 2 * Math.PI;
+      }
+
+      var midpoint = this.getMidpoint();
+
+      var rotationAmount = 5 * dt;
+      if ( targetRotation > originRotation ) {
+        this.rotation = Math.min( targetRotation, originRotation + rotationAmount );
+      }
+      else if ( targetRotation < originRotation ) {
+        this.rotation = Math.max( targetRotation, originRotation - rotationAmount );
+      }
+
+      this.setMidpoint( midpoint );
     },
 
     dispose: function() {

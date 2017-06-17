@@ -101,9 +101,36 @@ define( function( require ) {
 
   return inherit( Node, ProtoSceneView, {
     step: function( dt ) {
+      var self = this;
+
       _.each( this.pieceNodes.slice(), function( pieceNode ) {
         pieceNode.step( dt );
+
+        if ( pieceNode.isUserControlledProperty.value ) {
+          pieceNode.orient( self.getClosestCell( pieceNode.getMidpoint() ), dt );
+        }
       } );
+    },
+
+    // threshold optional
+    getClosestCell: function( midpoint, threshold ) {
+      var self = this;
+
+      var closestCell = null;
+      var closestDistance = threshold === undefined ? Number.POSITIVE_INFINITY : 100;
+      this.model.containers.forEach( function( container ) {
+        container.cells.forEach( function( cell ) {
+          if ( !cell.isFilledProperty.value ) {
+            var cellMidpoint = self.getCellMidpoint( cell );
+            var distance = cellMidpoint.distance( midpoint );
+            if ( distance < closestDistance ) {
+              closestDistance = distance;
+              closestCell = cell;
+            }
+          }
+        } );
+      } );
+      return closestCell;
     },
 
     getCellMidpoint: function( cell ) {
@@ -125,20 +152,7 @@ define( function( require ) {
         }, function() {
           var currentMidpoint = pieceNode.getMidpoint();
 
-          var closestCell = null;
-          var closestDistance = 100; // TODO: document threshold
-          self.model.containers.forEach( function( container ) {
-            container.cells.forEach( function( cell ) {
-              if ( !cell.isFilledProperty.value ) {
-                var midpoint = self.getCellMidpoint( cell );
-                var distance = midpoint.distance( currentMidpoint );
-                if ( distance < closestDistance ) {
-                  closestDistance = distance;
-                  closestCell = cell;
-                }
-              }
-            } );
-          } );
+          var closestCell = self.getClosestCell( currentMidpoint, 100 );
 
           pieceNode.isUserControlledProperty.value = false;
           pieceNode.originProperty.value = currentMidpoint;

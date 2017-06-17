@@ -105,6 +105,10 @@ define( function( require ) {
       }
     },
 
+    orient: function( closestCell, dt ) {
+
+    },
+
     dispose: function() {
       this.interruptSubtreeInput();
 
