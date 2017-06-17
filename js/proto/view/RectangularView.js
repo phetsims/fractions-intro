@@ -11,23 +11,23 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ProtoSceneView = require( 'FRACTIONS_INTRO/proto/view/ProtoSceneView' );
+  var CellSceneView = require( 'FRACTIONS_INTRO/proto/view/CellSceneView' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/proto/view/RectangularContainerNode' );
   var RectangularPieceNode = require( 'FRACTIONS_INTRO/proto/view/RectangularPieceNode' );
 
   /**
    * @constructor
-   * @extends {ProtoSceneView}
+   * @extends {CellSceneView}
    *
    * @param {ProtoModel} model
    */
   function RectangularView( model ) {
-    ProtoSceneView.call( this, model );
+    CellSceneView.call( this, model );
   }
 
   fractionsIntro.register( 'RectangularView', RectangularView );
 
-  return inherit( ProtoSceneView, RectangularView, {
+  return inherit( CellSceneView, RectangularView, {
     createContainerNode: function( container, cellDownCallback ) {
       return new RectangularContainerNode( container, cellDownCallback );
     },

@@ -13,21 +13,21 @@ define( function( require ) {
   var CircularPieceNode = require( 'FRACTIONS_INTRO/proto/view/CircularPieceNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ProtoSceneView = require( 'FRACTIONS_INTRO/proto/view/ProtoSceneView' );
+  var CellSceneView = require( 'FRACTIONS_INTRO/proto/view/CellSceneView' );
 
   /**
    * @constructor
-   * @extends {ProtoSceneView}
+   * @extends {CellSceneView}
    *
    * @param {ProtoModel} model
    */
   function CircularView( model ) {
-    ProtoSceneView.call( this, model );
+    CellSceneView.call( this, model );
   }
 
   fractionsIntro.register( 'CircularView', CircularView );
 
-  return inherit( ProtoSceneView, CircularView, {
+  return inherit( CellSceneView, CircularView, {
     createContainerNode: function( container, cellDownCallback ) {
       return new CircularContainerNode( container, cellDownCallback );
     },

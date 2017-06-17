@@ -28,7 +28,7 @@ define( function( require ) {
    *
    * @param {ProtoModel} model
    */
-  function ProtoSceneView( model ) {
+  function CellSceneView( model ) {
 
     var self = this;
 
@@ -97,9 +97,9 @@ define( function( require ) {
     } );
   }
 
-  fractionsIntro.register( 'ProtoSceneView', ProtoSceneView );
+  fractionsIntro.register( 'CellSceneView', CellSceneView );
 
-  return inherit( Node, ProtoSceneView, {
+  return inherit( Node, CellSceneView, {
     step: function( dt ) {
       var self = this;
 
