@@ -31,7 +31,6 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
     var sim = new Sim( fractionsIntroTitleString, [
-      new IntroScreen(),
       new ProtoScreen()
     ], simOptions );
     sim.start();

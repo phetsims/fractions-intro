@@ -39,6 +39,8 @@ define( function( require ) {
 
     ScreenView.call( this );
 
+    this.preventFit = true;
+
     // @private {ProtoModel}
     this.model = model;
 
