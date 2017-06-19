@@ -45,7 +45,6 @@ define( function( require ) {
     // @private {Node}
     this.pieceLayer = new Node();
 
-
     // @private {Array.<CircularContainerNode>}
     this.containerNodes = [];
 

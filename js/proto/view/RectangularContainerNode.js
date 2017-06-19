@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {Rectangle}
+   * @extend {Rectangle}
    *
    * @param {ProtoContainer} container
    * @param {function} cellDownCallback TODO doc, function( event )

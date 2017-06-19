@@ -22,6 +22,7 @@ define( function( require ) {
    * @param {number} index
    */
   function ProtoCell( container, index ) {
+
     // @public {ProtoContainer} - Sometimes this is easier to access when stored on the cell
     this.container = container;
 
@@ -53,7 +54,7 @@ define( function( require ) {
     },
 
     /**
-     * Empies a totally full cell (no piece incoming).
+     * Empties a totally full cell (no piece incoming).
      * @public
      */
     empty: function() {
@@ -65,6 +66,7 @@ define( function( require ) {
 
     /**
      * "Fills" the cell by noting that this piece will now be animating to us.
+     * @param {ProtoPiece} piece
      * @public
      */
     targetWithPiece: function( piece ) {
@@ -78,6 +80,7 @@ define( function( require ) {
 
     /**
      * "Unfills" the cell by noting that this piece will not be animating to us anymore.
+     * @param {ProtoPiece} piece
      * @public
      */
     untargetFromPiece: function( piece ) {
@@ -91,6 +94,7 @@ define( function( require ) {
 
     /**
      * The piece that was animating to us finally "hit" us and filled us visually.
+     * @param {ProtoPiece} piece
      * @public
      */
     fillWithPiece: function( piece ) {

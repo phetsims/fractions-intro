@@ -26,14 +26,14 @@ define( function( require ) {
   var BEAKER_SHINE_COLOR = 'rgba(255,255,255,0.7)';
 
   var glassGradient = new LinearGradient( -xRadius, 0, xRadius, 0 ).addColorStop( 0, EMPTY_BEAKER_COLOR )
-                                                                   .addColorStop( 0.666, BEAKER_SHINE_COLOR )
-                                                                   .addColorStop( 0.782, BEAKER_SHINE_COLOR )
-                                                                   .addColorStop( 1, EMPTY_BEAKER_COLOR );
+    .addColorStop( 0.666, BEAKER_SHINE_COLOR )
+    .addColorStop( 0.782, BEAKER_SHINE_COLOR )
+    .addColorStop( 1, EMPTY_BEAKER_COLOR );
 
   var bucketFrontShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
-                                    .ellipticalArc( 0, -fullHeight, xRadius, yRadius, 0, Math.PI, 0, true ).close();
+    .ellipticalArc( 0, -fullHeight, xRadius, yRadius, 0, Math.PI, 0, true ).close();
   var bucketBackShape = new Shape().ellipticalArc( 0, -fullHeight, xRadius, yRadius, 0, Math.PI, 0, false )
-                                   .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, true ).close();
+    .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, true ).close();
   var bucketBottomShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
 
   /**
@@ -50,7 +50,7 @@ define( function( require ) {
 
     var waterTopShape = new Shape().ellipticalArc( 0, -height, xRadius, yRadius, 0, 0, Math.PI * 2, false ).close();
     var waterSideShape = new Shape().ellipticalArc( 0, -height, xRadius, yRadius, 0, Math.PI, 0, true )
-                                    .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false ).close();
+      .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false ).close();
     var ticksShape = new Shape();
     for ( var i = 1; i < numTicks; i++ ) {
       var y = -fullHeight * ( numTicks - i ) / numTicks;
