@@ -27,13 +27,13 @@ define( function( require ) {
     this.representationProperty = new Property( Representation.CIRCLE );
 
     // @public {Property.<number>} - If a fraction is N/D, the numerator is the N
-    this.numeratorProperty = new NumberProperty( 12 );
+    this.numeratorProperty = new NumberProperty( 0 );
 
     // @public {Property.<number>} - If a fraction is N/D, the numerator is the D
-    this.denominatorProperty = new NumberProperty( 3 );
+    this.denominatorProperty = new NumberProperty( 1 );
 
     // @public {Property.<number>} - What is the maximum value the fraction can have?
-    this.maxProperty = new NumberProperty( 5 );
+    this.maxProperty = new NumberProperty( 1 );
 
     // @public {ObservableArray.<ProtoContainer>}
     this.containers = new ObservableArray();
@@ -270,7 +270,7 @@ define( function( require ) {
      * @private
      *
      * @param {number} newDenominator
-     * @param {number}
+     * @param {number} oldDenominator
      */
     onDenominatorChange: function( newDenominator, oldDenominator ) {
       // So we don't have to worry about animating to different places
