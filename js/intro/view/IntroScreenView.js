@@ -91,6 +91,8 @@ define( function( require ) {
       // present of the lifetime of the simulation
       introModel.representationProperty.link( function( representation ) {
         if ( representationsNode.hasChildren() ) {
+          var representationChild = representationsNode.getChildren()[ 0 ];
+          representationChild.dispose();
           representationsNode.removeAllChildren();
         }
         switch( representation ) {
@@ -98,7 +100,8 @@ define( function( require ) {
             // representationsNode.addChild( circleNode );
             break;
           case Representation.HORIZONTAL_BAR:
-            // representationsNode.addChild( horizontalBarNode );
+            // create and add the set of vertical bars node
+
             break;
           case Representation.VERTICAL_BAR:
 

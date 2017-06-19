@@ -229,7 +229,9 @@ define( function( require ) {
         if ( removedPiece === addedPiece ) {
           piecesNode.removeChild( pieceNode );
 
-          //  TODO: we need a dispose function on PieceNode
+          // TODO: check that we are disposing the pieceNode properly
+          pieceNode.dispose();
+
           pieces.removeItemRemovedListener( removalListener );
         }
       } );

@@ -255,10 +255,12 @@ define( function( require ) {
 
   return inherit( Node, NumberLineNode, {
     /**
+     * disposes of links & listeners
      * @public
      */
     dispose: function() {
       this.disposeNumberLineNode();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );

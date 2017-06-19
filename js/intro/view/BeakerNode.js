@@ -43,6 +43,7 @@ define( function( require ) {
       containerSpacing: 22,
       containerWidth: 130,
       containerHeight: 185,
+      isIcon: false, //  is an icon without drag ability
       perspectiveFactor: 0.2 // multiplier that controls the width of the ellipses on the ends of the cylinder
     }, options );
 
@@ -75,10 +76,10 @@ define( function( require ) {
       // loop over all the containers in the container set
       containerSet.containers.forEach( function( container ) {
 
-
         // creates a new beakerNode to display on screen
         var containerBeakerNode = new createBeakerNode( container, options );
 
+        // centers position of BeakerNode
         containerBeakerNode.center = container.positionProperty.value;
 
         setOfBeakerNode.addChild( containerBeakerNode );
@@ -86,24 +87,37 @@ define( function( require ) {
       } );
     };
 
-    // add listener to container sets
-    containerSet.updatedContainersEmitter.addListener( function() {
-      containerSet.containers.forEach( function( container, containerIndex ) {
-        container.fractionProperty.value = container.getFraction();
-        container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
-                                                              (containerIndex - (containerSet.containers.length - 1) / 2), 260 );
 
-        var cellHeight = options.beakerHeight / container.denominatorProperty.value;
+    var containerSetListener =
+      function() {
+        containerSet.containers.forEach( function( container, containerIndex ) {
+          container.fractionProperty.value = container.getFraction();
+          container.positionProperty.value = new Vector2( 512 + (options.containerWidth + options.containerSpacing) *
+                                                                (containerIndex -
+                                                                 (containerSet.containers.length - 1) / 2), 260 );
 
-        container.cells.forEach( function( cell, cellIndex ) {
+          var cellHeight = options.beakerHeight / container.denominatorProperty.value;
 
-          // offset the position of the fill to match the cell Height
-          cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
-            options.beakerHeight - cellHeight * (cellIndex + 1) );
+          container.cells.forEach( function( cell, cellIndex ) {
+
+            // offset the position of the fill to match the cell Height
+            cell.positionProperty.value = container.positionProperty.value.plusXY( 0,
+              options.beakerHeight - cellHeight * (cellIndex + 1) );
+          } );
         } );
-      } );
-      self.displayContainers();
-    } );
+        self.displayContainers();
+      };
+
+
+    // add listener to container sets
+    containerSet.updatedContainersEmitter.addListener( containerSetListener );
+
+
+    // @private
+    this.disposeBeakerNode = function() {
+      containerSet.updatedContainersEmitter.removeListener( containerSetListener );
+    };
+
     containerSet.updatedContainersEmitter.emit();
 
     // needs to be called once or the beginning state of the containers will not be displayed
@@ -246,11 +260,29 @@ define( function( require ) {
       container.denominatorProperty.unlink( denominatorPropertyListener );
     };
 
-    return beakerNode;
+    // creates bounds for the container
+    container.boundsProperty.value = beakerNode.bounds.shifted(
+      container.positionProperty.value.x, container.positionProperty.value.y ).dilatedXY( 20, 100 );
 
+    // creates bounds for every cell in container
+    container.cells.forEach( function( cell ) {
+      cell.boundsProperty.value = container.boundsProperty.value;
+
+    } );
+
+    return beakerNode;
   };
 
   fractionsIntro.register( 'BeakerNode', BeakerNode );
 
-  return inherit( Node, BeakerNode, {} );
+  return inherit( Node, BeakerNode, {
+    /**
+     * disposes of links & listeners
+     * @public
+     */
+    dispose: function() {
+      this.disposeBeakerNode();
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
