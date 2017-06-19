@@ -269,8 +269,8 @@ define( function( require ) {
      * Handles a change in the denominator.
      * @private
      *
-     * @param {number} newNumerator
-     * @param {number} oldNumerator
+     * @param {number} newDenominator
+     * @param {number} oldDenominator
      */
     onDenominatorChange: function( newDenominator, oldDenominator ) {
       // So we don't have to worry about animating to different places
