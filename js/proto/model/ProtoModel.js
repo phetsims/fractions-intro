@@ -27,13 +27,13 @@ define( function( require ) {
     this.representationProperty = new Property( Representation.CIRCLE );
 
     // @public {Property.<number>} - If a fraction is N/D, the numerator is the N
-    this.numeratorProperty = new NumberProperty( 0 );
+    this.numeratorProperty = new NumberProperty( 12 );
 
     // @public {Property.<number>} - If a fraction is N/D, the numerator is the D
-    this.denominatorProperty = new NumberProperty( 1 );
+    this.denominatorProperty = new NumberProperty( 3 );
 
     // @public {Property.<number>} - What is the maximum value the fraction can have?
-    this.maxProperty = new NumberProperty( 1 );
+    this.maxProperty = new NumberProperty( 5 );
 
     // @public {ObservableArray.<ProtoContainer>}
     this.containers = new ObservableArray();
@@ -45,9 +45,9 @@ define( function( require ) {
     // @public {ObservableArray.<ProtoPiece>} - Pieces that are not filled cells (animating or user controlled)
     this.pieces = new ObservableArray();
 
-    var initialContainer = new ProtoContainer();
-    initialContainer.addCells( this.denominatorProperty.value );
-    this.containers.push( initialContainer );
+    // initialize the model with the appropriate number of containers and number of filled cells
+    this.onMaxChange( this.maxProperty.value, 0 );
+    this.onNumeratorChange( this.numeratorProperty.value, 0 );
 
     // Hook up listeners for external notifications
     this.numeratorProperty.lazyLink( this.onNumeratorChange.bind( this ) );
@@ -270,7 +270,7 @@ define( function( require ) {
      * @private
      *
      * @param {number} newDenominator
-     * @param {number} oldDenominator
+     * @param {number}
      */
     onDenominatorChange: function( newDenominator, oldDenominator ) {
       // So we don't have to worry about animating to different places
