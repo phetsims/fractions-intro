@@ -52,9 +52,10 @@ define( function( require ) {
     var waterSideShape = new Shape().ellipticalArc( 0, -height, xRadius, yRadius, 0, Math.PI, 0, true )
       .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false ).close();
     var ticksShape = new Shape();
-    for ( var i = 1; i < numTicks; i++ ) {
-      var y = -fullHeight * ( numTicks - i ) / numTicks;
-      ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.7 : 0.8 ), true );
+    var y = 0;
+    for ( var i = 0; i < numTicks; i++ ) {
+      y -= fullHeight / numTicks;
+      ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.8 : 0.7 ), true );
     }
 
     var bucketFront = new Path( bucketFrontShape, {

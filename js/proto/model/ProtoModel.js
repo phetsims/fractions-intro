@@ -233,10 +233,31 @@ define( function( require ) {
           self.containers.push( container );
         }
 
-        // when decreases and the numerator is greater than the denominator * newMax change the numerator to maximum filled and removed the cell difference.
         else {
-          if ( self.numeratorProperty.value >= self.denominatorProperty.value * oldMax ) {
-            self.numeratorProperty.value = self.denominatorProperty.value * newMax;
+          var lastContainer = self.containers.get( self.containers.length - 1 );
+          var displacedCellCount = lastContainer.filledCellCountProperty.value;
+          var availableCellsCount = self.denominatorProperty.value * newMax - (self.getFilledCellCount() - displacedCellCount);
+          if ( displacedCellCount <= availableCellsCount ) {
+            _.times( displacedCellCount, function() {
+              self.fillNextCell( false );
+            } );
+          }
+          else {
+            var overflowCellsCount = displacedCellCount - availableCellsCount;
+            var keptCellsCount = displacedCellCount - overflowCellsCount;
+            _.times( keptCellsCount, function() {
+              self.fillNextCell( false );
+            } );
+
+            _.times( overflowCellsCount, function() {
+              var cell = lastContainer.getNextFilledCell();
+              cell.empty();
+              var newPiece = new ProtoPiece( self.denominatorProperty.value );
+              newPiece.originCellProperty.value = cell;
+              self.pieces.push( newPiece );
+            } );
+
+            self.changeNumeratorManually( -overflowCellsCount );
           }
           self.containers.pop();
         }
@@ -313,6 +334,14 @@ define( function( require ) {
       this.changingInternally = true;
       this.numeratorProperty.value += delta;
       this.changingInternally = false;
+    },
+
+    getFilledCellCount: function() {
+      var count = 0;
+      this.containers.forEach( function( container ) {
+        count += container.filledCellCountProperty.value;
+      } );
+      return count;
     }
   } );
 } );
