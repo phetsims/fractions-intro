@@ -105,7 +105,7 @@ define( function( require ) {
       _.each( this.pieceNodes.slice(), function( pieceNode ) {
         pieceNode.step( dt );
 
-        if ( pieceNode.isUserControlledProperty.value ) {
+        if ( pieceNode.isUserControlled ) {
           var closestCell = self.getClosestCell( pieceNode.getMidpoint() );
           if ( closestCell ) {
             pieceNode.orient( closestCell, dt );
@@ -156,7 +156,7 @@ define( function( require ) {
 
           var closestCell = self.getClosestCell( currentMidpoint, 100 );
 
-          pieceNode.isUserControlledProperty.value = false;
+          pieceNode.isUserControlled = false;
           pieceNode.originProperty.value = currentMidpoint;
 
           if ( closestCell ) {
@@ -210,7 +210,7 @@ define( function( require ) {
       } );
 
       pieceNode.originProperty.value = this.globalToLocalPoint( event.pointer.point );
-      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.isUserControlled = true;
       pieceNode.dragListener.startDrag( event );
     },
 
@@ -221,7 +221,7 @@ define( function( require ) {
       } );
 
       pieceNode.originProperty.value = this.getCellMidpoint( cell );
-      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.isUserControlled = true;
       pieceNode.dragListener.startDrag( event );
     },
 

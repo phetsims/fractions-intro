@@ -191,7 +191,7 @@ define( function( require ) {
         var cell = container.getNextFilledCell();
         if ( cell ) {
           // If something was animating to this cell, finish the animation first
-          var targetedPiece = cell.targetedPieceProperty.value;
+          var targetedPiece = cell.targetedPiece;
           if ( targetedPiece ) {
             this.completePiece( targetedPiece );
           }

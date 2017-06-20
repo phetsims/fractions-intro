@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var CircleNode = require( 'FRACTIONS_INTRO/proto/view/CircleNode' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
@@ -54,8 +53,8 @@ define( function( require ) {
     //circle-specific
     this.originRotation = 0;
 
-    // @private {Property.<boolean>}
-    this.isUserControlledProperty = new BooleanProperty( false );
+    // @public {boolean}
+    this.isUserControlled = false;
 
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
@@ -101,7 +100,7 @@ define( function( require ) {
     },
 
     step: function( dt ) {
-      if ( this.isUserControlledProperty.value ) {
+      if ( this.isUserControlled ) {
         return;
       }
 

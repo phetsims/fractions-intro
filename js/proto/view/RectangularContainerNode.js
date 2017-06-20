@@ -67,7 +67,7 @@ define( function( require ) {
 
       var denominator = this.container.cells.length;
       for ( var i = 0; i < denominator; i++ ) {
-        (function(){
+        (function() {
           var cell = self.container.cells.get( i );
 
           var cellNode = new RectangleNode( denominator );

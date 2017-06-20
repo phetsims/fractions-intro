@@ -104,7 +104,7 @@ define( function( require ) {
   return inherit( Node, BeakerView, {
     step: function( dt ) {
       _.each( this.pieceNodes.slice(), function( pieceNode ) {
-        if ( !pieceNode.isUserControlledProperty.value ) {
+        if ( !pieceNode.isUserControlled ) {
           pieceNode.step( dt );
         }
       } );
@@ -148,7 +148,7 @@ define( function( require ) {
       else {
         pieceNode.originProperty.value = pieceNode.center;
         pieceNode.destinationProperty.value = this.bucket.centerTop;
-        pieceNode.isUserControlledProperty.value = false;
+        pieceNode.isUserControlled = false;
       }
     },
 
@@ -163,7 +163,7 @@ define( function( require ) {
       this.pieceNodes.push( pieceNode );
       this.pieceLayer.addChild( pieceNode );
 
-      pieceNode.isUserControlledProperty.value = true;
+      pieceNode.isUserControlled = true;
       pieceNode.center = pieceNode.globalToParentPoint( event.pointer.point );
       pieceNode.dragListener.startDrag( event );
     },

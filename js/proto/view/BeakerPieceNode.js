@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var BeakerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerNode' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -41,8 +40,8 @@ define( function( require ) {
     this.originProperty = new Property( Vector2.ZERO );
     this.destinationProperty = new Property( Vector2.ZERO );
 
-    // @private {Property.<boolean>}
-    this.isUserControlledProperty = new BooleanProperty( false );
+    // @public {boolean}
+    this.isUserControlled = false;
 
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
@@ -74,7 +73,7 @@ define( function( require ) {
 
   return inherit( Node, BeakerPieceNode, {
     step: function( dt ) {
-      if ( this.isUserControlledProperty.value ) {
+      if ( this.isUserControlled ) {
         return;
       }
 
