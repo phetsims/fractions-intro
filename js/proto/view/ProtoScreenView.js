@@ -11,12 +11,14 @@ define( function( require ) {
   // modules
   var BeakerView = require( 'FRACTIONS_INTRO/proto/view/BeakerView' );
   var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
+  var NumberLineView = require( 'FRACTIONS_INTRO/proto/view/NumberLineView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -108,7 +110,7 @@ define( function( require ) {
       return ( max + 1 ) <= ProtoConstants.MAX_RANGE.max;
     } );
     var canDecreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( max ) > ProtoConstants.MAX_RANGE.min && 1 < (max);
+      return max > ProtoConstants.MAX_RANGE.min;
     } );
 
     var numeratorSpinner = createTempSpinner( model.numeratorProperty, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
@@ -178,6 +180,10 @@ define( function( require ) {
       {
         value: Representation.BEAKER,
         node: new Text( 'Beaker', { font: new PhetFont( 14 ) } )
+      },
+      {
+        value: Representation.NUMBER_LINE,
+        node: new Text( 'Number Line', { font: new PhetFont( 14 ) } )
       }
     ], {
       centerX: this.layoutBounds.centerX,
@@ -204,6 +210,16 @@ define( function( require ) {
       }
       else if ( representation === Representation.BEAKER ) {
         self.currentView = new BeakerView( model );
+      }
+      else if ( representation === Representation.NUMBER_LINE ) {
+
+        // TODO: find a more general way to lay out the numberLine than reversing the action of viewContainer
+        self.currentView = new NumberLineView(
+          self.model.numeratorProperty,
+          self.model.denominatorProperty,
+          self.model.maxProperty,
+          new NumberProperty( 1 ), { x: 50 - self.layoutBounds.centerX }
+        );
       }
       if ( self.currentView ) {
         viewContainer.addChild( self.currentView );

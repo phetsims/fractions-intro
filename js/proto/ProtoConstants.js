@@ -11,9 +11,18 @@ define( function( require ) {
   // modules
   var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Range = require( 'DOT/Range' );
 
   return fractionsIntro.register( 'ProtoConstants', {
+
+    // Constants for number line
+    NUMBER_LINE_WIDTH: 975, // Width used for number line.
+    MAJOR_TICK_LENGTH: 80, // length of major tick line
+    MINOR_TICK_LENGTH: 40, // length of minor tick line
+    NUMBER_LINE_FONT: new PhetFont( 40 ),
+
+
     // @public {Range} - Possible number of active containers
     MAX_RANGE: new Range( 1, 6 ),
 
