@@ -234,31 +234,39 @@ define( function( require ) {
         }
 
         else {
+
+          // find the container to be removed
           var lastContainer = self.containers.get( self.containers.length - 1 );
-          var displacedCellCount = lastContainer.filledCellCountProperty.value;
-          var availableCellsCount = self.denominatorProperty.value * newMax - (self.getFilledCellCount() - displacedCellCount);
-          if ( displacedCellCount <= availableCellsCount ) {
-            _.times( displacedCellCount, function() {
-              self.fillNextCell( false );
-            } );
-          }
-          else {
-            var overflowCellsCount = displacedCellCount - availableCellsCount;
-            var keptCellsCount = displacedCellCount - overflowCellsCount;
-            _.times( keptCellsCount, function() {
-              self.fillNextCell( false );
-            } );
 
+          // filled cells in the last container
+          var displacedCellsCount = lastContainer.filledCellCountProperty.value;
+
+          // number of filled cells in the other containers (excluding the last container)
+          var filledCells = self.getFilledCellCount() - displacedCellsCount;
+
+          // number of empty cells in the other containers
+          var availableCellsCount = lastContainer.cells.length * newMax - filledCells;
+
+          // the number of  filled cells to transfer from last container to the other containers
+          var keptCellsCount = Math.min( availableCellsCount, displacedCellsCount );
+
+          // add up fill
+          _.times( keptCellsCount, function() {
+            self.fillNextCell( false );
+          } );
+
+          // handle the extra filled cells when all the other containers are filled
+          if ( displacedCellsCount > availableCellsCount ) {
+
+            var overflowCellsCount = displacedCellsCount - availableCellsCount;
             _.times( overflowCellsCount, function() {
-              var cell = lastContainer.getNextFilledCell();
-              cell.empty();
-              var newPiece = new ProtoPiece( self.denominatorProperty.value );
-              newPiece.originCellProperty.value = cell;
-              self.pieces.push( newPiece );
+              self.emptyNextCell( true );
             } );
 
+            // update the value of the numerator
             self.changeNumeratorManually( -overflowCellsCount );
           }
+          // release the last (now empty) container
           self.containers.pop();
         }
       } );
@@ -336,12 +344,15 @@ define( function( require ) {
       this.changingInternally = false;
     },
 
+    /**
+     * get the filled cells count in the containers
+     * @private
+     * @returns {number}
+     */
     getFilledCellCount: function() {
-      var count = 0;
-      this.containers.forEach( function( container ) {
-        count += container.filledCellCountProperty.value;
+      return this.containers.reduce( 0, function( accumulator, container ) {
+        return accumulator + container.filledCellCountProperty.value;
       } );
-      return count;
     }
   } );
 } );
