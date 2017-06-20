@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {Object}
+   * @extend {Object}
    */
   function ProtoModel() {
     // @public {Property.<Representation>}
@@ -218,24 +218,27 @@ define( function( require ) {
      * @param {number} oldMax
      */
     onMaxChange: function( newMax, oldMax ) {
+
       // So we don't have to worry about animating to different places
       this.completeAllPieces();
 
       var self = this;
       var change = Math.abs( newMax - oldMax );
       _.times( change, function() {
+
         // Increases are simple, just add a container.
         if ( newMax > oldMax ) {
           var container = new ProtoContainer();
           container.addCells( self.denominatorProperty.value );
           self.containers.push( container );
         }
-        // With decreases, we may have to shift filled cells.
+
+        // when decreases and the numerator is greater than the denominator * newMax change the numerator to maximum filled and removed the cell difference.
         else {
-          var removedCount = self.containers.pop().filledCellCountProperty.value;
-          _.times( removedCount, function() {
-            self.fillNextCell( false );
-          } );
+          if ( self.numeratorProperty.value >= self.denominatorProperty.value * oldMax ) {
+            self.numeratorProperty.value = self.denominatorProperty.value * newMax;
+          }
+          self.containers.pop();
         }
       } );
     },

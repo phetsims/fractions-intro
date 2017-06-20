@@ -30,7 +30,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {ScreenView}
+   * @extend {ScreenView}
    *
    * @param {ProtoModel} model
    */
@@ -40,6 +40,7 @@ define( function( require ) {
 
     ScreenView.call( this );
 
+    // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
     // @private {ProtoModel}
@@ -57,6 +58,7 @@ define( function( require ) {
     var maxText = new Text( '', textOptions );
     model.maxProperty.linkAttribute( maxText, 'text' );
 
+    // TODO: Change these spinner to a more apporiate type such as number spinner.
     function createTempSpinner( property, upEnabledProperty, downEnabledProperty ) {
       var buttonOptions = {
         fireOnHold: true,
@@ -106,13 +108,14 @@ define( function( require ) {
       return ( max + 1 ) <= ProtoConstants.MAX_RANGE.max;
     } );
     var canDecreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( max - 1 ) >= ProtoConstants.MAX_RANGE.min && numerator / denominator <= ( max - 1 );
+      return ( max ) > ProtoConstants.MAX_RANGE.min && 1 < (max);
     } );
 
     var numeratorSpinner = createTempSpinner( model.numeratorProperty, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
     var denominatorSpinner = createTempSpinner( model.denominatorProperty, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
     var maxSpinner = createTempSpinner( model.maxProperty, canIncreaseMaxProperty, canDecreaseMaxProperty );
 
+    // TODO: Rearrange this on the screen
     this.addChild( new HBox( {
       children: [
         new VBox( {
@@ -162,6 +165,7 @@ define( function( require ) {
     // @private TODO doc
     this.currentView = null;
 
+    // TODO: Switch this to our representation panel and move it to the top of the screen
     this.addChild( new RadioButtonGroup( model.representationProperty, [
       {
         value: Representation.CIRCLE,
@@ -189,6 +193,8 @@ define( function( require ) {
         viewContainer.removeChild( self.currentView );
         self.currentView.dispose();
       }
+
+      // Should this be a switch statement?
       self.currentView = null;
       if ( representation === Representation.CIRCLE ) {
         self.currentView = new CircularView( model );
