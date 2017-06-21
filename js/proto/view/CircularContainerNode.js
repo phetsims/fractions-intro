@@ -14,7 +14,10 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
@@ -42,6 +45,13 @@ define( function( require ) {
       lineWidth: 3
     } );
 
+    // @private {Path} creates the path for the dividing lines between cells
+    this.cellDividersPath = new Path( null, { stroke: this.strokeProperty } );
+    this.addChild( this.cellDividersPath );
+
+    //this.cellDividersVector = new Property( Vector2.ZERO );
+    //this.setChild(this.cellDividersVector);
+
     // @private {function}
     this.rebuildListener = this.rebuild.bind( this );
 
@@ -65,7 +75,16 @@ define( function( require ) {
 
       this.removeCellNodes();
 
+      var cellDividersShape = new Shape();
+
       var denominator = this.container.cells.length;
+
+      // disregard segment for denominator equal to 1
+      var cellDividersLength = (denominator > 1) ? ProtoConstants.CIRCULAR_RADIUS : 0;
+
+      // creates an angle between the cells of a circle node that corresponds to the denominator value
+      var cellDividersAngle = (Math.PI * 2) / (denominator);
+
       for ( var i = 0; i < denominator; i++ ) {
         (function() {
           var cell = self.container.cells.get( i );
@@ -84,7 +103,12 @@ define( function( require ) {
           cellNode.cell = cell;
           cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
         })();
+
+        // positions and draws the polar coordinate of the dividing line between cells
+        var edgePosition = Vector2.createPolar( cellDividersLength, 1.001 * i * cellDividersAngle );
+        cellDividersShape.moveToPoint( edgePosition ).lineToPoint( Vector2.ZERO );
       }
+      self.cellDividersPath.setShape( cellDividersShape );
     },
 
     removeCellNodes: function() {
