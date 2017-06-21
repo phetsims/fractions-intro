@@ -20,6 +20,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
@@ -29,6 +30,37 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Temporary images and modules used to find true position of elements based on original simulation
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
+  var NumberSpinner = require( 'SUN/NumberSpinner' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var HSlider = require( 'SUN/HSlider' );
+
+  // images
+  var image0 = require( 'image!FRACTIONS_INTRO/0.png' );
+  var image1 = require( 'image!FRACTIONS_INTRO/1.png' );
+  var image2 = require( 'image!FRACTIONS_INTRO/2.png' );
+  var image3 = require( 'image!FRACTIONS_INTRO/3.png' );
+  var image4 = require( 'image!FRACTIONS_INTRO/4.png' );
+  var image5 = require( 'image!FRACTIONS_INTRO/5.png' );
+  var image6 = require( 'image!FRACTIONS_INTRO/6.png' );
+  var image7 = require( 'image!FRACTIONS_INTRO/7.png' );
+  var image8 = require( 'image!FRACTIONS_INTRO/8.png' );
+  var image9 = require( 'image!FRACTIONS_INTRO/9.png' );
+  var image10 = require( 'image!FRACTIONS_INTRO/10.png' );
+  var image11 = require( 'image!FRACTIONS_INTRO/11.png' );
+  var image12 = require( 'image!FRACTIONS_INTRO/12.png' );
+  var image13 = require( 'image!FRACTIONS_INTRO/13.png' );
+  var image14 = require( 'image!FRACTIONS_INTRO/14.png' );
+  var image15 = require( 'image!FRACTIONS_INTRO/15.png' );
+  var image16 = require( 'image!FRACTIONS_INTRO/16.png' );
+  var image17 = require( 'image!FRACTIONS_INTRO/17.png' );
+  var image18 = require( 'image!FRACTIONS_INTRO/18.png' );
+  var image19 = require( 'image!FRACTIONS_INTRO/19.png' );
+  var image20 = require( 'image!FRACTIONS_INTRO/20.png' );
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * @constructor
@@ -60,7 +92,7 @@ define( function( require ) {
     var maxText = new Text( '', textOptions );
     model.maxProperty.linkAttribute( maxText, 'text' );
 
-    // TODO: Change these spinner to a more apporiate type such as number spinner.
+    // TODO: Change these spinner to a more appropriate type such as number spinner.
     function createTempSpinner( property, upEnabledProperty, downEnabledProperty ) {
       var buttonOptions = {
         fireOnHold: true,
@@ -207,6 +239,41 @@ define( function( require ) {
         viewContainer.addChild( self.currentView );
       }
     } );
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Temporary code used to find true of elements based on original simulation
+    // image list
+    var imageList = [];
+    imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
+      image11, image12, image13, image14, image15, image16, image17, image18, image19, image20 );
+
+    var transparencyProperty = new NumberProperty( 0 );
+    this.addChild(new HSlider( transparencyProperty, {
+      min: 0,
+      max: 0.8
+    }, { right: this.layoutBounds.right - 10, bottom: this.layoutBounds.bottom - 70 } ));
+
+    var pictureIndex = new NumberProperty( 0 );
+    var rangeProperty = new Property( new RangeWithValue( 0, 20, 0 ) );
+    this.addChild(new NumberSpinner( pictureIndex, rangeProperty, {
+      right: this.layoutBounds.right - 20,
+      bottom: this.layoutBounds.bottom - 120
+    } ));
+
+    var pictureNode = new Node();
+    transparencyProperty.link( function( transparency ) {
+      pictureNode.opacity = transparency;
+    } );
+    this.addChild(pictureNode);
+    pictureIndex.link( function( number ) {
+      pictureNode.removeAllChildren();
+      var img = new Image( imageList[ number ] );
+      pictureNode.addChild( img );
+      var width = pictureNode.width;
+      var height = pictureNode.height;
+      pictureNode.scale( self.layoutBounds.width / width, self.layoutBounds.height / height );
+    } );
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
   fractionsIntro.register( 'ProtoScreenView', ProtoScreenView );
