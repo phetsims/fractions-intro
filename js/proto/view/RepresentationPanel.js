@@ -11,28 +11,17 @@ define( function( require ) {
   var BeakerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-<<<<<<< Updated upstream
   // var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/proto/view/NumberLineIcon' );
-  // var NumberProperty = require( 'AXON/NumberProperty' );
-=======
-  //var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var NumberLineIcon = require( 'FRACTIONS_INTRO/proto/view/NumberLineIcon' );
   //var NumberProperty = require( 'AXON/NumberProperty' );
->>>>>>> Stashed changes
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
 
   // images
-<<<<<<< Updated upstream
   // var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
-=======
-  //var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
->>>>>>> Stashed changes
 
   /**
    *
@@ -83,9 +72,9 @@ define( function( require ) {
 
       {
         value: Representation.BEAKER,
-        node: new BeakerNode( 1,1, {
+        node: new BeakerNode( 1, 1, {
           yRadius: 6,
-          xRadius:20,
+          xRadius: 20,
           fullHeight: 50
         } )
       },

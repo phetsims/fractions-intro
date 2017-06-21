@@ -117,21 +117,15 @@ define( function( require ) {
       return max > ProtoConstants.MAX_RANGE.min;
     } );
 
-<<<<<<< Updated upstream
-    var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++},
-      function() {model.numeratorProperty.value--}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
-    var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++},
-      function() {model.denominatorProperty.value--}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
-    var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++},
-      function() { model.maxProperty.value--}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:12, spacing:3} );
-=======
     var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++;},
       function() {model.numeratorProperty.value--;}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
     var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++;},
       function() {model.denominatorProperty.value--;}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
     var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++;},
-      function() { model.maxProperty.value--;}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:15, spacing:3} );
->>>>>>> Stashed changes
+      function() { model.maxProperty.value--;}, canIncreaseMaxProperty, canDecreaseMaxProperty, {
+        radius: 15,
+        spacing: 3
+      } );
 
     // TODO: Rearrange this on the screen
 
@@ -144,7 +138,7 @@ define( function( require ) {
               maxText,
               maxSpinner
             ],
-          spacing:7
+            spacing: 7
           }
         )
       ],
