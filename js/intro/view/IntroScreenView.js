@@ -78,9 +78,6 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    // @private {IntroModel}
-    this.model = model;
-
     var textOptions = {
       font: new PhetFont( 110 )
     };
@@ -155,7 +152,6 @@ define( function( require ) {
     // @private TODO doc
     this.currentView = null;
 
-
     // representation panel at the top of the simulation
     this.addChild( new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
@@ -189,9 +185,9 @@ define( function( require ) {
 
         // TODO: find a more general way to lay out the numberLine than reversing the action of viewContainer
         self.currentView = new NumberLineView(
-          self.model.numeratorProperty,
-          self.model.denominatorProperty,
-          self.model.maxProperty,
+          model.numeratorProperty,
+          model.denominatorProperty,
+          model.maxProperty,
           new NumberProperty( 1 ), { x: 25 - self.layoutBounds.centerX, y: -160 }
         );
       }
@@ -239,6 +235,11 @@ define( function( require ) {
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
 
   return inherit( ScreenView, IntroScreenView, {
+    /**
+     *
+     * @param {number} dt - timestep
+     * @public
+     */
     step: function( dt ) {
       this.currentView.step( dt );
     }
