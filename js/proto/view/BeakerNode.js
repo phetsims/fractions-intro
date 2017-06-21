@@ -16,25 +16,10 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
-  var xRadius = 40;
-  var yRadius = 12;
-  var fullHeight = 200;
-
   var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.15)';
   var WATER_SIDE_COLOR = 'rgba(30,163,255,0.8)';
   var WATER_TOP_COLOR = WATER_SIDE_COLOR;
   var BEAKER_SHINE_COLOR = 'rgba(255,255,255,0.7)';
-
-  var glassGradient = new LinearGradient( -xRadius, 0, xRadius, 0 ).addColorStop( 0, EMPTY_BEAKER_COLOR )
-    .addColorStop( 0.666, BEAKER_SHINE_COLOR )
-    .addColorStop( 0.782, BEAKER_SHINE_COLOR )
-    .addColorStop( 1, EMPTY_BEAKER_COLOR );
-
-  var bucketFrontShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
-    .ellipticalArc( 0, -fullHeight, xRadius, yRadius, 0, Math.PI, 0, true ).close();
-  var bucketBackShape = new Shape().ellipticalArc( 0, -fullHeight, xRadius, yRadius, 0, Math.PI, 0, false )
-    .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, true ).close();
-  var bucketBottomShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
 
   /**
    * @constructor
@@ -42,9 +27,30 @@ define( function( require ) {
    *
    * @param {number} numerator
    * @param {number} denominator
+   * @param {object} [options]
    */
-  function BeakerNode( numerator, denominator ) {
-    var height = fullHeight * numerator / denominator;
+  function BeakerNode( numerator, denominator, options) {
+
+    options = _.extend( {
+    fullHeight: 200,
+    xRadius: 40,
+    yRadius: 12
+    }, options );
+
+    var height = options.fullHeight * numerator / denominator;
+    var xRadius = options.xRadius;
+    var yRadius = options.yRadius;
+
+    var glassGradient = new LinearGradient( -xRadius, 0, xRadius, 0 ).addColorStop( 0, EMPTY_BEAKER_COLOR )
+      .addColorStop( 0.666, BEAKER_SHINE_COLOR )
+      .addColorStop( 0.782, BEAKER_SHINE_COLOR )
+      .addColorStop( 1, EMPTY_BEAKER_COLOR );
+
+    var bucketFrontShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, false )
+      .ellipticalArc( 0, -options.fullHeight, xRadius, yRadius, 0, Math.PI, 0, true ).close();
+    var bucketBackShape = new Shape().ellipticalArc( 0, -options.fullHeight, xRadius, yRadius, 0, Math.PI, 0, false )
+      .ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, Math.PI, true ).close();
+    var bucketBottomShape = new Shape().ellipticalArc( 0, 0, xRadius, yRadius, 0, 0, 2 * Math.PI, false );
 
     var numTicks = denominator;
 
@@ -54,7 +60,7 @@ define( function( require ) {
     var ticksShape = new Shape();
     var y = 0;
     for ( var i = 0; i < numTicks; i++ ) {
-      y -= fullHeight / numTicks;
+      y -= options.fullHeight / numTicks;
       ticksShape.moveTo( -xRadius, y ).ellipticalArc( 0, y, xRadius, yRadius, 0, Math.PI, Math.PI * ( i % 2 === 0 ? 0.8 : 0.7 ), true );
     }
 
