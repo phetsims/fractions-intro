@@ -21,17 +21,16 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property.<number>} valueProperty
+   * @param {function} upButtonListener
+   * * @param {function} downButtonListener
    * @param {Property.<boolean>} upEnabledProperty
    * @param {Property.<boolean>} downEnabledProperty
    * @param {Object} [options]
    * @constructor
    */
-  function RoundSpinner( valueProperty, upEnabledProperty, downEnabledProperty, options ) {
+  function RoundSpinner( upButtonListener, downButtonListener, upEnabledProperty, downEnabledProperty, options ) {
 
     options = _.extend( {
-      upButtonListener: function() {valueProperty.value += 1;},
-      downButtonListener: function() {valueProperty.value -= 1;},
       baseColor: '#fefd53',  // color of the button
       radius: 20, // radius of the push button
       iconScale: 0.65, // ratio of the width of the arrow over the diameter of the button
@@ -74,7 +73,7 @@ define( function( require ) {
 
     var incrementButton = new RoundPushButton( {
       content: incrementIcon,
-      listener: options.upButtonListener,
+      listener: upButtonListener,
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: options.baseColor,
@@ -89,7 +88,7 @@ define( function( require ) {
 
     var decrementButton = new RoundPushButton( {
       content: decrementIcon,
-      listener: options.downButtonListener,
+      listener: downButtonListener,
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: options.baseColor,
