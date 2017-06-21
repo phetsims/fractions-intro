@@ -82,7 +82,7 @@ define( function( require ) {
     this.model = model;
 
     var textOptions = {
-      font: new PhetFont( 80 )
+      font: new PhetFont( 110 )
     };
 
     var maxTextOptions = {
@@ -123,9 +123,11 @@ define( function( require ) {
     var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++},
       function() {model.denominatorProperty.value--}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
     var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++},
-      function() { model.maxProperty.value--}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:15, spacing:3} );
+      function() { model.maxProperty.value--}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:12, spacing:3} );
 
     // TODO: Rearrange this on the screen
+
+    //maxSpinner
     this.addChild( new VBox( {
       children: [
         new Text( 'Max', { font: new PhetFont( 30 ) } ),
@@ -138,9 +140,12 @@ define( function( require ) {
           }
         )
       ],
-      spacing: 10,
-      right: this.layoutBounds.right - 10
+      spacing: 5,
+      right: this.layoutBounds.right - 20,
+      top: this.layoutBounds.top + 25
     } ) );
+
+    // Fraction + Spinners
     this.addChild( new HBox( {
       children: [
         new VBox( {
@@ -148,7 +153,7 @@ define( function( require ) {
             numeratorSpinner,
             denominatorSpinner
           ],
-          spacing: 30
+          spacing: 40
         } ),
         new VBox( {
           children: [
@@ -156,11 +161,11 @@ define( function( require ) {
             new Line( 0, 0, 80, 0, { stroke: 'black', lineWidth: 8, lineCap: 'round' } ),
             denominatorText
           ],
-          spacing: 10
+          spacing: 0
         } )
       ],
-      spacing: 30,
-      left: this.layoutBounds.left + 10,
+      spacing: 20,
+      left: this.layoutBounds.left + 80,
       bottom: this.layoutBounds.bottom - 10
     } ) );
 
@@ -215,7 +220,7 @@ define( function( require ) {
           self.model.numeratorProperty,
           self.model.denominatorProperty,
           self.model.maxProperty,
-          new NumberProperty( 1 ), { x: 50 - self.layoutBounds.centerX, y: -100 }
+          new NumberProperty( 1 ), { x: 25 - self.layoutBounds.centerX, y: -160 }
         );
       }
       if ( self.currentView ) {
