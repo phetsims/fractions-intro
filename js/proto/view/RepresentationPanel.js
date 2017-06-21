@@ -11,7 +11,7 @@ define( function( require ) {
   var BeakerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  // var Image = require( 'SCENERY/nodes/Image' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/proto/view/NumberLineIcon' );
   //var NumberProperty = require( 'AXON/NumberProperty' );
@@ -21,7 +21,7 @@ define( function( require ) {
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
 
   // images
-  // var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
+  var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );
 
   /**
    *
@@ -78,12 +78,12 @@ define( function( require ) {
           fullHeight: 50
         } )
       },
-      // {
-      //   value: Representation.CAKE,
-      //   node: new Image( cakeImage, {
-      //     maxHeight: 70
-      //   } )
-      // },
+      {
+        value: Representation.CAKE,
+        node: new Image( cakeImage, {
+          maxHeight: 70
+        } )
+      },
       {
         value: Representation.NUMBER_LINE,
         node: new NumberLineIcon()

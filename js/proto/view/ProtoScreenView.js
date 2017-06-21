@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BeakerView = require( 'FRACTIONS_INTRO/proto/view/BeakerView' );
+  var CakeView = require( 'FRACTIONS_INTRO/proto/view/CakeView' );
   var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
   var NumberLineView = require( 'FRACTIONS_INTRO/proto/view/NumberLineView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -154,6 +155,7 @@ define( function( require ) {
     // @private TODO doc
     this.currentView = null;
 
+
     // representation panel at the top of the simulation
     this.addChild( new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
@@ -179,6 +181,9 @@ define( function( require ) {
       }
       else if ( representation === Representation.BEAKER ) {
         self.currentView = new BeakerView( model );
+      }
+      else if ( representation === Representation.CAKE ) {
+        self.currentView = new CakeView( model );
       }
       else if ( representation === Representation.NUMBER_LINE ) {
 
