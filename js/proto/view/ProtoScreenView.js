@@ -27,6 +27,7 @@ define( function( require ) {
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/proto/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -83,47 +84,19 @@ define( function( require ) {
     var textOptions = {
       font: new PhetFont( 80 )
     };
+
+    var maxTextOptions = {
+      font: new PhetFont( 30 )
+    };
+
     var numeratorText = new Text( '', textOptions );
     model.numeratorProperty.linkAttribute( numeratorText, 'text' );
 
     var denominatorText = new Text( '', textOptions );
     model.denominatorProperty.linkAttribute( denominatorText, 'text' );
 
-    var maxText = new Text( '', textOptions );
+    var maxText = new Text( '', maxTextOptions );
     model.maxProperty.linkAttribute( maxText, 'text' );
-
-    // TODO: Change these spinner to a more appropriate type such as number spinner.
-    function createTempSpinner( property, upEnabledProperty, downEnabledProperty ) {
-      var buttonOptions = {
-        fireOnHold: true,
-        fireOnHoldDelay: 400,
-        fireOnHoldInterval: 100
-      };
-
-      var upButton = new RectangularPushButton( _.extend( {
-        content: new Text( 'up', { font: new PhetFont( 15 ) } ),
-        listener: function() {
-          property.value += 1;
-        }
-      }, buttonOptions ) );
-      upEnabledProperty.linkAttribute( upButton, 'enabled' );
-
-      var downButton = new RectangularPushButton( _.extend( {
-        content: new Text( 'down', { font: new PhetFont( 15 ) } ),
-        listener: function() {
-          property.value -= 1;
-        }
-      }, buttonOptions ) );
-      downEnabledProperty.linkAttribute( downButton, 'enabled' );
-
-      return new VBox( {
-        children: [
-          upButton,
-          downButton
-        ],
-        spacing: 5
-      } );
-    }
 
     var modelProperties = [ model.numeratorProperty, model.denominatorProperty, model.maxProperty ];
     var canIncreaseNumeratorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
@@ -145,11 +118,29 @@ define( function( require ) {
       return max > ProtoConstants.MAX_RANGE.min;
     } );
 
-    var numeratorSpinner = createTempSpinner( model.numeratorProperty, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
-    var denominatorSpinner = createTempSpinner( model.denominatorProperty, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
-    var maxSpinner = createTempSpinner( model.maxProperty, canIncreaseMaxProperty, canDecreaseMaxProperty );
+    var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++},
+      function() {model.numeratorProperty.value--}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
+    var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++},
+      function() {model.denominatorProperty.value--}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
+    var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++},
+      function() { model.maxProperty.value--}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:15, spacing:3} );
 
     // TODO: Rearrange this on the screen
+    this.addChild( new VBox( {
+      children: [
+        new Text( 'Max', { font: new PhetFont( 30 ) } ),
+        new HBox( {
+            children: [
+              maxText,
+              maxSpinner
+            ],
+          spacing:7
+          }
+        )
+      ],
+      spacing: 10,
+      right: this.layoutBounds.right - 10
+    } ) );
     this.addChild( new HBox( {
       children: [
         new VBox( {
@@ -157,21 +148,13 @@ define( function( require ) {
             numeratorSpinner,
             denominatorSpinner
           ],
-          spacing: 50
+          spacing: 30
         } ),
         new VBox( {
           children: [
             numeratorText,
             new Line( 0, 0, 80, 0, { stroke: 'black', lineWidth: 8, lineCap: 'round' } ),
             denominatorText
-          ],
-          spacing: 10
-        } ),
-        new VBox( {
-          children: [
-            new Text( 'Max', { font: new PhetFont( 30 ) } ),
-            maxText,
-            maxSpinner
           ],
           spacing: 10
         } )
@@ -248,23 +231,23 @@ define( function( require ) {
       image11, image12, image13, image14, image15, image16, image17, image18, image19, image20 );
 
     var transparencyProperty = new NumberProperty( 0 );
-    this.addChild(new HSlider( transparencyProperty, {
+    this.addChild( new HSlider( transparencyProperty, {
       min: 0,
       max: 0.8
-    }, { right: this.layoutBounds.right - 10, bottom: this.layoutBounds.bottom - 70 } ));
+    }, { right: this.layoutBounds.right - 10, bottom: this.layoutBounds.bottom - 70 } ) );
 
     var pictureIndex = new NumberProperty( 0 );
     var rangeProperty = new Property( new RangeWithValue( 0, 20, 0 ) );
-    this.addChild(new NumberSpinner( pictureIndex, rangeProperty, {
+    this.addChild( new NumberSpinner( pictureIndex, rangeProperty, {
       right: this.layoutBounds.right - 20,
       bottom: this.layoutBounds.bottom - 120
-    } ));
+    } ) );
 
     var pictureNode = new Node();
     transparencyProperty.link( function( transparency ) {
       pictureNode.opacity = transparency;
     } );
-    this.addChild(pictureNode);
+    this.addChild( pictureNode );
     pictureIndex.link( function( number ) {
       pictureNode.removeAllChildren();
       var img = new Image( imageList[ number ] );
