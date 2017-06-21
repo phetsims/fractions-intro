@@ -22,7 +22,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/proto/view/RepresentationPanel' );
@@ -118,12 +117,21 @@ define( function( require ) {
       return max > ProtoConstants.MAX_RANGE.min;
     } );
 
+<<<<<<< Updated upstream
     var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++},
       function() {model.numeratorProperty.value--}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
     var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++},
       function() {model.denominatorProperty.value--}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
     var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++},
       function() { model.maxProperty.value--}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:12, spacing:3} );
+=======
+    var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++;},
+      function() {model.numeratorProperty.value--;}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
+    var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++;},
+      function() {model.denominatorProperty.value--;}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
+    var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++;},
+      function() { model.maxProperty.value--;}, canIncreaseMaxProperty, canDecreaseMaxProperty, {radius:15, spacing:3} );
+>>>>>>> Stashed changes
 
     // TODO: Rearrange this on the screen
 
