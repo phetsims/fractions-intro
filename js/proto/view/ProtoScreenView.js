@@ -21,10 +21,10 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
+  var RepresentationPanel = require( 'FRACTIONS_INTRO/proto/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -159,7 +159,7 @@ define( function( require ) {
     } ) );
 
     var viewContainer = new Node( {
-      translation: this.layoutBounds.center
+      translation: this.layoutBounds.center.plusXY( 0, 100 )
     } );
 
     this.addChild( viewContainer );
@@ -167,28 +167,10 @@ define( function( require ) {
     // @private TODO doc
     this.currentView = null;
 
-    // TODO: Switch this to our representation panel and move it to the top of the screen
-    this.addChild( new RadioButtonGroup( model.representationProperty, [
-      {
-        value: Representation.CIRCLE,
-        node: new Text( 'Circle', { font: new PhetFont( 14 ) } )
-      },
-      {
-        value: Representation.VERTICAL_BAR,
-        node: new Text( 'VBar', { font: new PhetFont( 14 ) } )
-      },
-      {
-        value: Representation.BEAKER,
-        node: new Text( 'Beaker', { font: new PhetFont( 14 ) } )
-      },
-      {
-        value: Representation.NUMBER_LINE,
-        node: new Text( 'Number Line', { font: new PhetFont( 14 ) } )
-      }
-    ], {
+    // representation panel at the top of the simulation
+    this.addChild( new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
-      bottom: this.layoutBounds.bottom - 10,
-      orientation: 'horizontal'
+      y: 10
     } ) );
 
     model.representationProperty.link( function( representation ) {
@@ -218,7 +200,7 @@ define( function( require ) {
           self.model.numeratorProperty,
           self.model.denominatorProperty,
           self.model.maxProperty,
-          new NumberProperty( 1 ), { x: 50 - self.layoutBounds.centerX }
+          new NumberProperty( 1 ), { x: 50 - self.layoutBounds.centerX, y: -100 }
         );
       }
       if ( self.currentView ) {

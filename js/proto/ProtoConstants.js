@@ -21,6 +21,8 @@ define( function( require ) {
     MAJOR_TICK_LENGTH: 80, // length of major tick line
     MINOR_TICK_LENGTH: 40, // length of minor tick line
     NUMBER_LINE_FONT: new PhetFont( 40 ),
+    BEAKER_WIDTH: 80,
+    BEAKER_HEIGHT: 150,
 
     // @public {Range} - Possible number of active containers
     MAX_RANGE: new Range( 1, 6 ),
