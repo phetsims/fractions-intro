@@ -12,9 +12,11 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangleNode = require( 'FRACTIONS_INTRO/proto/view/RectangleNode' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
    * @constructor
@@ -42,10 +44,14 @@ define( function( require ) {
       lineWidth: 3
     } );
 
-    // @private {function}
+    // @private {Path} creates the path for the dividing lines between cells
+    this.cellDividersPath = new Path( null, { stroke: this.strokeProperty } );
+    this.addChild( this.cellDividersPath );
+
+// @private {function}
     this.rebuildListener = this.rebuild.bind( this );
 
-    // @private {Array.<RectangleNode>}
+// @private {Array.<RectangleNode>}
     this.cellNodes = [];
 
     container.cells.lengthProperty.link( this.rebuildListener );
@@ -88,6 +94,16 @@ define( function( require ) {
           cellNode.visibilityListener = cell.appearsFilledProperty.linkAttribute( cellNode, 'visible' );
         })();
       }
+
+      // sets the shape of the dividing lines between cells
+      var cellDividersShape = new Shape();
+      var cellHeight = ProtoConstants.RECTANGULAR_SIZE.height / denominator;
+      for ( var j = 1; j < denominator; j++ ) {
+        cellDividersShape.moveTo( 0, j * cellHeight )
+          .horizontalLineToRelative( ProtoConstants.RECTANGULAR_SIZE.width );
+      }
+      self.cellDividersPath.setShape( cellDividersShape );
+
     },
 
     removeCellNodes: function() {
@@ -106,5 +122,7 @@ define( function( require ) {
 
       Rectangle.prototype.dispose.call( this );
     }
+
   } );
-} );
+} )
+;
