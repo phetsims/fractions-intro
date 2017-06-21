@@ -24,7 +24,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {HBox}
+   * @extends {Node}
    *
    * TODO: reduce with RectangularView?
    *
