@@ -26,7 +26,7 @@ define( function( require ) {
    *
    * TODO: reduce with RectangularView?
    *
-   * @param {Model} model
+   * @param {IntroModel} model
    */
   function CellSceneView( model ) {
 

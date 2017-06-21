@@ -19,7 +19,7 @@ define( function( require ) {
    * @constructor
    * @extends {CellSceneView}
    *
-   * @param {Model} model
+   * @param {IntroModel} model
    */
   function RectangularView( model ) {
     CellSceneView.call( this, model );

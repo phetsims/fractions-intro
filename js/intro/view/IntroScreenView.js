@@ -78,7 +78,7 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    // @private {Model}
+    // @private {IntroModel}
     this.model = model;
 
     var textOptions = {
