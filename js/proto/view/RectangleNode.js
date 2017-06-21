@@ -24,7 +24,7 @@ define( function( require ) {
     Rectangle.call( this, {
       rectWidth: ProtoConstants.RECTANGULAR_SIZE.width,
       rectHeight: ProtoConstants.RECTANGULAR_SIZE.height / denominator,
-      fill: 'red',
+      fill: '#FFE600',
       stroke: 'black',
       lineWidth: 2
     } );

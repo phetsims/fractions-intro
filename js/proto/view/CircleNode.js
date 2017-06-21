@@ -35,7 +35,7 @@ define( function( require ) {
     shape.arc( 0, 0, ProtoConstants.CIRCULAR_RADIUS, startAngle, endAngle, false ).close();
 
     Path.call( this, shape, {
-      fill: 'blue',
+      fill: 'rgb(140, 198, 61)',
       stroke: 'black',
       lineWidth: 2
     } );

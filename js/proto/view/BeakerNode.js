@@ -21,7 +21,7 @@ define( function( require ) {
   var fullHeight = 200;
 
   var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.15)';
-  var WATER_SIDE_COLOR = 'rgba(50,255,0,0.7)';
+  var WATER_SIDE_COLOR = 'rgba(30,163,255,0.8)';
   var WATER_TOP_COLOR = WATER_SIDE_COLOR;
   var BEAKER_SHINE_COLOR = 'rgba(255,255,255,0.7)';
 
