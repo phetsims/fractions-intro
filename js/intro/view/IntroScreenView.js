@@ -78,19 +78,9 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    var textOptions = {
-      font: new PhetFont( 110 )
-    };
-
     var maxTextOptions = {
       font: new PhetFont( 30 )
     };
-
-    var numeratorText = new Text( '', textOptions );
-    model.numeratorProperty.linkAttribute( numeratorText, 'text' );
-
-    var denominatorText = new Text( '', textOptions );
-    model.denominatorProperty.linkAttribute( denominatorText, 'text' );
 
     var maxText = new Text( '', maxTextOptions );
     model.maxProperty.linkAttribute( maxText, 'text' );
