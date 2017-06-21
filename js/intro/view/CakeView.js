@@ -9,31 +9,31 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var CircularContainerNode = require( 'FRACTIONS_INTRO/proto/view/CircularContainerNode' );
-  var CircularPieceNode = require( 'FRACTIONS_INTRO/proto/view/CircularPieceNode' );
+  var CakeContainerNode = require( 'FRACTIONS_INTRO/intro/view/CakeContainerNode' );
+  var CakePieceNode = require( 'FRACTIONS_INTRO/intro/view/CakePieceNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var CellSceneView = require( 'FRACTIONS_INTRO/proto/view/CellSceneView' );
+  var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
 
   /**
    * @constructor
    * @extends {CellSceneView}
    *
-   * @param {ProtoModel} model
+   * @param {Model} model
    */
-  function CircularView( model ) {
+  function CakeView( model ) {
     CellSceneView.call( this, model );
   }
 
-  fractionsIntro.register( 'CircularView', CircularView );
+  fractionsIntro.register( 'CakeView', CakeView );
 
-  return inherit( CellSceneView, CircularView, {
+  return inherit( CellSceneView, CakeView, {
     createContainerNode: function( container, cellDownCallback ) {
-      return new CircularContainerNode( container, cellDownCallback );
+      return new CakeContainerNode( container, cellDownCallback );
     },
 
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
-      return new CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
+      return new CakePieceNode( piece, finishedAnimatingCallback, droppedCallback );
     }
   } );
 } );

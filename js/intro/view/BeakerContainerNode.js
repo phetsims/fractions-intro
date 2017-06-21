@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BeakerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerNode' );
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -21,7 +21,7 @@ define( function( require ) {
    *
    * TODO: factor out common things with the other container nodes
    *
-   * @param {ProtoContainer} container
+   * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
    */
   function BeakerContainerNode( container, cellDownCallback ) {

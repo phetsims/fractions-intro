@@ -9,25 +9,25 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BeakerView = require( 'FRACTIONS_INTRO/proto/view/BeakerView' );
-  var CakeView = require( 'FRACTIONS_INTRO/proto/view/CakeView' );
-  var CircularView = require( 'FRACTIONS_INTRO/proto/view/CircularView' );
-  var NumberLineView = require( 'FRACTIONS_INTRO/proto/view/NumberLineView' );
+  var BeakerView = require( 'FRACTIONS_INTRO/intro/view/BeakerView' );
+  var CakeView = require( 'FRACTIONS_INTRO/intro/view/CakeView' );
+  var CircularView = require( 'FRACTIONS_INTRO/intro/view/CircularView' );
+  var NumberLineView = require( 'FRACTIONS_INTRO/intro/view/NumberLineView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var FractionWithSpinners = require( 'FRACTIONS_INTRO/proto/view/FractionWithSpinners' );
+  var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
-  var RectangularView = require( 'FRACTIONS_INTRO/proto/view/RectangularView' );
-  var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
-  var RepresentationPanel = require( 'FRACTIONS_INTRO/proto/view/RepresentationPanel' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var RectangularView = require( 'FRACTIONS_INTRO/intro/view/RectangularView' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
+  var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var RoundSpinner = require( 'FRACTIONS_INTRO/proto/view/RoundSpinner' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -67,9 +67,9 @@ define( function( require ) {
    * @constructor
    * @extend {ScreenView}
    *
-   * @param {ProtoModel} model
+   * @param {IntroModel} model
    */
-  function ProtoScreenView( model ) {
+  function IntroScreenView( model ) {
 
     var self = this;
 
@@ -78,7 +78,7 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    // @private {ProtoModel}
+    // @private {Model}
     this.model = model;
 
     var textOptions = {
@@ -100,10 +100,10 @@ define( function( require ) {
 
     var modelProperties = [ model.numeratorProperty, model.denominatorProperty, model.maxProperty ];
     var canIncreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( max + 1 ) <= ProtoConstants.MAX_RANGE.max;
+      return ( max + 1 ) <= IntroConstants.MAX_RANGE.max;
     } );
     var canDecreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return max > ProtoConstants.MAX_RANGE.min;
+      return max > IntroConstants.MAX_RANGE.min;
     } );
 
     var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++;},
@@ -236,9 +236,9 @@ define( function( require ) {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
-  fractionsIntro.register( 'ProtoScreenView', ProtoScreenView );
+  fractionsIntro.register( 'IntroScreenView', IntroScreenView );
 
-  return inherit( ScreenView, ProtoScreenView, {
+  return inherit( ScreenView, IntroScreenView, {
     step: function( dt ) {
       this.currentView.step( dt );
     }

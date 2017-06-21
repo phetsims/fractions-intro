@@ -10,12 +10,12 @@ define( function( require ) {
 
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var CircleNode = require( 'FRACTIONS_INTRO/proto/view/CircleNode' );
+  var CircleNode = require( 'FRACTIONS_INTRO/intro/view/CircleNode' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -25,7 +25,7 @@ define( function( require ) {
    *
    * TODO: factor out common things with RectangularContainerNode
    *
-   * @param {ProtoContainer} container
+   * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
    */
   function CircularContainerNode( container, cellDownCallback ) {
@@ -40,7 +40,7 @@ define( function( require ) {
       return count > 0 ? 'black' : 'gray';
     } );
 
-    Circle.call( this, ProtoConstants.CIRCULAR_RADIUS, {
+    Circle.call( this, IntroConstants.CIRCULAR_RADIUS, {
       stroke: this.strokeProperty,
       lineWidth: 3
     } );
@@ -80,7 +80,7 @@ define( function( require ) {
       var denominator = this.container.cells.length;
 
       // disregard segment for denominator equal to 1
-      var cellDividersLength = (denominator > 1) ? ProtoConstants.CIRCULAR_RADIUS : 0;
+      var cellDividersLength = (denominator > 1) ? IntroConstants.CIRCULAR_RADIUS : 0;
 
       // creates an angle between the cells of a circle node that corresponds to the denominator value
       var cellDividersAngle = (Math.PI * 2) / (denominator);

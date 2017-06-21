@@ -12,7 +12,7 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -32,7 +32,7 @@ define( function( require ) {
     if ( denominator > 1 ) {
       shape.moveTo( 0, 0 );
     }
-    shape.arc( 0, 0, ProtoConstants.CIRCULAR_RADIUS, startAngle, endAngle, false ).close();
+    shape.arc( 0, 0, IntroConstants.CIRCULAR_RADIUS, startAngle, endAngle, false ).close();
 
     Path.call( this, shape, {
       fill: 'rgb(140, 198, 61)',
@@ -41,7 +41,7 @@ define( function( require ) {
     } );
 
     // @public {Vector2}
-    this.midpointOffset = denominator === 1 ? Vector2.ZERO : Vector2.createPolar( ProtoConstants.CIRCULAR_RADIUS / 2, ( startAngle + endAngle ) / 2 );
+    this.midpointOffset = denominator === 1 ? Vector2.ZERO : Vector2.createPolar( IntroConstants.CIRCULAR_RADIUS / 2, ( startAngle + endAngle ) / 2 );
   }
 
   fractionsIntro.register( 'CircleNode', CircleNode );

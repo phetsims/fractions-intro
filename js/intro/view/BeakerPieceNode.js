@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
-  var RectangleNode = require( 'FRACTIONS_INTRO/proto/view/RectangleNode' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -22,27 +22,19 @@ define( function( require ) {
    * @constructor
    * @extends {Node}
    *
-   * @param {ProtoPiece} piece
-   * @param {function} finishedAnimatingCallback - Called as function( {ProtoPiece} ) with the piece to finish animating.
-   * @param {function} droppedCallback - Called as function( {ProtoPiece} )
+   * TODO: dedup if necessary?
+   *
+   * @param {number} denominator
+   * @param {function} finishedAnimatingCallback - Called as function( {BeakerPieceNode} )
+   * @param {function} droppedCallback - Called as function( {BeakerPieceNode} )
    */
-  function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
+  function BeakerPieceNode( denominator, finishedAnimatingCallback, droppedCallback ) {
+    BeakerNode.call( this, 1, denominator );
+
     var self = this;
 
-    // @private {ProtoPiece}
-    this.piece = piece;
-
-    // @private {function}
+    // @private
     this.finishedAnimatingCallback = finishedAnimatingCallback;
-
-    // @private TODO note more than just node, has midpointOffset variable
-    this.graphic = new RectangleNode( piece.denominator );
-
-    Node.call( this, {
-      children: [
-        this.graphic
-      ]
-    } );
 
     // @public {Property.<Vector2>}
     this.originProperty = new Property( Vector2.ZERO );
@@ -56,7 +48,7 @@ define( function( require ) {
 
     this.originProperty.lazyLink( function( origin ) {
       self.ratio = 0;
-      self.setMidpoint( origin );
+      self.center = origin;
     } );
     this.destinationProperty.lazyLink( function() {
       self.ratio = 0;
@@ -66,28 +58,20 @@ define( function( require ) {
     var initialOffset;
     this.dragListener = new SimpleDragHandler( {
       start: function( event ) {
-        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
+        initialOffset = self.getCenter().minus( self.globalToParentPoint( event.pointer.point ) );
       },
       drag: function( event ) {
-        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
+        self.setCenter( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
       },
       end: function() {
-        droppedCallback( piece );
+        droppedCallback( self );
       }
     } );
   }
 
-  fractionsIntro.register( 'RectangularPieceNode', RectangularPieceNode );
+  fractionsIntro.register( 'BeakerPieceNode', BeakerPieceNode );
 
-  return inherit( Node, RectangularPieceNode, {
-    getMidpoint: function() {
-      return this.localToParentPoint( this.graphic.midpointOffset );
-    },
-
-    setMidpoint: function( midpoint ) {
-      this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
-    },
-
+  return inherit( Node, BeakerPieceNode, {
     step: function( dt ) {
       if ( this.isUserControlled ) {
         return;
@@ -96,22 +80,12 @@ define( function( require ) {
       // Smaller animations are somewhat faster
       this.ratio = Math.min( 1, this.ratio + dt * 20 / Math.sqrt( this.originProperty.value.distance( this.destinationProperty.value ) ) );
       if ( this.ratio === 1 ) {
-        this.finishedAnimatingCallback();
+        this.finishedAnimatingCallback( this );
       }
       else {
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
-        this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
+        this.setCenter( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
-    },
-
-    orient: function( closestCell, dt ) {
-
-    },
-
-    dispose: function() {
-      this.interruptSubtreeInput();
-
-      Node.prototype.dispose.call( this );
     }
   } );
 } );

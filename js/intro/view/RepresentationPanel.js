@@ -8,17 +8,17 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BeakerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerNode' );
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var NumberLineIcon = require( 'FRACTIONS_INTRO/proto/view/NumberLineIcon' );
+  var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
   //var NumberProperty = require( 'AXON/NumberProperty' );
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
   // images
   var cakeImage = require( 'image!FRACTIONS_INTRO/cake_1_1.png' );

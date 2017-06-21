@@ -3,19 +3,18 @@
 /**
  * TODO: doc
  *
- * @author Martin Veillette (Berea College)
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var CakeNode = require( 'FRACTIONS_INTRO/proto/view/CakeNode' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -23,37 +22,34 @@ define( function( require ) {
    * @constructor
    * @extends {Node}
    *
-   * TODO: there is a lot of duplication here
-   *
-   * @param {ProtoPiece} piece
-   * @param {function} finishedAnimatingCallback - Called as function( {ProtoPiece} ) with the piece to finish animating.
-   * @param {function} droppedCallback - Called as function( {ProtoPiece} )
+   * @param {Piece} piece
+   * @param {function} finishedAnimatingCallback - Called as function( {Piece} ) with the piece to finish animating.
+   * @param {function} droppedCallback - Called as function( {Piece} )
    */
-  function CakePieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
+  function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
     var self = this;
 
-    // @private {ProtoPiece}
+    // @private {Piece}
     this.piece = piece;
 
     // @private {function}
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
-    this.graphic = new CakeNode( piece.denominator, 0 );
+    this.graphic = new RectangleNode( piece.denominator );
 
-    var originCell = piece.originCellProperty.value;
-    if ( originCell ) {
-      this.graphic.setCakeIndex( originCell.index );
-    }
-
-    Node.call( this, { children: [ this.graphic ] } );
+    Node.call( this, {
+      children: [
+        this.graphic
+      ]
+    } );
 
     // @public {Property.<Vector2>}
     this.originProperty = new Property( Vector2.ZERO );
     this.destinationProperty = new Property( Vector2.ZERO );
 
-    // @private {Property.<boolean>}
-    this.isUserControlledProperty = new BooleanProperty( false );
+    // @public {boolean}
+    this.isUserControlled = false;
 
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
@@ -81,9 +77,9 @@ define( function( require ) {
     } );
   }
 
-  fractionsIntro.register( 'CakePieceNode', CakePieceNode );
+  fractionsIntro.register( 'RectangularPieceNode', RectangularPieceNode );
 
-  return inherit( Node, CakePieceNode, {
+  return inherit( Node, RectangularPieceNode, {
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
     },
@@ -93,7 +89,7 @@ define( function( require ) {
     },
 
     step: function( dt ) {
-      if ( this.isUserControlledProperty.value ) {
+      if ( this.isUserControlled ) {
         return;
       }
 
@@ -103,17 +99,13 @@ define( function( require ) {
         this.finishedAnimatingCallback();
       }
       else {
-
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
 
     orient: function( closestCell, dt ) {
-      var midpoint = this.getMidpoint();
-      this.graphic.setCakeIndex( closestCell.index );
-      console.log( closestCell.index );
-      this.setMidpoint( midpoint );
+
     },
 
     dispose: function() {

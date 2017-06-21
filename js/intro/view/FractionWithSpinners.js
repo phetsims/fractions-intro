@@ -12,12 +12,12 @@ define( function( require ) {
   // modules
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var FractionNode = require( 'FRACTIONS_INTRO/proto/view/FractionNode' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RoundSpinner = require( 'FRACTIONS_INTRO/proto/view/RoundSpinner' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
@@ -47,10 +47,10 @@ define( function( require ) {
       return ( numerator - 1 ) >= 0;
     } );
     var canIncreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator + 1 ) <= ProtoConstants.DENOMINATOR_RANGE.max;
+      return ( denominator + 1 ) <= IntroConstants.DENOMINATOR_RANGE.max;
     } );
     var canDecreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator - 1 ) >= ProtoConstants.DENOMINATOR_RANGE.min && numerator / ( denominator - 1 ) <= max;
+      return ( denominator - 1 ) >= IntroConstants.DENOMINATOR_RANGE.min && numerator / ( denominator - 1 ) <= max;
     } );
 
     var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++;},

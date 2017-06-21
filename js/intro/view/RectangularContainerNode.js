@@ -13,16 +13,16 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RectangleNode = require( 'FRACTIONS_INTRO/proto/view/RectangleNode' );
+  var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
   var Shape = require( 'KITE/Shape' );
 
   /**
    * @constructor
    * @extend {Rectangle}
    *
-   * @param {ProtoContainer} container
+   * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
    */
   function RectangularContainerNode( container, cellDownCallback ) {
@@ -38,8 +38,8 @@ define( function( require ) {
     } );
 
     Rectangle.call( this, {
-      rectWidth: ProtoConstants.RECTANGULAR_SIZE.width,
-      rectHeight: ProtoConstants.RECTANGULAR_SIZE.height,
+      rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
+      rectHeight: IntroConstants.RECTANGULAR_SIZE.height,
       stroke: this.strokeProperty,
       lineWidth: 3
     } );
@@ -87,7 +87,7 @@ define( function( require ) {
           } );
 
           var sortedIndex = denominator - i - 1;
-          cellNode.y = ProtoConstants.RECTANGULAR_SIZE.height * sortedIndex / denominator;
+          cellNode.y = IntroConstants.RECTANGULAR_SIZE.height * sortedIndex / denominator;
 
           // TODO: don't do it this way
           cellNode.cell = cell;
@@ -97,10 +97,10 @@ define( function( require ) {
 
       // sets the shape of the dividing lines between cells
       var cellDividersShape = new Shape();
-      var cellHeight = ProtoConstants.RECTANGULAR_SIZE.height / denominator;
+      var cellHeight = IntroConstants.RECTANGULAR_SIZE.height / denominator;
       for ( var j = 1; j < denominator; j++ ) {
         cellDividersShape.moveTo( 0, j * cellHeight )
-          .horizontalLineToRelative( ProtoConstants.RECTANGULAR_SIZE.width );
+          .horizontalLineToRelative( IntroConstants.RECTANGULAR_SIZE.width );
       }
       self.cellDividersPath.setShape( cellDividersShape );
 

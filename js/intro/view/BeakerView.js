@@ -11,8 +11,8 @@ define( function( require ) {
   // modules
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
-  var BeakerContainerNode = require( 'FRACTIONS_INTRO/proto/view/BeakerContainerNode' );
-  var BeakerPieceNode = require( 'FRACTIONS_INTRO/proto/view/BeakerPieceNode' );
+  var BeakerContainerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerContainerNode' );
+  var BeakerPieceNode = require( 'FRACTIONS_INTRO/intro/view/BeakerPieceNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -28,7 +28,7 @@ define( function( require ) {
    *
    * TODO: reduce with RectangularView?
    *
-   * @param {ProtoModel} model
+   * @param {Model} model
    */
   function BeakerView( model ) {
 

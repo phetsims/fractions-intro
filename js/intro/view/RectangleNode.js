@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
@@ -22,8 +22,8 @@ define( function( require ) {
    */
   function RectangleNode( denominator ) {
     Rectangle.call( this, {
-      rectWidth: ProtoConstants.RECTANGULAR_SIZE.width,
-      rectHeight: ProtoConstants.RECTANGULAR_SIZE.height / denominator,
+      rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
+      rectHeight: IntroConstants.RECTANGULAR_SIZE.height / denominator,
       fill: '#FFE600',
       stroke: 'black',
       lineWidth: 2

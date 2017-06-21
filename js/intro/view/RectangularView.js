@@ -11,15 +11,15 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var CellSceneView = require( 'FRACTIONS_INTRO/proto/view/CellSceneView' );
-  var RectangularContainerNode = require( 'FRACTIONS_INTRO/proto/view/RectangularContainerNode' );
-  var RectangularPieceNode = require( 'FRACTIONS_INTRO/proto/view/RectangularPieceNode' );
+  var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
+  var RectangularContainerNode = require( 'FRACTIONS_INTRO/intro/view/RectangularContainerNode' );
+  var RectangularPieceNode = require( 'FRACTIONS_INTRO/intro/view/RectangularPieceNode' );
 
   /**
    * @constructor
    * @extends {CellSceneView}
    *
-   * @param {ProtoModel} model
+   * @param {Model} model
    */
   function RectangularView( model ) {
     CellSceneView.call( this, model );

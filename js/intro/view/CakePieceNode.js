@@ -3,13 +3,14 @@
 /**
  * TODO: doc
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Martin Veillette (Berea College)
  */
 define( function( require ) {
   'use strict';
 
   // modules
-  var CircleNode = require( 'FRACTIONS_INTRO/proto/view/CircleNode' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,52 +23,44 @@ define( function( require ) {
    * @constructor
    * @extends {Node}
    *
-   * TODO: dedup with RectangularPieceNode
+   * TODO: there is a lot of duplication here
    *
-   * @param {ProtoPiece} piece
-   * @param {function} finishedAnimatingCallback - Called as function( {ProtoPiece} ) with the piece to finish animating.
-   * @param {function} droppedCallback - Called as function( {ProtoPiece} )
+   * @param {Piece} piece
+   * @param {function} finishedAnimatingCallback - Called as function( {Piece} ) with the piece to finish animating.
+   * @param {function} droppedCallback - Called as function( {Piece} )
    */
-  function CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
+  function CakePieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
     var self = this;
 
-    // @private {ProtoPiece}
+    // @private {Piece}
     this.piece = piece;
 
     // @private {function}
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
-    this.graphic = new CircleNode( piece.denominator, 0 );
+    this.graphic = new CakeNode( piece.denominator, 0 );
 
-    Node.call( this, {
-      children: [
-        this.graphic
-      ]
-    } );
+    var originCell = piece.originCellProperty.value;
+    if ( originCell ) {
+      this.graphic.setCakeIndex( originCell.index );
+    }
+
+    Node.call( this, { children: [ this.graphic ] } );
 
     // @public {Property.<Vector2>}
     this.originProperty = new Property( Vector2.ZERO );
     this.destinationProperty = new Property( Vector2.ZERO );
 
-    //circle-specific
-    this.originRotation = 0;
-
-    // @public {boolean}
-    this.isUserControlled = false;
+    // @private {Property.<boolean>}
+    this.isUserControlledProperty = new BooleanProperty( false );
 
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
 
-    var originCell = piece.originCellProperty.value;
-    if ( originCell ) {
-      this.rotation = originCell.index * 2 * Math.PI / this.piece.denominator;
-    }
-
     this.originProperty.lazyLink( function( origin ) {
       self.ratio = 0;
       self.setMidpoint( origin );
-      self.originRotation = self.rotation;
     } );
     this.destinationProperty.lazyLink( function() {
       self.ratio = 0;
@@ -88,9 +81,9 @@ define( function( require ) {
     } );
   }
 
-  fractionsIntro.register( 'CircularPieceNode', CircularPieceNode );
+  fractionsIntro.register( 'CakePieceNode', CakePieceNode );
 
-  return inherit( Node, CircularPieceNode, {
+  return inherit( Node, CakePieceNode, {
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
     },
@@ -100,7 +93,7 @@ define( function( require ) {
     },
 
     step: function( dt ) {
-      if ( this.isUserControlled ) {
+      if ( this.isUserControlledProperty.value ) {
         return;
       }
 
@@ -110,17 +103,6 @@ define( function( require ) {
         this.finishedAnimatingCallback();
       }
       else {
-        // rotate before centering
-        var destinationCell = this.piece.destinationCellProperty.value;
-
-        var originRotation = this.originRotation;
-        var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;
-
-        // Hack to get closest rotation AND deduplicate this code
-        if ( targetRotation - originRotation > Math.PI ) {
-          targetRotation -= 2 * Math.PI;
-        }
-        this.rotation = ( 1 - this.ratio ) * this.originRotation + this.ratio * targetRotation;
 
         var easedRatio = Easing.QUADRATIC_IN_OUT.value( this.ratio );
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
@@ -128,24 +110,9 @@ define( function( require ) {
     },
 
     orient: function( closestCell, dt ) {
-      var originRotation = this.rotation;
-      var targetRotation = closestCell.index * 2 * Math.PI / this.piece.denominator;
-
-      // Hack to get closest rotation AND deduplicate this code
-      if ( targetRotation - originRotation > Math.PI ) {
-        targetRotation -= 2 * Math.PI;
-      }
-
       var midpoint = this.getMidpoint();
-
-      var rotationAmount = 5 * dt;
-      if ( targetRotation > originRotation ) {
-        this.rotation = Math.min( targetRotation, originRotation + rotationAmount );
-      }
-      else if ( targetRotation < originRotation ) {
-        this.rotation = Math.max( targetRotation, originRotation - rotationAmount );
-      }
-
+      this.graphic.setCakeIndex( closestCell.index );
+      console.log( closestCell.index );
       this.setMidpoint( midpoint );
     },
 

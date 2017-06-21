@@ -9,8 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var IntroScreen = require( 'FRACTIONS_INTRO/intro/IntroScreen' );
-  var ProtoScreen = require( 'FRACTIONS_INTRO/proto/ProtoScreen' );
+  var IntroScreen = require( 'FRACTIONS_INTRO/intro/IntroScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
@@ -31,7 +30,7 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
     var sim = new Sim( fractionsIntroTitleString, [
-      new ProtoScreen()
+      new IntroScreen()
     ], simOptions );
     sim.start();
   } );

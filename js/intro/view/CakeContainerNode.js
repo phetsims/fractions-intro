@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var Node = require( 'SCENERY/nodes/Node' );
-  var CakeNode = require( 'FRACTIONS_INTRO/proto/view/CakeNode' );
+  var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
@@ -44,7 +44,7 @@ define( function( require ) {
    *
    * TODO: factor out common things with RectangularContainerNode and CircularContainerNode
    *
-   * @param {ProtoContainer} container
+   * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
    */
   function CakeContainerNode( container, cellDownCallback ) {

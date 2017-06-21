@@ -16,7 +16,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ProtoConstants = require( 'FRACTIONS_INTRO/proto/ProtoConstants' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -65,7 +65,7 @@ define( function( require ) {
 
     // main Number line
     // the point (0,0) is set as the origin of the number line
-    var mainNumberLine = new Line( 0, 0, ProtoConstants.NUMBER_LINE_WIDTH, 0, {
+    var mainNumberLine = new Line( 0, 0, IntroConstants.NUMBER_LINE_WIDTH, 0, {
       stroke: 'black',
       lineWidth: 3,
       strokePickable: true,
@@ -85,7 +85,7 @@ define( function( require ) {
     var numbersNode = new Node();
 
     // distance between 0 and 1 on the number Line
-    var segmentLength = ProtoConstants.NUMBER_LINE_WIDTH / ProtoConstants.MAX_RANGE.max;
+    var segmentLength = IntroConstants.NUMBER_LINE_WIDTH / IntroConstants.MAX_RANGE.max;
 
     // Updates the minor and major ticks as well as the main number line
     var updateTicksMultilink = Property.multilink( [ maxProperty, denominatorProperty ], function( max, denominator ) {
@@ -108,13 +108,13 @@ define( function( require ) {
 
         // major tick line width varies for even and odd number of units
         var shape = i % 2 === 0 ? evenMajorTicksShape : oddMajorTicksShape;
-        shape.moveTo( i * segmentLength, -ProtoConstants.MAJOR_TICK_LENGTH / 2 )
-          .verticalLineTo( ProtoConstants.MAJOR_TICK_LENGTH / 2 );
+        shape.moveTo( i * segmentLength, -IntroConstants.MAJOR_TICK_LENGTH / 2 )
+          .verticalLineTo( IntroConstants.MAJOR_TICK_LENGTH / 2 );
 
         numbersNode.addChild( new Text( i, {
-          font: ProtoConstants.NUMBER_LINE_FONT,
+          font: IntroConstants.NUMBER_LINE_FONT,
           centerX: i * segmentLength,
-          top: ProtoConstants.MAJOR_TICK_LENGTH / 2,
+          top: IntroConstants.MAJOR_TICK_LENGTH / 2,
           rotation: -options.rotation // rotate the opposite way than this node so that the text is right side up.
         } ) );
       }
@@ -136,8 +136,8 @@ define( function( require ) {
           // if true make a symmetric tick if false make half of a tick in the direction of choosing
           // determine if the tick need to be on one side or both side
           var isSymmetric = ( j % multiplicationFactor === 0 );
-          minorTicksShape.moveTo( j * minorTickSeparation, isSymmetric ? -ProtoConstants.MINOR_TICK_LENGTH / 2 : 0 )
-            .verticalLineTo( ProtoConstants.MINOR_TICK_LENGTH / 2 );
+          minorTicksShape.moveTo( j * minorTickSeparation, isSymmetric ? -IntroConstants.MINOR_TICK_LENGTH / 2 : 0 )
+            .verticalLineTo( IntroConstants.MINOR_TICK_LENGTH / 2 );
         }
       }
       minorTicksPath.setShape( minorTicksShape );
@@ -167,7 +167,7 @@ define( function( require ) {
     // highlighter region for the marker
     var highlighterRectangle = new Rectangle( {
       rectWidth: MARKER_CIRCLE_RADIUS * 2,
-      rectHeight: ProtoConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT,
+      rectHeight: IntroConstants.MAJOR_TICK_LENGTH + HIGHLIGHTER_PADDING_HEIGHT,
       fill: 'yellow',
       center: Vector2.ZERO
     } );
@@ -178,7 +178,7 @@ define( function( require ) {
       markerCircle.centerX = segmentLength * numerator / denominator;
 
       var tickLength = ( numerator / denominator % 1 === 0 ) ?
-                       ProtoConstants.MAJOR_TICK_LENGTH : ProtoConstants.MINOR_TICK_LENGTH;
+                       IntroConstants.MAJOR_TICK_LENGTH : IntroConstants.MINOR_TICK_LENGTH;
 
       // Enables or Disables the ArrowNode
       if ( options.displayArrow ) {
