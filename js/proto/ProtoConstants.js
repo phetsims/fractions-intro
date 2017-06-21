@@ -31,9 +31,9 @@ define( function( require ) {
     DENOMINATOR_RANGE: new Range( 1, 8 ),
 
     // @public {Dimension2}
-    RECTANGULAR_SIZE: new Dimension2( 50, 200 ),
+    RECTANGULAR_SIZE: new Dimension2( 130, 185 ),
 
     // @public {number}
-    CIRCULAR_RADIUS: 60
+    CIRCULAR_RADIUS: 75
   } );
 } );

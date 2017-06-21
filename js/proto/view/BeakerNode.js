@@ -32,7 +32,7 @@ define( function( require ) {
   function BeakerNode( numerator, denominator, options ) {
 
     options = _.extend( {
-      fullHeight: 200,
+      fullHeight: 150,
       xRadius: 40,
       yRadius: 12
     }, options );

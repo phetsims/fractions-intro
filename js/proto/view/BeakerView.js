@@ -39,7 +39,7 @@ define( function( require ) {
 
     // @private {Node}
     this.containerLayer = new HBox( {
-      spacing: 10
+      spacing: 35
     } );
 
     // @private {Node}
