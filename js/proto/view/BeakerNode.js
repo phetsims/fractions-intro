@@ -29,12 +29,12 @@ define( function( require ) {
    * @param {number} denominator
    * @param {object} [options]
    */
-  function BeakerNode( numerator, denominator, options) {
+  function BeakerNode( numerator, denominator, options ) {
 
     options = _.extend( {
-    fullHeight: 200,
-    xRadius: 40,
-    yRadius: 12
+      fullHeight: 200,
+      xRadius: 40,
+      yRadius: 12
     }, options );
 
     var height = options.fullHeight * numerator / denominator;
