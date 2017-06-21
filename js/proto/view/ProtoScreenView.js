@@ -14,9 +14,9 @@ define( function( require ) {
   var NumberLineView = require( 'FRACTIONS_INTRO/proto/view/NumberLineView' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var FractionWithSpinners = require( 'FRACTIONS_INTRO/proto/view/FractionWithSpinners' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -26,7 +26,7 @@ define( function( require ) {
   var Representation = require( 'FRACTIONS_INTRO/proto/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/proto/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
+  var RoundSpinner = require( 'FRACTIONS_INTRO/proto/view/RoundSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -98,18 +98,6 @@ define( function( require ) {
     model.maxProperty.linkAttribute( maxText, 'text' );
 
     var modelProperties = [ model.numeratorProperty, model.denominatorProperty, model.maxProperty ];
-    var canIncreaseNumeratorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( numerator + 1 ) / denominator <= max;
-    } );
-    var canDecreaseNumeratorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( numerator - 1 ) >= 0;
-    } );
-    var canIncreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator + 1 ) <= ProtoConstants.DENOMINATOR_RANGE.max;
-    } );
-    var canDecreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator - 1 ) >= ProtoConstants.DENOMINATOR_RANGE.min && numerator / ( denominator - 1 ) <= max;
-    } );
     var canIncreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
       return ( max + 1 ) <= ProtoConstants.MAX_RANGE.max;
     } );
@@ -117,13 +105,9 @@ define( function( require ) {
       return max > ProtoConstants.MAX_RANGE.min;
     } );
 
-    var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++;},
-      function() {model.numeratorProperty.value--;}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
-    var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++;},
-      function() {model.denominatorProperty.value--;}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
     var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++;},
       function() { model.maxProperty.value--;}, canIncreaseMaxProperty, canDecreaseMaxProperty, {
-        radius: 15,
+        radius: 12,
         spacing: 3
       } );
 
@@ -147,28 +131,9 @@ define( function( require ) {
       top: this.layoutBounds.top + 25
     } ) );
 
-    // Fraction + Spinners
-    this.addChild( new HBox( {
-      children: [
-        new VBox( {
-          children: [
-            numeratorSpinner,
-            denominatorSpinner
-          ],
-          spacing: 40
-        } ),
-        new VBox( {
-          children: [
-            numeratorText,
-            new Line( 0, 0, 80, 0, { stroke: 'black', lineWidth: 8, lineCap: 'round' } ),
-            denominatorText
-          ],
-          spacing: 0
-        } )
-      ],
-      spacing: 20,
-      left: this.layoutBounds.left + 80,
-      bottom: this.layoutBounds.bottom - 10
+    this.addChild( new FractionWithSpinners( model, {
+      bottom: this.layoutBounds.bottom - 10,
+      left: this.layoutBounds.left + 80
     } ) );
 
     // Reset all button
