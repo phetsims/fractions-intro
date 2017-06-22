@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Node for the fraction with up/down spinners for numerator/denominator
+ * Scenery node for the visual representation of a fraction with up/down spinners for numerator/denominator
  *
  * @author Michael Moorer (Berea College)
  * @author Vincent Davis (Berea College)
@@ -21,46 +21,67 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
+   * @extends {HBox}
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Property.<number>} maxProperty
-   * @param {Function} upButtonListener
-   * @param {Function} downButtonListener
    * @param {Object} [options]
    * @constructor
    */
-  function FractionWithSpinners( model,
-                                 options ) {
+  function FractionWithSpinners( numeratorProperty, denominatorProperty, maxProperty, options ) {
 
     options = _.extend( {
       fill: 'black',
-      font: new PhetFont( { size: 110 } ),
+      font: new PhetFont( 110 ),
       dividingLineLength: 150,
       dividingLineWidth: 10
     }, options );
 
-    var modelProperties = [ model.numeratorProperty, model.denominatorProperty, model.maxProperty ];
-    var canIncreaseNumeratorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( numerator + 1 ) / denominator <= max;
-    } );
-    var canDecreaseNumeratorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( numerator - 1 ) >= 0;
-    } );
-    var canIncreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator + 1 ) <= IntroConstants.DENOMINATOR_RANGE.max;
-    } );
-    var canDecreaseDenominatorProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( denominator - 1 ) >= IntroConstants.DENOMINATOR_RANGE.min && numerator / ( denominator - 1 ) <= max;
-    } );
+    // convenience variable
+    var modelProperties = [ numeratorProperty, denominatorProperty, maxProperty ];
 
-    var numeratorSpinner = new RoundSpinner( function() {model.numeratorProperty.value++;},
-      function() {model.numeratorProperty.value--;}, canIncreaseNumeratorProperty, canDecreaseNumeratorProperty );
-    var denominatorSpinner = new RoundSpinner( function() {model.denominatorProperty.value++;},
-      function() {model.denominatorProperty.value--;}, canIncreaseDenominatorProperty, canDecreaseDenominatorProperty );
+    // create properties to enable/disable spinners.
+    var canIncreaseNumeratorProperty = new DerivedProperty( modelProperties,
+      function( numerator, denominator, max ) {
+        return ( numerator + 1 ) / denominator <= max;
+      } );
+    var canDecreaseNumeratorProperty = new DerivedProperty( modelProperties,
+      function( numerator, denominator, max ) {
+        return ( numerator - 1 ) >= 0;
+      } );
+    var canIncreaseDenominatorProperty = new DerivedProperty( modelProperties,
+      function( numerator, denominator, max ) {
+        return ( denominator + 1 ) <= IntroConstants.DENOMINATOR_RANGE.max;
+      } );
+    var canDecreaseDenominatorProperty = new DerivedProperty( modelProperties,
+      function( numerator, denominator, max ) {
+        return ( denominator - 1 ) >= IntroConstants.DENOMINATOR_RANGE.min &&
+               numerator / ( denominator - 1 ) <= max;
+      } );
 
-    var fractionNode = new FractionNode( model.numeratorProperty, model.denominatorProperty, options );
+    var numeratorUpButtonListener = function() {numeratorProperty.value++;};
+    var numeratorDownButtonListener = function() {numeratorProperty.value--;};
+    var denominatorUpButtonListener = function() {denominatorProperty.value++;};
+    var denominatorDownButtonListener = function() {denominatorProperty.value--;};
 
-    // Specify the children to be rendered with this node
+    // create numerator spinner
+    var numeratorSpinner = new RoundSpinner(
+      numeratorUpButtonListener,
+      numeratorDownButtonListener,
+      canIncreaseNumeratorProperty,
+      canDecreaseNumeratorProperty );
+
+    // create denominator spinner
+    var denominatorSpinner = new RoundSpinner(
+      denominatorUpButtonListener,
+      denominatorDownButtonListener,
+      canIncreaseDenominatorProperty,
+      canDecreaseDenominatorProperty );
+
+    // create the visual representation of a fraction
+    var fractionNode = new FractionNode( numeratorProperty, denominatorProperty, options );
+
+    // specify the children to be rendered with this node
     HBox.call( this, _.extend( options, {
       children: [
         new VBox( {

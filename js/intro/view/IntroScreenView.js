@@ -119,10 +119,14 @@ define( function( require ) {
       top: this.layoutBounds.top + 25
     } ) );
 
-    this.addChild( new FractionWithSpinners( model, {
-      bottom: this.layoutBounds.bottom - 10,
-      left: this.layoutBounds.left + 80
-    } ) );
+    // add fraction N/D with spinners on the bottom left side
+    this.addChild( new FractionWithSpinners(
+      model.numeratorProperty,
+      model.denominatorProperty,
+      model.maxProperty, {
+        bottom: this.layoutBounds.bottom - 10,
+        left: this.layoutBounds.left + 80
+      } ) );
 
     // Reset all button
     this.addChild( new ResetAllButton( {
