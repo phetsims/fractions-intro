@@ -13,6 +13,7 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Range = require( 'DOT/Range' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   return fractionsIntro.register( 'IntroConstants', {
 
@@ -34,6 +35,10 @@ define( function( require ) {
     RECTANGULAR_SIZE: new Dimension2( 130, 185 ),
 
     // @public {number}
-    CIRCULAR_RADIUS: 75
+    CIRCULAR_RADIUS: 75,
+
+    // Constants for bucket
+    BUCKET_POSITION: new Vector2( 50, 100 ),
+    BUCKET_SIZE: new Dimension2( 355, 125 )
   } );
 } );

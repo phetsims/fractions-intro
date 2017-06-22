@@ -11,13 +11,13 @@ define( function( require ) {
   // modules
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   /**
@@ -61,17 +61,19 @@ define( function( require ) {
     // Initial setup
     model.containers.forEach( this.addListener );
 
-    // @private
-    this.bucket = new Rectangle( {
-      rectWidth: 300,
-      rectHeight: 100,
-      centerX: 0,
-      centerY: 100,
-      fill: 'rgb(200,200,200)',
-      stroke: 'black',
-      cursor: 'pointer'
-    } );
-    var bucketLabel = new Text( 'Definitely a bucket', {
+    this.bucket = new BucketNode();
+
+    /*  // @private
+     this.bucket = new Rectangle( {
+     rectWidth: 300,
+     rectHeight: 100,
+     centerX: 0,
+     centerY: 100,
+     fill: 'rgb(200,200,200)',
+     stroke: 'black',
+     cursor: 'pointer'
+     } );*/
+    var bucketLabel = new Text( '', {
       font: new PhetFont( 30 ),
       center: this.bucket.localBounds.center,
       pickable: false
