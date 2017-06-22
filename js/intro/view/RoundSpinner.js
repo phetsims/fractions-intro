@@ -20,9 +20,10 @@ define( function( require ) {
   var ARROW_ORIENTATION_VALUES = [ 'horizontal', 'vertical' ];   // possible values for options.arrowOrientation
 
   /**
+   * @extends {LayoutBox}
    *
    * @param {function} upButtonListener
-   * * @param {function} downButtonListener
+   * @param {function} downButtonListener
    * @param {Property.<boolean>} upEnabledProperty
    * @param {Property.<boolean>} downEnabledProperty
    * @param {Object} [options]
@@ -102,7 +103,6 @@ define( function( require ) {
     } );
 
     upEnabledProperty.linkAttribute( incrementButton, 'enabled' );
-
     downEnabledProperty.linkAttribute( decrementButton, 'enabled' );
 
     this.disposeRoundSpinner = function() {
@@ -111,11 +111,14 @@ define( function( require ) {
     };
 
     // decrement button is on the left side in horizontal orientation but at the bottom when  oriented vertically
-    var orderArray = (options.orientation === 'horizontal') ? [ decrementButton, incrementButton ] : [ incrementButton, decrementButton ];
+    var orderArray = (options.orientation === 'horizontal') ?
+      [ decrementButton, incrementButton ] :
+      [ incrementButton, decrementButton ];
 
-    LayoutBox.call( this, { spacing: options.spacing, children: orderArray } );
+    options = _.extend( { spacing: options.spacing, children: orderArray },
+      options );
 
-    this.mutate( options );
+    LayoutBox.call( this, options );
   }
 
   fractionsIntro.register( 'RoundSpinner', RoundSpinner );
