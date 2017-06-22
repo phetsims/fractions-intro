@@ -22,9 +22,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {HBox}
-   *
-   * TODO: reduce with RectangularView?
+   * @extends {Node}
    *
    * @param {IntroModel} model
    */
@@ -99,6 +97,11 @@ define( function( require ) {
   fractionsIntro.register( 'CellSceneView', CellSceneView );
 
   return inherit( Node, CellSceneView, {
+    /**
+     *
+     * @param {number} dt - time step
+     * @public
+     */
     step: function( dt ) {
       var self = this;
 
@@ -114,12 +117,17 @@ define( function( require ) {
       } );
     },
 
-    // threshold optional
+    /**
+     * returns the closest cell
+     * @param {Vector2} midpoint
+     * @param {number} [threshold]
+     * @returns {Cell}
+     */
     getClosestCell: function( midpoint, threshold ) {
       var self = this;
 
       var closestCell = null;
-      var closestDistance = threshold === undefined ? Number.POSITIVE_INFINITY : 100;
+      var closestDistance = (threshold === undefined) ? Number.POSITIVE_INFINITY : 100;
       this.model.containers.forEach( function( container ) {
         container.cells.forEach( function( cell ) {
           if ( !cell.isFilledProperty.value ) {
@@ -135,6 +143,12 @@ define( function( require ) {
       return closestCell;
     },
 
+    /**
+     * returns the midpoint associated the the cell
+     * @param {Cell} cell
+     * @returns {Vector2}
+     * @public
+     */
     getCellMidpoint: function( cell ) {
       var containerNode = _.find( this.containerNodes, function( containerNode ) {
         return containerNode.container === cell.container;
@@ -144,6 +158,11 @@ define( function( require ) {
       return matrix.timesVector2( containerNode.getMidpointByIndex( cell.index ) );
     },
 
+    /**
+     *
+     * @param {Piece} piece
+     * @private
+     */
     onPieceAdded: function( piece ) {
       var self = this;
 
@@ -192,6 +211,11 @@ define( function( require ) {
       }
     },
 
+    /**
+     *
+     * @param {Piece} piece
+     * @private
+     */
     onPieceRemoved: function( piece ) {
       //TODO: support on all
       if ( this.createPieceNode ) {
@@ -203,6 +227,10 @@ define( function( require ) {
       }
     },
 
+    /**
+     *
+     * @param event
+     */
     onBucketDragStart: function( event ) {
       var piece = this.model.grabFromBucket();
       var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
@@ -214,6 +242,11 @@ define( function( require ) {
       pieceNode.dragListener.startDrag( event );
     },
 
+    /**
+     *
+     * @param {Cell} cell
+     * @param event
+     */
     onExistingCellDragStart: function( cell, event ) {
       var piece = this.model.grabCell( cell );
       var pieceNode = _.find( this.pieceNodes, function( pieceNode ) {
@@ -225,16 +258,33 @@ define( function( require ) {
       pieceNode.dragListener.startDrag( event );
     },
 
+    /**
+     * This function should be overridden by the parent method
+     * @param {Container} container
+     * @param {Function} cellDownCallback
+     * @private
+     */
     createContainerNode: function( container, cellDownCallback ) {
       throw new Error( 'abstract method' );
     },
 
+    /**
+     * add a container node to the scene graph
+     * @param {Container} container
+     * @private
+     */
     addContainer: function( container ) {
       var containerNode = this.createContainerNode( container, this.onExistingCellDragStart.bind( this ) );
 
       this.containerNodes.push( containerNode );
       this.containerLayer.addChild( containerNode );
     },
+
+    /**
+     * remove a containe node from the scene graph
+     * @param {Container} container
+     * @private
+     */
     removeContainer: function( container ) {
       var containerNode = _.find( this.containerNodes, function( containerNode ) {
         return containerNode.container === container;
@@ -245,6 +295,10 @@ define( function( require ) {
 
       containerNode.dispose();
     },
+
+    /**
+     * @public
+     */
     dispose: function() {
       _.each( this.containerNodes, function( containerNode ) {
         containerNode.dispose();
