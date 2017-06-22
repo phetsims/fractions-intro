@@ -65,6 +65,7 @@ define( function( require ) {
   ];
 
   /**
+   * @extends {Image}
    * @param {number} denominator
    * @param {number} index
    * @param {Object} [options]
@@ -76,7 +77,7 @@ define( function( require ) {
       imageHeight: 160 // height of the image
     }, options );
 
-    Image.call( this, cakeImageArray[ denominator - 1 ][ index ], { maxHeight: options.imageHeight } );
+    Image.call( this, cakeImageArray[ denominator - 1 ][ index ], options );
 
     // @private {number}
     this.denominator = denominator;
@@ -91,6 +92,7 @@ define( function( require ) {
 
   return inherit( Image, CakeNode, {
     /**
+     * set a new slice cake image based on its associated index
      * @public
      * @param {number} index
      */
