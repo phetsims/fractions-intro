@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Scenery Node for the container set of circles with a bucket
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -28,10 +28,23 @@ define( function( require ) {
   fractionsIntro.register( 'CircularView', CircularView );
 
   return inherit( CellSceneView, CircularView, {
+    /**
+     * create a circular container node that comprises a circle divided into cells.
+     * @param {Container} container
+     * @param {Function} cellDownCallback
+     * @returns {CircularContainerNode}
+     */
     createContainerNode: function( container, cellDownCallback ) {
       return new CircularContainerNode( container, cellDownCallback );
     },
 
+    /**
+     * create a circular piece node
+     * @param {Piece} piece
+     * @param {Function} finishedAnimatingCallback
+     * @param {Function} droppedCallback
+     * @returns {CircularPieceNode}
+     */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
     }
