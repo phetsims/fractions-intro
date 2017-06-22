@@ -333,8 +333,8 @@ define( function( require ) {
      * For manually changing the numerator, where we have already applied the action to be taken manually.
      * @public
      *
-     * This is in contrast to automatic changes (from spinners?) where we still have yet to take the actions to make our
-     * state match internally.
+     * This is in contrast to automatic changes (from spinners or drag handler on numberline) where
+     * we still have yet to take the actions to make our state match internally.
      *
      * @param {number} delta - The amount to add to our numerator (may be negative)
      */
