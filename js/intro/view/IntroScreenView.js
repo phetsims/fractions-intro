@@ -19,7 +19,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var Property = require( 'AXON/Property' );
   var RectangularView = require( 'FRACTIONS_INTRO/intro/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
@@ -29,6 +28,7 @@ define( function( require ) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Temporary images and modules used to find true position of elements based on original simulation
   var RangeWithValue = require( 'DOT/RangeWithValue' );
+  var Property = require( 'AXON/Property' );
   var NumberSpinner = require( 'SUN/NumberSpinner' );
   var Image = require( 'SCENERY/nodes/Image' );
   var HSlider = require( 'SUN/HSlider' );
@@ -97,13 +97,14 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } ) );
 
+    //
     var viewContainer = new Node( {
       translation: this.layoutBounds.center.plusXY( 0, 100 )
     } );
 
     this.addChild( viewContainer );
 
-    // @private TODO doc
+    // @private {Node} the visual representation of the container set
     this.currentView = null;
 
     // representation panel at the top of the simulation
@@ -112,6 +113,7 @@ define( function( require ) {
       y: 10
     } ) );
 
+    // present for the lifetime of the simulation
     model.representationProperty.link( function( representation ) {
       // Finish all animations
       model.completeAllPieces();
@@ -146,6 +148,8 @@ define( function( require ) {
         );
       }
       if ( self.currentView ) {
+
+        // add the chosen visual representation to the scene graph
         viewContainer.addChild( self.currentView );
       }
     } );
@@ -191,7 +195,7 @@ define( function( require ) {
   return inherit( ScreenView, IntroScreenView, {
     /**
      *
-     * @param {number} dt - timestep
+     * @param {number} dt - time step
      * @public
      */
     step: function( dt ) {
