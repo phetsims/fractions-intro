@@ -13,24 +13,18 @@ define( function( require ) {
   var CakeView = require( 'FRACTIONS_INTRO/intro/view/CakeView' );
   var CircularView = require( 'FRACTIONS_INTRO/intro/view/CircularView' );
   var NumberLineView = require( 'FRACTIONS_INTRO/intro/view/NumberLineView' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
+  var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var RectangularView = require( 'FRACTIONS_INTRO/intro/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Temporary images and modules used to find true position of elements based on original simulation
@@ -78,48 +72,14 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    var maxTextOptions = {
-      font: new PhetFont( 30 )
-    };
+    // create and add maxSpinner at the right top of the screen
+    this.addChild( new MaxSpinner(
+      model.maxProperty, {
+        right: this.layoutBounds.right - 20,
+        top: this.layoutBounds.top + 25
+      } ) );
 
-    var maxText = new Text( '', maxTextOptions );
-    model.maxProperty.linkAttribute( maxText, 'text' );
-
-    var modelProperties = [ model.numeratorProperty, model.denominatorProperty, model.maxProperty ];
-    var canIncreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return ( max + 1 ) <= IntroConstants.MAX_RANGE.max;
-    } );
-    var canDecreaseMaxProperty = new DerivedProperty( modelProperties, function( numerator, denominator, max ) {
-      return max > IntroConstants.MAX_RANGE.min;
-    } );
-
-    var maxSpinner = new RoundSpinner( function() { model.maxProperty.value++;},
-      function() { model.maxProperty.value--;}, canIncreaseMaxProperty, canDecreaseMaxProperty, {
-        radius: 12,
-        spacing: 3
-      } );
-
-    // TODO: Rearrange this on the screen
-
-    //maxSpinner
-    this.addChild( new VBox( {
-      children: [
-        new Text( 'Max', { font: new PhetFont( 30 ) } ),
-        new HBox( {
-            children: [
-              maxText,
-              maxSpinner
-            ],
-            spacing: 7
-          }
-        )
-      ],
-      spacing: 5,
-      right: this.layoutBounds.right - 20,
-      top: this.layoutBounds.top + 25
-    } ) );
-
-    // add fraction N/D with spinners on the bottom left side
+    // create and add fraction N/D with spinners on the bottom left side
     this.addChild( new FractionWithSpinners(
       model.numeratorProperty,
       model.denominatorProperty,
