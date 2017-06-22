@@ -36,7 +36,7 @@ define( function( require ) {
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
-    this.graphic = new RectangleNode( piece.denominator );
+    this.graphic = new RectangleNode( piece.denominator, {dropShadow: true} );
 
     Node.call( this, {
       children: [
