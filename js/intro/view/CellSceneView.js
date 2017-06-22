@@ -281,7 +281,7 @@ define( function( require ) {
     },
 
     /**
-     * remove a containe node from the scene graph
+     * remove a container node from the scene graph
      * @param {Container} container
      * @private
      */

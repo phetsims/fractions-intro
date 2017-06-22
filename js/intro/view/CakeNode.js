@@ -83,9 +83,8 @@ define( function( require ) {
     this.denominator = denominator;
 
     // @public {Vector2}
-    this.midpointOffset = (denominator === 1) ?
-                          Vector2.ZERO :
-                          Vector2.createPolar( 1, 2 * Math.PI * index / denominator );
+    this.midpointOffset = new Vector2( 0, 0 );
+
   }
 
   fractionsIntro.register( 'CakeNode', CakeNode );

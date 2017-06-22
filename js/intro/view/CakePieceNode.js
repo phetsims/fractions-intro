@@ -46,6 +46,11 @@ define( function( require ) {
       this.graphic.setCakeIndex( originCell.index );
     }
 
+    var destinationCell = piece.destinationCellProperty.value;
+    if ( destinationCell ) {
+      this.graphic.setCakeIndex( destinationCell.index );
+    }
+
     Node.call( this, { children: [ this.graphic ] } );
 
     // @public {Property.<Vector2>}
@@ -84,14 +89,26 @@ define( function( require ) {
   fractionsIntro.register( 'CakePieceNode', CakePieceNode );
 
   return inherit( Node, CakePieceNode, {
+    /**
+     * @returns {Vector2}
+     * @public
+     */
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
     },
 
+    /**
+     * @param {Vector2} midpoint
+     * @public
+     */
     setMidpoint: function( midpoint ) {
       this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
     },
-
+    /**
+     * Steps forward in time.
+     * @param {number} dt - in seconds
+     * @public
+     */
     step: function( dt ) {
       if ( this.isUserControlledProperty.value ) {
         return;
@@ -108,14 +125,20 @@ define( function( require ) {
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
-
+    /**
+     * @param {Cell} closestCell
+     * @param {number} dt - in seconds
+     * @public
+     */
     orient: function( closestCell, dt ) {
       var midpoint = this.getMidpoint();
       this.graphic.setCakeIndex( closestCell.index );
-      console.log( closestCell.index );
       this.setMidpoint( midpoint );
     },
 
+    /**
+     * @public
+     */
     dispose: function() {
       this.interruptSubtreeInput();
 
