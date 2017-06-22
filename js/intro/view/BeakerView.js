@@ -19,8 +19,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
 
   /**
    * @constructor
@@ -67,14 +65,8 @@ define( function( require ) {
     model.containers.forEach( this.addListener );
 
     // @private
-    this.bucket = new BucketNode();
+    this.bucket = new BucketNode(  model.denominatorProperty );
 
-    var bucketLabel = new Text( '', {
-      font: new PhetFont( 30 ),
-      center: this.bucket.localBounds.center,
-      pickable: false
-    } );
-    this.bucket.addChild( bucketLabel );
     this.bucket.addInputListener( {
       down: function( event ) {
         self.startBeakerDrag( event );
