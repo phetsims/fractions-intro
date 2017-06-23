@@ -80,14 +80,30 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularPieceNode', RectangularPieceNode );
 
   return inherit( Node, RectangularPieceNode, {
+
+    /**
+     *  Returns midpoint of rectangular piece
+     *
+     * @returns {Vector2}
+     */
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
     },
 
+    /**
+     * Sets midpoint of rectangular piece
+     *
+     * @param {Vector2} midpoint
+     */
     setMidpoint: function( midpoint ) {
       this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
     },
 
+    /**
+     * Steps piece through multiple small animations as it approaches its destination cell
+     *
+     * @param {number} dt
+     */
     step: function( dt ) {
       if ( this.isUserControlled ) {
         return;
@@ -104,10 +120,19 @@ define( function( require ) {
       }
     },
 
+    /**
+     * Placeholder for a method which orients the piece as it approaches its destination
+     *
+     * @param closestCell
+     * @param dt
+     */
     orient: function( closestCell, dt ) {
 
     },
 
+    /**
+     * Interrupts all input on rectangular pieces, disposes of those pieces
+     */
     dispose: function() {
       this.interruptSubtreeInput();
 

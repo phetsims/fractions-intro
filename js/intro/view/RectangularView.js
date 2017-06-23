@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Handles the creation of Rectangular pieces and containers
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -28,10 +28,25 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularView', RectangularView );
 
   return inherit( CellSceneView, RectangularView, {
+
+    /**
+     * Creates a Container Node with a specific callback function
+     *
+     * @param {Node} container
+     * @param {function} cellDownCallback
+     * @returns {ContainerNode}
+     */
     createContainerNode: function( container, cellDownCallback ) {
       return new RectangularContainerNode( container, cellDownCallback );
     },
-
+    /**
+     * Creates a piece Node with a specific callback function and finished animation callback
+     *
+     * @param {Node} piece
+     * @param {function} finishedAnimatingCallback
+     * @param {function} droppedCallback
+     * @returns {PieceNode}
+     */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
     }

@@ -26,6 +26,7 @@ define( function( require ) {
    * @param {function} cellDownCallback TODO doc, function( event )
    */
   function RectangularContainerNode( container, cellDownCallback ) {
+
     // @private
     this.container = container;
 
@@ -60,12 +61,22 @@ define( function( require ) {
   fractionsIntro.register( 'RectangularContainerNode', RectangularContainerNode );
 
   return inherit( Rectangle, RectangularContainerNode, {
+
+    /**
+     * Returns midpoint of cell based off its index
+     *
+     * @param {number} index - the index of the cell
+     * @returns {Vector2}
+     */
     getMidpointByIndex: function( index ) {
       var node = this.cellNodes[ index ];
 
       return node.translation.plus( node.midpointOffset );
     },
 
+    /**
+     * Redraws Rectangular Containers on screen view when the denominator is changed
+     */
     rebuild: function() {
       var self = this;
 
@@ -105,7 +116,9 @@ define( function( require ) {
       self.cellDividersPath.setShape( cellDividersShape );
 
     },
-
+    /**
+     * Empties cellsNode array, removes all cell from the scene and unlinks them from visibility listeners
+     */
     removeCellNodes: function() {
       while ( this.cellNodes.length ) {
         var cellNode = this.cellNodes.pop();
@@ -114,6 +127,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * removeCellNodes + unlinks whole container from rebuild listener
+     */
     dispose: function() {
       this.removeCellNodes();
 
