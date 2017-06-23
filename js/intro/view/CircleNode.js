@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * create each of the circle representations
+ * Scenery Node for the representation of a sector of a circle (a.k.a as a pie slice)
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -11,8 +11,8 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 

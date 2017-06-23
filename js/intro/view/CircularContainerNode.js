@@ -14,8 +14,8 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -49,9 +49,6 @@ define( function( require ) {
     this.cellDividersPath = new Path( null, { stroke: this.strokeProperty } );
     this.addChild( this.cellDividersPath );
 
-    //this.cellDividersVector = new Property( Vector2.ZERO );
-    //this.setChild(this.cellDividersVector);
-
     // @private {function}
     this.rebuildListener = this.rebuild.bind( this );
 
@@ -67,8 +64,9 @@ define( function( require ) {
     /**
      * get midpoint of a particular piece by index
      *
-     * @param index
-     * @returns {*|TermList|Vector2|RationalNumber|Complex|Vector4} Node?
+     * @param {number} index
+     * @returns {Vector2}
+     * @public
      */
     getMidpointByIndex: function( index ) {
       var node = this.cellNodes[ index ];
@@ -78,6 +76,7 @@ define( function( require ) {
 
     /**
      * redraw all the container on the screen
+     * @private
      */
     rebuild: function() {
       var self = this;
@@ -120,7 +119,8 @@ define( function( require ) {
       self.cellDividersPath.setShape( cellDividersShape );
     },
     /**
-     * Remove all the cell in the array
+     * Remove all the cells in the array and detach their listeners
+     * @private
      */
     removeCellNodes: function() {
       while ( this.cellNodes.length ) {
@@ -130,7 +130,8 @@ define( function( require ) {
       }
     },
     /**
-     * dispose of the links
+     * dispose of the links for garbage collection
+     * @public
      */
     dispose: function() {
       this.removeCellNodes();

@@ -123,8 +123,8 @@ define( function( require ) {
     /**
      * Placeholder for a method which orients the piece as it approaches its destination
      *
-     * @param closestCell
-     * @param dt
+     * @param {Cell} closestCell
+     * @param {number} dt
      */
     orient: function( closestCell, dt ) {
 

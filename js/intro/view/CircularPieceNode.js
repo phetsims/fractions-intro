@@ -91,14 +91,29 @@ define( function( require ) {
   fractionsIntro.register( 'CircularPieceNode', CircularPieceNode );
 
   return inherit( Node, CircularPieceNode, {
+    /**
+     * gets the mid point of this piece
+     * @returns {Vector2}
+     * @public
+     */
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
     },
 
+    /**
+     * sets the midpoint of this piece
+     * @param {Vector2} midpoint
+     * @private
+     */
     setMidpoint: function( midpoint ) {
       this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
     },
 
+    /**
+     * forwards the position of this node in time
+     * @param {number} dt - time step in seconds
+     * @public
+     */
     step: function( dt ) {
       if ( this.isUserControlled ) {
         return;
@@ -127,9 +142,10 @@ define( function( require ) {
       }
     },
     /**
-     * orient the piece  to fit the cell
-     * @param closestCell
-     * @param dt
+     * orients the piece to fit the cell
+     * @param {Cell} closestCell
+     * @param {number} dt
+     * @public
      */
     orient: function( closestCell, dt ) {
       var originRotation = this.rotation;
@@ -153,6 +169,9 @@ define( function( require ) {
       this.setMidpoint( midpoint );
     },
 
+    /**
+     * @public
+     */
     dispose: function() {
       this.interruptSubtreeInput();
 
