@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * create circle container
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -64,12 +64,21 @@ define( function( require ) {
   fractionsIntro.register( 'CircularContainerNode', CircularContainerNode );
 
   return inherit( Circle, CircularContainerNode, {
+    /**
+     * get midpoint of a particular piece by index
+     *
+     * @param index
+     * @returns {*|TermList|Vector2|RationalNumber|Complex|Vector4} Node?
+     */
     getMidpointByIndex: function( index ) {
       var node = this.cellNodes[ index ];
 
       return node.translation.plus( node.midpointOffset );
     },
 
+    /**
+     * redraw all the container on the screen
+     */
     rebuild: function() {
       var self = this;
 
@@ -110,7 +119,9 @@ define( function( require ) {
       }
       self.cellDividersPath.setShape( cellDividersShape );
     },
-
+    /**
+     * Remove all the cell in the array
+     */
     removeCellNodes: function() {
       while ( this.cellNodes.length ) {
         var cellNode = this.cellNodes.pop();
@@ -118,7 +129,9 @@ define( function( require ) {
         this.removeChild( cellNode );
       }
     },
-
+    /**
+     * dispose of the links
+     */
     dispose: function() {
       this.removeCellNodes();
 

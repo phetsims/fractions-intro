@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * make the pieces for the circle and handle the animation
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -126,7 +126,11 @@ define( function( require ) {
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
-
+    /**
+     * orient the piece  to fit the cell
+     * @param closestCell
+     * @param dt
+     */
     orient: function( closestCell, dt ) {
       var originRotation = this.rotation;
       var targetRotation = closestCell.index * 2 * Math.PI / this.piece.denominator;

@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * create each of the circle representations
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
