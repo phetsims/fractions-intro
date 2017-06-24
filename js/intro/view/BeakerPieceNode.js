@@ -72,6 +72,12 @@ define( function( require ) {
   fractionsIntro.register( 'BeakerPieceNode', BeakerPieceNode );
 
   return inherit( Node, BeakerPieceNode, {
+
+    /**
+     *
+     * @param {number} dt - timeStep in seconds
+     * @public
+     */
     step: function( dt ) {
       if ( this.isUserControlled ) {
         return;

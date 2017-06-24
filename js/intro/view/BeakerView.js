@@ -65,9 +65,9 @@ define( function( require ) {
     model.containers.forEach( this.addListener );
 
     // @private
-    this.bucket = new BucketNode(  model.denominatorProperty );
+    this.bucketNode = new BucketNode(  model.denominatorProperty );
 
-    this.bucket.addInputListener( {
+    this.bucketNode.addInputListener( {
       down: function( event ) {
         self.startBeakerDrag( event );
       }
@@ -75,7 +75,7 @@ define( function( require ) {
 
     Node.call( this, {
       children: [
-        this.bucket,
+        this.bucketNode,
         new AlignBox( this.containerLayer, {
           alignBounds: Bounds2.point( 0, -150 )
         } ),
@@ -87,6 +87,11 @@ define( function( require ) {
   fractionsIntro.register( 'BeakerView', BeakerView );
 
   return inherit( Node, BeakerView, {
+    /**
+     *
+     * @param {number} dt - time step in seconds
+     * @public
+     */
     step: function( dt ) {
       _.each( this.pieceNodes.slice(), function( pieceNode ) {
         if ( !pieceNode.isUserControlled ) {
@@ -95,16 +100,29 @@ define( function( require ) {
       } );
     },
 
+    /**
+     * @private
+     */
     onClearChange: function() {
       this.pieceLayer.interruptSubtreeInput();
       this.pieceLayer.removeAllChildren();
       this.pieceNodes = [];
     },
 
+    /**
+     *
+     * @param {Piece} piece
+     * @private
+     */
     onPieceAdded: function( piece ) {
       this.model.completePiece( piece ); // don't animate pieces
     },
 
+    /**
+     *
+     * @param {BeakerPieceNode} pieceNode
+     * @private
+     */
     onBeakerDropped: function( pieceNode ) {
       var self = this;
 
@@ -132,11 +150,16 @@ define( function( require ) {
       }
       else {
         pieceNode.originProperty.value = pieceNode.center;
-        pieceNode.destinationProperty.value = this.bucket.centerTop;
+        pieceNode.destinationProperty.value = this.bucketNode.centerTop;
         pieceNode.isUserControlled = false;
       }
     },
 
+    /**
+     *
+     * @param {Event} event
+     * @private
+     */
     startBeakerDrag: function( event ) {
       var self = this;
 
@@ -153,12 +176,23 @@ define( function( require ) {
       pieceNode.dragListener.startDrag( event );
     },
 
+    /**
+     *
+     * @param {Container} container
+     * @param {Event} event
+     * @private
+     */
     onExistingCellDragStart: function( container, event ) {
       this.model.changeNumeratorManually( -1 );
       container.getNextFilledCell().empty();
       this.startBeakerDrag( event );
     },
 
+    /**
+     *
+     * @param {Container} container
+     * @private
+     */
     addContainer: function( container ) {
       var self = this;
 
@@ -169,6 +203,11 @@ define( function( require ) {
       this.containerNodes.push( containerNode );
       this.containerLayer.addChild( containerNode );
     },
+    /**
+     *
+     * @param {Container} container
+     * @private
+     */
     removeContainer: function( container ) {
       var containerNode = _.find( this.containerNodes, function( containerNode ) {
         return containerNode.container === container;
@@ -179,6 +218,9 @@ define( function( require ) {
 
       containerNode.dispose();
     },
+    /**
+     * @public
+     */
     dispose: function() {
       _.each( this.containerNodes, function( containerNode ) {
         containerNode.dispose();

@@ -34,7 +34,8 @@ define( function( require ) {
      *
      * @param {Node} container
      * @param {function} cellDownCallback
-     * @returns {ContainerNode}
+     * @returns {RectangularContainerNode}
+     * @public
      */
     createContainerNode: function( container, cellDownCallback ) {
       return new RectangularContainerNode( container, cellDownCallback );
@@ -45,7 +46,8 @@ define( function( require ) {
      * @param {Node} piece
      * @param {function} finishedAnimatingCallback
      * @param {function} droppedCallback
-     * @returns {PieceNode}
+     * @returns {RectangularPieceNode}
+     * @public
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback );

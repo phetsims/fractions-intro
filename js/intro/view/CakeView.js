@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Scenery Node for the container set of cakes with a bucket
+ * Scenery Node for the container set of cakes with a bucketNode
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

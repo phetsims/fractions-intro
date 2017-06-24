@@ -37,7 +37,7 @@ define( function( require ) {
     // @public {number}
     CIRCULAR_RADIUS: 75,
 
-    // Constants for bucket
+    // Constants for bucketNode
     BUCKET_POSITION: new Vector2( 50, 100 ),
     BUCKET_SIZE: new Dimension2( 355, 125 )
   } );

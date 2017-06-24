@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Scenery Node for the container set of circles with a bucket
+ * Scenery Node for the container set of circles with a bucketNode
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -33,6 +33,7 @@ define( function( require ) {
      * @param {Container} container
      * @param {Function} cellDownCallback
      * @returns {CircularContainerNode}
+     * @public
      */
     createContainerNode: function( container, cellDownCallback ) {
       return new CircularContainerNode( container, cellDownCallback );
@@ -44,6 +45,7 @@ define( function( require ) {
      * @param {Function} finishedAnimatingCallback
      * @param {Function} droppedCallback
      * @returns {CircularPieceNode}
+     * @public
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback );

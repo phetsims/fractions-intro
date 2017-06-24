@@ -85,6 +85,7 @@ define( function( require ) {
      *  Returns midpoint of rectangular piece
      *
      * @returns {Vector2}
+     * @public
      */
     getMidpoint: function() {
       return this.localToParentPoint( this.graphic.midpointOffset );
@@ -94,6 +95,7 @@ define( function( require ) {
      * Sets midpoint of rectangular piece
      *
      * @param {Vector2} midpoint
+     * @private
      */
     setMidpoint: function( midpoint ) {
       this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
@@ -103,6 +105,7 @@ define( function( require ) {
      * Steps piece through multiple small animations as it approaches its destination cell
      *
      * @param {number} dt
+     * @public
      */
     step: function( dt ) {
       if ( this.isUserControlled ) {
@@ -125,6 +128,7 @@ define( function( require ) {
      *
      * @param {Cell} closestCell
      * @param {number} dt
+     * @public
      */
     orient: function( closestCell, dt ) {
 
@@ -132,6 +136,7 @@ define( function( require ) {
 
     /**
      * Interrupts all input on rectangular pieces, disposes of those pieces
+     * @public
      */
     dispose: function() {
       this.interruptSubtreeInput();

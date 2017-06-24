@@ -76,7 +76,7 @@ define( function( require ) {
     },
 
     /**
-     * Called when a user grabs a piece from the bucket.
+     * Called when a user grabs a piece from the bucketNode.
      * @public
      *
      * @returns {Piece} - The created piece that the user will start dragging
@@ -182,7 +182,7 @@ define( function( require ) {
      * Empties the first available filled cell.
      * @private
      *
-     * @param {boolean} animate - Whether the cell should animate to the bucket (if false, will be instant)
+     * @param {boolean} animate - Whether the cell should animate to the bucketNode (if false, will be instant)
      */
     emptyNextCell: function( animate ) {
       for ( var i = this.containers.length - 1; i >= 0; i-- ) {

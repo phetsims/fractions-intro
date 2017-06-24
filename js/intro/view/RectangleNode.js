@@ -20,6 +20,7 @@ define( function( require ) {
    * @extends {Rectangle}
    *
    * @param {number} denominator
+   * @param {Object} [options]
    */
   function RectangleNode( denominator, options ) {
 

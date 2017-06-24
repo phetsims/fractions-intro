@@ -18,6 +18,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
+   * @extends {VBox}
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Object} [options]

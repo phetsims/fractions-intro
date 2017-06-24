@@ -63,10 +63,17 @@ define( function( require ) {
   fractionsIntro.register( 'BeakerContainerNode', BeakerContainerNode );
 
   return inherit( Node, BeakerContainerNode, {
+
+    /**
+     * @private
+     */
     updateCursor: function() {
       this.cursor = this.container.filledCellCountProperty.value > 0 ? 'pointer' : null;
     },
 
+    /**
+     * @public
+     */
     dispose: function() {
       this.multilink.dispose();
 

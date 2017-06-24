@@ -67,6 +67,7 @@ define( function( require ) {
      *
      * @param {number} index - the index of the cell
      * @returns {Vector2}
+     * @public
      */
     getMidpointByIndex: function( index ) {
       var node = this.cellNodes[ index ];
@@ -76,6 +77,7 @@ define( function( require ) {
 
     /**
      * Redraws Rectangular Containers on screen view when the denominator is changed
+     * @private
      */
     rebuild: function() {
       var self = this;
@@ -118,6 +120,7 @@ define( function( require ) {
     },
     /**
      * Empties cellsNode array, removes all cell from the scene and unlinks them from visibility listeners
+     * @private
      */
     removeCellNodes: function() {
       while ( this.cellNodes.length ) {
@@ -129,6 +132,7 @@ define( function( require ) {
 
     /**
      * removeCellNodes + unlinks whole container from rebuild listener
+     * @public
      */
     dispose: function() {
       this.removeCellNodes();

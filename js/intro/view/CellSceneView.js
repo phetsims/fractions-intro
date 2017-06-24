@@ -59,9 +59,9 @@ define( function( require ) {
     // Initial setup
     model.containers.forEach( this.addListener );
 
-    this.bucket = new BucketNode( model.denominatorProperty );
+    this.bucketNode = new BucketNode( model.denominatorProperty );
 
-    this.bucket.addInputListener( {
+    this.bucketNode.addInputListener( {
       down: function( event ) {
         self.onBucketDragStart( event );
       }
@@ -69,7 +69,7 @@ define( function( require ) {
 
     Node.call( this, {
       children: [
-        this.bucket,
+        this.bucketNode,
         new AlignBox( this.containerLayer, {
           alignBounds: Bounds2.point( 0, -150 )
         } ),
@@ -167,7 +167,7 @@ define( function( require ) {
             self.model.targetPieceToCell( piece, closestCell );
           }
           else {
-            pieceNode.destinationProperty.value = self.bucket.centerTop;
+            pieceNode.destinationProperty.value = self.bucketNode.centerTop;
           }
         } );
 
@@ -176,7 +176,7 @@ define( function( require ) {
           pieceNode.originProperty.value = this.getCellMidpoint( originCell );
         }
         else {
-          pieceNode.originProperty.value = this.bucket.centerTop;
+          pieceNode.originProperty.value = this.bucketNode.centerTop;
         }
 
         var destinationCell = piece.destinationCellProperty.value;
@@ -184,7 +184,7 @@ define( function( require ) {
           pieceNode.destinationProperty.value = this.getCellMidpoint( destinationCell );
         }
         else {
-          pieceNode.destinationProperty.value = this.bucket.centerTop;
+          pieceNode.destinationProperty.value = this.bucketNode.centerTop;
         }
 
         this.pieceNodes.push( pieceNode );
@@ -212,8 +212,9 @@ define( function( require ) {
     },
 
     /**
-     *
-     * @param event
+     * callback on start event when grabbing piece from bucketNode
+     * @param {Event} event
+     * @private
      */
     onBucketDragStart: function( event ) {
       var piece = this.model.grabFromBucket();
@@ -229,7 +230,7 @@ define( function( require ) {
     /**
      *
      * @param {Cell} cell
-     * @param event
+     * @param {Event} event
      */
     onExistingCellDragStart: function( cell, event ) {
       var piece = this.model.grabCell( cell );
