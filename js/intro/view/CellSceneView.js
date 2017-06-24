@@ -128,7 +128,7 @@ define( function( require ) {
     },
 
     /**
-     * returns the midpoint associated the the cell
+     * returns the midpoint associated with the cell
      * @param {Cell} cell
      * @returns {Vector2}
      * @public
@@ -231,6 +231,7 @@ define( function( require ) {
      *
      * @param {Cell} cell
      * @param {Event} event
+     * @private
      */
     onExistingCellDragStart: function( cell, event ) {
       var piece = this.model.grabCell( cell );

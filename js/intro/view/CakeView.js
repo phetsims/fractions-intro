@@ -33,7 +33,7 @@ define( function( require ) {
      * @param {Container} container
      * @param {Function} cellDownCallback
      * @returns {CakeContainerNode}
-     * @private
+     * @public
      */
     createContainerNode: function( container, cellDownCallback ) {
       return new CakeContainerNode( container, cellDownCallback );
@@ -45,7 +45,7 @@ define( function( require ) {
      * @param {Function} finishedAnimatingCallback
      * @param {Function} droppedCallback
      * @returns {CakePieceNode}
-     * @private
+     * @public
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new CakePieceNode( piece, finishedAnimatingCallback, droppedCallback );
