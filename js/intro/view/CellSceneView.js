@@ -26,8 +26,6 @@ define( function( require ) {
    */
   function CellSceneView( model ) {
 
-    var self = this;
-
     // @private
     this.model = model;
 
@@ -59,21 +57,15 @@ define( function( require ) {
     // Initial setup
     model.containers.forEach( this.addListener );
 
-    this.bucketNode = new BucketNode( model.denominatorProperty );
-
-    this.bucketNode.addInputListener( {
-      down: function( event ) {
-        self.onBucketDragStart( event );
-      }
-    } );
+    this.bucketNode = new BucketNode( model.denominatorProperty, this.pieceLayer, this.onBucketDragStart.bind( this )
+      , this.createCellNode.bind( this ) );
 
     Node.call( this, {
       children: [
-        this.bucketNode,
         new AlignBox( this.containerLayer, {
           alignBounds: Bounds2.point( 0, -150 )
         } ),
-        this.pieceLayer
+        this.bucketNode
       ]
     } );
   }
@@ -167,7 +159,7 @@ define( function( require ) {
             self.model.targetPieceToCell( piece, closestCell );
           }
           else {
-            pieceNode.destinationProperty.value = self.bucketNode.centerTop;
+            pieceNode.destinationProperty.value = self.bucketNode.position;
           }
         } );
 
@@ -176,7 +168,7 @@ define( function( require ) {
           pieceNode.originProperty.value = this.getCellMidpoint( originCell );
         }
         else {
-          pieceNode.originProperty.value = this.bucketNode.centerTop;
+          pieceNode.originProperty.value = this.bucketNode.position;
         }
 
         var destinationCell = piece.destinationCellProperty.value;
@@ -184,7 +176,7 @@ define( function( require ) {
           pieceNode.destinationProperty.value = this.getCellMidpoint( destinationCell );
         }
         else {
-          pieceNode.destinationProperty.value = this.bucketNode.centerTop;
+          pieceNode.destinationProperty.value = this.bucketNode.position;
         }
 
         this.pieceNodes.push( pieceNode );

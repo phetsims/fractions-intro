@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var CakeContainerNode = require( 'FRACTIONS_INTRO/intro/view/CakeContainerNode' );
   var CakePieceNode = require( 'FRACTIONS_INTRO/intro/view/CakePieceNode' );
+  var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -49,6 +50,19 @@ define( function( require ) {
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new CakePieceNode( piece, finishedAnimatingCallback, droppedCallback );
+    },
+
+    /**
+     * Creates a cell node of a cake aka slice
+     *
+     * @param {number} denominator
+     * @param {number} index
+     * @param {Object} [options]
+     * @returns {CakeNode}
+     * @public
+     */
+    createCellNode: function( denominator, index, options ) {
+      return new CakeNode( denominator, index, options );
     }
   } );
 } );

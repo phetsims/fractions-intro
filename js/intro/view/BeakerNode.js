@@ -113,6 +113,8 @@ define( function( require ) {
         ticks
       ]
     } );
+
+    this.mutate( options );
   }
 
   fractionsIntro.register( 'BeakerNode', BeakerNode );

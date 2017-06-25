@@ -14,6 +14,7 @@ define( function( require ) {
   var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/intro/view/RectangularContainerNode' );
   var RectangularPieceNode = require( 'FRACTIONS_INTRO/intro/view/RectangularPieceNode' );
+  var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
 
   /**
    * @constructor
@@ -51,6 +52,20 @@ define( function( require ) {
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
+    },
+
+    /**
+     * Creates a rectangular Cell
+     *
+     * @param {number} denominator
+     * @param {number} index
+     * @param {Object} [options]
+     * @returns {RectangleNode}
+     * @public
+     */
+    createCellNode: function( denominator, index, options ) {
+      return new RectangleNode( denominator, options );
     }
+
   } );
 } );

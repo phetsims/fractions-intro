@@ -15,6 +15,7 @@ define( function( require ) {
   var BeakerPieceNode = require( 'FRACTIONS_INTRO/intro/view/BeakerPieceNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -29,8 +30,6 @@ define( function( require ) {
    * @param {IntroModel} model
    */
   function BeakerView( model ) {
-
-    var self = this;
 
     // @private
     this.model = model;
@@ -65,21 +64,15 @@ define( function( require ) {
     model.containers.forEach( this.addListener );
 
     // @private
-    this.bucketNode = new BucketNode(  model.denominatorProperty );
-
-    this.bucketNode.addInputListener( {
-      down: function( event ) {
-        self.startBeakerDrag( event );
-      }
-    } );
+    this.bucketNode = new BucketNode( model.denominatorProperty, this.pieceLayer, this.startBeakerDrag.bind( this ),
+      this.createBeakerNode.bind( this ) );
 
     Node.call( this, {
       children: [
         this.bucketNode,
         new AlignBox( this.containerLayer, {
           alignBounds: Bounds2.point( 0, -150 )
-        } ),
-        this.pieceLayer
+        } )
       ]
     } );
   }
@@ -186,6 +179,21 @@ define( function( require ) {
       this.model.changeNumeratorManually( -1 );
       container.getNextFilledCell().empty();
       this.startBeakerDrag( event );
+    },
+
+    /**
+     * Creates a beaker Node with 1/D
+     *
+     * @param {number} denominator
+     * @param {number} index
+     * @param {Object} [options]
+     * @returns {BeakerNode}
+     * @public
+     */
+    createBeakerNode: function( denominator, index, options ) {
+
+      // the numerator is set to one
+      return new BeakerNode( 1, denominator, options );
     },
 
     /**

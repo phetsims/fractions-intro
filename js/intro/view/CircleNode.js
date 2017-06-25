@@ -22,9 +22,17 @@ define( function( require ) {
    *
    * @param {number} denominator
    * @param {number} index
+   * @param {Object} options
    */
-  function CircleNode( denominator, index ) {
+  function CircleNode( denominator, index, options ) {
     assert && assert( index < denominator );
+
+    options = _.extend( {
+        fill: 'rgb(140, 198, 61)',
+        stroke: 'black',
+        lineWidth: 2
+      },
+      options );
 
     var startAngle = index * 2 * Math.PI / denominator;
     var endAngle = ( index + 1 ) * 2 * Math.PI / denominator;
@@ -34,11 +42,7 @@ define( function( require ) {
     }
     shape.arc( 0, 0, IntroConstants.CIRCULAR_RADIUS, startAngle, endAngle, false ).close();
 
-    Path.call( this, shape, {
-      fill: 'rgb(140, 198, 61)',
-      stroke: 'black',
-      lineWidth: 2
-    } );
+    Path.call( this, shape, options );
 
     // @public {Vector2}
     this.midpointOffset = denominator === 1 ? Vector2.ZERO : Vector2.createPolar( IntroConstants.CIRCULAR_RADIUS / 2, ( startAngle + endAngle ) / 2 );

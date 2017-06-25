@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var CircularContainerNode = require( 'FRACTIONS_INTRO/intro/view/CircularContainerNode' );
   var CircularPieceNode = require( 'FRACTIONS_INTRO/intro/view/CircularPieceNode' );
+  var CircleNode = require( 'FRACTIONS_INTRO/intro/view/CircleNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
@@ -49,6 +50,19 @@ define( function( require ) {
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
       return new CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
+    },
+
+    /**
+     * Creates a circular Cell node
+     *
+     * @param {number} denominator
+     * @param {number} index
+     * @param {Object} [options]
+     * @returns {CircleNode}
+     * @public
+     */
+    createCellNode: function( denominator, index, options ) {
+      return new CircleNode( denominator, index, options );
     }
   } );
 } );

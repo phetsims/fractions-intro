@@ -17,7 +17,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {Rectangle}
+   * @extends {Node}
    *
    * @param {number} denominator
    * @param {Object} [options]
@@ -38,27 +38,23 @@ define( function( require ) {
       lineWidth: 2
     } );
 
-    Node.call( this, {
-      children: [
-        foregroundRectangle
-      ]
-    } );
+    options.children = [ foregroundRectangle ];
 
-    // creates dropShadow when option is set to true
+    // creates dropShadow
     if ( options.dropShadow ) {
-
       var backgroundRectangle = new Rectangle( {
+        center: foregroundRectangle.center.plusXY( options.dropShadowOffset, options.dropShadowOffset ),
         rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
         rectHeight: IntroConstants.RECTANGULAR_SIZE.height / denominator,
-        center: foregroundRectangle.center.plusXY( options.dropShadowOffset, options.dropShadowOffset ),
         fill: 'black',
-        stroke: 'black',
         lineWidth: 2
       } );
 
-      this.addChild( backgroundRectangle );
-      this.moveChildToBack( backgroundRectangle );
+      options.children = [ backgroundRectangle, foregroundRectangle ];
+
     }
+
+    Node.call( this, options );
 
     // @public {Vector2}
     this.midpointOffset = this.center;

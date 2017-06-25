@@ -21,26 +21,45 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
 
+  var PIECE_OFFSET_POSITIONS = [
+
+    // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
+    new Vector2( -120, 4 ),
+    new Vector2( -85, 5 ),
+    new Vector2( -40, 9 ),
+    new Vector2( 0, 0 ),
+    new Vector2( 37, 7 ),
+    new Vector2( 75, 5 ),
+    new Vector2( 110, 5 )
+  ];
+
   /**
    * @param {Property.<number>} denominatorProperty
+   * @param {Node} pieceLayer
+   * @param {function} startBeakerDrag
+   * @param {function} createCellNode
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( denominatorProperty, options ) {
+  function BucketNode( denominatorProperty, pieceLayer, startBeakerDrag, createCellNode, options ) {
 
     options = _.extend( {}, options );
 
-    // model of the bt
+    // model of the bucket
     var bucket = new Bucket( {
       position: IntroConstants.BUCKET_POSITION,
       baseColor: '#8eb7f2',
       size: IntroConstants.BUCKET_SIZE,
       invertY: true
     } );
+
+    // @public (read-only) {Vector2}
+    this.position = bucket.position;
 
     // creates bucketNode front
     var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM );
@@ -64,11 +83,27 @@ define( function( require ) {
       dividingLineWidth: 2
     };
 
+    var staticLayer = new Node();
+
+    denominatorProperty.link( function( denominator ) {
+      staticLayer.removeAllChildren();
+      PIECE_OFFSET_POSITIONS.forEach( function( position ) {
+        var staticCellNode = createCellNode( denominator, 0, { center: position.plus( bucketHole.center ) } );
+        staticLayer.addChild( staticCellNode );
+      } );
+    } );
+
     // add a fraction to the label of the form 1/D
     bucketFront.setLabel( new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions ) );
 
-    options.children = [ underneathRectangle, bucketHole, bucketFront ];
+    options.children = [ underneathRectangle, bucketHole, staticLayer, pieceLayer, bucketFront ];
     Node.call( this, options );
+
+    this.addInputListener( {
+      down: function( event ) {
+        startBeakerDrag( event );
+      }
+    } );
   }
 
   fractionsIntro.register( 'BucketNode', BucketNode );
