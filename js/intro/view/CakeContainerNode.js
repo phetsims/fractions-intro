@@ -91,6 +91,7 @@ define( function( require ) {
      *
      * @param {number} index
      * @returns {Vector2}
+     * @public
      */
     getMidpointByIndex: function( index ) {
       var node = this.cellNodes[ index ];
@@ -149,7 +150,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      */
     removeCellNodes: function() {
       while ( this.cellNodes.length ) {

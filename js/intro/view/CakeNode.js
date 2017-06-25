@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -73,17 +74,21 @@ define( function( require ) {
    */
   function CakeNode( denominator, index, options ) {
 
+    assert && assert( index < denominator );
+
     options = _.extend( {
       imageHeight: 160 // height of the image
     }, options );
 
-    Image.call( this, cakeImageArray[ denominator - 1 ][ index ], options );
-
     // @private {number}
     this.denominator = denominator;
 
-    // @public {Vector2}
-    this.midpointOffset = new Vector2( 0, 0 );
+    Image.call( this, cakeImageArray[ denominator - 1 ][ index ], options );
+
+    // @private {Vector2}  center of the cake plate, empirically determined
+    this.imageCenter = new Vector2( this.width / 2, this.height * 0.55 );
+
+    this.setMidpointOffset( index );
 
   }
 
@@ -97,6 +102,26 @@ define( function( require ) {
      */
     setCakeIndex: function( index ) {
       this.setImage( cakeImageArray[ this.denominator - 1 ][ index ] );
+      this.setMidpointOffset( index );
+    },
+
+    /**
+     * set the midpoint of the cake
+     * @private
+     * @param {number} index
+     */
+    setMidpointOffset: function( index ) {
+      if ( this.denominator === 1 ) {
+        this.midpointOffset = this.imageCenter;
+      }
+      else if ( this.denominator === 2 ) {
+        this.midpointOffset = this.imageCenter.plus(
+          Vector2.createPolar( this.height / 4, -2 * Math.PI * index / this.denominator ) );
+      }
+      else {
+        this.midpointOffset = this.imageCenter.plus(
+          Vector2.createPolar( this.height / 4, -2 * Math.PI * (index + 1 / 2) / this.denominator ) );
+      }
     }
   } );
 } );
