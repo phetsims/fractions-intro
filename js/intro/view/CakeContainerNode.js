@@ -12,6 +12,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -55,7 +56,8 @@ define( function( require ) {
     this.cellDownCallback = cellDownCallback;
 
     // @private {Image} create grid image of the cake with the appropriate number of cells
-    this.gridImage = new Image( cakeGridImageArray[ container.cells.lengthProperty.value - 1 ] );
+    this.gridImage = new Image( cakeGridImageArray[ container.cells.lengthProperty.value - 1 ],
+      { maxHeight: IntroConstants.CAKE_HEIGHT } );
 
     // create white background for the cake.
     // The shape of the ellipse is determined empirically based on the image

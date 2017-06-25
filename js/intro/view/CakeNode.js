@@ -12,6 +12,7 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // images
@@ -76,7 +77,7 @@ define( function( require ) {
     assert && assert( index < denominator );
 
     options = _.extend( {
-      imageHeight: 160 // height of the image
+      maxHeight: IntroConstants.CAKE_HEIGHT  // height of the image
     }, options );
 
     // @private {number}

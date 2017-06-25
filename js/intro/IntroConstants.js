@@ -22,8 +22,13 @@ define( function( require ) {
     MAJOR_TICK_LENGTH: 80, // length of major tick line
     MINOR_TICK_LENGTH: 40, // length of minor tick line
     NUMBER_LINE_FONT: new PhetFont( 40 ),
+
+    // Constants for beaker
     BEAKER_WIDTH: 80,
     BEAKER_HEIGHT: 150,
+
+    // constants for Cake
+    CAKE_HEIGHT: 100,
 
     // @public {Range} - Possible number of active containers
     MAX_RANGE: new Range( 1, 6 ),
