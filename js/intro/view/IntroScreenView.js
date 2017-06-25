@@ -97,7 +97,12 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } ) );
 
-    //
+    // representation panel at the top of the simulation
+    this.addChild( new RepresentationPanel( model.representationProperty, {
+      centerX: this.layoutBounds.centerX,
+      y: 10
+    } ) );
+
     var viewContainer = new Node( {
       translation: this.layoutBounds.center.plusXY( 0, 100 )
     } );
@@ -106,12 +111,6 @@ define( function( require ) {
 
     // @private {Node} the visual representation of the container set
     this.currentView = null;
-
-    // representation panel at the top of the simulation
-    this.addChild( new RepresentationPanel( model.representationProperty, {
-      centerX: this.layoutBounds.centerX,
-      y: 10
-    } ) );
 
     // present for the lifetime of the simulation
     model.representationProperty.link( function( representation ) {
