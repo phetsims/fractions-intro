@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Create a container of beaker
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

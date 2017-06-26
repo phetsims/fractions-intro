@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * draw the rectangle
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * create a piece to drag or animate to a container
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

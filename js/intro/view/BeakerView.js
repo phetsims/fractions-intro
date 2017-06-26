@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Node for displaying beakers on the screen
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

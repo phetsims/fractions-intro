@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * create a cell with listener for display on the screen inside the bucket and containers
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
