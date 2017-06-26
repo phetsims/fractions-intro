@@ -113,7 +113,7 @@ define( function( require ) {
         })();
 
         // positions and draws the polar coordinate of the dividing line between cells
-        var edgePosition = Vector2.createPolar( cellDividersLength, 1.001 * i * cellDividersAngle );
+        var edgePosition = Vector2.createPolar( cellDividersLength, i * cellDividersAngle );
         cellDividersShape.moveToPoint( edgePosition ).lineToPoint( Vector2.ZERO );
       }
       self.cellDividersPath.setShape( cellDividersShape );
