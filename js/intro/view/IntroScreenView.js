@@ -59,7 +59,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extend {ScreenView}
+   * @extends {ScreenView}
    *
    * @param {IntroModel} model
    */

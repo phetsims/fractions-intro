@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extend {Rectangle}
+   * @extends {Rectangle}
    *
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )

@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extend {Object}
+   * @extends {Object}
    */
   function IntroModel() {
     // @public {Property.<Representation>}
