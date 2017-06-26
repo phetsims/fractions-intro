@@ -29,7 +29,7 @@ define( function( require ) {
     // @private
     this.model = model;
 
-    // @private {Node}
+    // @private {HBox}
     this.containerLayer = new HBox( {
       spacing: 10
     } );

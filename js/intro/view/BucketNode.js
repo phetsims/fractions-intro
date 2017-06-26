@@ -41,12 +41,12 @@ define( function( require ) {
   /**
    * @param {Property.<number>} denominatorProperty
    * @param {Node} pieceLayer
-   * @param {function} startBeakerDrag
+   * @param {function} startPieceDrag
    * @param {function} createCellNode
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( denominatorProperty, pieceLayer, startBeakerDrag, createCellNode, options ) {
+  function BucketNode( denominatorProperty, pieceLayer, startPieceDrag, createCellNode, options ) {
 
     options = _.extend( {}, options );
 
@@ -101,7 +101,7 @@ define( function( require ) {
 
     this.addInputListener( {
       down: function( event ) {
-        startBeakerDrag( event );
+        startPieceDrag( event );
       }
     } );
   }
