@@ -30,18 +30,21 @@ define( function( require ) {
   function CellSceneView( model, options ) {
 
     options = _.extend( {
-      containerLayerVerticalAlignment: true,
+      containerLayerVerticalAlignment: false,
       maxnumberofHorizontalContainers: IntroConstants.MAX_RANGE.max //default max Range
     }, options );
 
     // @private {number}
     this.maxnumberofHorizontalContainers = options.maxnumberofHorizontalContainers;
 
+    // @private {boolean}
+    this.containerLayerVerticalAlignment = options.containerLayerVerticalAlignment;
+
     // @private
     this.model = model;
 
     // @private {Node}
-    this.containerLayer = new VBox( {
+    this.containerLayer = new HBox( {
       spacing: 10
     } );
 
@@ -273,15 +276,19 @@ define( function( require ) {
 
       this.containerNodes.push( containerNode );
 
-      // creates new Hbox within containerLayer VBox dependent on 
-      if ( currentContainerNodesLength % this.maxnumberofHorizontalContainers === 0 ) {
-        var HBoxContainer = new HBox( {
-          spacing: 10
-        } );
-        this.HBoxes.push( HBoxContainer );
-        this.containerLayer.addChild( HBoxContainer );
+      this.containerLayer.addChild(containerNode);
+
+      if (this.containerLayerVerticalAlignment) {
+        // creates new Hbox within containerLayer VBox dependent on
+        if ( currentContainerNodesLength % this.maxnumberofHorizontalContainers === 0 ) {
+          var HBoxContainer = new VBox( {
+            spacing: 10
+          } );
+          this.HBoxes.push( HBoxContainer );
+          this.containerLayer.addChild( HBoxContainer );
+        }
+        this.HBoxes[ this.HBoxes.length - 1 ].addChild( containerNode );
       }
-      this.HBoxes[this.HBoxes.length - 1].addChild( containerNode );
     },
 
     /**
