@@ -15,22 +15,33 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @constructor
    * @extends {Node}
    *
    * @param {IntroModel} model
+   * @param {Object} [options]
    */
-  function CellSceneView( model ) {
+  function CellSceneView( model, options ) {
+
+    options = _.extend( {
+      containerLayerVerticalAlignment: true,
+      maxnumberofHorizontalContainers: IntroConstants.MAX_RANGE.max //default max Range
+    }, options );
+
+    // @private {number}
+    this.maxnumberofHorizontalContainers = options.maxnumberofHorizontalContainers;
 
     // @private
     this.model = model;
 
-    // @private {HBox}
-    this.containerLayer = new HBox( {
+    // @private {Node}
+    this.containerLayer = new VBox( {
       spacing: 10
     } );
 
@@ -42,6 +53,9 @@ define( function( require ) {
 
     // @private {Array.<*>} TODO improve doc type
     this.pieceNodes = [];
+
+    //@private {Array.<*>}
+    this.HBoxes = [];
 
     // @private {function}
     this.addListener = this.addContainer.bind( this );
@@ -252,10 +266,22 @@ define( function( require ) {
      * @private
      */
     addContainer: function( container ) {
+
       var containerNode = this.createContainerNode( container, this.onExistingCellDragStart.bind( this ) );
 
+      var currentContainerNodesLength = this.containerNodes.length;
+
       this.containerNodes.push( containerNode );
-      this.containerLayer.addChild( containerNode );
+
+      // creates new Hbox within containerLayer VBox dependent on 
+      if ( currentContainerNodesLength % this.maxnumberofHorizontalContainers === 0 ) {
+        var HBoxContainer = new HBox( {
+          spacing: 10
+        } );
+        this.HBoxes.push( HBoxContainer );
+        this.containerLayer.addChild( HBoxContainer );
+      }
+      this.HBoxes[this.HBoxes.length - 1].addChild( containerNode );
     },
 
     /**
