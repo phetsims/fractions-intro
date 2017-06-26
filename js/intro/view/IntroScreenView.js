@@ -14,16 +14,20 @@ define( function( require ) {
   var CircularView = require( 'FRACTIONS_INTRO/intro/view/CircularView' );
   var NumberLineView = require( 'FRACTIONS_INTRO/intro/view/NumberLineView' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularView = require( 'FRACTIONS_INTRO/intro/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Temporary images and modules used to find true position of elements based on original simulation
@@ -80,13 +84,22 @@ define( function( require ) {
       } ) );
 
     // create and add fraction N/D with spinners on the bottom left side
-    this.addChild( new FractionWithSpinners(
-      model.numeratorProperty,
-      model.denominatorProperty,
-      model.maxProperty, {
-        bottom: this.layoutBounds.bottom - 10,
-        left: this.layoutBounds.left + 80
-      } ) );
+    this.addChild( new HBox( {
+      spacing: 2,
+      children: [
+        new FractionWithSpinners(
+          model.numeratorProperty,
+          model.denominatorProperty,
+          model.maxProperty ),
+          new Text( '=', {
+          font: new PhetFont( 110)
+        } ),
+        new FractionNode( model.numeratorProperty, model.denominatorProperty, {
+          expression: 'mixed'
+        } ) ],
+      bottom: this.layoutBounds.bottom - 10,
+        left: this.layoutBounds.left + 30
+    } ) );
 
     // Reset all button
     this.addChild( new ResetAllButton( {
