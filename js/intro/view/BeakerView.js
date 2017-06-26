@@ -69,10 +69,10 @@ define( function( require ) {
 
     Node.call( this, {
       children: [
-        this.bucketNode,
         new AlignBox( this.containerLayer, {
           alignBounds: Bounds2.point( 0, -150 )
-        } )
+        } ),
+        this.bucketNode
       ]
     } );
   }
