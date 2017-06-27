@@ -113,6 +113,6 @@ define( function( require ) {
       this.disposeMixedNumberMultiLink();
       Node.prototype.dispose.call( this );
     }
-  } )
+  } );
 
 } );
