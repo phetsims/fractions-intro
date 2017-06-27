@@ -9,15 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var PieceNode = require( 'FRACTIONS_INTRO/intro/view/PieceNode' );
 
   /**
    * @constructor
@@ -30,59 +27,26 @@ define( function( require ) {
    * @param {function} droppedCallback - Called as function( {Piece} )
    */
   function CakePieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
-    var self = this;
-
-    // @private {Piece}
-    this.piece = piece;
-
-    // @private {function}
-    this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
     this.graphic = new CakeNode( piece.denominator, 0 );
 
+    // @private {function}
+    this.finishedAnimatingCallback = finishedAnimatingCallback;
+
+    // cake specific
     var originCell = piece.originCellProperty.value;
     if ( originCell ) {
       this.graphic.setCakeIndex( originCell.index );
     }
-
+    // cake specific
     var destinationCell = piece.destinationCellProperty.value;
     if ( destinationCell ) {
       this.graphic.setCakeIndex( destinationCell.index );
     }
 
-    Node.call( this, { children: [ this.graphic ] } );
-
-    // @public {Property.<Vector2>}
-    this.originProperty = new Property( Vector2.ZERO );
-    this.destinationProperty = new Property( Vector2.ZERO );
-
-    // @private {Property.<boolean>}
-    this.isUserControlledProperty = new BooleanProperty( false );
-
-    // @private {number} - Animation progress, from 0 to 1.
-    this.ratio = 0;
-
-    this.originProperty.lazyLink( function( origin ) {
-      self.ratio = 0;
-      self.setMidpoint( origin );
-    } );
-    this.destinationProperty.lazyLink( function() {
-      self.ratio = 0;
-    } );
-
-    // @public
-    var initialOffset;
-    this.dragListener = new SimpleDragHandler( {
-      start: function( event ) {
-        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
-      },
-      drag: function( event ) {
-        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
-      },
-      end: function() {
-        droppedCallback( piece );
-      }
+    PieceNode.call( this, piece, finishedAnimatingCallback, droppedCallback, {
+      graphic: this.graphic
     } );
   }
 
@@ -134,15 +98,6 @@ define( function( require ) {
       var midpoint = this.getMidpoint();
       this.graphic.setCakeIndex( closestCell.index );
       this.setMidpoint( midpoint );
-    },
-
-    /**
-     * @public
-     */
-    dispose: function() {
-      this.interruptSubtreeInput();
-
-      Node.prototype.dispose.call( this );
     }
   } );
 } );

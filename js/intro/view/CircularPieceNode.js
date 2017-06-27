@@ -13,10 +13,7 @@ define( function( require ) {
   var Easing = require( 'TWIXT/Easing' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var PieceNode = require( 'FRACTIONS_INTRO/intro/view/PieceNode' );
 
   /**
    * @constructor
@@ -29,86 +26,24 @@ define( function( require ) {
    * @param {function} droppedCallback - Called as function( {Piece} )
    */
   function CircularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
-    var self = this;
-
-    // @private {Piece}
-    this.piece = piece;
-
-    // @private {function}
-    this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
     this.graphic = new CircleNode( piece.denominator, 0 );
 
-    Node.call( this, {
-      children: [
-        this.graphic
-      ]
+    PieceNode.call( this, piece, finishedAnimatingCallback, droppedCallback, {
+      graphic: this.graphic
     } );
 
-    // @public {Property.<Vector2>}
-    this.originProperty = new Property( Vector2.ZERO );
-    this.destinationProperty = new Property( Vector2.ZERO );
-
-    //circle-specific
-    this.originRotation = 0;
-
-    // @public {boolean}
-    this.isUserControlled = false;
-
-    // @private {number} - Animation progress, from 0 to 1.
-    this.ratio = 0;
-
+    // circle specific
     var originCell = piece.originCellProperty.value;
     if ( originCell ) {
       this.rotation = originCell.index * 2 * Math.PI / this.piece.denominator;
     }
-
-    this.originProperty.lazyLink( function( origin ) {
-      self.ratio = 0;
-      self.setMidpoint( origin );
-      self.originRotation = self.rotation;
-    } );
-    this.destinationProperty.lazyLink( function() {
-      self.ratio = 0;
-    } );
-
-    // @public
-    var initialOffset;
-    this.dragListener = new SimpleDragHandler( {
-      start: function( event ) {
-        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
-      },
-      drag: function( event ) {
-        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
-      },
-      end: function() {
-        droppedCallback( piece );
-      }
-    } );
   }
 
   fractionsIntro.register( 'CircularPieceNode', CircularPieceNode );
 
-  return inherit( Node, CircularPieceNode, {
-    /**
-     * gets the mid point of this piece
-     * @returns {Vector2}
-     * @public
-     */
-    getMidpoint: function() {
-      return this.localToParentPoint( this.graphic.midpointOffset );
-    },
-
-    /**
-     * sets the midpoint of this piece
-     * @param {Vector2} midpoint
-     * @private
-     */
-    setMidpoint: function( midpoint ) {
-      this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
-    },
-
+  return inherit( PieceNode, CircularPieceNode, {
     /**
      * forwards the position of this node in time
      * @param {number} dt - time step in seconds
@@ -167,16 +102,6 @@ define( function( require ) {
       }
 
       this.setMidpoint( midpoint );
-    },
-
-    /**
-     * dispose of the links for garbage collection
-     * @public
-     */
-    dispose: function() {
-      this.interruptSubtreeInput();
-
-      Node.prototype.dispose.call( this );
     }
   } );
 } );

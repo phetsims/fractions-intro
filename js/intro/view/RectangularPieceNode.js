@@ -13,10 +13,8 @@ define( function( require ) {
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
+  var PieceNode = require( 'FRACTIONS_INTRO/intro/view/PieceNode' );
   var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
@@ -28,7 +26,6 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback, options ) {
-    var self = this;
 
     // @private {Piece}
     this.piece = piece;
@@ -40,43 +37,10 @@ define( function( require ) {
     options = _.extend( options, { dropShadow: true } );
     this.graphic = new RectangleNode( piece.denominator, options );
 
-    Node.call( this, {
-      children: [
-        this.graphic
-      ]
+    PieceNode.call( this, piece, finishedAnimatingCallback, droppedCallback, {
+      graphic: this.graphic
     } );
 
-    // @public {Property.<Vector2>}
-    this.originProperty = new Property( Vector2.ZERO );
-    this.destinationProperty = new Property( Vector2.ZERO );
-
-    // @public {boolean}
-    this.isUserControlled = false;
-
-    // @private {number} - Animation progress, from 0 to 1.
-    this.ratio = 0;
-
-    this.originProperty.lazyLink( function( origin ) {
-      self.ratio = 0;
-      self.setMidpoint( origin );
-    } );
-    this.destinationProperty.lazyLink( function() {
-      self.ratio = 0;
-    } );
-
-    // @public
-    var initialOffset;
-    this.dragListener = new SimpleDragHandler( {
-      start: function( event ) {
-        initialOffset = self.getMidpoint().minus( self.globalToParentPoint( event.pointer.point ) );
-      },
-      drag: function( event ) {
-        self.setMidpoint( self.globalToParentPoint( event.pointer.point ).plus( initialOffset ) );
-      },
-      end: function() {
-        droppedCallback( piece );
-      }
-    } );
   }
 
   fractionsIntro.register( 'RectangularPieceNode', RectangularPieceNode );
