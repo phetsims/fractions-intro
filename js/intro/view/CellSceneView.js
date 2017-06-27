@@ -30,35 +30,31 @@ define( function( require ) {
   function CellSceneView( model, options ) {
 
     options = _.extend( {
-      containerLayerVerticalAlignment: false,
-      maxnumberofHorizontalContainers: IntroConstants.MAX_RANGE.max //default max Range
+      maxHorizontalContainers: IntroConstants.MAX_RANGE.max //default max Range
     }, options );
 
     // @private {number}
-    this.maxnumberofHorizontalContainers = options.maxnumberofHorizontalContainers;
-
-    // @private {boolean}
-    this.containerLayerVerticalAlignment = options.containerLayerVerticalAlignment;
+    this.maxHorizontalContainers = options.maxHorizontalContainers;
 
     // @private
     this.model = model;
 
-    // @private {Node}
-    this.containerLayer = new HBox( {
+    // @private {VBox}
+    this.containerLayer = new VBox( {
       spacing: 10
     } );
 
     // @private {Node}
     this.pieceLayer = new Node();
 
-    // @private {Array.<CircularContainerNode>}
+    // @private {Array.<*>}
     this.containerNodes = [];
 
     // @private {Array.<*>} TODO improve doc type
     this.pieceNodes = [];
 
-    //@private {Array.<*>}
-    this.HBoxes = [];
+    //@private {Array.<HBox>}
+    this.containerHBoxes = [];
 
     // @private {function}
     this.addListener = this.addContainer.bind( this );
@@ -276,19 +272,18 @@ define( function( require ) {
 
       this.containerNodes.push( containerNode );
 
-      this.containerLayer.addChild(containerNode);
-
-      if (this.containerLayerVerticalAlignment) {
-        // creates new Hbox within containerLayer VBox dependent on
-        if ( currentContainerNodesLength % this.maxnumberofHorizontalContainers === 0 ) {
-          var HBoxContainer = new VBox( {
-            spacing: 10
-          } );
-          this.HBoxes.push( HBoxContainer );
-          this.containerLayer.addChild( HBoxContainer );
-        }
-        this.HBoxes[ this.HBoxes.length - 1 ].addChild( containerNode );
+      // creates new HBox within containerLayer dependent on VBox container
+      if ( currentContainerNodesLength % this.maxHorizontalContainers === 0 ) {
+        var containerHBox = new HBox( {
+          spacing: 10
+        } );
+        this.containerHBoxes.push( containerHBox );
+        this.containerLayer.addChild( containerHBox );
       }
+
+      // creates new containerNode at the end of containerHboxes array
+      this.containerHBoxes[ this.containerHBoxes.length - 1 ].addChild( containerNode );
+
     },
 
     /**
@@ -301,8 +296,19 @@ define( function( require ) {
         return containerNode.container === container;
       } );
 
-      this.containerLayer.removeChild( containerNode );
       arrayRemove( this.containerNodes, containerNode );
+
+      //removes the last containerNode within the containerHBox Array
+      this.containerHBoxes[ this.containerHBoxes.length - 1 ].removeChild( containerNode );
+
+      var currentContainerLength = this.containerNodes.length;
+
+      // removes the last HBox within containerLayer
+      if ( currentContainerLength % this.maxHorizontalContainers === 0 ) {
+
+        var containerHBoxRemoved = this.containerHBoxes.pop();
+        this.containerLayer.removeChild( containerHBoxRemoved );
+      }
 
       containerNode.dispose();
     },
