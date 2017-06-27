@@ -41,7 +41,10 @@ define( function( require ) {
 
     // @private {VBox}
     this.containerLayer = new VBox( {
-      spacing: 10
+      spacing: 10,
+
+      // left align containerHBoxes
+      align: 'left'
     } );
 
     // @private {Node}
@@ -76,7 +79,10 @@ define( function( require ) {
     Node.call( this, {
       children: [
         new AlignBox( this.containerLayer, {
-          alignBounds: Bounds2.point( 0, -150 )
+          alignBounds: Bounds2.point( 0, -200 ),
+
+          // aligns the containerNodes with respect to the top
+          yAlign: 'top'
         } ),
         this.bucketNode
       ]
@@ -275,7 +281,8 @@ define( function( require ) {
       // creates new HBox within containerLayer dependent on VBox container
       if ( currentContainerNodesLength % this.maxHorizontalContainers === 0 ) {
         var containerHBox = new HBox( {
-          spacing: 10
+          spacing: 10,
+          align: 'top'
         } );
         this.containerHBoxes.push( containerHBox );
         this.containerLayer.addChild( containerHBox );
