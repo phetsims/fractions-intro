@@ -21,9 +21,11 @@ define( function( require ) {
    * @extends {CellSceneView}
    *
    * @param {IntroModel} model
+   * @param {Object} [options]
    */
-  function RectangularView( model ) {
-    CellSceneView.call( this, model );
+  function RectangularView( model, options ) {
+    this.options = options;
+    CellSceneView.call( this, model, options );
   }
 
   fractionsIntro.register( 'RectangularView', RectangularView );
@@ -39,7 +41,9 @@ define( function( require ) {
      * @public
      */
     createContainerNode: function( container, cellDownCallback ) {
-      return new RectangularContainerNode( container, cellDownCallback );
+      return new RectangularContainerNode( container, cellDownCallback, {
+        rectangle_orientation: this.options.rectangle_orientation
+      } );
     },
     /**
      * Creates a piece Node with a specific callback function and finished animation callback
@@ -51,7 +55,7 @@ define( function( require ) {
      * @public
      */
     createPieceNode: function( piece, finishedAnimatingCallback, droppedCallback ) {
-      return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback );
+      return new RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback, this.options );
     },
 
     /**
@@ -64,6 +68,7 @@ define( function( require ) {
      * @public
      */
     createCellNode: function( denominator, index, options ) {
+      options = _.extend( this.options, options );
       return new RectangleNode( denominator, options );
     }
 

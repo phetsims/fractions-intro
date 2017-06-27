@@ -25,8 +25,9 @@ define( function( require ) {
    * @param {Piece} piece
    * @param {function} finishedAnimatingCallback - Called as function( {Piece} ) with the piece to finish animating.
    * @param {function} droppedCallback - Called as function( {Piece} )
+   * @param {Object} [options]
    */
-  function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback ) {
+  function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback, options ) {
     var self = this;
 
     // @private {Piece}
@@ -36,7 +37,8 @@ define( function( require ) {
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     // @private TODO note more than just node, has midpointOffset variable
-    this.graphic = new RectangleNode( piece.denominator, { dropShadow: true } );
+    options = _.extend( options, { dropShadow: true } );
+    this.graphic = new RectangleNode( piece.denominator, options );
 
     Node.call( this, {
       children: [

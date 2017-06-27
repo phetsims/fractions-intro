@@ -24,8 +24,9 @@ define( function( require ) {
    *
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
+   * @param {Object} [options]
    */
-  function RectangularContainerNode( container, cellDownCallback ) {
+  function RectangularContainerNode( container, cellDownCallback, options ) {
 
     // @private
     this.container = container;
@@ -38,9 +39,13 @@ define( function( require ) {
       return count > 0 ? 'black' : 'gray';
     } );
 
+    this.options = options;
+
+    this.rectangle = this.options.rectangle_orientation === 'horizontal' ? IntroConstants.HORIZONTAL_RECTANGULAR_SIZE : IntroConstants.VERTICAL_RECTANGULAR_SIZE;
+
     Rectangle.call( this, {
-      rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
-      rectHeight: IntroConstants.RECTANGULAR_SIZE.height,
+      rectWidth: this.rectangle.width,
+      rectHeight: this.rectangle.height,
       stroke: this.strokeProperty,
       lineWidth: 3
     } );
@@ -81,15 +86,12 @@ define( function( require ) {
      */
     rebuild: function() {
       var self = this;
-
       this.removeCellNodes();
-
       var denominator = this.container.cells.length;
       for ( var i = 0; i < denominator; i++ ) {
         (function() {
           var cell = self.container.cells.get( i );
-
-          var cellNode = new RectangleNode( denominator );
+          var cellNode = new RectangleNode( denominator, self.options );
           self.cellNodes.push( cellNode );
           self.addChild( cellNode );
           cellNode.cursor = 'pointer';
@@ -98,9 +100,13 @@ define( function( require ) {
               self.cellDownCallback( cell, event );
             }
           } );
-
-          var sortedIndex = denominator - i - 1;
-          cellNode.y = IntroConstants.RECTANGULAR_SIZE.height * sortedIndex / denominator;
+          if ( self.options.rectangle_orientation === 'horizontal' ) {
+            cellNode.x = self.rectangle.width * i / denominator;
+          }
+          else {
+            var sortedIndex = denominator - i - 1;
+            cellNode.y = self.rectangle.height * sortedIndex / denominator;
+          }
 
           // TODO: don't do it this way
           cellNode.cell = cell;
@@ -108,14 +114,27 @@ define( function( require ) {
         })();
       }
 
-      // sets the shape of the dividing lines between cells
-      var cellDividersShape = new Shape();
-      var cellHeight = IntroConstants.RECTANGULAR_SIZE.height / denominator;
-      for ( var j = 1; j < denominator; j++ ) {
-        cellDividersShape.moveTo( 0, j * cellHeight )
-          .horizontalLineToRelative( IntroConstants.RECTANGULAR_SIZE.width );
+      if ( self.options.rectangle_orientation === 'vertical' ) {
+
+        // sets the shape of the dividing lines between cells
+        var cellDividersShape = new Shape();
+        var cellHeight = self.rectangle.height / denominator;
+        for ( var j = 1; j < denominator; j++ ) {
+          cellDividersShape.moveTo( 0, j * cellHeight )
+            .horizontalLineToRelative( self.rectangle.width );
+        }
+        self.cellDividersPath.setShape( cellDividersShape );
       }
-      self.cellDividersPath.setShape( cellDividersShape );
+      else {
+        // sets the shape of the dividing lines between cells
+        cellDividersShape = new Shape();
+        var cellWidth = self.rectangle.width / denominator;
+        for ( var x = 1; x < denominator; x++ ) {
+          cellDividersShape.moveTo( x * cellWidth, 0 )
+            .verticalLineToRelative( self.rectangle.height );
+        }
+        self.cellDividersPath.setShape( cellDividersShape );
+      }
 
     },
     /**

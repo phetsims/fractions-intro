@@ -133,7 +133,15 @@ define( function( require ) {
         self.currentView = new CircularView( model );
       }
       else if ( representation === Representation.VERTICAL_BAR ) {
-        self.currentView = new RectangularView( model );
+        self.currentView = new RectangularView( model, {
+          rectangle_orientation: 'vertical'
+        } );
+      }
+      else if ( representation === Representation.HORIZONTAL_BAR ) {
+        self.currentView = new RectangularView( model, {
+          rectangle_orientation: 'horizontal',
+          maxHorizontalContainers: 3
+        } );
       }
       else if ( representation === Representation.BEAKER ) {
         self.currentView = new BeakerView( model );

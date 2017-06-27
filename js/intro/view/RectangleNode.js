@@ -26,14 +26,25 @@ define( function( require ) {
 
     options = _.extend( {
         dropShadow: false,
-        dropShadowOffset: 5
+        dropShadowOffset: 5,
+        rectangle_orientation: 'vertical'
       },
       options );
+    if ( options.rectangle_orientation === 'horizontal' ) {
+      var rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
+      var rectangleWidth = rectangle.width / denominator;
+      var rectangleHeight = rectangle.height;
+    }
+    else {
+      rectangle = IntroConstants.VERTICAL_RECTANGULAR_SIZE;
+      rectangleWidth = rectangle.width;
+      rectangleHeight = rectangle.height / denominator;
+    }
 
     var foregroundRectangle = new Rectangle( {
-      rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
-      rectHeight: IntroConstants.RECTANGULAR_SIZE.height / denominator,
-      fill: '#FFE600',
+      rectWidth: rectangleWidth,
+      rectHeight: rectangleHeight,
+      fill: options.rectangle_orientation === 'horizontal' ? '#ED4344' : '#FFE600',
       stroke: 'black',
       lineWidth: 2
     } );
@@ -44,8 +55,8 @@ define( function( require ) {
     if ( options.dropShadow ) {
       var backgroundRectangle = new Rectangle( {
         center: foregroundRectangle.center.plusXY( options.dropShadowOffset, options.dropShadowOffset ),
-        rectWidth: IntroConstants.RECTANGULAR_SIZE.width,
-        rectHeight: IntroConstants.RECTANGULAR_SIZE.height / denominator,
+        rectWidth: rectangleWidth,
+        rectHeight: rectangleHeight,
         fill: 'black',
         lineWidth: 2
       } );

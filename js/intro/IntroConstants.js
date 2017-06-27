@@ -37,7 +37,8 @@ define( function( require ) {
     DENOMINATOR_RANGE: new Range( 1, 8 ),
 
     // @public {Dimension2}
-    RECTANGULAR_SIZE: new Dimension2( 130, 185 ),
+    VERTICAL_RECTANGULAR_SIZE: new Dimension2( 130, 185 ),
+    HORIZONTAL_RECTANGULAR_SIZE: new Dimension2( 185, 50 ),
 
     // @public {number}
     CIRCULAR_RADIUS: 75,

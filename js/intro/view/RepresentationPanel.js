@@ -49,16 +49,16 @@ define( function( require ) {
           stroke: 'black'
         } )
       },
-      // {
-      //   value: Representation.HORIZONTAL_BAR,
-      //   node: new Rectangle( {
-      //     rectWidth: 80,
-      //     rectHeight: 20,
-      //     fill: '#ED4344',
-      //     lineWidth: 2,
-      //     stroke: 'black'
-      //   } )
-      // },
+      {
+        value: Representation.HORIZONTAL_BAR,
+        node: new Rectangle( {
+          rectWidth: 80,
+          rectHeight: 20,
+          fill: '#ED4344',
+          lineWidth: 2,
+          stroke: 'black'
+        } )
+      },
       {
         value: Representation.VERTICAL_BAR,
         node: new Rectangle( {

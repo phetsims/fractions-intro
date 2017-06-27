@@ -163,24 +163,26 @@ define( function( require ) {
 
       //TODO: support on all
       if ( this.createPieceNode ) {
-        var pieceNode = this.createPieceNode( piece, function() {
-          self.model.completePiece( piece );
-        }, function() {
-          var currentMidpoint = pieceNode.getMidpoint();
+        var pieceNode = this.createPieceNode( piece,
+          function() {
+            self.model.completePiece( piece );
+          },
+          function() {
+            var currentMidpoint = pieceNode.getMidpoint();
 
-          var closestCell = self.getClosestCell( currentMidpoint, 100 );
+            var closestCell = self.getClosestCell( currentMidpoint, 100 );
 
-          pieceNode.isUserControlled = false;
-          pieceNode.originProperty.value = currentMidpoint;
+            pieceNode.isUserControlled = false;
+            pieceNode.originProperty.value = currentMidpoint;
 
-          if ( closestCell ) {
-            pieceNode.destinationProperty.value = self.getCellMidpoint( closestCell );
-            self.model.targetPieceToCell( piece, closestCell );
-          }
-          else {
-            pieceNode.destinationProperty.value = self.bucketNode.position;
-          }
-        } );
+            if ( closestCell ) {
+              pieceNode.destinationProperty.value = self.getCellMidpoint( closestCell );
+              self.model.targetPieceToCell( piece, closestCell );
+            }
+            else {
+              pieceNode.destinationProperty.value = self.bucketNode.position;
+            }
+          } );
 
         var originCell = piece.originCellProperty.value;
         if ( originCell ) {
