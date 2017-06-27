@@ -58,6 +58,7 @@ define( function( require ) {
       }
     } );
 
+    this.midPointOffset = this.center;
   }
 
   fractionsIntro.register( 'BeakerContainerNode', BeakerContainerNode );
@@ -80,6 +81,17 @@ define( function( require ) {
       this.container.filledCellCountProperty.unlink( this.cursorListener );
 
       Node.prototype.dispose.call( this );
+    },
+
+    /**
+     *
+     * @param {number} index
+     * @returns {Vector2}
+     * @public
+     */
+    getMidpointByIndex: function( index ) {
+      return this.midPointOffset;
     }
+
   } );
 } );

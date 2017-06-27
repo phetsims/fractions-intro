@@ -114,6 +114,8 @@ define( function( require ) {
       ]
     } );
 
+    this.midPointOffset = this.center;
+
     this.mutate( options );
   }
 
