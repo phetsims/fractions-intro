@@ -90,13 +90,8 @@ define( function( require ) {
         new FractionWithSpinners(
           model.numeratorProperty,
           model.denominatorProperty,
-          model.maxProperty ),
-          new Text( '=', {
-          font: new PhetFont( 110)
-        } ),
-        new FractionNode( model.numeratorProperty, model.denominatorProperty, {
-          expression: 'mixed'
-        } ) ],
+          model.maxProperty )
+         ],
       bottom: this.layoutBounds.bottom - 10,
         left: this.layoutBounds.left + 30
     } ) );
