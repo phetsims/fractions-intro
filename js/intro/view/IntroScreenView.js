@@ -88,9 +88,9 @@ define( function( require ) {
           model.numeratorProperty,
           model.denominatorProperty,
           model.maxProperty )
-         ],
+      ],
       bottom: this.layoutBounds.bottom - 10,
-        left: this.layoutBounds.left + 30
+      left: this.layoutBounds.left + 30
     } ) );
 
     // Reset all button

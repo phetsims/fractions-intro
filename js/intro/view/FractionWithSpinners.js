@@ -50,7 +50,7 @@ define( function( require ) {
         return ( numerator - 1 ) >= 0;
       } );
     var canIncreaseDenominatorProperty = new DerivedProperty( modelProperties,
-      function( numerator, denominator) {
+      function( numerator, denominator ) {
         return ( denominator + 1 ) <= IntroConstants.DENOMINATOR_RANGE.max;
       } );
     var canDecreaseDenominatorProperty = new DerivedProperty( modelProperties,
