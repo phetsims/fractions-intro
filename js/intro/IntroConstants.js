@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Constants in use across fraction intro sim
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -24,7 +24,6 @@ define( function( require ) {
     NUMBER_LINE_FONT: new PhetFont( 40 ),
 
     // Constants for beaker
-    BEAKER_WIDTH: 80,
     BEAKER_HEIGHT: 150,
 
     // constants for Cake
@@ -45,6 +44,11 @@ define( function( require ) {
 
     // Constants for bucketNode
     BUCKET_POSITION: new Vector2( 0, 100 ),
-    BUCKET_SIZE: new Dimension2( 355, 125 )
+    BUCKET_SIZE: new Dimension2( 355, 125 ),
+
+    // Constants for fraction node and fraction with spinner
+    TEXT_SIZE: new PhetFont( 110 ),
+    DIVIDING_LINE_LENGTH: 150,
+    DIVIDING_LINE_WIDTH: 10
   } );
 } );

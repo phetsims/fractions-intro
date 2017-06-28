@@ -41,6 +41,7 @@ define( function( require ) {
 
     this.options = options;
 
+    // determine to the height and width to use when drawing the vertical or horizontal representation.
     this.rectangle = this.options.rectangle_orientation === 'horizontal' ? IntroConstants.HORIZONTAL_RECTANGULAR_SIZE : IntroConstants.VERTICAL_RECTANGULAR_SIZE;
 
     Rectangle.call( this, {
@@ -137,6 +138,7 @@ define( function( require ) {
       }
 
     },
+
     /**
      * Empties cellsNode array, removes all cell from the scene and unlinks them from visibility listeners
      * @private

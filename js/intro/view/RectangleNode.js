@@ -30,6 +30,8 @@ define( function( require ) {
         rectangle_orientation: 'vertical'
       },
       options );
+
+    // determine the size of the rectangle size and pieces in th bucket depend upon the representation
     if ( options.rectangle_orientation === 'horizontal' ) {
       var rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
       var rectangleWidth = rectangle.width / denominator;
@@ -44,6 +46,8 @@ define( function( require ) {
     var foregroundRectangle = new Rectangle( {
       rectWidth: rectangleWidth,
       rectHeight: rectangleHeight,
+
+      // determine the color depend upon representation
       fill: options.rectangle_orientation === 'horizontal' ? '#ED4344' : '#FFE600',
       stroke: 'black',
       lineWidth: 2
@@ -62,14 +66,12 @@ define( function( require ) {
       } );
 
       options.children = [ backgroundRectangle, foregroundRectangle ];
-
     }
 
     Node.call( this, options );
 
     // @public {Vector2}
     this.midpointOffset = this.center;
-
   }
 
   fractionsIntro.register( 'RectangleNode', RectangleNode );

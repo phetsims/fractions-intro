@@ -1,4 +1,5 @@
 // Copyright 2017, University of Colorado Boulder
+
 /**
  * The large horizontal panel at the top of the screen for selecting different representations.
  *
@@ -14,7 +15,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberLineIcon = require( 'FRACTIONS_INTRO/intro/view/NumberLineIcon' );
-  //var NumberProperty = require( 'AXON/NumberProperty' );
   var Panel = require( 'SUN/Panel' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -36,9 +36,6 @@ define( function( require ) {
       xMargin: 10,
       yMargin: 10
     }, options );
-
-    // containerSet for beakerIcon with a numerator of 1, denominator of 1, and max value of 1
-    // var beakerContainerSet = new ContainerSet( new NumberProperty( 1 ), new NumberProperty( 1 ), new NumberProperty( 1 ) );
 
     var content = new RadioButtonGroup( representationProperty, [
       {
@@ -69,19 +66,18 @@ define( function( require ) {
           stroke: 'black'
         } )
       },
-
       {
         value: Representation.BEAKER,
         node: new BeakerNode( 1, 1, {
-          yRadius: 6,
-          xRadius: 20,
-          fullHeight: 50
+          yRadius: 4.5,
+          xRadius: 15,
+          fullHeight: 55
         } )
       },
       {
         value: Representation.CAKE,
         node: new Image( cakeImage, {
-          maxHeight: 70
+          maxHeight: 75
         } )
       },
       {
@@ -89,12 +85,13 @@ define( function( require ) {
         node: new NumberLineIcon()
       }
     ], {
+
       // RadioButtonGroup options
       orientation: 'horizontal',
       baseColor: 'white',
       cornerRadius: 10,
       spacing: 12,
-      buttonContentXMargin: 14,
+      buttonContentXMargin: 10,
       buttonContentYMargin: 20
     } );
 

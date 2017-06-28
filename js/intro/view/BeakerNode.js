@@ -11,11 +11,11 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-
   var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.15)';
   var WATER_SIDE_COLOR = 'rgba(30,163,255,0.8)';
   var WATER_TOP_COLOR = WATER_SIDE_COLOR;
@@ -32,7 +32,7 @@ define( function( require ) {
   function BeakerNode( numerator, denominator, options ) {
 
     options = _.extend( {
-      fullHeight: 150,
+      fullHeight: IntroConstants.BEAKER_HEIGHT,
       xRadius: 40,
       yRadius: 12
     }, options );

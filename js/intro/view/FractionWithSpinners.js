@@ -32,9 +32,9 @@ define( function( require ) {
 
     options = _.extend( {
       fill: 'black',
-      font: new PhetFont( 110 ),
-      dividingLineLength: 150,
-      dividingLineWidth: 10
+      font: IntroConstants.TEXT_SIZE,
+      dividingLineLength: IntroConstants.DIVIDING_LINE_LENGTH,
+      dividingLineWidth: IntroConstants.DIVIDING_LINE_WIDTH
     }, options );
 
     // convenience variable
@@ -59,6 +59,7 @@ define( function( require ) {
                numerator / ( denominator - 1 ) <= max;
       } );
 
+    // listener for button
     var numeratorUpButtonListener = function() {numeratorProperty.value++;};
     var numeratorDownButtonListener = function() {numeratorProperty.value--;};
     var denominatorUpButtonListener = function() {denominatorProperty.value++;};

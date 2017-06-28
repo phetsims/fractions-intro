@@ -254,6 +254,7 @@ define( function( require ) {
     step: function( dt ) {
       // do nothing
     },
+
     /**
      * disposes of links & listeners
      * @public

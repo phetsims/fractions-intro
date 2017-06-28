@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * make the pieces for the circle and handle the animation
+ * handle the animation for the piece
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -87,6 +87,7 @@ define( function( require ) {
   fractionsIntro.register( 'PieceNode', PieceNode );
 
   return inherit( Node, PieceNode, {
+
     /**
      * gets the mid point of this piece
      * @returns {Vector2}
@@ -104,6 +105,7 @@ define( function( require ) {
     setMidpoint: function( midpoint ) {
       this.translation = this.translation.plus( midpoint.minus( this.localToParentPoint( this.graphic.midpointOffset ) ) );
     },
+
     /**
      * dispose of the links for garbage collection
      * @public

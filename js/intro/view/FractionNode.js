@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -30,9 +29,6 @@ define( function( require ) {
 
     options = _.extend( {
       color: 'black',
-      font: new PhetFont( 110 ),
-      dividingLineLength: 150,
-      dividingLineWidth: 10,
       expression: 'improper'
     }, options );
 
@@ -44,6 +40,7 @@ define( function( require ) {
     var numeratorText = null;
     var denominatorText = null;
 
+    // add tha ability to put a mixed fraction on the screen
     if ( options.expression === 'improper' ) {
       numeratorText = new Text( '', {
         font: options.font

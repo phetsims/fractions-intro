@@ -1,7 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 
 /**
- * The icon for number line.
+ * The icon for number line use in the representation panel.
  *
  * @author Dusty Cole (Berea College)
  */
@@ -43,11 +43,9 @@ define( function( require ) {
         new Text( '1', { font: new PhetFont( FONT_SIZE ), centerX: LINE_LENGTH, top: TICK_HEIGHT } )
       ]
     } );
-
   }
 
   fractionsIntro.register( 'NumberLineIcon', NumberLineIcon );
 
   return inherit( Node, NumberLineIcon );
-
 } );

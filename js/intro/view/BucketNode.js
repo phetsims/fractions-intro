@@ -99,6 +99,8 @@ define( function( require ) {
     options.children = [ underneathRectangle, bucketHole, staticLayer, pieceLayer, bucketFront ];
     Node.call( this, options );
 
+    // TODO: Add representation icon to the bucket label
+
     this.addInputListener( {
       down: function( event ) {
         startPieceDrag( event );

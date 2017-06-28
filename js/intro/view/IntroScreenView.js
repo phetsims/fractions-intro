@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * layout everything that appear on the screen
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -70,7 +70,7 @@ define( function( require ) {
 
     ScreenView.call( this );
 
-    // fix bugs of some kind. Talk to Jonathon
+    // fix bugs of some kind. Talk to Jonathon. I think their is an issue somewhere else TODO: fix this once the other bug is fix
     this.preventFit = true;
 
     // representation panel at the top of the simulation
@@ -199,12 +199,12 @@ define( function( require ) {
       right: this.layoutBounds.right - 10,
       bottom: this.layoutBounds.bottom - 10
     } ) );
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
   fractionsIntro.register( 'IntroScreenView', IntroScreenView );
 
   return inherit( ScreenView, IntroScreenView, {
+
     /**
      *
      * @param {number} dt - time step

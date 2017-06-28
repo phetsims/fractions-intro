@@ -51,7 +51,7 @@ define( function( require ) {
     // shape of the arrow, pointing up
     var arrowShape = new Shape().moveTo( 0, 0 ).lineTo( shapeWidth / 2, -shapeWidth / 3 ).lineTo( shapeWidth, 0 );
 
-    // rotation of the arrow for the increment and decrement buttons
+    // rotation of the arrow for the increment and decrement buttons depending upon orientation
     var incrementIconRotation = ( options.arrowOrientation === 'horizontal' ) ? Math.PI / 2 : 0;
     var decrementIconRotation = ( options.arrowOrientation === 'horizontal' ) ? 3 * Math.PI / 2 : Math.PI;
 
@@ -78,6 +78,8 @@ define( function( require ) {
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: options.baseColor,
+
+      // depend upon arrow orientation
       xContentOffset: (options.arrowOrientation === 'horizontal') ? offset : 0,
       yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : -offset,
 
@@ -93,6 +95,8 @@ define( function( require ) {
       radius: options.radius,
       touchAreaDilation: 5,
       baseColor: options.baseColor,
+
+      // depend upon arrow orientation
       xContentOffset: (options.arrowOrientation === 'horizontal') ? -offset : 0,
       yContentOffset: (options.arrowOrientation === 'horizontal') ? 0 : offset,
 
@@ -110,7 +114,7 @@ define( function( require ) {
       downEnabledProperty.unlinkAttribute( decrementButton );
     };
 
-    // decrement button is on the left side in horizontal orientation but at the bottom when  oriented vertically
+    // decrement button is on the left side in horizontal orientation but at the bottom when oriented vertically
     var orderArray = (options.orientation === 'horizontal') ?
       [ decrementButton, incrementButton ] :
       [ incrementButton, decrementButton ];

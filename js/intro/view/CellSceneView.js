@@ -154,7 +154,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * callback whenever a piece is added
      * @param {Piece} piece
      * @private
      */
@@ -209,6 +209,8 @@ define( function( require ) {
     },
 
     /**
+     * callback whenever a piece is remove
+
      *
      * @param {Piece} piece
      * @private

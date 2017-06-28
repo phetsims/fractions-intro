@@ -45,6 +45,7 @@ define( function( require ) {
         rectangle_orientation: this.options.rectangle_orientation
       } );
     },
+
     /**
      * Creates a piece Node with a specific callback function and finished animation callback
      *
@@ -68,7 +69,7 @@ define( function( require ) {
      * @public
      */
     createCellNode: function( denominator, index, options ) {
-      options = _.extend( this.options, options,{dropShadow:false} );
+      options = _.extend( this.options, options, { dropShadow: false } );
       return new RectangleNode( denominator, options );
     }
 
