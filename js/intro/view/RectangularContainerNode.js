@@ -54,10 +54,10 @@ define( function( require ) {
     this.cellDividersPath = new Path( null, { stroke: this.strokeProperty } );
     this.addChild( this.cellDividersPath );
 
-// @private {function}
+    // @private {function}
     this.rebuildListener = this.rebuild.bind( this );
 
-// @private {Array.<RectangleNode>}
+    // @private {Array.<RectangleNode>}
     this.cellNodes = [];
 
     container.cells.lengthProperty.link( this.rebuildListener );

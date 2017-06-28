@@ -68,7 +68,7 @@ define( function( require ) {
      * @public
      */
     createCellNode: function( denominator, index, options ) {
-      options = _.extend( this.options, options );
+      options = _.extend( this.options, options,{dropShadow:false} );
       return new RectangleNode( denominator, options );
     }
 
