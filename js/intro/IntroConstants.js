@@ -38,7 +38,7 @@ define( function( require ) {
 
     // @public {Dimension2}
     VERTICAL_RECTANGULAR_SIZE: new Dimension2( 130, 185 ),
-    HORIZONTAL_RECTANGULAR_SIZE: new Dimension2( 185, 50 ),
+    HORIZONTAL_RECTANGULAR_SIZE: new Dimension2( 300, 50 ),
 
     // @public {number}
     CIRCULAR_RADIUS: 75,
