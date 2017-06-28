@@ -73,35 +73,6 @@ define( function( require ) {
     // fix bugs of some kind. Talk to Jonathon
     this.preventFit = true;
 
-    // create and add maxSpinner at the right top of the screen
-    this.addChild( new MaxSpinner(
-      model.maxProperty, {
-        right: this.layoutBounds.right - 20,
-        top: this.layoutBounds.top + 25
-      } ) );
-
-    // create and add fraction N/D with spinners on the bottom left side
-    this.addChild( new HBox( {
-      spacing: 2,
-      children: [
-        new FractionWithSpinners(
-          model.numeratorProperty,
-          model.denominatorProperty,
-          model.maxProperty )
-      ],
-      bottom: this.layoutBounds.bottom - 10,
-      left: this.layoutBounds.left + 30
-    } ) );
-
-    // Reset all button
-    this.addChild( new ResetAllButton( {
-      listener: function() {
-        model.reset();
-      },
-      right: this.layoutBounds.right - 10,
-      bottom: this.layoutBounds.bottom - 10
-    } ) );
-
     // representation panel at the top of the simulation
     this.addChild( new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
@@ -199,6 +170,35 @@ define( function( require ) {
       var height = pictureNode.height;
       pictureNode.scale( self.layoutBounds.width / width, self.layoutBounds.height / height );
     } );
+
+    // create and add maxSpinner at the right top of the screen
+    this.addChild( new MaxSpinner(
+      model.maxProperty, {
+        right: this.layoutBounds.right - 20,
+        top: this.layoutBounds.top + 25
+      } ) );
+
+    // create and add fraction N/D with spinners on the bottom left side
+    this.addChild( new HBox( {
+      spacing: 2,
+      children: [
+        new FractionWithSpinners(
+          model.numeratorProperty,
+          model.denominatorProperty,
+          model.maxProperty )
+      ],
+      bottom: this.layoutBounds.bottom - 10,
+      left: this.layoutBounds.left + 30
+    } ) );
+
+    // Reset all button
+    this.addChild( new ResetAllButton( {
+      listener: function() {
+        model.reset();
+      },
+      right: this.layoutBounds.right - 10,
+      bottom: this.layoutBounds.bottom - 10
+    } ) );
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
 
