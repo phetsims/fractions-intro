@@ -14,49 +14,22 @@ define( function( require ) {
   var CircularView = require( 'FRACTIONS_INTRO/intro/view/CircularView' );
   var NumberLineView = require( 'FRACTIONS_INTRO/intro/view/NumberLineView' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
   var FractionWithSpinners = require( 'FRACTIONS_INTRO/intro/view/FractionWithSpinners' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var MaxSpinner = require( 'FRACTIONS_INTRO/intro/view/MaxSpinner' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var OnOffSwitch = require( 'SUN/OnOffSwitch' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularView = require( 'FRACTIONS_INTRO/intro/view/RectangularView' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var RepresentationPanel = require( 'FRACTIONS_INTRO/intro/view/RepresentationPanel' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Temporary images and modules used to find true position of elements based on original simulation
-  var RangeWithValue = require( 'DOT/RangeWithValue' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Property = require( 'AXON/Property' );
-  var NumberSpinner = require( 'SUN/NumberSpinner' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var HSlider = require( 'SUN/HSlider' );
-
-  // images
-  var image0 = require( 'image!FRACTIONS_INTRO/0.png' );
-  var image1 = require( 'image!FRACTIONS_INTRO/1.png' );
-  var image2 = require( 'image!FRACTIONS_INTRO/2.png' );
-  var image3 = require( 'image!FRACTIONS_INTRO/3.png' );
-  var image4 = require( 'image!FRACTIONS_INTRO/4.png' );
-  var image5 = require( 'image!FRACTIONS_INTRO/5.png' );
-  var image6 = require( 'image!FRACTIONS_INTRO/6.png' );
-  var image7 = require( 'image!FRACTIONS_INTRO/7.png' );
-  var image8 = require( 'image!FRACTIONS_INTRO/8.png' );
-  var image9 = require( 'image!FRACTIONS_INTRO/9.png' );
-  var image10 = require( 'image!FRACTIONS_INTRO/10.png' );
-  var image11 = require( 'image!FRACTIONS_INTRO/11.png' );
-  var image12 = require( 'image!FRACTIONS_INTRO/12.png' );
-  var image13 = require( 'image!FRACTIONS_INTRO/13.png' );
-  var image14 = require( 'image!FRACTIONS_INTRO/14.png' );
-  var image15 = require( 'image!FRACTIONS_INTRO/15.png' );
-  var image16 = require( 'image!FRACTIONS_INTRO/16.png' );
-  var image17 = require( 'image!FRACTIONS_INTRO/17.png' );
-  var image18 = require( 'image!FRACTIONS_INTRO/18.png' );
-  var image19 = require( 'image!FRACTIONS_INTRO/19.png' );
-  var image20 = require( 'image!FRACTIONS_INTRO/20.png' );
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * @constructor
@@ -137,38 +110,52 @@ define( function( require ) {
       }
     } );
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Temporary code used to find true of elements based on original simulation
-    // image list
-    var imageList = [];
-    imageList.push( image0, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
-      image11, image12, image13, image14, image15, image16, image17, image18, image19, image20 );
+    var mixedFractionToggle = new Property( false );
 
-    var transparencyProperty = new NumberProperty( 0 );
-    this.addChild( new HSlider( transparencyProperty, {
-      min: 0,
-      max: 0.8
-    }, { right: this.layoutBounds.right - 10, bottom: this.layoutBounds.bottom - 70 } ) );
-
-    var pictureIndex = new NumberProperty( 0 );
-    var rangeProperty = new Property( new RangeWithValue( 0, 20, 0 ) );
-    this.addChild( new NumberSpinner( pictureIndex, rangeProperty, {
+    this.addChild( new OnOffSwitch( mixedFractionToggle, {
       right: this.layoutBounds.right - 20,
       bottom: this.layoutBounds.bottom - 120
     } ) );
 
-    var pictureNode = new Node();
-    transparencyProperty.link( function( transparency ) {
-      pictureNode.opacity = transparency;
+    // create and add fraction N/D with spinners on the bottom left side
+    var fractionBox = new HBox( {
+      spacing: 2,
+      children: [
+        new FractionWithSpinners(
+          model.numeratorProperty,
+          model.denominatorProperty,
+          model.maxProperty )
+      ],
+      bottom: self.layoutBounds.bottom - 10,
+      left: self.layoutBounds.left + 30
     } );
-    this.addChild( pictureNode );
-    pictureIndex.link( function( number ) {
-      pictureNode.removeAllChildren();
-      var img = new Image( imageList[ number ] );
-      pictureNode.addChild( img );
-      var width = pictureNode.width;
-      var height = pictureNode.height;
-      pictureNode.scale( self.layoutBounds.width / width, self.layoutBounds.height / height );
+    self.addChild( fractionBox );
+
+    var mixedNodeBox = new HBox();
+
+    // update fraction box depending upon mixed fraction toggle
+    mixedFractionToggle.link( function( value ) {
+
+      // create and add fraction N/D with spinners on the bottom left side and mixed fraction beside it
+      if ( value ) {
+        mixedNodeBox.removeAllChildren();
+        mixedNodeBox.addChild( new Text( '=', {
+          font: new PhetFont( 110 )
+        } ) );
+        mixedNodeBox.addChild( new FractionNode( model.numeratorProperty, model.denominatorProperty, {
+          expression: 'mixed',
+          font: new PhetFont( 110 ),
+          dividingLineLength: (50),
+          dividingLineWidth: (10)
+        } ) );
+        fractionBox.addChild( mixedNodeBox );
+      }
+      else {
+        if ( fractionBox.hasChild( mixedNodeBox ) ) {
+          fractionBox.removeChild( mixedNodeBox );
+        }
+      }
+
     } );
 
     // create and add maxSpinner at the right top of the screen
@@ -177,19 +164,6 @@ define( function( require ) {
         right: this.layoutBounds.right - 20,
         top: this.layoutBounds.top + 25
       } ) );
-
-    // create and add fraction N/D with spinners on the bottom left side
-    this.addChild( new HBox( {
-      spacing: 2,
-      children: [
-        new FractionWithSpinners(
-          model.numeratorProperty,
-          model.denominatorProperty,
-          model.maxProperty )
-      ],
-      bottom: this.layoutBounds.bottom - 10,
-      left: this.layoutBounds.left + 30
-    } ) );
 
     // Reset all button
     this.addChild( new ResetAllButton( {

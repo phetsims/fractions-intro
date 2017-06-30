@@ -91,6 +91,7 @@ define( function( require ) {
           // will be a mixed number
           options.children = [ wholeNumberText, new FractionNode( new NumberProperty( remainder ), denominatorProperty, {
             dividingLineLength: options.dividingLineLength,
+            dividingLineWidth: options.dividingLineWidth,
             font: options.font
           } ) ];
         }

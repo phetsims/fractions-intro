@@ -43,7 +43,7 @@ define( function( require ) {
     CIRCULAR_RADIUS: 75,
 
     // Constants for bucketNode
-    BUCKET_POSITION: new Vector2( 0, 100 ),
+    BUCKET_POSITION: new Vector2( 200, 100 ),
     BUCKET_SIZE: new Dimension2( 355, 125 ),
 
     // Constants for fraction node and fraction with spinner
