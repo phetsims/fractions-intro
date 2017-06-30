@@ -251,12 +251,19 @@ define( function( require ) {
   fractionsIntro.register( 'NumberLineView', NumberLineView );
 
   return inherit( Node, NumberLineView, {
+
+    /**
+     * placeholder for step function
+     *
+     * @param dt
+     */
     step: function( dt ) {
       // do nothing
     },
 
     /**
-     * disposes of links & listeners
+     * dispose of the links for garbage collection
+     *
      * @public
      */
     dispose: function() {

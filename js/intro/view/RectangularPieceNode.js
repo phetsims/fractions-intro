@@ -27,14 +27,10 @@ define( function( require ) {
    */
   function RectangularPieceNode( piece, finishedAnimatingCallback, droppedCallback, options ) {
 
-    // @private {Piece}
-    this.piece = piece;
-
-    // @private {function}
-    this.finishedAnimatingCallback = finishedAnimatingCallback;
-
     // @private TODO note more than just node, has midpointOffset variable
     options = _.extend( options, { dropShadow: true } );
+
+    // @private
     this.graphic = new RectangleNode( piece.denominator, options );
 
     PieceNode.call( this, piece, finishedAnimatingCallback, droppedCallback, {

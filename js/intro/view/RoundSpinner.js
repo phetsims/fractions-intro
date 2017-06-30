@@ -129,7 +129,7 @@ define( function( require ) {
 
   return inherit( LayoutBox, RoundSpinner, {
     /**
-     * dispose function
+     * dispose of the links for garbage collection
      * @public
      */
     dispose: function() {

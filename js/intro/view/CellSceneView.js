@@ -73,6 +73,7 @@ define( function( require ) {
     // Initial setup
     model.containers.forEach( this.addListener );
 
+    // @private
     this.bucketNode = new BucketNode( model.denominatorProperty, this.pieceLayer, this.onBucketDragStart.bind( this )
       , this.createCellNode.bind( this ), model.representationProperty );
 
@@ -93,6 +94,7 @@ define( function( require ) {
 
   return inherit( Node, CellSceneView, {
     /**
+     * Steps forward in time.
      *
      * @param {number} dt - time step
      * @public
@@ -210,7 +212,6 @@ define( function( require ) {
 
     /**
      * callback whenever a piece is remove
-
      *
      * @param {Piece} piece
      * @private
@@ -243,6 +244,7 @@ define( function( require ) {
     },
 
     /**
+     * Handles when a user drags a cell from a displayed container.
      *
      * @param {Cell} cell
      * @param {Event} event
@@ -325,6 +327,8 @@ define( function( require ) {
     },
 
     /**
+     * dispose of the links for garbage collection
+     *
      * @public
      */
     dispose: function() {

@@ -83,6 +83,7 @@ define( function( require ) {
 
   return inherit( Node, BeakerView, {
     /**
+     * Steps forward in time.
      *
      * @param {number} dt - time step in seconds
      * @public
@@ -146,6 +147,7 @@ define( function( require ) {
     },
 
     /**
+     * callback whenever a piece is added
      *
      * @param {Piece} piece
      * @private
@@ -213,6 +215,7 @@ define( function( require ) {
     },
 
     /**
+     * callback whenever a piece is remove
      *
      * @param {Piece} piece
      * @private
@@ -229,6 +232,7 @@ define( function( require ) {
     },
 
     /**
+     * handles when a beaker piece is dropped
      *
      * @param {BeakerPieceNode} pieceNode
      * @private
@@ -268,6 +272,7 @@ define( function( require ) {
     },
 
     /**
+     * Called when a beaker piece or cell is dragged
      *
      * @param {Event} event
      * @private
@@ -289,6 +294,7 @@ define( function( require ) {
     },
 
     /**
+     * Handles when a user drags a cell from a displayed container.
      *
      * @param {Container} container
      * @param {Event} event
@@ -316,6 +322,7 @@ define( function( require ) {
     },
 
     /**
+     * adds a container when max is increased
      *
      * @param {Container} container
      * @private
@@ -330,7 +337,9 @@ define( function( require ) {
       this.containerNodes.push( containerNode );
       this.containerLayer.addChild( containerNode );
     },
+
     /**
+     * removes a container when max is decreased
      *
      * @param {Container} container
      * @private
@@ -343,9 +352,10 @@ define( function( require ) {
       this.containerLayer.removeChild( containerNode );
       arrayRemove( this.containerNodes, containerNode );
       containerNode.dispose();
-
     },
+
     /**
+     * dispose of the links for garbage collection
      * @public
      */
     dispose: function() {

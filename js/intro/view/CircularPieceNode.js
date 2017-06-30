@@ -76,6 +76,7 @@ define( function( require ) {
         this.setMidpoint( this.originProperty.value.blend( this.destinationProperty.value, easedRatio ) );
       }
     },
+
     /**
      * orients the piece to fit the cell
      * @param {Cell} closestCell

@@ -73,6 +73,8 @@ define( function( require ) {
     },
 
     /**
+     * dispose of the links for garbage collection
+     *
      * @public
      */
     dispose: function() {
@@ -84,6 +86,7 @@ define( function( require ) {
     },
 
     /**
+     * Return the midpoint offset of this node
      *
      * @param {number} index
      * @returns {Vector2}

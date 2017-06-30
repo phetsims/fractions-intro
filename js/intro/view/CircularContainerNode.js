@@ -129,6 +129,7 @@ define( function( require ) {
       }
       self.cellDividersPath.setShape( cellDividersShape );
     },
+
     /**
      * Remove all the cells in the array and detach their listeners
      * @private
@@ -140,6 +141,7 @@ define( function( require ) {
         this.removeChild( cellNode );
       }
     },
+
     /**
      * dispose of the links for garbage collection
      * @public

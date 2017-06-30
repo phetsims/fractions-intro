@@ -31,9 +31,6 @@ define( function( require ) {
     // @private TODO note more than just node, has midpointOffset variable
     this.graphic = new CakeNode( piece.denominator, 0 );
 
-    // @private {function}
-    this.finishedAnimatingCallback = finishedAnimatingCallback;
-
     // cake specific
     var originCell = piece.originCellProperty.value;
     if ( originCell ) {
@@ -90,6 +87,8 @@ define( function( require ) {
       }
     },
     /**
+     * orients the piece to fit the cell
+     *
      * @param {Cell} closestCell
      * @param {number} dt - in seconds
      * @public

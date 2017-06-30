@@ -74,6 +74,7 @@ define( function( require ) {
   return inherit( Node, BeakerPieceNode, {
 
     /**
+     * Steps forward in time.
      *
      * @param {number} dt - timeStep in seconds
      * @public

@@ -51,6 +51,7 @@ define( function( require ) {
    * @param {Node} pieceLayer
    * @param {function} startPieceDrag
    * @param {function} createCellNode
+   * @param {Property.<string>} representationProperty
    * @param {object} [options]
    * @constructor
    */
@@ -70,7 +71,6 @@ define( function( require ) {
 
     // @public (read-only) {Vector2}
     this.position = bucket.position;
-
     this.representationProperty = representationProperty;
 
     // creates bucketNode front

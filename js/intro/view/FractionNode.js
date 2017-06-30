@@ -40,7 +40,7 @@ define( function( require ) {
     var numeratorText = null;
     var denominatorText = null;
 
-    // add tha ability to put a mixed fraction on the screen
+    // add the ability to put a mixed fraction on the screen
     if ( options.expression === 'improper' ) {
       numeratorText = new Text( '', {
         font: options.font
@@ -106,6 +106,12 @@ define( function( require ) {
   fractionsIntro.register( 'FractionNode', FractionNode );
 
   return inherit( HBox, FractionNode, {
+
+    /**
+     * dispose of the links for garbage collection
+     *
+     * @public
+     */
     dispose: function() {
       this.disposeMixedNumberMultiLink();
       Node.prototype.dispose.call( this );

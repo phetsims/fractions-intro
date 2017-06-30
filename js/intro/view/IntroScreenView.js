@@ -206,7 +206,9 @@ define( function( require ) {
   return inherit( ScreenView, IntroScreenView, {
 
     /**
+     * Steps forward in time.
      *
+     * @param {object} [options]
      * @param {number} dt - time step
      * @public
      */

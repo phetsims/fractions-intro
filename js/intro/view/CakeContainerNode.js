@@ -47,6 +47,7 @@ define( function( require ) {
    *
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
+   * @param {object} [options]
    */
   function CakeContainerNode( container, cellDownCallback, options ) {
 
@@ -159,7 +160,8 @@ define( function( require ) {
       self.cakeLayers.setChildren( slicesImage );
     },
 
-    /**
+    /** updates cells array and removes links when denominator is decreased
+     *
      * @private
      */
     removeCellNodes: function() {
@@ -204,6 +206,8 @@ define( function( require ) {
     },
 
     /**
+     * dispose of the links for garbage collection
+     *
      * @public
      */
     dispose: function() {

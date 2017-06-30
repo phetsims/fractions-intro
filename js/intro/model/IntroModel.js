@@ -23,6 +23,7 @@ define( function( require ) {
    * @extends {Object}
    */
   function IntroModel() {
+
     // @public {Property.<Representation>}
     this.representationProperty = new Property( Representation.CIRCLE );
 
