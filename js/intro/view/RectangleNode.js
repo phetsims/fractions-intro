@@ -35,6 +35,7 @@ define( function( require ) {
     var rectangle = IntroConstants.VERTICAL_RECTANGULAR_SIZE;
     var rectangleWidth = rectangle.width;
     var rectangleHeight = rectangle.height / denominator;
+
     // determine the size of the rectangle size and pieces in th bucket depend upon the representation
     if ( options.rectangle_orientation === 'horizontal' ) {
       rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
@@ -42,6 +43,7 @@ define( function( require ) {
       rectangleHeight = rectangle.height;
     }
 
+    //executes condition if the isIcon is true
     if ( options.isIcon ) {
       rectangleHeight /= 4;
       rectangleWidth /= 4;

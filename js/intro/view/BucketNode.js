@@ -95,22 +95,23 @@ define( function( require ) {
       dividingLineWidth: 2
     };
 
+    // creates icon Container
+    var iconContainer = new Container();
+
+    // fills one cell accoridng to denominator property
+    iconContainer.addCells( denominatorProperty.value );
+    iconContainer.cells.get( 0 ).fill();
+
     var staticLayer = new Node();
 
     denominatorProperty.link( function( denominator ) {
       staticLayer.removeAllChildren();
+
+      // places pieces in bucket dependent on defined vectors
       PIECE_OFFSET_POSITIONS.forEach( function( position ) {
         var staticCellNode = createCellNode( denominator, 0, { center: position.plus( bucketHole.center ) } );
         staticLayer.addChild( staticCellNode );
       } );
-    } );
-
-    var iconContainer = new Container();
-    iconContainer.addCells( denominatorProperty.value );
-    iconContainer.cells.get( 0 ).fill();
-
-    // add a fraction to the label of the form 1/D and the representation icon
-    denominatorProperty.link( function( denominator ) {
 
       // take denominator, and the length of the icon container
       // find the difference add/remove that many cells from the container
@@ -125,41 +126,49 @@ define( function( require ) {
         //remove cells
         iconContainer.removeCells( -difference );
       }
+
+      // creates icon specific to representatonProperty
       switch( self.representationProperty.value ) {
         case Representation.CIRCLE:
-          var icon = new CircularContainerNode( iconContainer, function() {}, {
+          var bucketIcon = new CircularContainerNode( iconContainer, function() {}, {
             isIcon: true
           } );
-          var iconBackground = new Circle( icon.radius, { fill: 'white', center: icon.center } );
+          var bucketIconBackground = new Circle( bucketIcon.radius, { fill: 'white', center: bucketIcon.center } );
           break;
         case Representation.HORIZONTAL_BAR:
-          icon = new RectangularContainerNode( iconContainer, function() {}, {
+          bucketIcon = new RectangularContainerNode( iconContainer, function() {}, {
             rectangle_orientation: 'horizontal',
             isIcon: true
           } );
-          iconBackground = new Rectangle( 0, 0, icon.width, icon.height, 0, 0, { fill: 'white', center: icon.center } );
+          bucketIconBackground = new Rectangle( 0, 0, bucketIcon.width, bucketIcon.height, 0, 0, {
+            fill: 'white',
+            center: bucketIcon.center
+          } );
           break;
         case Representation.VERTICAL_BAR:
-          icon = new RectangularContainerNode( iconContainer, function() {}, {
+          bucketIcon = new RectangularContainerNode( iconContainer, function() {}, {
             rectangle_orientation: 'vertical',
             isIcon: true
           } );
-          iconBackground = new Rectangle( 0, 0, icon.width, icon.height, 0, 0, { fill: 'white', center: icon.center } );
+          bucketIconBackground = new Rectangle( 0, 0, bucketIcon.width, bucketIcon.height, 0, 0, {
+            fill: 'white',
+            center: bucketIcon.center
+          } );
           break;
         case Representation.CAKE:
-          icon = new CakeContainerNode( iconContainer, function() {}, {
+          bucketIcon = new CakeContainerNode( iconContainer, function() {}, {
             maxHeight: 50
           } );
-          iconBackground = new Node();
+          bucketIconBackground = new Node();
           break;
         case Representation.BEAKER:
-          icon = new BeakerNode( 1, denominatorProperty.value, {
+          bucketIcon = new BeakerNode( 1, denominatorProperty.value, {
             fullHeight: IntroConstants.BEAKER_HEIGHT / 4,
             xRadius: 10,
             yRadius: 3,
             tickWidth: 1
           } );
-          iconBackground = new Node();
+          bucketIconBackground = new Node();
           break;
         default:
           break;
@@ -167,21 +176,22 @@ define( function( require ) {
 
       var fractionIcon = new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions );
 
-      var rectangleNode = new Node();
+      var bucketIconNode = new Node();
 
-      rectangleNode.setChildren( [ iconBackground, icon ] );
+      // arrange bucketIcon and background into one node
+      bucketIconNode.setChildren( [ bucketIconBackground, bucketIcon ] );
 
       var label = new HBox( {
         align: 'center',
         spacing: 20,
-        children: [ rectangleNode, fractionIcon ]
+        children: [ bucketIconNode, fractionIcon ]
       } );
 
       bucketFront.setLabel( label );
 
     } );
 
-    options.children = [ underneathRectangle, bucketHole, staticLayer, pieceLayer, bucketFront ];
+    options.children = [ bucketHole, staticLayer, pieceLayer, underneathRectangle, bucketFront ];
     Node.call( this, options );
 
     // TODO: Add representation icon to the bucket label
