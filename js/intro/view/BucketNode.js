@@ -37,13 +37,13 @@ define( function( require ) {
   var PIECE_OFFSET_POSITIONS = [
 
     // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
-    new Vector2( -120, 4 ),
+    new Vector2( 90, 4 ),
     new Vector2( -85, 5 ),
     new Vector2( -40, 9 ),
     new Vector2( 0, 0 ),
     new Vector2( 37, 7 ),
     new Vector2( 75, 5 ),
-    new Vector2( 110, 5 )
+    new Vector2( 90, 5 )
   ];
 
   /**
@@ -105,14 +105,6 @@ define( function( require ) {
     var staticLayer = new Node();
 
     denominatorProperty.link( function( denominator ) {
-      staticLayer.removeAllChildren();
-
-      // places pieces in bucket dependent on defined vectors
-      PIECE_OFFSET_POSITIONS.forEach( function( position ) {
-        var staticCellNode = createCellNode( denominator, 0, { center: position.plus( bucketHole.center ) } );
-        staticLayer.addChild( staticCellNode );
-      } );
-
       // take denominator, and the length of the icon container
       // find the difference add/remove that many cells from the container
       var difference = denominator - iconContainer.cells.length;
@@ -144,6 +136,13 @@ define( function( require ) {
             fill: 'white',
             center: bucketIcon.center
           } );
+          PIECE_OFFSET_POSITIONS = [
+
+            // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
+            new Vector2( -12, 9 ),
+            new Vector2( 0, 0 ),
+            new Vector2( 12, 7 )
+          ];
           break;
         case Representation.VERTICAL_BAR:
           bucketIcon = new RectangularContainerNode( iconContainer, function() {}, {
@@ -154,6 +153,15 @@ define( function( require ) {
             fill: 'white',
             center: bucketIcon.center
           } );
+          PIECE_OFFSET_POSITIONS = [
+
+            // Offsets used for initial position of pieces, relative to bucket hole center. Empirically determined.
+            new Vector2( -70, 5 ),
+            new Vector2( -40, 9 ),
+            new Vector2( 0, 0 ),
+            new Vector2( 37, 7 ),
+            new Vector2( 75, 5 )
+          ];
           break;
         case Representation.CAKE:
           bucketIcon = new CakeContainerNode( iconContainer, function() {}, {
@@ -173,6 +181,14 @@ define( function( require ) {
         default:
           break;
       }
+
+      staticLayer.removeAllChildren();
+
+      // places pieces in bucket dependent on defined vectors
+      PIECE_OFFSET_POSITIONS.forEach( function( position ) {
+        var staticCellNode = createCellNode( denominator, 0, { center: position.plus( bucketHole.center ) } );
+        staticLayer.addChild( staticCellNode );
+      } );
 
       var fractionIcon = new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions );
 
