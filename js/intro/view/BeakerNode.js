@@ -34,7 +34,8 @@ define( function( require ) {
     options = _.extend( {
       fullHeight: IntroConstants.BEAKER_HEIGHT,
       xRadius: 40,
-      yRadius: 12
+      yRadius: 12,
+      tickWidth: 2
     }, options );
 
     var height = options.fullHeight * numerator / denominator;
@@ -93,7 +94,7 @@ define( function( require ) {
     } );
     var ticks = new Path( ticksShape, {
       stroke: 'black',
-      lineWidth: 2,
+      lineWidth: options.tickWidth,
       pickable: false
     } );
 

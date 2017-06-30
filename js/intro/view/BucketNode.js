@@ -12,6 +12,10 @@ define( function( require ) {
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
+  var CakeContainerNode = require( 'FRACTIONS_INTRO/intro/view/CakeContainerNode' );
+  var CircularContainerNode = require( 'FRACTIONS_INTRO/intro/view/CircularContainerNode' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var Container = require( 'FRACTIONS_INTRO/intro/model/Container' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
@@ -21,7 +25,11 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RectangularContainerNode = require( 'FRACTIONS_INTRO/intro/view/RectangularContainerNode' );
+  var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
   var Vector2 = require( 'DOT/Vector2' );
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
 
   // constants
   var IDENTITY_TRANSFORM = ModelViewTransform2.createIdentity();
@@ -46,9 +54,11 @@ define( function( require ) {
    * @param {object} [options]
    * @constructor
    */
-  function BucketNode( denominatorProperty, pieceLayer, startPieceDrag, createCellNode, options ) {
+  function BucketNode( denominatorProperty, pieceLayer, startPieceDrag, createCellNode, representationProperty, options ) {
 
     options = _.extend( {}, options );
+
+    var self = this;
 
     // model of the bucket
     var bucket = new Bucket( {
@@ -60,6 +70,8 @@ define( function( require ) {
 
     // @public (read-only) {Vector2}
     this.position = bucket.position;
+
+    this.representationProperty = representationProperty;
 
     // creates bucketNode front
     var bucketFront = new BucketFront( bucket, IDENTITY_TRANSFORM );
@@ -93,8 +105,81 @@ define( function( require ) {
       } );
     } );
 
-    // add a fraction to the label of the form 1/D
-    bucketFront.setLabel( new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions ) );
+    var iconContainer = new Container();
+    iconContainer.addCells( denominatorProperty.value );
+    iconContainer.cells.get( 0 ).fill();
+
+    // add a fraction to the label of the form 1/D and the representation icon
+    denominatorProperty.link( function( denominator ) {
+
+      // take denominator, and the length of the icon container
+      // find the difference add/remove that many cells from the container
+      var difference = denominator - iconContainer.cells.length;
+      if ( difference > 0 ) {
+
+        //add cells
+        iconContainer.addCells( difference );
+      }
+      else if ( difference < 0 ) {
+
+        //remove cells
+        iconContainer.removeCells( -difference );
+      }
+      switch( self.representationProperty.value ) {
+        case Representation.CIRCLE:
+          var icon = new CircularContainerNode( iconContainer, function() {}, {
+            isIcon: true
+          } );
+          var iconBackground = new Circle( icon.radius, { fill: 'white', center: icon.center } );
+          break;
+        case Representation.HORIZONTAL_BAR:
+          icon = new RectangularContainerNode( iconContainer, function() {}, {
+            rectangle_orientation: 'horizontal',
+            isIcon: true
+          } );
+          iconBackground = new Rectangle( 0, 0, icon.width, icon.height, 0, 0, { fill: 'white', center: icon.center } );
+          break;
+        case Representation.VERTICAL_BAR:
+          icon = new RectangularContainerNode( iconContainer, function() {}, {
+            rectangle_orientation: 'vertical',
+            isIcon: true
+          } );
+          iconBackground = new Rectangle( 0, 0, icon.width, icon.height, 0, 0, { fill: 'white', center: icon.center } );
+          break;
+        case Representation.CAKE:
+          icon = new CakeContainerNode( iconContainer, function() {}, {
+            maxHeight: 50
+          } );
+          iconBackground = new Node();
+          break;
+        case Representation.BEAKER:
+          icon = new BeakerNode( 1, denominatorProperty.value, {
+            fullHeight: IntroConstants.BEAKER_HEIGHT / 4,
+            xRadius: 10,
+            yRadius: 3,
+            tickWidth: 1
+          } );
+          iconBackground = new Node();
+          break;
+        default:
+          break;
+      }
+
+      var fractionIcon = new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions );
+
+      var rectangleNode = new Node();
+
+      rectangleNode.setChildren( [ iconBackground, icon ] );
+
+      var label = new HBox( {
+        align: 'center',
+        spacing: 20,
+        children: [ rectangleNode, fractionIcon ]
+      } );
+
+      bucketFront.setLabel( label );
+
+    } );
 
     options.children = [ underneathRectangle, bucketHole, staticLayer, pieceLayer, bucketFront ];
     Node.call( this, options );

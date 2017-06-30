@@ -67,7 +67,7 @@ define( function( require ) {
 
     // @private
     this.bucketNode = new BucketNode( model.denominatorProperty, this.pieceLayer, this.startBeakerDrag.bind( this ),
-      this.createBeakerNode.bind( this ) );
+      this.createBeakerNode.bind( this ), model.representationProperty );
 
     Node.call( this, {
       children: [

@@ -27,22 +27,33 @@ define( function( require ) {
    *
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
+   * @param {Object} [options]
    */
-  function CircularContainerNode( container, cellDownCallback ) {
+  function CircularContainerNode( container, cellDownCallback, options ) {
+
+    options = _.extend( {
+        isIcon: false
+      },
+      options );
+
+    // @public
+    this.options = options;
+
+    // @public
+    this.circleRadius = this.options.isIcon ? IntroConstants.CIRCULAR_RADIUS / 4 : IntroConstants.CIRCULAR_RADIUS;
+
     // @private
     this.container = container;
 
     // @private
     this.cellDownCallback = cellDownCallback;
-
     // @private {Property.<string>} TODO factor out?
     this.strokeProperty = new DerivedProperty( [ container.filledCellCountProperty ], function( count ) {
       return count > 0 ? 'black' : 'gray';
     } );
-
-    Circle.call( this, IntroConstants.CIRCULAR_RADIUS, {
+    Circle.call( this, this.circleRadius, {
       stroke: this.strokeProperty,
-      lineWidth: 3
+      lineWidth: this.options.isIcon ? 2 : 3
     } );
 
     // @private {Path} creates the path for the dividing lines between cells
@@ -88,7 +99,7 @@ define( function( require ) {
       var denominator = this.container.cells.length;
 
       // disregard segment for denominator equal to 1
-      var cellDividersLength = (denominator > 1) ? IntroConstants.CIRCULAR_RADIUS : 0;
+      var cellDividersLength = (denominator > 1) ? self.circleRadius : 0;
 
       // creates an angle between the cells of a circle node that corresponds to the denominator value
       var cellDividersAngle = (Math.PI * 2) / (denominator);
@@ -97,7 +108,7 @@ define( function( require ) {
         (function() {
           var cell = self.container.cells.get( i );
 
-          var cellNode = new CircleNode( denominator, i );
+          var cellNode = new CircleNode( denominator, i, self.options );
           self.cellNodes.push( cellNode );
           self.addChild( cellNode );
           cellNode.cursor = 'pointer';

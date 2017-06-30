@@ -48,7 +48,15 @@ define( function( require ) {
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
    */
-  function CakeContainerNode( container, cellDownCallback ) {
+  function CakeContainerNode( container, cellDownCallback, options ) {
+
+    options = _.extend( {
+      maxHeight: IntroConstants.CAKE_HEIGHT  // height of the image
+    }, options );
+
+    // @private
+    this.options = options;
+
     // @private
     this.container = container;
 
@@ -57,7 +65,7 @@ define( function( require ) {
 
     // @private {Image} create grid image of the cake with the appropriate number of cells
     this.gridImage = new Image( cakeGridImageArray[ container.cells.lengthProperty.value - 1 ],
-      { maxHeight: IntroConstants.CAKE_HEIGHT } );
+      { maxHeight: this.options.maxHeight } );
 
     // create white background for the cake.
     // The shape of the ellipse is determined empirically based on the image
@@ -129,7 +137,7 @@ define( function( require ) {
           var zOrder = zLayerArray[ i ];
 
           // place the cakeImage in the z ordered array
-          var cellNode = new CakeNode( denominator, i );
+          var cellNode = new CakeNode( denominator, i, self.options );
           slicesImage[ zOrder ] = cellNode;
 
           self.cellNodes.push( cellNode );

@@ -27,22 +27,25 @@ define( function( require ) {
     options = _.extend( {
         dropShadow: false,
         dropShadowOffset: 5,
-        rectangle_orientation: 'vertical'
+        rectangle_orientation: 'vertical',
+        isIcon: false
       },
       options );
 
+    var rectangle = IntroConstants.VERTICAL_RECTANGULAR_SIZE;
+    var rectangleWidth = rectangle.width;
+    var rectangleHeight = rectangle.height / denominator;
     // determine the size of the rectangle size and pieces in th bucket depend upon the representation
     if ( options.rectangle_orientation === 'horizontal' ) {
-      var rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
-      var rectangleWidth = rectangle.width / denominator;
-      var rectangleHeight = rectangle.height;
-    }
-    else {
-      rectangle = IntroConstants.VERTICAL_RECTANGULAR_SIZE;
-      rectangleWidth = rectangle.width;
-      rectangleHeight = rectangle.height / denominator;
+      rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
+      rectangleWidth = rectangle.width / denominator;
+      rectangleHeight = rectangle.height;
     }
 
+    if ( options.isIcon ) {
+      rectangleHeight /= 4;
+      rectangleWidth /= 4;
+    }
     var foregroundRectangle = new Rectangle( {
       rectWidth: rectangleWidth,
       rectHeight: rectangleHeight,
@@ -50,7 +53,7 @@ define( function( require ) {
       // determine the color depend upon representation
       fill: options.rectangle_orientation === 'horizontal' ? '#ED4344' : '#FFE600',
       stroke: 'black',
-      lineWidth: 2
+      lineWidth: options.isIcon ? 1 : 3
     } );
 
     options.children = [ foregroundRectangle ];

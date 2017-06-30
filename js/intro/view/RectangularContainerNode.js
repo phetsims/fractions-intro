@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -28,6 +29,11 @@ define( function( require ) {
    */
   function RectangularContainerNode( container, cellDownCallback, options ) {
 
+    options = _.extend( {
+        isIcon: false
+      },
+      options );
+
     // @private
     this.container = container;
 
@@ -44,11 +50,15 @@ define( function( require ) {
     // determine to the height and width to use when drawing the vertical or horizontal representation.
     this.rectangle = this.options.rectangle_orientation === 'horizontal' ? IntroConstants.HORIZONTAL_RECTANGULAR_SIZE : IntroConstants.VERTICAL_RECTANGULAR_SIZE;
 
+    if ( options.isIcon ) {
+      this.rectangle = new Dimension2( this.rectangle.width / 4, this.rectangle.height / 4 );
+    }
+
     Rectangle.call( this, {
       rectWidth: this.rectangle.width,
       rectHeight: this.rectangle.height,
       stroke: this.strokeProperty,
-      lineWidth: 3
+      lineWidth: options.isIcon ? 2 : 3
     } );
 
     // @private {Path} creates the path for the dividing lines between cells
@@ -162,8 +172,15 @@ define( function( require ) {
       this.strokeProperty.dispose();
 
       Rectangle.prototype.dispose.call( this );
-    }
+    },
 
+    /**
+     *  creates Rectangular Node with one fill cell
+     *  @public
+     */
+    isIcon: function() {
+      this.container.cells.fill();
+    }
   } );
 } )
 ;

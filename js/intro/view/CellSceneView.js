@@ -74,7 +74,7 @@ define( function( require ) {
     model.containers.forEach( this.addListener );
 
     this.bucketNode = new BucketNode( model.denominatorProperty, this.pieceLayer, this.onBucketDragStart.bind( this )
-      , this.createCellNode.bind( this ) );
+      , this.createCellNode.bind( this ), model.representationProperty );
 
     Node.call( this, {
       children: [

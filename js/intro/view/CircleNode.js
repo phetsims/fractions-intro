@@ -30,17 +30,19 @@ define( function( require ) {
     options = _.extend( {
         fill: 'rgb(140, 198, 61)',
         stroke: 'black',
-        lineWidth: 2
+        lineWidth: 2,
+        isIcon: false
       },
       options );
-
+    options.lineWidth = options.isIcon ? 1 : 2;
     var startAngle = index * 2 * Math.PI / denominator;
     var endAngle = ( index + 1 ) * 2 * Math.PI / denominator;
     var shape = new Shape();
     if ( denominator > 1 ) {
       shape.moveTo( 0, 0 );
     }
-    shape.arc( 0, 0, IntroConstants.CIRCULAR_RADIUS, startAngle, endAngle, false ).close();
+    var circleRadius = options.isIcon ? IntroConstants.CIRCULAR_RADIUS / 4 : IntroConstants.CIRCULAR_RADIUS;
+    shape.arc( 0, 0, circleRadius, startAngle, endAngle, false ).close();
 
     Path.call( this, shape, options );
 
