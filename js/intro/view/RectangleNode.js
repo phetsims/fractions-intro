@@ -27,7 +27,7 @@ define( function( require ) {
     options = _.extend( {
         dropShadow: false,
         dropShadowOffset: 5,
-        rectangle_orientation: 'vertical',
+        rectangleOrientation: 'vertical',
         isIcon: false
       },
       options );
@@ -37,7 +37,7 @@ define( function( require ) {
     var rectangleHeight = rectangle.height / denominator;
 
     // determine the size of the rectangle size and pieces in th bucket depend upon the representation
-    if ( options.rectangle_orientation === 'horizontal' ) {
+    if ( options.rectangleOrientation === 'horizontal' ) {
       rectangle = IntroConstants.HORIZONTAL_RECTANGULAR_SIZE;
       rectangleWidth = rectangle.width / denominator;
       rectangleHeight = rectangle.height;
@@ -53,7 +53,7 @@ define( function( require ) {
       rectHeight: rectangleHeight,
 
       // determine the color depend upon representation
-      fill: options.rectangle_orientation === 'horizontal' ? '#ED4344' : '#FFE600',
+      fill: options.rectangleOrientation === 'horizontal' ? '#ED4344' : '#FFE600',
       stroke: 'black',
       lineWidth: options.isIcon ? 1 : 3
     } );

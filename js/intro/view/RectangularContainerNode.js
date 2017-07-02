@@ -48,7 +48,7 @@ define( function( require ) {
     this.options = options;
 
     // determine to the height and width to use when drawing the vertical or horizontal representation.
-    this.rectangle = this.options.rectangle_orientation === 'horizontal' ? IntroConstants.HORIZONTAL_RECTANGULAR_SIZE : IntroConstants.VERTICAL_RECTANGULAR_SIZE;
+    this.rectangle = this.options.rectangleOrientation === 'horizontal' ? IntroConstants.HORIZONTAL_RECTANGULAR_SIZE : IntroConstants.VERTICAL_RECTANGULAR_SIZE;
 
     if ( options.isIcon ) {
       this.rectangle = new Dimension2( this.rectangle.width / 4, this.rectangle.height / 4 );
@@ -111,7 +111,7 @@ define( function( require ) {
               self.cellDownCallback( cell, event );
             }
           } );
-          if ( self.options.rectangle_orientation === 'horizontal' ) {
+          if ( self.options.rectangleOrientation === 'horizontal' ) {
             cellNode.x = self.rectangle.width * i / denominator;
           }
           else {
@@ -125,7 +125,7 @@ define( function( require ) {
         })();
       }
 
-      if ( self.options.rectangle_orientation === 'vertical' ) {
+      if ( self.options.rectangleOrientation === 'vertical' ) {
 
         // sets the shape of the dividing lines between cells
         var cellDividersShape = new Shape();

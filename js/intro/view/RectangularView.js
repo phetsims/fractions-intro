@@ -42,7 +42,7 @@ define( function( require ) {
      */
     createContainerNode: function( container, cellDownCallback ) {
       return new RectangularContainerNode( container, cellDownCallback, {
-        rectangle_orientation: this.options.rectangle_orientation
+        rectangleOrientation: this.options.rectangleOrientation
       } );
     },
 

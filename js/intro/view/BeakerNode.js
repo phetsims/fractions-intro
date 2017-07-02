@@ -16,6 +16,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+
+  // constants
   var EMPTY_BEAKER_COLOR = 'rgba(150,150,150,0.15)';
   var WATER_SIDE_COLOR = 'rgba(30,163,255,0.8)';
   var WATER_TOP_COLOR = WATER_SIDE_COLOR;

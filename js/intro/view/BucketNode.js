@@ -98,7 +98,7 @@ define( function( require ) {
     // creates icon Container
     var iconContainer = new Container();
 
-    // fills one cell accoridng to denominator property
+    // fills one cell according to denominator property
     iconContainer.addCells( denominatorProperty.value );
     iconContainer.cells.get( 0 ).fill();
 
@@ -119,7 +119,7 @@ define( function( require ) {
         iconContainer.removeCells( -difference );
       }
 
-      // creates icon specific to representatonProperty
+      // creates icon specific to representationProperty
       switch( self.representationProperty.value ) {
         case Representation.CIRCLE:
           var bucketIcon = new CircularContainerNode( iconContainer, function() {}, {
@@ -129,7 +129,7 @@ define( function( require ) {
           break;
         case Representation.HORIZONTAL_BAR:
           bucketIcon = new RectangularContainerNode( iconContainer, function() {}, {
-            rectangle_orientation: 'horizontal',
+            rectangleOrientation: 'horizontal',
             isIcon: true
           } );
           bucketIconBackground = new Rectangle( 0, 0, bucketIcon.width, bucketIcon.height, 0, 0, {
@@ -146,7 +146,7 @@ define( function( require ) {
           break;
         case Representation.VERTICAL_BAR:
           bucketIcon = new RectangularContainerNode( iconContainer, function() {}, {
-            rectangle_orientation: 'vertical',
+            rectangleOrientation: 'vertical',
             isIcon: true
           } );
           bucketIconBackground = new Rectangle( 0, 0, bucketIcon.width, bucketIcon.height, 0, 0, {

@@ -78,12 +78,12 @@ define( function( require ) {
       }
       else if ( representation === Representation.VERTICAL_BAR ) {
         self.currentView = new RectangularView( model, {
-          rectangle_orientation: 'vertical'
+          rectangleOrientation: 'vertical'
         } );
       }
       else if ( representation === Representation.HORIZONTAL_BAR ) {
         self.currentView = new RectangularView( model, {
-          rectangle_orientation: 'horizontal',
+          rectangleOrientation: 'horizontal',
           maxHorizontalContainers: 3
         } );
       }
