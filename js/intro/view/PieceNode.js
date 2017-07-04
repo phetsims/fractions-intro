@@ -40,7 +40,7 @@ define( function( require ) {
     // @private
     this.graphic = options.graphic;
 
-    // @private {function}
+    // @public (read-only) {function}
     this.finishedAnimatingCallback = finishedAnimatingCallback;
 
     Node.call( this, {
