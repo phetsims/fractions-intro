@@ -29,13 +29,6 @@ define( function( require ) {
    */
   function FractionWithSpinners( numeratorProperty, denominatorProperty, maxProperty, options ) {
 
-    options = _.extend( {
-      fill: 'black',
-      font: IntroConstants.TEXT_SIZE,
-      dividingLineLength: IntroConstants.DIVIDING_LINE_LENGTH,
-      dividingLineWidth: IntroConstants.DIVIDING_LINE_WIDTH
-    }, options );
-
     // convenience variable
     var modelProperties = [ numeratorProperty, denominatorProperty, maxProperty ];
 

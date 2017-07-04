@@ -1,6 +1,7 @@
 // Copyright 2013-2017, University of Colorado Boulder
 /**
- * Node for the pure fraction with numerator/denominator
+ * Node for the fraction with numerator/denominator
+ * Allows for mixed representation (eg. 5 2/6) or improper (32/6)
  *
  * @author Michael Moorer (Berea College)
  * @author Vincent Davis (Berea College)
@@ -10,16 +11,20 @@ define( function( require ) {
   'use strict';
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Line = require( 'SCENERY/nodes/Line' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var Property = require( 'AXON/Property' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // constants
+  var VALID_FRACTION_REPRESENTATIONS = [ 'improper', 'mixed' ];
+
   /**
-   * @extends {VBox}
+   * @extends {Node}
    * @param {Property.<number>} numeratorProperty
    * @param {Property.<number>} denominatorProperty
    * @param {Object} [options]
@@ -28,95 +33,107 @@ define( function( require ) {
   function FractionNode( numeratorProperty, denominatorProperty, options ) {
 
     options = _.extend( {
+      font: IntroConstants.TEXT_SIZE,
+      wholeFont: IntroConstants.TEXT_SIZE,
+      dividingLineLength: IntroConstants.DIVIDING_LINE_LENGTH,
+      dividingLineWidth: IntroConstants.DIVIDING_LINE_WIDTH,
       color: 'black',
-      expression: 'improper'
+      fractionRepresentation: 'improper' // valid choices are 'improper' and 'mixed'
     }, options );
 
-    var self = this;
-    HBox.call( this, _.extend( options, {
-      spacing: 2
-    } ) );
+    assert && assert( _.includes( VALID_FRACTION_REPRESENTATIONS, options.fractionRepresentation ), 'invalid representation: ' + options.fractionRepresentation );
 
-    var numeratorText = null;
-    var denominatorText = null;
+    Node.call( this );
 
-    // add the ability to put a mixed fraction on the screen
-    if ( options.expression === 'improper' ) {
-      numeratorText = new Text( '', {
-        font: options.font
+    var remainderProperty = new DerivedProperty( [ numeratorProperty, denominatorProperty ],
+      function( numerator, denominator ) {
+        return numerator % denominator;
       } );
-      numeratorProperty.linkAttribute( numeratorText, 'text' );
 
-      denominatorText = new Text( '', {
-        font: options.font
+    var isRemainderNonZeroProperty = new DerivedProperty( [ remainderProperty ],
+      function( remainder ) {
+        return remainder !== 0;
       } );
-      denominatorProperty.linkAttribute( denominatorText, 'text' );
 
-      var line = new Line( 0, 0, options.dividingLineLength, 0, {
+    var wholeNumberProperty = new DerivedProperty( [ numeratorProperty, denominatorProperty ],
+      function( numerator, denominator ) {
+        return Math.floor( numerator / denominator );
+      } );
+
+    var isWholeNumberNonZeroProperty = new DerivedProperty( [ wholeNumberProperty ],
+      function( wholeNumber ) {
+        return wholeNumber !== 0;
+      } );
+
+    var fraction; // {VBox}
+
+    if ( options.fractionRepresentation === 'improper' ) {
+      fraction = createFraction( numeratorProperty, denominatorProperty );
+      this.addChild( fraction );
+    }
+    else if ( options.fractionRepresentation === 'mixed' ) {
+      var wholeNumberText = new Text( wholeNumberProperty.value, {
+        font: options.wholeFont
+      } );
+      isWholeNumberNonZeroProperty.linkAttribute( wholeNumberText, 'visible' );
+      wholeNumberProperty.linkAttribute( wholeNumberText, 'text' );
+
+      fraction = createFraction( remainderProperty, denominatorProperty );
+      isRemainderNonZeroProperty.linkAttribute( fraction, 'visible' );
+
+      this.addChild( new HBox( { children: [ wholeNumberText, fraction ] } ) );
+    }
+
+    /**
+     * create a fraction with a numerator and a denominator separated by a line
+     * @param {Property.<number>} numeratorProperty
+     * @param {Property.<number>} denominatorProperty
+     * @returns {VBox}
+     */
+    function createFraction( numeratorProperty, denominatorProperty ) {
+
+      var divisionLine = new Line( 0, 0, options.dividingLineLength, 0, {
         stroke: options.color,
         lineWidth: options.dividingLineWidth,
         lineCap: 'round'
       } );
-      options.children = [ new VBox( {
-        children: [ numeratorText, line, denominatorText ]
-      } ) ];
-      self.mutate( options );
-    }
-    else if ( options.expression === 'mixed' ) {
+      var numeratorText = new Text( numeratorProperty.value, { font: options.font } );
+      var denominatorText = new Text( denominatorProperty.value, { font: options.font } );
 
-      // to prevent infinite recurrent calls
-      options = _.extend( options, {
-        expression: 'improper'
+      var fraction = new VBox( {
+        children: [ numeratorText, divisionLine, denominatorText ]
       } );
 
-      var updateMixedNumber = Property.multilink( [ numeratorProperty, denominatorProperty ], function( numerator, denominator ) {
-        var wholeNumber = Math.floor( numerator / denominator );
-        var wholeNumberText = new Text( wholeNumber, {
-          font: options.font
-        } );
+      numeratorProperty.linkAttribute( numeratorText, 'text' );
+      denominatorProperty.linkAttribute( denominatorText, 'text' );
 
-        var remainder = numerator % denominator;
-        if ( remainder === 0 ) {
+      fraction.unlinkAttributes = function() {
+        numeratorProperty.unlinkAttribute( numeratorText, 'text' );
+        denominatorProperty.unlinkAttribute( denominatorText, 'text' );
+      };
 
-          // must be a whole number 0-6
-          options.children = [ wholeNumberText ];
-        }
-        else if ( wholeNumber === 0 ) {
-
-          //not mixed, whole number = 0 fraction > 0
-          options.children = [ new FractionNode( numeratorProperty, denominatorProperty, options ) ];
-        }
-        else {
-
-          // will be a mixed number
-          options.children = [ wholeNumberText, new FractionNode( new NumberProperty( remainder ), denominatorProperty, {
-            dividingLineLength: options.dividingLineLength,
-            dividingLineWidth: options.dividingLineWidth,
-            font: options.font
-          } ) ];
-        }
-        self.mutate( options );
-      } );
+      return fraction;
     }
 
-    this.disposeMixedNumberMultiLink = function() {
-      Property.unmultilink( updateMixedNumber );
+    this.fractionNodeDispose = function() {
+      remainderProperty.dispose();
+      isRemainderNonZeroProperty.dispose();
+      wholeNumberProperty.dispose();
+      isWholeNumberNonZeroProperty.dispose();
+      fraction.unlinkAttributes();
     };
   }
 
   fractionsIntro.register( 'FractionNode', FractionNode );
 
-  return inherit( HBox, FractionNode, {
-
+  return inherit( Node, FractionNode, {
     /**
      * dispose of the links for garbage collection
-     *
      * @public
      */
     dispose: function() {
-      this.disposeMixedNumberMultiLink();
+      this.fractionNodeDispose();
       Node.prototype.dispose.call( this );
     }
   } );
-
 } );

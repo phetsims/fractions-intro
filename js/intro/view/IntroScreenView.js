@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BeakerView = require( 'FRACTIONS_INTRO/intro/view/BeakerView' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var CakeView = require( 'FRACTIONS_INTRO/intro/view/CakeView' );
   var CircularView = require( 'FRACTIONS_INTRO/intro/view/CircularView' );
   var NumberLineView = require( 'FRACTIONS_INTRO/intro/view/NumberLineView' );
@@ -29,7 +30,6 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Property = require( 'AXON/Property' );
 
   /**
    * @constructor
@@ -110,52 +110,47 @@ define( function( require ) {
       }
     } );
 
-    var mixedFractionToggle = new Property( false );
+    var mixedFractionToggleProperty = new BooleanProperty( false );
 
-    this.addChild( new OnOffSwitch( mixedFractionToggle, {
+    this.addChild( new OnOffSwitch( mixedFractionToggleProperty, {
       right: this.layoutBounds.right - 20,
       bottom: this.layoutBounds.bottom - 120
     } ) );
 
     // create and add fraction N/D with spinners on the bottom left side
-    var fractionBox = new HBox( {
-      spacing: 2,
-      children: [
-        new FractionWithSpinners(
-          model.numeratorProperty,
-          model.denominatorProperty,
-          model.maxProperty )
-      ],
-      bottom: self.layoutBounds.bottom - 10,
-      left: self.layoutBounds.left + 30
-    } );
-    self.addChild( fractionBox );
+    var fractionWithSpinners = new FractionWithSpinners(
+      model.numeratorProperty,
+      model.denominatorProperty,
+      model.maxProperty, {
+        bottom: self.layoutBounds.bottom - 10,
+        left: self.layoutBounds.left + 30
+      } );
 
-    var mixedNodeBox = new HBox();
+    var equalSign = new Text( '=', {
+      font: new PhetFont( 110 )
+    } );
+
+    var mixedFraction = new FractionNode( model.numeratorProperty,
+      model.denominatorProperty, {
+        fractionRepresentation: 'mixed',
+        wholeFont: new PhetFont( 150 ),
+        font: new PhetFont( 110 ),
+        dividingLineLength: 50,
+        dividingLineWidth: 10
+      } );
+
+    var fractionHBox = new HBox( {
+      children: [ fractionWithSpinners, equalSign, mixedFraction ],
+      bottom: self.layoutBounds.bottom - 10,
+      left: 30
+    } );
+
+    this.addChild( fractionHBox );
 
     // update fraction box depending upon mixed fraction toggle
-    mixedFractionToggle.link( function( value ) {
-
-      // create and add fraction N/D with spinners on the bottom left side and mixed fraction beside it
-      if ( value ) {
-        mixedNodeBox.removeAllChildren();
-        mixedNodeBox.addChild( new Text( '=', {
-          font: new PhetFont( 110 )
-        } ) );
-        mixedNodeBox.addChild( new FractionNode( model.numeratorProperty, model.denominatorProperty, {
-          expression: 'mixed',
-          font: new PhetFont( 110 ),
-          dividingLineLength: (50),
-          dividingLineWidth: (10)
-        } ) );
-        fractionBox.addChild( mixedNodeBox );
-      }
-      else {
-        if ( fractionBox.hasChild( mixedNodeBox ) ) {
-          fractionBox.removeChild( mixedNodeBox );
-        }
-      }
-
+    mixedFractionToggleProperty.link( function( toggle ) {
+      equalSign.visible = toggle;
+      mixedFraction.visible = toggle;
     } );
 
     // create and add maxSpinner at the right top of the screen
@@ -182,7 +177,6 @@ define( function( require ) {
     /**
      * Steps forward in time.
      *
-     * @param {object} [options]
      * @param {number} dt - time step
      * @public
      */
