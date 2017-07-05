@@ -52,14 +52,12 @@ define( function( require ) {
    * @param {function} startPieceDrag
    * @param {function} createCellNode
    * @param {Property.<Representation>} representationProperty
-   * @param {object} [options]
+   * @param {Object} [options]
    * @constructor
    */
   function BucketNode( denominatorProperty, pieceLayer, startPieceDrag, createCellNode, representationProperty, options ) {
 
     options = _.extend( {}, options );
-
-    var self = this;
 
     // model of the bucket
     var bucket = new Bucket( {
@@ -86,13 +84,6 @@ define( function( require ) {
       centerX: bucketHole.centerX,
       top: bucketFront.bottom - 30
     } );
-
-    // options for the label
-    var fractionNodeOptions = {
-      font: new PhetFont( 20 ),
-      dividingLineLength: 15,
-      dividingLineWidth: 2
-    };
 
     // creates icon Container
     var iconContainer = new Container();
@@ -191,17 +182,20 @@ define( function( require ) {
       } );
     } );
 
-    var fractionIcon = new FractionNode( new NumberProperty( 1 ), denominatorProperty, fractionNodeOptions );
-
-    var bucketIconNode = new Node();
+    // mathematical fraction 1/Denominator
+    var fractionIconNode = new FractionNode( new NumberProperty( 1 ), denominatorProperty, {
+      font: new PhetFont( 20 ),
+      dividingLineLength: 15,
+      dividingLineWidth: 2
+    } );
 
     // arrange bucketIcon and background into one node
-    bucketIconNode.setChildren( [ bucketIconBackground, bucketIcon ] );
+    var bucketIconNode = new Node( { children: [ bucketIconBackground, bucketIcon ] } );
 
     var label = new HBox( {
       align: 'center',
       spacing: 20,
-      children: [ bucketIconNode, fractionIcon ]
+      children: [ bucketIconNode, fractionIconNode ]
     } );
 
     bucketFront.setLabel( label );
@@ -210,7 +204,7 @@ define( function( require ) {
     Node.call( this, options );
 
     // add listener to the bucket and static pieces
-    [ bucketHole, staticLayer, bucketHole ].forEach( function( node ) {
+    [ bucketHole, staticLayer, bucketFront ].forEach( function( node ) {
       node.addInputListener( {
         down: function( event ) {
           startPieceDrag( event );
