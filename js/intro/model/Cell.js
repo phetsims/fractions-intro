@@ -71,7 +71,7 @@ define( function( require ) {
     targetWithPiece: function( piece ) {
       assert && assert( !this.isFilledProperty.value && !this.appearsFilledProperty.value && !this.targetedPiece );
 
-      piece.destinationCellProperty.value = this;
+      piece.destinationCell = this;
       this.targetedPiece = piece;
 
       this.isFilledProperty.value = true;
@@ -85,7 +85,7 @@ define( function( require ) {
     untargetFromPiece: function( piece ) {
       assert && assert( this.isFilledProperty.value && !this.appearsFilledProperty.value && this.targetedPiece );
 
-      piece.destinationCellProperty.value = null;
+      piece.destinationCell = null;
       this.targetedPiece = null;
 
       this.isFilledProperty.value = false;
@@ -99,7 +99,7 @@ define( function( require ) {
     fillWithPiece: function( piece ) {
       assert && assert( this.isFilledProperty.value && !this.appearsFilledProperty.value && this.targetedPiece );
 
-      piece.destinationCellProperty.value = null;
+      piece.destinationCell = null;
       this.targetedPiece = null;
 
       this.appearsFilledProperty.value = true;

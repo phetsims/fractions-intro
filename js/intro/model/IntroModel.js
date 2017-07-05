@@ -71,7 +71,7 @@ define( function( require ) {
       cell.empty();
 
       var piece = new Piece( this.denominatorProperty.value );
-      piece.originCellProperty.value = cell;
+      piece.originCell = cell;
       this.pieces.push( piece );
       return piece;
     },
@@ -96,7 +96,7 @@ define( function( require ) {
      * @param {Cell} cell
      */
     targetPieceToCell: function( piece, cell ) {
-      assert && assert( piece.destinationCellProperty.value === null );
+      assert && assert( piece.destinationCell === null );
 
       this.changeNumeratorManually( 1 );
       cell.targetWithPiece( piece );
@@ -109,10 +109,10 @@ define( function( require ) {
      * @param {Piece} piece
      */
     untargetPiece: function( piece ) {
-      assert && assert( piece.destinationCellProperty.value !== null );
+      assert && assert( piece.destinationCell !== null );
 
       this.changeNumeratorManually( -1 );
-      piece.destinationCellProperty.value.untargetFromPiece( piece );
+      piece.destinationCell.untargetFromPiece( piece );
     },
 
     /**
@@ -123,7 +123,7 @@ define( function( require ) {
      * @param {Piece} piece
      */
     completePiece: function( piece ) {
-      var destinationCell = piece.destinationCellProperty.value;
+      var destinationCell = piece.destinationCell;
       if ( destinationCell ) {
         destinationCell.fillWithPiece( piece );
       }
@@ -201,7 +201,7 @@ define( function( require ) {
 
           if ( animate && !targetedPiece ) {
             var newPiece = new Piece( this.denominatorProperty.value );
-            newPiece.originCellProperty.value = cell;
+            newPiece.originCell = cell;
             this.pieces.push( newPiece );
           }
           return;

@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
 
   /**
    * @constructor
@@ -24,12 +23,12 @@ define( function( require ) {
     // @private {number} - If the denominator would ever change, this piece would just cease to exist.
     this.denominator = denominator;
 
-    // @public {Property.<Cell|null>} - Where this piece started
-    this.originCellProperty = new Property( null );
+    // @public {Cell|null} - Where this piece started
+    this.originCell = null;
 
-    // @public {Property.<Cell|null>} - Where this piece will end up. If set to a cell, it will change the cell
+    // @public {Cell|null} - Where this piece will end up. If set to a cell, it will change the cell
     //                                       appearance when the piece goes away.
-    this.destinationCellProperty = new Property( null );
+    this.destinationCell = null;
   }
 
   fractionsIntro.register( 'Piece', Piece );

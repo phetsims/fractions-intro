@@ -178,7 +178,7 @@ define( function( require ) {
 
         pieceNode.piece = piece;
 
-        var originCell = piece.originCellProperty.value;
+        var originCell = piece.originCell;
         if ( originCell ) {
           pieceNode.originProperty.value = this.getCellMidpoint( originCell );
         }
@@ -186,7 +186,7 @@ define( function( require ) {
           pieceNode.originProperty.value = this.bucketNode.position;
         }
 
-        var destinationCell = piece.destinationCellProperty.value;
+        var destinationCell = piece.destinationCell;
         if ( destinationCell ) {
           pieceNode.destinationProperty.value = this.getCellMidpoint( destinationCell );
         }

@@ -35,7 +35,7 @@ define( function( require ) {
     } );
 
     // circle specific
-    var originCell = piece.originCellProperty.value;
+    var originCell = piece.originCell;
     if ( originCell ) {
       this.rotation = originCell.index * 2 * Math.PI / this.piece.denominator;
     }
@@ -61,7 +61,7 @@ define( function( require ) {
       }
       else {
         // rotate before centering
-        var destinationCell = this.piece.destinationCellProperty.value;
+        var destinationCell = this.piece.destinationCell;
 
         var originRotation = this.originRotation;
         var targetRotation = destinationCell ? destinationCell.index * 2 * Math.PI / this.piece.denominator : 0;

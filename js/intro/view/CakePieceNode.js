@@ -32,12 +32,12 @@ define( function( require ) {
     this.graphic = new CakeNode( piece.denominator, 0 );
 
     // cake specific
-    var originCell = piece.originCellProperty.value;
+    var originCell = piece.originCell;
     if ( originCell ) {
       this.graphic.setCakeIndex( originCell.index );
     }
     // cake specific
-    var destinationCell = piece.destinationCellProperty.value;
+    var destinationCell = piece.destinationCell;
     if ( destinationCell ) {
       this.graphic.setCakeIndex( destinationCell.index );
     }
