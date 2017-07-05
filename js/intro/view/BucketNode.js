@@ -210,12 +210,13 @@ define( function( require ) {
     options.children = [ bucketHole, staticLayer, pieceLayer, underneathRectangle, bucketFront ];
     Node.call( this, options );
 
-    // TODO: Add representation icon to the bucket label
-
-    this.addInputListener( {
-      down: function( event ) {
-        startPieceDrag( event );
-      }
+    // add listener to the bucket and static pieces
+    [ bucketHole, staticLayer, bucketHole ].forEach( function( node ) {
+      node.addInputListener( {
+        down: function( event ) {
+          startPieceDrag( event );
+        }
+      } );
     } );
   }
 

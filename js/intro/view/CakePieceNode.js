@@ -71,7 +71,7 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
-      if ( this.isUserControlledProperty.value ) {
+      if ( this.isUserControlled ) {
         return;
       }
 

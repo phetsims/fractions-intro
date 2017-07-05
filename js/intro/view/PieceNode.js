@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -53,8 +52,8 @@ define( function( require ) {
     this.originProperty = new Property( Vector2.ZERO );
     this.destinationProperty = new Property( Vector2.ZERO );
 
-    // @private {Property.<boolean>}
-    this.isUserControlledProperty = new BooleanProperty( false );
+    // @public <boolean>
+    this.isUserControlled = false;
 
     // @private {number} - Animation progress, from 0 to 1.
     this.ratio = 0;
