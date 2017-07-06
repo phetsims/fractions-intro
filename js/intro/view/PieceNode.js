@@ -63,7 +63,10 @@ define( function( require ) {
       self.setMidpoint( origin );
 
       // circle specific
-      self.originRotation = self.rotation;
+      //TODO : fixed for when not a circle
+      if ( self.graphic.getCircleRotation ) {
+        self.originRotation = self.graphic.getCircleRotation();
+      }
     } );
     this.destinationProperty.lazyLink( function() {
       self.ratio = 0;
