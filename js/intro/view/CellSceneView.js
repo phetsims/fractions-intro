@@ -30,18 +30,20 @@ define( function( require ) {
   function CellSceneView( model, options ) {
 
     options = _.extend( {
-      maxHorizontalContainers: IntroConstants.MAX_RANGE.max //default max Range
+      maxHorizontalContainers: IntroConstants.MAX_RANGE.max, //default max Range
+      horizontalSpacing: 10, // horizontal spacing between adjacent containers
+      verticalSpacing: 10 // vertical spacing  between containers
     }, options );
 
-    // @private {number}
-    this.maxHorizontalContainers = options.maxHorizontalContainers;
+    // @private
+    this.options = options;
 
     // @private
     this.model = model;
 
     // @private {VBox}
     this.containerLayer = new VBox( {
-      spacing: 10,
+      spacing: options.verticalSpacing,
 
       // left align containerHBoxes
       align: 'left'
@@ -80,7 +82,7 @@ define( function( require ) {
     Node.call( this, {
       children: [
         new AlignBox( this.containerLayer, {
-          alignBounds: Bounds2.point( 0, -200 ),
+          alignBounds: Bounds2.point( 0, -250 ),
 
           // aligns the containerNodes with respect to the top
           yAlign: 'top'
@@ -285,9 +287,9 @@ define( function( require ) {
       this.containerNodes.push( containerNode );
 
       // creates new HBox within containerLayer dependent on VBox container
-      if ( currentContainerNodesLength % this.maxHorizontalContainers === 0 ) {
+      if ( currentContainerNodesLength % this.options.maxHorizontalContainers === 0 ) {
         var containerHBox = new HBox( {
-          spacing: 10,
+          spacing: this.options.horizontalSpacing,
           align: 'top'
         } );
         this.containerHBoxes.push( containerHBox );

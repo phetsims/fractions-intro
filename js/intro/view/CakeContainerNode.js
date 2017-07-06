@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Node for cake containers
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -47,7 +47,7 @@ define( function( require ) {
    *
    * @param {Container} container
    * @param {function} cellDownCallback TODO doc, function( event )
-   * @param {object} [options]
+   * @param {Object} [options]
    */
   function CakeContainerNode( container, cellDownCallback, options ) {
 

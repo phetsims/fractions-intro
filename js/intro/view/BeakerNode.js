@@ -29,7 +29,7 @@ define( function( require ) {
    *
    * @param {number} numerator
    * @param {number} denominator
-   * @param {object} [options]
+   * @param {Object} [options]
    */
   function BeakerNode( numerator, denominator, options ) {
 

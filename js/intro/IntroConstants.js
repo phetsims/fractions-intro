@@ -27,7 +27,7 @@ define( function( require ) {
     BEAKER_HEIGHT: 150,
 
     // constants for Cake
-    CAKE_HEIGHT: 100,
+    CAKE_HEIGHT: 120,
 
     // @public {Range} - Possible number of active containers
     MAX_RANGE: new Range( 1, 6 ),

@@ -23,7 +23,8 @@ define( function( require ) {
    * @param {IntroModel} model
    */
   function CakeView( model ) {
-    CellSceneView.call( this, model );
+
+    CellSceneView.call( this, model, { horizontalSpacing: -20 } );
   }
 
   fractionsIntro.register( 'CakeView', CakeView );
