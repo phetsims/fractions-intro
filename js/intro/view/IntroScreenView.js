@@ -30,6 +30,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @constructor
@@ -47,13 +48,16 @@ define( function( require ) {
     this.preventFit = true;
 
     // representation panel at the top of the simulation
-    this.addChild( new RepresentationPanel( model.representationProperty, {
+
+    var representationPanel = new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
       y: 10
-    } ) );
+    } )
+
+    this.addChild( representationPanel );
 
     var viewContainer = new Node( {
-      translation: this.layoutBounds.center.plusXY( 0, 100 )
+      translation: new Vector2( representationPanel.centerX, representationPanel.bottom + 20 )
     } );
 
     this.addChild( viewContainer );
@@ -74,7 +78,9 @@ define( function( require ) {
       // Should this be a switch statement?
       self.currentView = null;
       if ( representation === Representation.CIRCLE ) {
-        self.currentView = new CircularView( model );
+        self.currentView = new CircularView( model, {
+          verticalOffset: 10
+        } );
       }
       else if ( representation === Representation.VERTICAL_BAR ) {
         self.currentView = new RectangularView( model, {
@@ -84,14 +90,18 @@ define( function( require ) {
       else if ( representation === Representation.HORIZONTAL_BAR ) {
         self.currentView = new RectangularView( model, {
           rectangleOrientation: 'horizontal',
-          maxHorizontalContainers: 3
+          maxHorizontalContainers: 3,
+          verticalOffset: 40
         } );
       }
       else if ( representation === Representation.BEAKER ) {
         self.currentView = new BeakerView( model );
       }
       else if ( representation === Representation.CAKE ) {
-        self.currentView = new CakeView( model );
+        self.currentView = new CakeView( model, {
+          verticalOffset: 30,
+          horizontalSpacing: -20
+        } );
       }
       else if ( representation === Representation.NUMBER_LINE ) {
 
@@ -100,7 +110,7 @@ define( function( require ) {
           model.numeratorProperty,
           model.denominatorProperty,
           model.maxProperty,
-          new NumberProperty( 1 ), { x: 25 - self.layoutBounds.centerX, y: -160 }
+          new NumberProperty( 1 ), { x: 25 - self.layoutBounds.centerX, y: 60 }
         );
       }
       if ( self.currentView ) {

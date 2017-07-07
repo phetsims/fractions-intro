@@ -19,11 +19,11 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @extends {Path}
+   * @extends {Node}
    *
    * @param {number} denominator
    * @param {number} index
-   * @param {Object} options
+   * @param {Object} [options]
    */
   function CircleNode( denominator, index, options ) {
     assert && assert( index < denominator );

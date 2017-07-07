@@ -32,7 +32,8 @@ define( function( require ) {
     options = _.extend( {
       maxHorizontalContainers: IntroConstants.MAX_RANGE.max, //default max Range
       horizontalSpacing: 10, // horizontal spacing between adjacent containers
-      verticalSpacing: 10 // vertical spacing  between containers
+      verticalSpacing: 10, // vertical spacing  between containers
+      verticalOffset: 0
     }, options );
 
     // @private
@@ -82,7 +83,7 @@ define( function( require ) {
     Node.call( this, {
       children: [
         new AlignBox( this.containerLayer, {
-          alignBounds: Bounds2.point( 0, -250 ),
+          alignBounds: Bounds2.point( 0, options.verticalOffset ),
 
           // aligns the containerNodes with respect to the top
           yAlign: 'top'

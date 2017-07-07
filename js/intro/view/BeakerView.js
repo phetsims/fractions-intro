@@ -72,7 +72,10 @@ define( function( require ) {
     Node.call( this, {
       children: [
         new AlignBox( this.containerLayer, {
-          alignBounds: Bounds2.point( 0, -150 )
+          alignBounds: Bounds2.point( 0, 10 ),
+
+          // aligns the containerNodes with respect to the top
+          yAlign: 'top'
         } ),
         this.bucketNode
       ]

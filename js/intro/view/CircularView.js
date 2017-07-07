@@ -21,9 +21,10 @@ define( function( require ) {
    * @extends {CellSceneView}
    *
    * @param {IntroModel} model
+   * @param {Object} [options]
    */
-  function CircularView( model ) {
-    CellSceneView.call( this, model );
+  function CircularView( model, options ) {
+    CellSceneView.call( this, model, options );
   }
 
   fractionsIntro.register( 'CircularView', CircularView );

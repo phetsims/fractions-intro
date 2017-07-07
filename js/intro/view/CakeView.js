@@ -21,10 +21,11 @@ define( function( require ) {
    * @extends {CellSceneView}
    *
    * @param {IntroModel} model
+   * @param {Object} [options]
    */
-  function CakeView( model ) {
+  function CakeView( model, options ) {
 
-    CellSceneView.call( this, model, { horizontalSpacing: -20 } );
+    CellSceneView.call( this, model, options );
   }
 
   fractionsIntro.register( 'CakeView', CakeView );
