@@ -297,7 +297,7 @@ define( function( require ) {
         this.containerLayer.addChild( containerHBox );
       }
 
-      // creates new containerNode at the end of containerHboxes array
+      // adds the new containerNode at the end of containerHboxes array
       this.containerHBoxes[ this.containerHBoxes.length - 1 ].addChild( containerNode );
 
     },
@@ -314,14 +314,13 @@ define( function( require ) {
 
       arrayRemove( this.containerNodes, containerNode );
 
-      //removes the last containerNode within the containerHBox Array
+      // removes the last containerNode within the containerHBox Array
       this.containerHBoxes[ this.containerHBoxes.length - 1 ].removeChild( containerNode );
 
       var currentContainerLength = this.containerNodes.length;
+      if ( currentContainerLength % this.options.maxHorizontalContainers === 0 ) {
 
-      // removes the last HBox within containerLayer
-      if ( currentContainerLength % this.maxHorizontalContainers === 0 ) {
-
+        // removes the last HBox within containerLayer
         var containerHBoxRemoved = this.containerHBoxes.pop();
         this.containerLayer.removeChild( containerHBoxRemoved );
       }
