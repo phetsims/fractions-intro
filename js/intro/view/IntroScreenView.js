@@ -52,7 +52,7 @@ define( function( require ) {
     var representationPanel = new RepresentationPanel( model.representationProperty, {
       centerX: this.layoutBounds.centerX,
       y: 10
-    } )
+    } );
 
     this.addChild( representationPanel );
 
