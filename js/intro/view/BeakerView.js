@@ -12,13 +12,13 @@ define( function( require ) {
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
   var BeakerContainerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerContainerNode' );
+  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var BeakerPieceNode = require( 'FRACTIONS_INTRO/intro/view/BeakerPieceNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
-  var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**

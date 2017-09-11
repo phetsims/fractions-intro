@@ -12,8 +12,8 @@ define( function( require ) {
   // modules
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );

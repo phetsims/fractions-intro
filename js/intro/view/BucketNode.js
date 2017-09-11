@@ -9,22 +9,22 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BeakerNode = require( 'FRACTIONS_INTRO/intro/view/BeakerNode' );
+  var Bucket = require( 'PHETCOMMON/model/Bucket' );
   var BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   var BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   var CakeContainerNode = require( 'FRACTIONS_INTRO/intro/view/CakeContainerNode' );
-  var CircularContainerNode = require( 'FRACTIONS_INTRO/intro/view/CircularContainerNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var CircularContainerNode = require( 'FRACTIONS_INTRO/intro/view/CircularContainerNode' );
   var Container = require( 'FRACTIONS_INTRO/intro/model/Container' );
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
+  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/intro/view/RectangularContainerNode' );

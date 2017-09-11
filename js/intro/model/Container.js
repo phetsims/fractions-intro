@@ -9,11 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Cell = require( 'FRACTIONS_INTRO/intro/model/Cell' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var Cell = require( 'FRACTIONS_INTRO/intro/model/Cell' );
 
   /**
    * @constructor

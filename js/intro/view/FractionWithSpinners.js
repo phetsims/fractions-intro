@@ -11,11 +11,11 @@ define( function( require ) {
 
   // modules
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var FractionNode = require( 'FRACTIONS_INTRO/intro/view/FractionNode' );
+  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var RoundSpinner = require( 'FRACTIONS_INTRO/intro/view/RoundSpinner' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 

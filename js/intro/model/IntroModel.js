@@ -14,8 +14,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var Property = require( 'AXON/Property' );
   var Piece = require( 'FRACTIONS_INTRO/intro/model/Piece' );
+  var Property = require( 'AXON/Property' );
   var Representation = require( 'FRACTIONS_INTRO/intro/model/Representation' );
 
   /**

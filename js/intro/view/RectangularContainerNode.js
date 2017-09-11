@@ -13,8 +13,8 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
   var Shape = require( 'KITE/Shape' );

@@ -10,8 +10,8 @@ define( function( require ) {
 
   'use strict';
   // modules
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );

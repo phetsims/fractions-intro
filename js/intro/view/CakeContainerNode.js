@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 

@@ -10,8 +10,8 @@ define( function( require ) {
 
   // modules
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
   var Vector2 = require( 'DOT/Vector2' );
 

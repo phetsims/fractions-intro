@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
+  var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
   var RectangularContainerNode = require( 'FRACTIONS_INTRO/intro/view/RectangularContainerNode' );
   var RectangularPieceNode = require( 'FRACTIONS_INTRO/intro/view/RectangularPieceNode' );
-  var RectangleNode = require( 'FRACTIONS_INTRO/intro/view/RectangleNode' );
 
   /**
    * @constructor

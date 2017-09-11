@@ -10,8 +10,8 @@ define( function( require ) {
 
   // modules
   var CakeContainerNode = require( 'FRACTIONS_INTRO/intro/view/CakeContainerNode' );
-  var CakePieceNode = require( 'FRACTIONS_INTRO/intro/view/CakePieceNode' );
   var CakeNode = require( 'FRACTIONS_INTRO/intro/view/CakeNode' );
+  var CakePieceNode = require( 'FRACTIONS_INTRO/intro/view/CakePieceNode' );
   var CellSceneView = require( 'FRACTIONS_INTRO/intro/view/CellSceneView' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );

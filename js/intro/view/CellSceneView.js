@@ -11,12 +11,12 @@ define( function( require ) {
   // modules
   var AlignBox = require( 'SCENERY/nodes/AlignBox' );
   var arrayRemove = require( 'PHET_CORE/arrayRemove' );
-  var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var BucketNode = require( 'FRACTIONS_INTRO/intro/view/BucketNode' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroConstants = require( 'FRACTIONS_INTRO/intro/IntroConstants' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
