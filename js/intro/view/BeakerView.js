@@ -305,7 +305,15 @@ define( function( require ) {
      */
     onExistingCellDragStart: function( container, event ) {
       this.model.changeNumeratorManually( -1 );
-      container.getNextFilledCell().empty();
+      var filledCell = container.getNextFilledCell();
+      if ( filledCell.appearsFilledProperty.value ) {
+        filledCell.empty();
+      }
+      else {
+        var pieceOnWay = filledCell.targetedPiece;
+        filledCell.untargetFromPiece( pieceOnWay );
+        this.model.pieces.remove( pieceOnWay );
+      }
       this.startBeakerDrag( event );
     },
 
