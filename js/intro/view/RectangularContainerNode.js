@@ -169,7 +169,6 @@ define( function( require ) {
       this.removeCellNodes();
 
       this.container.cells.lengthProperty.unlink( this.rebuildListener );
-      this.strokeProperty.dispose();
 
       Rectangle.prototype.dispose.call( this );
     },

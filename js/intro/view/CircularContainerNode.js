@@ -150,7 +150,6 @@ define( function( require ) {
       this.removeCellNodes();
 
       this.container.cells.lengthProperty.unlink( this.rebuildListener );
-      this.strokeProperty.dispose();
 
       Circle.prototype.dispose.call( this );
     }
