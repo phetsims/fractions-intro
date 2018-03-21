@@ -17,18 +17,21 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
+  // strings
+  var screenIntroString = require( 'string!FRACTIONS_INTRO/screen.intro' );
+
   /**
    * @constructor
    */
   function IntroScreen() {
 
     var options = {
-      name: 'Intro',
+      name: screenIntroString,
       backgroundColorProperty: new Property( Color.WHITE )
     };
 
     Screen.call( this,
-      function() { return new IntroModel; },
+      function() { return new IntroModel(); },
       function( model ) { return new IntroScreenView( model ); },
       options
     );
