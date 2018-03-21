@@ -15,6 +15,7 @@
       "../sherpa/lib/Tween-r12.js"
     ],
     "phetLibs": [
+      "fractions-common",
       "twixt"
     ],
     "runnable": true,

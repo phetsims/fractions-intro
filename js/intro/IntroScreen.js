@@ -12,8 +12,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IntroModel = require( 'FRACTIONS_INTRO/intro/model/IntroModel' );
-  var IntroScreenView = require( 'FRACTIONS_INTRO/intro/view/IntroScreenView' );
+  var IntroModel = require( 'FRACTIONS_COMMON/intro/model/IntroModel' );
+  var IntroScreenView = require( 'FRACTIONS_COMMON/intro/view/IntroScreenView' );
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
