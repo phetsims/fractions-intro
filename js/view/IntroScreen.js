@@ -31,7 +31,7 @@ define( function( require ) {
     };
 
     Screen.call( this,
-      function() { return new IntroModel(); },
+      function() { return new IntroModel( false ); },
       function( model ) { return new IntroScreenView( model ); },
       options
     );

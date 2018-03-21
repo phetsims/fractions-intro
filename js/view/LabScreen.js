@@ -31,7 +31,7 @@ define( function( require ) {
     };
 
     Screen.call( this,
-      function() { return new BuildingLabModel(); },
+      function() { return new BuildingLabModel( false ); },
       function( model ) { return new BuildingLabScreenView( model ); },
       options
     );
