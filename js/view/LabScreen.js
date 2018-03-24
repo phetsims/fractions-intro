@@ -11,10 +11,9 @@ define( function( require ) {
   // modules
   var BuildingLabModel = require( 'FRACTIONS_COMMON/building/model/BuildingLabModel' );
   var BuildingLabScreenView = require( 'FRACTIONS_COMMON/building/view/BuildingLabScreenView' );
-  var Color = require( 'SCENERY/util/Color' );
+  var FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
   // strings
@@ -27,7 +26,7 @@ define( function( require ) {
 
     var options = {
       name: screenLabString,
-      backgroundColorProperty: new Property( Color.WHITE )
+      backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty
     };
 
     Screen.call( this,

@@ -9,12 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
+  var FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'FRACTIONS_COMMON/intro/model/IntroModel' );
   var IntroScreenView = require( 'FRACTIONS_COMMON/intro/view/IntroScreenView' );
-  var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
   // strings
@@ -27,7 +26,7 @@ define( function( require ) {
 
     var options = {
       name: screenIntroString,
-      backgroundColorProperty: new Property( Color.WHITE )
+      backgroundColorProperty: FractionsCommonColorProfile.introScreenBackgroundProperty
     };
 
     Screen.call( this,
