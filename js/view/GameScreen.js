@@ -30,7 +30,7 @@ define( function( require ) {
     };
 
     Screen.call( this,
-      function() { return new BuildingGameModel(); },
+      function() { return new BuildingGameModel( false ); },
       function( model ) { return new BuildingGameScreenView( model ); },
       options
     );
