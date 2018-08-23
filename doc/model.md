@@ -7,5 +7,5 @@ of spinners. There are six representations of a fraction, namely a circular, ver
 cake and number line. For the first five representations, there is an accompanying bucket from which one can draw 
 additional pieces. Setting a piece into a container increases the numerator by one. Additionally, pieces can be 
 dragged out a container leading to a decrease of the numerator.  Toggling between the different representations
-shows a a pictorial representation of equivalent fractions. The number line representation has a marker point that 
+shows a pictorial representation of equivalent fractions. The number line representation has a marker point that
 can be dragged. 
