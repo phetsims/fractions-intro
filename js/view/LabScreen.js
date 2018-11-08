@@ -9,8 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BuildingLabModel = require( 'FRACTIONS_COMMON/building/model/BuildingLabModel' );
-  var BuildingLabScreenView = require( 'FRACTIONS_COMMON/building/view/BuildingLabScreenView' );
+  var BuildingLabModel = require( 'FRACTIONS_COMMON/lab/model/BuildingLabModel' );
+  var BuildingLabScreenView = require( 'FRACTIONS_COMMON/lab/view/BuildingLabScreenView' );
   var FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
   var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
   var inherit = require( 'PHET_CORE/inherit' );
