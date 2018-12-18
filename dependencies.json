@@ -1,11 +1,11 @@
 {
-  "comment": "# fractions-intro 1.0.0-dev.15 Mon Dec 17 2018 12:29:17 GMT-0700 (Mountain Standard Time)",
+  "comment": "# fractions-intro 1.0.0-dev.16 Tue Dec 18 2018 11:16:54 GMT-0700 (MST)",
   "assert": {
     "sha": "69088d35b9e1971aee675d1aec7f413f4d0bef19",
     "branch": "master"
   },
   "axon": {
-    "sha": "a5b0df48aec068d015bca7b5abdd11aaf2cb878a",
+    "sha": "dd2910811f92b9aa07af3e426fe470308a099934",
     "branch": "master"
   },
   "brand": {
@@ -21,19 +21,19 @@
     "branch": "master"
   },
   "fractions-common": {
-    "sha": "4c5305e4e133b39d50fe615d6f6bc43dabac009c",
-    "branch": "master"
+    "sha": "32950464afad82ab0dd29aba6a9ef3d86f010dff",
+    "branch": "cake-bucket"
   },
   "fractions-intro": {
-    "sha": "ac4ec095a7a84f1b4decf42f3ce3a489fd8fa2d3",
+    "sha": "2c86db787cc8c8351a3493be500d5bcd5c5440c3",
     "branch": "master"
   },
   "joist": {
-    "sha": "84f68aae4190f7b8208ffec1d08b1a9f9ddf5d40",
+    "sha": "b935724c88e27cb0761075404b85f8b829c454b1",
     "branch": "master"
   },
   "kite": {
-    "sha": "eccdc091b98524145621954f215d01ea4a6936ff",
+    "sha": "6c78a24fdf01ba21cb7037e7554d2aa81717d94a",
     "branch": "master"
   },
   "phet-core": {
@@ -69,11 +69,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "4411c6a3329d9454671919a8d00cfdb566e64c6b",
+    "sha": "2cbf350eb4cda98b5bc3bffec4a2174a063286c3",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "cca63fc9d14346ec65db2374fdc9950eed45ff01",
+    "sha": "f2b4624926956e4bd7dfd9f62dbedb6f0f8f6745",
     "branch": "master"
   },
   "sherpa": {
