@@ -1,42 +1,36 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * TODO: doc
+ * Game screen for Fractions: Intro
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BuildingGameModel = require( 'FRACTIONS_COMMON/game/model/BuildingGameModel' );
-  var BuildingGameScreenView = require( 'FRACTIONS_COMMON/game/view/BuildingGameScreenView' );
-  var FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
-  var fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Screen = require( 'JOIST/Screen' );
+  const BuildingGameModel = require( 'FRACTIONS_COMMON/game/model/BuildingGameModel' );
+  const BuildingGameScreenView = require( 'FRACTIONS_COMMON/game/view/BuildingGameScreenView' );
+  const FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
+  const fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
+  const Screen = require( 'JOIST/Screen' );
 
   // strings
-  var screenGameString = require( 'string!FRACTIONS_INTRO/screen.game' );
+  const screenGameString = require( 'string!FRACTIONS_INTRO/screen.game' );
 
-  /**
-   * @constructor
-   */
-  function GameScreen() {
-
-    var options = {
-      name: screenGameString,
-      backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty
-    };
-
-    Screen.call( this,
-      function() { return new BuildingGameModel( false ); },
-      function( model ) { return new BuildingGameScreenView( model ); },
-      options
-    );
+  class GameScreen extends Screen {
+    constructor() {
+      super(
+        () => new BuildingGameModel( false ),
+        model => new BuildingGameScreenView( model ),
+        {
+          name: screenGameString,
+          backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
+          homeScreenIcon: BuildingGameScreenView.createUnmixedScreenIcon()
+        }
+      );
+    }
   }
 
-  fractionsIntro.register( 'GameScreen', GameScreen );
-
-  return inherit( Screen, GameScreen );
+  return fractionsIntro.register( 'GameScreen', GameScreen );
 } );

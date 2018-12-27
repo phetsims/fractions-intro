@@ -5,20 +5,20 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var GameScreen = require( 'FRACTIONS_INTRO/view/GameScreen' );
-  var IntroScreen = require( 'FRACTIONS_INTRO/view/IntroScreen' );
-  var LabScreen = require( 'FRACTIONS_INTRO/view/LabScreen' );
-  var Sim = require( 'JOIST/Sim' );
-  var SimLauncher = require( 'JOIST/SimLauncher' );
+  const GameScreen = require( 'FRACTIONS_INTRO/view/GameScreen' );
+  const IntroScreen = require( 'FRACTIONS_INTRO/view/IntroScreen' );
+  const LabScreen = require( 'FRACTIONS_INTRO/view/LabScreen' );
+  const Sim = require( 'JOIST/Sim' );
+  const SimLauncher = require( 'JOIST/SimLauncher' );
 
   // strings
-  var fractionsIntroTitleString = require( 'string!FRACTIONS_INTRO/fractions-intro.title' );
+  const fractionsIntroTitleString = require( 'string!FRACTIONS_INTRO/fractions-intro.title' );
 
-  var simOptions = {
+  const simOptions = {
     credits: {
       // TODO fill in proper credits, all of these fields are optional, see joist.AboutDialog
       leadDesign: '',
@@ -30,8 +30,8 @@ define( function( require ) {
     }
   };
 
-  SimLauncher.launch( function() {
-    var sim = new Sim( fractionsIntroTitleString, [
+  SimLauncher.launch( () => {
+    const sim = new Sim( fractionsIntroTitleString, [
       new IntroScreen(),
       new GameScreen(),
       new LabScreen()
