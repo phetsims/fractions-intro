@@ -1,107 +1,107 @@
 {
-  "comment": "# fractions-intro 1.0.0-dev.16 Tue Dec 18 2018 11:16:54 GMT-0700 (MST)",
+  "comment": "# fractions-intro 1.0.0-dev.17 Thu Jan 03 2019 18:14:23 GMT-0700 (Mountain Standard Time)",
   "assert": {
-    "sha": "69088d35b9e1971aee675d1aec7f413f4d0bef19",
+    "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "master"
   },
   "axon": {
-    "sha": "dd2910811f92b9aa07af3e426fe470308a099934",
+    "sha": "923055d9c5741cc7888f91a311a835c28b0e5492",
     "branch": "master"
   },
   "brand": {
-    "sha": "b2f1706dd966f19787235c56c141075090e2cfb8",
+    "sha": "762433e39f1c5fedd5b8b8457151b3176652ddbe",
     "branch": "master"
   },
   "chipper": {
-    "sha": "e95d808cd89ad977241a593d3b4bd1ba1826b9ed",
+    "sha": "4fb4809169fe71cd6bd91974483b0a5a9bd817f4",
     "branch": "master"
   },
   "dot": {
-    "sha": "8d95f26a755cbef2695bf02731b385da746dca86",
+    "sha": "d4e9b3e44859efaa4c8e01456d4778e01dd4ce11",
     "branch": "master"
   },
   "fractions-common": {
-    "sha": "32950464afad82ab0dd29aba6a9ef3d86f010dff",
-    "branch": "cake-bucket"
+    "sha": "afb82e6d7a49f11ca4acfde3558a3fe1e29bc468",
+    "branch": "master"
   },
   "fractions-intro": {
-    "sha": "2c86db787cc8c8351a3493be500d5bcd5c5440c3",
+    "sha": "aa8a9d873561e90b99e1054fe7929540743ece45",
     "branch": "master"
   },
   "joist": {
-    "sha": "b935724c88e27cb0761075404b85f8b829c454b1",
+    "sha": "f1c030ea1d2dbd656a0bab35d9f11449d4e38197",
     "branch": "master"
   },
   "kite": {
-    "sha": "6c78a24fdf01ba21cb7037e7554d2aa81717d94a",
+    "sha": "8daa94ed966a15edb415d0b924d2f0b0740b6f84",
     "branch": "master"
   },
   "phet-core": {
-    "sha": "9d80d6a8b1cece6a70fcd691fb35e7478023002c",
+    "sha": "d9baa7ff87c34853bfd821b6786fb77c4a56044d",
     "branch": "master"
   },
   "phet-io": {
-    "sha": "8d5f39421a3b74adb06c790cc316df4fa28a1dbc",
+    "sha": "44915389bf79a5d8d9499a742f138e88165522e1",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
-    "sha": "a066df3371699a038941caa3f8961f77455cfea4",
+    "sha": "64aff78db6605aa5317724d50fdb28bd9cf495e2",
     "branch": "master"
   },
   "phet-io-wrapper-hookes-law-energy": {
-    "sha": "b19f66891bb47d7c284e10d79e09f828760c7d1c",
+    "sha": "edb231a365b0b81c976f6e502874a234a0284915",
     "branch": "master"
   },
   "phet-io-wrapper-lab-book": {
-    "sha": "6f3a9e13562b423fc1576446d21e26ba03c66d92",
+    "sha": "fb5c98c155259e2bdd37eb64e30081017a6e1d09",
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "3f7306790eb549f0a56ff413147b9c7923d9d437",
+    "sha": "b7361cd5f38d7a849ab385c149fdddc6606c44ff",
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "f8c5396f2e624b09a230f7dd09c1b57f19ac83e4",
+    "sha": "06325562f2d56120a34b2e09a2f513d87bda11cd",
     "branch": "master"
   },
   "query-string-machine": {
-    "sha": "96ab0c2b8258e18ab04a5f6dfbee16968699d92a",
+    "sha": "f3706987caa192b5e69de7f0f3a4b52aba21e771",
     "branch": "master"
   },
   "scenery": {
-    "sha": "2cbf350eb4cda98b5bc3bffec4a2174a063286c3",
+    "sha": "4a55441707848a07ab86d2fe2107e5f41caeaf12",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "f2b4624926956e4bd7dfd9f62dbedb6f0f8f6745",
+    "sha": "f7b79027f2268a7e9cf782f0a8d26ee66a647123",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "a1f5e867c286fd118550fd49e5838cde140860b6",
+    "sha": "948995d1c635f8738c9c9a5cbfb624e0d8fd2de0",
     "branch": "master"
   },
   "sun": {
-    "sha": "7ac7fca7fa9243ea2b0c52568f056d1202012e9b",
+    "sha": "7b9f68c195f6850ba10a243d0684b288aa8100b2",
     "branch": "master"
   },
   "tambo": {
-    "sha": "e6ea10d9d842dcef3abbd9fcce3edb86b10aff7a",
+    "sha": "8b3ccc517ec63ca8934a3f311e51887a75ee1a1c",
     "branch": "master"
   },
   "tandem": {
-    "sha": "eb385888828274bd79c28425c6efd051e1c4369e",
+    "sha": "d3c3404e61db4ecc1c50e182e2fa06083c525c29",
     "branch": "master"
   },
   "twixt": {
-    "sha": "2fb27c3813a42d1f20fb7636a4edfe34a4312907",
+    "sha": "1132e6bad710f71508586696975714532f965241",
     "branch": "master"
   },
   "vegas": {
-    "sha": "60ab08e8e2d7cee69c2e2817c85fb7ba5b7a3d4d",
+    "sha": "9c74668acc238cb546d95d3761f34626f80de9c5",
     "branch": "master"
   },
   "vibe": {
-    "sha": "184c5403483744fae8c5f8cea1a071448e767123",
+    "sha": "a3174d83e533546e4407e3344a435a1ec7e6f275",
     "branch": "master"
   }
 }
