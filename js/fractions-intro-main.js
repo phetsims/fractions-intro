@@ -20,10 +20,9 @@ define( require => {
 
   const simOptions = {
     credits: {
-      // TODO fill in proper credits, all of these fields are optional, see joist.AboutDialog
-      leadDesign: '',
-      softwareDevelopment: '',
-      team: '',
+      leadDesign: 'Ariel Paul',
+      softwareDevelopment: 'Jonathan Olson, Sam Reid, Martin Veillette',
+      team: 'Mike Dubson, Trish Loeblein, Amanda McGarry, Kathy Perkins',
       qualityAssurance: '',
       graphicArts: '',
       thanks: ''
