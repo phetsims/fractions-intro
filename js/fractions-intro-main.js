@@ -22,7 +22,7 @@ define( require => {
     credits: {
       leadDesign: 'Ariel Paul',
       softwareDevelopment: 'Jonathan Olson, Sam Reid, Martin Veillette',
-      team: 'Mike Dubson, Trish Loeblein, Amanda McGarry, Kathy Perkins',
+      team: 'Mike Dubson, Trish Loeblein, Amanda McGarry, Kathy Perkins, Vincent Davis, Michael Moorer, Dusty Cole',
       qualityAssurance: '',
       graphicArts: '',
       thanks: ''
