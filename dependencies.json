@@ -1,5 +1,5 @@
 {
-  "comment": "# fractions-intro 1.0.1 Fri Mar 08 2019 13:21:51 GMT-0500 (EST)",
+  "comment": "# fractions-intro 1.0.1 Tue Mar 19 2019 16:26:01 GMT-0400 (EDT)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "HEAD"
@@ -10,11 +10,11 @@
   },
   "brand": {
     "sha": "01ba1bb99c5d15261204bc990623f221630c4593",
-    "branch": "fractions-intro-1.0"
+    "branch": "HEAD"
   },
   "chipper": {
-    "sha": "87435c2012afe8ac9781cc191259f685ab01e047",
-    "branch": "HEAD"
+    "sha": "befb9fe1148933dc0ae44ed64adf664b56a53f32",
+    "branch": "fractions-intro-1.0"
   },
   "dot": {
     "sha": "0f80ddafb9064f8ef20cfc0129492c280f2b6b52",
@@ -25,12 +25,12 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "5391397571bfe3dc01a8cdd2e3d95dd42504f293",
+    "sha": "35927c1b27bc9dca4c7bb5258ca8d56cf2fb230e",
     "branch": "1.0"
   },
   "joist": {
     "sha": "990de5b5e8a7178fac3b076a96b8cca93be66238",
-    "branch": "fractions-intro-1.0"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "663e0e960556fb4b0a6ae5e92b6ec41a00753c0c",
@@ -62,6 +62,10 @@
   },
   "phetcommon": {
     "sha": "06325562f2d56120a34b2e09a2f513d87bda11cd",
+    "branch": "HEAD"
+  },
+  "phetmarks": {
+    "sha": "c7bb6a51f097ba7da6eb77ebe7239b13a4054601",
     "branch": "HEAD"
   },
   "query-string-machine": {
@@ -103,9 +107,5 @@
   "vibe": {
     "sha": "a3174d83e533546e4407e3344a435a1ec7e6f275",
     "branch": "HEAD"
-  },
-  "phetmarks": {
-    "branch": "master",
-    "sha": "c7bb6a51f097ba7da6eb77ebe7239b13a4054601"
   }
 }
