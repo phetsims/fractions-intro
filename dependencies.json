@@ -1,5 +1,5 @@
 {
-  "comment": "# fractions-intro 1.0.2 Wed Apr 17 2019 13:45:10 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# fractions-intro 1.0.3-rc.1 Thu Apr 18 2019 09:37:24 GMT-0800 (Alaskan Daylight Time)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "HEAD"
@@ -14,7 +14,7 @@
   },
   "chipper": {
     "sha": "650614e731a047f5548e6a7876cc0ff6698ceed7",
-    "branch": "fractions-intro-1.0"
+    "branch": "HEAD"
   },
   "dot": {
     "sha": "0f80ddafb9064f8ef20cfc0129492c280f2b6b52",
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "6f6faaa956966b93e700064eda239da1f04c64fe",
+    "sha": "541a9765928596e79af31b670f7f102369477c29",
     "branch": "1.0"
   },
   "joist": {
