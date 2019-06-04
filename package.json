@@ -18,8 +18,7 @@
     "phetLibs": [
       "fractions-common",
       "twixt",
-      "vegas",
-      "vibe"
+      "vegas"
     ],
     "runnable": true,
     "supportedBrands": [
