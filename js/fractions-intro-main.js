@@ -26,7 +26,8 @@ define( require => {
       qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, and Kelly Wurtz',
       graphicArts: '',
       thanks: ''
-    }
+    },
+    supportsSound: true
   };
 
   SimLauncher.launch( () => {
