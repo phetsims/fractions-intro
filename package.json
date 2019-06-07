@@ -12,9 +12,6 @@
   "phet": {
     "colorProfile": true,
     "requirejsNamespace": "FRACTIONS_INTRO",
-    "preload": [
-      "../sherpa/lib/Tween-r12.js"
-    ],
     "phetLibs": [
       "fractions-common",
       "twixt",
