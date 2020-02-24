@@ -1,5 +1,5 @@
 {
-  "comment": "# fractions-intro 1.0.11 Wed Jan 08 2020 12:22:19 GMT-0700 (Mountain Standard Time)",
+  "comment": "# fractions-intro 1.0.11 Mon Feb 24 2020 12:58:17 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "HEAD"
@@ -21,11 +21,11 @@
     "branch": "HEAD"
   },
   "fractions-common": {
-    "sha": "ba57c3a4e65940e2f45a56fda555563680fb77cd",
-    "branch": "HEAD"
+    "sha": "fb8f70b947ab98f157f8b0db5651cf3efffe3b25",
+    "branch": "fractions-intro-1.0"
   },
   "fractions-intro": {
-    "sha": "5d9df736ed64ceb4fc0190a99d62722ea3bb3a13",
+    "sha": "08019a78cab32e7518b300cd572885259f7ee00b",
     "branch": "1.0"
   },
   "joist": {
@@ -89,8 +89,8 @@
     "branch": "HEAD"
   },
   "vegas": {
-    "sha": "a57233be51bb555a38390cc6fa21614e98ee8e01",
-    "branch": "HEAD"
+    "sha": "af127dc5c7c6165a0ba64e3473d744c0fc99f693",
+    "branch": "fractions-intro-1.0"
   },
   "vibe": {
     "sha": "26536190c53888b64dc00583c88a887493fde2f2",
