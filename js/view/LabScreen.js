@@ -5,32 +5,29 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const BuildingLabModel = require( 'FRACTIONS_COMMON/lab/model/BuildingLabModel' );
-  const BuildingLabScreenView = require( 'FRACTIONS_COMMON/lab/view/BuildingLabScreenView' );
-  const FractionsCommonColorProfile = require( 'FRACTIONS_COMMON/common/view/FractionsCommonColorProfile' );
-  const fractionsIntro = require( 'FRACTIONS_INTRO/fractionsIntro' );
-  const Screen = require( 'JOIST/Screen' );
+import FractionsCommonColorProfile from '../../../fractions-common/js/common/view/FractionsCommonColorProfile.js';
+import BuildingLabModel from '../../../fractions-common/js/lab/model/BuildingLabModel.js';
+import BuildingLabScreenView from '../../../fractions-common/js/lab/view/BuildingLabScreenView.js';
+import Screen from '../../../joist/js/Screen.js';
+import fractionsIntroStrings from '../fractions-intro-strings.js';
+import fractionsIntro from '../fractionsIntro.js';
 
-  // strings
-  const screenLabString = require( 'string!FRACTIONS_INTRO/screen.lab' );
+const screenLabString = fractionsIntroStrings.screen.lab;
 
-  class LabScreen extends Screen {
-    constructor() {
-      super(
-        () => new BuildingLabModel( false ),
-        model => new BuildingLabScreenView( model ),
-        {
-          name: screenLabString,
-          backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
-          homeScreenIcon: BuildingLabScreenView.createUnmixedScreenIcon()
-        }
-      );
-    }
+class LabScreen extends Screen {
+  constructor() {
+    super(
+      () => new BuildingLabModel( false ),
+      model => new BuildingLabScreenView( model ),
+      {
+        name: screenLabString,
+        backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
+        homeScreenIcon: BuildingLabScreenView.createUnmixedScreenIcon()
+      }
+    );
   }
+}
 
-  return fractionsIntro.register( 'LabScreen', LabScreen );
-} );
+fractionsIntro.register( 'LabScreen', LabScreen );
+export default LabScreen;
