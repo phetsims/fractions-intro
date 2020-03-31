@@ -10,7 +10,7 @@ import FractionsCommonColorProfile from '../../../fractions-common/js/common/vie
 import BuildingGameModel from '../../../fractions-common/js/game/model/BuildingGameModel.js';
 import BuildingGameScreenView from '../../../fractions-common/js/game/view/BuildingGameScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
-import fractionsIntroStrings from '../fractions-intro-strings.js';
+import fractionsIntroStrings from '../fractionsIntroStrings.js';
 import fractionsIntro from '../fractionsIntro.js';
 
 const screenGameString = fractionsIntroStrings.screen.game;

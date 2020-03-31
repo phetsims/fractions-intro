@@ -8,7 +8,7 @@
 
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
-import fractionsIntroStrings from './fractions-intro-strings.js';
+import fractionsIntroStrings from './fractionsIntroStrings.js';
 import GameScreen from './view/GameScreen.js';
 import IntroScreen from './view/IntroScreen.js';
 import LabScreen from './view/LabScreen.js';

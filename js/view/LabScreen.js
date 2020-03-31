@@ -10,7 +10,7 @@ import FractionsCommonColorProfile from '../../../fractions-common/js/common/vie
 import BuildingLabModel from '../../../fractions-common/js/lab/model/BuildingLabModel.js';
 import BuildingLabScreenView from '../../../fractions-common/js/lab/view/BuildingLabScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
-import fractionsIntroStrings from '../fractions-intro-strings.js';
+import fractionsIntroStrings from '../fractionsIntroStrings.js';
 import fractionsIntro from '../fractionsIntro.js';
 
 const screenLabString = fractionsIntroStrings.screen.lab;
