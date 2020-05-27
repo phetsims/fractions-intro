@@ -10,8 +10,9 @@ import FractionsCommonColorProfile from '../../../fractions-common/js/common/vie
 import BuildingLabModel from '../../../fractions-common/js/lab/model/BuildingLabModel.js';
 import BuildingLabScreenView from '../../../fractions-common/js/lab/view/BuildingLabScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
-import fractionsIntroStrings from '../fractionsIntroStrings.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import fractionsIntro from '../fractionsIntro.js';
+import fractionsIntroStrings from '../fractionsIntroStrings.js';
 
 const screenLabString = fractionsIntroStrings.screen.lab;
 
@@ -23,7 +24,10 @@ class LabScreen extends Screen {
       {
         name: screenLabString,
         backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
-        homeScreenIcon: BuildingLabScreenView.createUnmixedScreenIcon()
+        homeScreenIcon: new ScreenIcon( BuildingLabScreenView.createUnmixedScreenIcon(), {
+          maxIconWidthProportion: 1,
+          maxIconHeightProportion: 1
+        } )
       }
     );
   }
