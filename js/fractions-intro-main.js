@@ -20,7 +20,7 @@ const simOptions = {
     leadDesign: 'Ariel Paul',
     softwareDevelopment: 'Jonathan Olson, Sam Reid, Martin Veillette',
     team: 'Mike Dubson, Trish Loeblein, Amanda McGarry, Kathy Perkins, Vincent Davis, Michael Moorer, Dusty Cole',
-    qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, and Kelly Wurtz',
+    qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Kathryn Woessner, and Kelly Wurtz',
     graphicArts: '',
     thanks: ''
   }
