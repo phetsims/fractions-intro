@@ -1,5 +1,5 @@
 {
-  "comment": "# fractions-intro 1.0.13-rc.1 Sat May 08 2021 21:52:10 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# fractions-intro 1.0.13-rc.1 Mon May 10 2021 15:01:28 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "5ad9080fc019271cf4689504c0954cea148a8258",
+    "sha": "c0b47c9cb1dfe812d33c5e16e06ab3fcf0ee55d4",
     "branch": "1.0"
   },
   "joist": {
@@ -54,15 +54,15 @@
   },
   "phetmarks": {
     "sha": "4f0ad1afe9edaac31c81fcfe22463318ff8d63d6",
-    "branch": "fractions-intro-1.0"
+    "branch": "HEAD"
   },
   "query-string-machine": {
     "sha": "f3706987caa192b5e69de7f0f3a4b52aba21e771",
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "01e47fa616e80809fe63bf452e78f5a42fa8c709",
-    "branch": "HEAD"
+    "sha": "752e81dc83e9309821158568f5eb3612df8c3ec8",
+    "branch": "fractions-intro-1.0"
   },
   "scenery-phet": {
     "sha": "af6b0fb210de8f0b5cb1fa7aa2539664502221c5",
