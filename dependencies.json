@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "16af9f9ff6194b08fad9602668805d36eb00a28a",
+    "sha": "1726548178aff354bf2a3856b5582882a1c7be1a",
     "branch": "1.0"
   },
   "joist": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "0f838529193c72fe0986d005c80fb4ba796d06b1",
+    "sha": "7484c238a8f090c6b643599ecad8161ad6926f79",
     "branch": "fractions-intro-1.0"
   },
   "scenery-phet": {
