@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import FractionsCommonColorProfile from '../../../fractions-common/js/common/view/FractionsCommonColorProfile.js';
+import fractionsCommonColorProfile from '../../../fractions-common/js/common/view/fractionsCommonColorProfile.js';
 import IntroModel from '../../../fractions-common/js/intro/model/IntroModel.js';
 import IntroScreenView from '../../../fractions-common/js/intro/view/IntroScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
@@ -23,7 +23,7 @@ class IntroScreen extends Screen {
       model => new IntroScreenView( model ),
       {
         name: screenIntroString,
-        backgroundColorProperty: FractionsCommonColorProfile.introScreenBackgroundProperty,
+        backgroundColorProperty: fractionsCommonColorProfile.introScreenBackgroundProperty,
         homeScreenIcon: new ScreenIcon( IntroScreenView.createUnmixedScreenIcon(), {
           maxIconWidthProportion: 1,
           maxIconHeightProportion: 1

@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import FractionsCommonColorProfile from '../../../fractions-common/js/common/view/FractionsCommonColorProfile.js';
+import fractionsCommonColorProfile from '../../../fractions-common/js/common/view/fractionsCommonColorProfile.js';
 import BuildingGameModel from '../../../fractions-common/js/game/model/BuildingGameModel.js';
 import BuildingGameScreenView from '../../../fractions-common/js/game/view/BuildingGameScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
@@ -23,7 +23,7 @@ class GameScreen extends Screen {
       model => new BuildingGameScreenView( model ),
       {
         name: screenGameString,
-        backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
+        backgroundColorProperty: fractionsCommonColorProfile.otherScreenBackgroundProperty,
         homeScreenIcon: new ScreenIcon( BuildingGameScreenView.createUnmixedScreenIcon(), {
           maxIconWidthProportion: 1,
           maxIconHeightProportion: 1

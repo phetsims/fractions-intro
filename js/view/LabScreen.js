@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import FractionsCommonColorProfile from '../../../fractions-common/js/common/view/FractionsCommonColorProfile.js';
+import fractionsCommonColorProfile from '../../../fractions-common/js/common/view/fractionsCommonColorProfile.js';
 import BuildingLabModel from '../../../fractions-common/js/lab/model/BuildingLabModel.js';
 import BuildingLabScreenView from '../../../fractions-common/js/lab/view/BuildingLabScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
@@ -23,7 +23,7 @@ class LabScreen extends Screen {
       model => new BuildingLabScreenView( model ),
       {
         name: screenLabString,
-        backgroundColorProperty: FractionsCommonColorProfile.otherScreenBackgroundProperty,
+        backgroundColorProperty: fractionsCommonColorProfile.otherScreenBackgroundProperty,
         homeScreenIcon: new ScreenIcon( BuildingLabScreenView.createUnmixedScreenIcon(), {
           maxIconWidthProportion: 1,
           maxIconHeightProportion: 1
