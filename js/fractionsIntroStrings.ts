@@ -3,11 +3,22 @@
 /**
  * Auto-generated from modulify, DO NOT manually modify.
  */
-
+/* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
 import fractionsIntro from './fractionsIntro.js';
 
-const fractionsIntroStrings = getStringModule( 'FRACTIONS_INTRO' );
+type StringsType = {
+  'fractions-intro': {
+    'title': string
+  },
+  'screen': {
+    'intro': string,
+    'game': string,
+    'lab': string
+  }
+};
+
+const fractionsIntroStrings = getStringModule( 'FRACTIONS_INTRO' ) as StringsType;
 
 fractionsIntro.register( 'fractionsIntroStrings', fractionsIntroStrings );
 
