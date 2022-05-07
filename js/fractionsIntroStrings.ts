@@ -9,12 +9,12 @@ import fractionsIntro from './fractionsIntro.js';
 
 type StringsType = {
   'fractions-intro': {
-    'title': string
-  },
+    'title': string;
+  };
   'screen': {
-    'intro': string,
-    'game': string,
-    'lab': string
+    'intro': string;
+    'game': string;
+    'lab': string;
   }
 };
 
