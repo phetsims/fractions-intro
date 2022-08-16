@@ -5,16 +5,21 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import fractionsIntro from './fractionsIntro.js';
 
 type StringsType = {
   'fractions-intro': {
     'title': string;
+    'titleProperty': TReadOnlyProperty<string>;
   };
   'screen': {
     'intro': string;
+    'introProperty': TReadOnlyProperty<string>;
     'game': string;
+    'gameProperty': TReadOnlyProperty<string>;
     'lab': string;
+    'labProperty': TReadOnlyProperty<string>;
   }
 };
 
