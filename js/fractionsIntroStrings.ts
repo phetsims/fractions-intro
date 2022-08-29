@@ -11,15 +11,15 @@ import fractionsIntro from './fractionsIntro.js';
 type StringsType = {
   'fractions-intro': {
     'title': string;
-    'titleProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': TReadOnlyProperty<string>;
   };
   'screen': {
     'intro': string;
-    'introProperty': TReadOnlyProperty<string>;
+    'introStringProperty': TReadOnlyProperty<string>;
     'game': string;
-    'gameProperty': TReadOnlyProperty<string>;
+    'gameStringProperty': TReadOnlyProperty<string>;
     'lab': string;
-    'labProperty': TReadOnlyProperty<string>;
+    'labStringProperty': TReadOnlyProperty<string>;
   }
 };
 
