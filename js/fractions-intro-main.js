@@ -13,7 +13,7 @@ import GameScreen from './view/GameScreen.js';
 import IntroScreen from './view/IntroScreen.js';
 import LabScreen from './view/LabScreen.js';
 
-const fractionsIntroTitleString = fractionsIntroStrings[ 'fractions-intro' ].title;
+const fractionsIntroTitleStringProperty = fractionsIntroStrings[ 'fractions-intro' ].titleStringProperty;
 
 const simOptions = {
   credits: {
@@ -27,7 +27,7 @@ const simOptions = {
 };
 
 simLauncher.launch( () => {
-  const sim = new Sim( fractionsIntroTitleString, [
+  const sim = new Sim( fractionsIntroTitleStringProperty, [
     new IntroScreen(),
     new GameScreen(),
     new LabScreen()
