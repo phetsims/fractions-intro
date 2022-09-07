@@ -23,8 +23,8 @@ type StringsType = {
   }
 };
 
-const fractionsIntroStrings = getStringModule( 'FRACTIONS_INTRO' ) as StringsType;
+const FractionsIntroStrings = getStringModule( 'FRACTIONS_INTRO' ) as StringsType;
 
-fractionsIntro.register( 'fractionsIntroStrings', fractionsIntroStrings );
+fractionsIntro.register( 'FractionsIntroStrings', FractionsIntroStrings );
 
-export default fractionsIntroStrings;
+export default FractionsIntroStrings;

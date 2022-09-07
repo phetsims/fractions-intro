@@ -12,9 +12,9 @@ import BuildingGameScreenView from '../../../fractions-common/js/game/view/Build
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import fractionsIntro from '../fractionsIntro.js';
-import fractionsIntroStrings from '../fractionsIntroStrings.js';
+import FractionsIntroStrings from '../FractionsIntroStrings.js';
 
-const screenGameString = fractionsIntroStrings.screen.game;
+const screenGameString = FractionsIntroStrings.screen.game;
 
 class GameScreen extends Screen {
   constructor() {
