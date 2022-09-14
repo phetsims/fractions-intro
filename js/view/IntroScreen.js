@@ -14,15 +14,13 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import fractionsIntro from '../fractionsIntro.js';
 import FractionsIntroStrings from '../FractionsIntroStrings.js';
 
-const screenIntroString = FractionsIntroStrings.screen.intro;
-
 class IntroScreen extends Screen {
   constructor() {
     super(
       () => new IntroModel( false ),
       model => new IntroScreenView( model ),
       {
-        name: screenIntroString,
+        name: FractionsIntroStrings.screen.introStringProperty,
         backgroundColorProperty: FractionsCommonColors.introScreenBackgroundProperty,
         homeScreenIcon: new ScreenIcon( IntroScreenView.createUnmixedScreenIcon(), {
           maxIconWidthProportion: 1,
