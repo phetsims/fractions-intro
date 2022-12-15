@@ -1,5 +1,5 @@
 {
-  "comment": "# fractions-intro 1.0.17-rc.1 Wed Dec 14 2022 20:08:42 GMT-0700 (Mountain Standard Time)",
+  "comment": "# fractions-intro 1.0.17 Wed Dec 14 2022 20:09:36 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "d3540f4b6510ac68bc6e348e1b8688a4761e2c4d",
+    "sha": "ec89e76119e84dd15ad9d121d5d2c5c517a4cbe6",
     "branch": "1.0"
   },
   "joist": {
