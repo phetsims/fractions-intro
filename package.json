@@ -26,7 +26,12 @@
       "phet",
       "adapted-from-phet"
     ],
-    "simulation": true
+    "simulation": true,
+    "screenNameKeys": [
+      "FRACTIONS_INTRO/screen.intro",
+      "FRACTIONS_INTRO/screen.game",
+      "FRACTIONS_INTRO/screen.lab"
+    ]
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/.eslintrc.js"
