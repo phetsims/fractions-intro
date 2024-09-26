@@ -32,8 +32,5 @@
       "FRACTIONS_INTRO/screen.game",
       "FRACTIONS_INTRO/screen.lab"
     ]
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
   }
 }
