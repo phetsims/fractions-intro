@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "fractions-intro": {
-    "sha": "fad9a9e1999748daa26786c2f10572626e8377d6",
+    "sha": "b03b0545ca9993bf861ff054959935061257f176",
     "branch": "1.0"
   },
   "joist": {
@@ -49,7 +49,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "2cf9a321d5da788457f7e7bfff9a566d44b1151a",
+    "sha": "8bd55081dd500da367eb69efe4f51ca533789142",
     "branch": "HEAD"
   },
   "phetmarks": {
