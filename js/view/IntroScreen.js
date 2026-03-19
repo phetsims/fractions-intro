@@ -11,7 +11,6 @@ import IntroModel from '../../../fractions-common/js/intro/model/IntroModel.js';
 import IntroScreenView from '../../../fractions-common/js/intro/view/IntroScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import fractionsIntro from '../fractionsIntro.js';
 import FractionsIntroStrings from '../FractionsIntroStrings.js';
 
 class IntroScreen extends Screen {
@@ -35,5 +34,4 @@ class IntroScreen extends Screen {
   }
 }
 
-fractionsIntro.register( 'IntroScreen', IntroScreen );
 export default IntroScreen;

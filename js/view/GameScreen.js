@@ -11,7 +11,6 @@ import BuildingGameModel from '../../../fractions-common/js/game/model/BuildingG
 import BuildingGameScreenView from '../../../fractions-common/js/game/view/BuildingGameScreenView.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import fractionsIntro from '../fractionsIntro.js';
 import FractionsIntroStrings from '../FractionsIntroStrings.js';
 
 class GameScreen extends Screen {
@@ -31,5 +30,4 @@ class GameScreen extends Screen {
   }
 }
 
-fractionsIntro.register( 'GameScreen', GameScreen );
 export default GameScreen;
