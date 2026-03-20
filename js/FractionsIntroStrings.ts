@@ -28,4 +28,6 @@ type StringsType = {
 
 const FractionsIntroStrings = getStringModule( 'FRACTIONS_INTRO' ) as StringsType;
 
+fractionsIntro.register( 'FractionsIntroStrings', FractionsIntroStrings );
+
 export default FractionsIntroStrings;
