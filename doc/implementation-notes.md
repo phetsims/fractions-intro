@@ -1,1 +1,1 @@
-See https://github.com/phetsims/fractions-common/blob/main/doc/implementation-notes.md
+See [implementation-notes.md](../../fractions-common/doc/implementation-notes.md)
